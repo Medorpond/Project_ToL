@@ -6,14 +6,12 @@ using UnityEngine;
 public abstract class Unit : MonoBehaviour
 {
     // Properties ::
-    [Header("Properties")]
-    [SerializeField]
-    private float maxHP;
-    private float currentHP;
-    private float moveSpeed;
-    private float movePoint;
-    private float range;
-    private float damage;
+    protected abstract float maxHP{ get; set; }
+    protected abstract float currentHP { get; set; }
+    protected abstract float moveSpeed { get; set; }
+    protected abstract float movePoint { get; set; }
+    protected abstract float range { get; set; }
+    protected abstract float damage { get; set; }
     // :: Properties
     // Start is called before the first frame update
     void Start()
