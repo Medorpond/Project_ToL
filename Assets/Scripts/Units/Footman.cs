@@ -2,56 +2,40 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Footman : Unit
+public class FootMan : Unit
 {
-    protected override float maxHP
+    protected override void Start()
     {
-        get { return maxHP; }
-        set { maxHP = value; }
-    }
-    protected override float currentHP
-    {
-        get { return currentHP; }
-        set 
-        {
-            if(value < 0) { value = 0; }
-            currentHP = value;
-        }
-    }
-    protected override float moveSpeed
-    {
-        get { return moveSpeed; }
-        set { moveSpeed = value; }
-    }
-    protected override float movePoint
-    {
-        get { return movePoint; }
-        set { movePoint = value; }
-    }
-    protected override float range
-    {
-        get { return range; }
-        set { range = value; }
-    }// 아직 미작성
-    protected override float damage
-    {
-        get { return damage; }
-        set { damage = value; }
-    }// 아직 미작성
+        base.Start();
 
-    // Start is called before the first frame update
-    private void Awake()
-    {
-        
-    }
-    void Start()
-    {
-        
+        // Initialize base parameters specific to FootMan
+        baseHP = 100; // Example value
+        baseMovePoint = 5; // Example value
+        baseMoveSpeed = 2.5f; // Example value
+        baseDamage = 15; // Example value
+        baseRange = 1; // Example value
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void Move()
     {
-        
+        // Logic for moving the unit
+    }
+
+    public override void Attack()
+    {
+        // Logic for attacking
+    }
+
+    public override bool IsDamaged()
+    {
+        // Logic for checking damage
+        return false; // Placeholder return
+    }
+
+    public override bool IsDead()
+    {
+        // Logic for checking if dead
+        return false; // Placeholder return
     }
 }
+

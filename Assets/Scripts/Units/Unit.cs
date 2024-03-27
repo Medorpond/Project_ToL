@@ -5,55 +5,35 @@ using UnityEngine;
 
 public abstract class Unit : MonoBehaviour
 {
-    // Properties ::
-    protected abstract float maxHP{ get; set; }
-    protected abstract float currentHP { get; set; }
-    protected abstract float moveSpeed { get; set; }
-    protected abstract float movePoint { get; set; }
-    protected abstract float range { get; set; }
-    protected abstract float damage { get; set; }
-    // :: Properties
-    // Start is called before the first frame update
-    void Start()
+    // Base parameters
+    protected float baseHP;
+    protected float baseMovePoint;
+    protected float baseMoveSpeed;
+    protected float baseDamage;
+    protected float baseRange;
+
+    // Current parameters serialized for editor visibility but protected to prevent external access
+    [SerializeField] protected float currentHP;
+    [SerializeField] protected float currentMovePoint;
+    [SerializeField] protected float currentMoveSpeed;
+    [SerializeField] protected float currentDamage;
+    [SerializeField] protected float currentRange;
+
+    protected virtual void Start()
     {
-        
+        // Initialize current values to base values
+        currentHP = baseHP;
+        currentMovePoint = baseMovePoint;
+        currentMoveSpeed = baseMoveSpeed;
+        currentDamage = baseDamage;
+        currentRange = baseRange;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public abstract void Move();
 
-    // Methods ::
-    // Battle ::
-    public void Attack(Unit _opponent)
-    {
-        _opponent.isDamaged(damage);
-    }
-    public void isDamaged(float _damage)
-    {
-        if(_damage >= currentHP)
-        {
-            currentHP = 0f;
-            isDead();
-        }
-        else { currentHP -= _damage; }
-    } //Damaging process
+    public abstract void Attack();
 
-    public void isDead()
-    {
-        Debug.Log(this.name + " is Dead!");
-    }
-    // :: Battle
+    public abstract bool IsDamaged();
 
-    // Move ::
-    public void Move(float _destX, float _destY)
-    {
-        // get Current Location, get destination's Location, subtract, move.
-        Debug.Log(this.name + " Moved to " + _destX + ", " + _destY);
-    }
-    // :: Move
-
-    // :: Methods
+    public abstract bool IsDead();
 }
