@@ -6,19 +6,17 @@ public class FootMan : Unit
 {
     protected override void Start()
     {
-        base.Start();
+        baseHP = 100;
+        baseMovePoint = 5f;
+        baseMoveSpeed = 5f;
+        baseDamage = 25;
+        baseRange = 1;
 
-        // Initialize base parameters specific to FootMan
-        baseHP = 100; // Example value
-        baseMovePoint = 5; // Example value
-        baseMoveSpeed = 2.5f; // Example value
-        baseDamage = 15; // Example value
-        baseRange = 1; // Example value
+        base.Start(); // init current as base       
     }
 
     public override void Move()
     {
-        // Logic for moving the unit
     }
 
     public override void Attack()
