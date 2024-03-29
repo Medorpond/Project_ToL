@@ -5,18 +5,8 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class MainMenuScripts : MonoBehaviour
-{
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+{   
+    // CLick button method
     public void OnClickMulti(){
         SceneManager.LoadScene("GameScene");
         Debug.Log("MultiPlay");
@@ -24,7 +14,6 @@ public class MainMenuScripts : MonoBehaviour
     public void OnClickSingle(){
         Debug.Log("SinglePlay");
     }
-    
     public void OnClickExit(){
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
