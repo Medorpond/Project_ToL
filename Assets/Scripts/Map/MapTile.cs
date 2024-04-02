@@ -2,8 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum TileType
+{
+    idle = 0, obstacle
+}
+
 public class MapTile : MonoBehaviour
 {
+    public TileType tileType = TileType.idle;
+
     [SerializeField]
     private SpriteRenderer tileRenderer;
 
