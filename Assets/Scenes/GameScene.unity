@@ -1534,8 +1534,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a6a8244cfe2f8640b4a902d6af8d96b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  width: 7
-  height: 7
+  width: 9
+  height: 9
   tilePrefab: {fileID: 2253586907135676077, guid: f52049c68e8f59145be94fd8897ecf6a, type: 3}
   camTransform: {fileID: 1078980473}
 --- !u!4 &1575851922
@@ -2089,6 +2089,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 749641193}
     - target: {fileID: 6560065760160434520, guid: e770352c79cedde438fb78e32bb4dad3, type: 3}
+      propertyPath: position.x
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 6560065760160434520, guid: e770352c79cedde438fb78e32bb4dad3, type: 3}
+      propertyPath: position.y
+      value: 0.55
+      objectReference: {fileID: 0}
+    - target: {fileID: 6560065760160434520, guid: e770352c79cedde438fb78e32bb4dad3, type: 3}
       propertyPath: attackDamage
       value: 10
       objectReference: {fileID: 0}
@@ -2164,6 +2172,14 @@ PrefabInstance:
       propertyPath: textHP
       value: 
       objectReference: {fileID: 1270988617}
+    - target: {fileID: 7738304517337750277, guid: a801f47a1e19c4b41b886760bd25c236, type: 3}
+      propertyPath: position.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7738304517337750277, guid: a801f47a1e19c4b41b886760bd25c236, type: 3}
+      propertyPath: position.y
+      value: 0.55
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
