@@ -7,19 +7,23 @@ public class Player : MonoBehaviour
 {
     public Vector3 position;
 
+    // 최대 체력, 체력, 데미지, 힐량 등
     [SerializeField]
-    private float maxHealth = 100.0f;
-    private float health;
+    private int maxHealth = 100;
+    private int health;
     [SerializeField]
-    private float attackDamage = 10.0f;
+    private int attackDamage = 10;
     [SerializeField]
-    private float heal = 7.5f;
+    private int heal = 7;
 
+    // 체력, 데미지 표기 텍스트
     [SerializeField]
     private TextMeshProUGUI textHP;
+    [SerializeField]
+    private GameObject textDamage;
 
-    public float Health => health;
-    public float AttackDamage => attackDamage;
+    public int Health => health;
+    public int AttackDamage => attackDamage;
 
 
 
@@ -30,8 +34,13 @@ public class Player : MonoBehaviour
         UpdateHP();
     }
 
-    public bool DecreaseHP(float damage)
+    public bool DecreaseHP(int damage)
     {
+        // 받은 데미지 생성 (플레이어보다 위에)
+        GameObject damageHUD = Instantiate(textDamage, transform);
+        damageHUD.GetComponent<DamageText>().damage = damage;
+        damageHUD.transform.position = gameObject.transform.position + Vector3.up * 1.0f;
+
         // 체력이 0 이하면 0으로 설정하고 보이는 체력 변경
         health = health - damage > 0 ? health - damage : 0;
         UpdateHP();
