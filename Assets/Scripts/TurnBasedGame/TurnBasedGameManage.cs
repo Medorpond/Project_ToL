@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public enum State
 {
@@ -22,14 +24,17 @@ public class TurnBasedGameManage : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI turn;
 
-
+    // yong
+    [SerializeField]
+    private GameObject gameOverPanel;
+    // yong
 
     private void Awake()
     {
         state = State.start;
         BattleStart();
 
-        // ÇÃ·¹ÀÌ¾î¿Í Àû Á¤º¸ ÃÊ±âÈ­
+        // ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê±ï¿½È­
         player.Init();
         enemy.Init();
     }
@@ -42,17 +47,17 @@ public class TurnBasedGameManage : MonoBehaviour
 
     public void AttackButton()
     {
-        // ÇÃ·¹ÀÌ¾î ÅÏÀÏ¶§¸¸ °ø°Ý
+        // ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½Ï¶ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         if (state != State.playerTurn) return;
         else StartCoroutine("Attack");
     }
 
     private IEnumerator Attack()
     {
-        // Àû °ø°Ý
+        // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         isEnemyLive = enemy.DecreaseHP(player.AttackDamage);
 
-        // ÀûÀÌ Á×À¸¸é ÀÌ±è
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì±ï¿½
         if (!isEnemyLive)
         {
             state = State.win;
@@ -60,7 +65,7 @@ public class TurnBasedGameManage : MonoBehaviour
             yield return new WaitForSeconds(3.0f);
             EndBattle();
         }
-        // ÀûÀÌ »ì¾ÆÀÖÀ¸¸é ÅÏÀ» ³Ñ±è
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ±ï¿½
         else
         {
             state = State.enemyTurn;
@@ -73,11 +78,11 @@ public class TurnBasedGameManage : MonoBehaviour
 
     public void HealButton()
     {
-        // player Turn ÀÏ¶§ Èú
+        // player Turn ï¿½Ï¶ï¿½ ï¿½ï¿½
         if (state != State.playerTurn) return;
         player.IncreaseHP();
 
-        // ÅÏÀ» ³Ñ±è
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ±ï¿½
         state = State.enemyTurn;
         turn.text = "ENEMY Turn";
         StartCoroutine("EnemyTurn");
@@ -86,6 +91,7 @@ public class TurnBasedGameManage : MonoBehaviour
     private void EndBattle()
     {
         turn.text = "BATTLE END";
+        Invoke("ShowGameOverPanel", 0f); // yong
     }
 
     private IEnumerator EnemyTurn()
@@ -94,7 +100,7 @@ public class TurnBasedGameManage : MonoBehaviour
 
         isPlayerLive = player.DecreaseHP(enemy.AttackDamage);
 
-        // ÇÃ·¹ÀÌ¾î°¡ »ì¾ÆÀÖÀ¸¸é
+        // ï¿½Ã·ï¿½ï¿½Ì¾î°¡ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         if (isPlayerLive)
         {
             state = State.playerTurn;
@@ -109,4 +115,13 @@ public class TurnBasedGameManage : MonoBehaviour
 
         yield return null;
     }
+    // yong ~
+    void ShowGameOverPanel() {
+        gameOverPanel.SetActive(true);
+    }
+
+    public void GoMain() {
+        SceneManager.LoadScene("MainScene");
+    }
+    // ~ yong
 }
