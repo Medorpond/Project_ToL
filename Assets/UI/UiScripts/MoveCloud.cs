@@ -9,9 +9,9 @@ public class MoveCloud : MonoBehaviour
     void Update()
     {
         transform.position -= Vector3.right * moveSpeed * Time.deltaTime;
-        if(transform.position.x < -20)
+        if(transform.position.x > 20)
         {
-            transform.position += new Vector3(40, 0, 0);
+            transform.position += new Vector3(-40, 0, 0);
         }
     }
 }
