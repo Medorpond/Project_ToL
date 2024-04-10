@@ -8,7 +8,6 @@ public class SettingUI : MonoBehaviour
     private Animator animator;
 
     public void Awake(){
-        Debug.Log("Option");
         animator = GetComponent<Animator>();
     }
     public void Close()
