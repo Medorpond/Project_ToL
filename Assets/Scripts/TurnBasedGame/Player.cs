@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    [SerializeField]
+    private GameObject characterClass;
+    [HideInInspector]
     public Character character;
 
     [SerializeField]
@@ -14,36 +17,46 @@ public class Player : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI textHP;
     [SerializeField]
-    private GameObject textDamage;
+    private GameObject changeHPtext;
 
 
 
     private void Awake()
     {
-        character = GetComponent<Character>();
+        Instantiate(characterClass, transform);
+        character = GetComponentInChildren<Character>();
 
         // username (change)
         userName.text = $"{character.GetType().Name}";
 
-        transform.position = character.position;
+        transform.position = character.location;
         character.Init();
+        textHP.text = $"{character.Health}";
 
         character.onHPEvent.AddListener(UpdateHP);
     }
 
-    public bool TakeDamage(int damage)
+    // temp for Move
+    private void Update()
     {
-        // make damage UI
-        GameObject damageHUD = Instantiate(textDamage, transform);
-        damageHUD.GetComponent<DamageText>().damage = damage;
-        damageHUD.transform.position = gameObject.transform.position + Vector3.up * 1.0f;
-
-        bool isLive = character.DecreaseHP(damage);
-        return isLive;
+        transform.position = character.location;
     }
 
-    private void UpdateHP(int health)
+    public bool TakeDamage(int damage)
     {
-        textHP.text = $"{health}";
+        return character.DecreaseHP(damage);
+    }
+
+    private void UpdateHP(int previousHP, int currentHP)
+    {
+        if (previousHP != currentHP)
+        {
+            // make UI
+            GameObject healthHUD = Instantiate(changeHPtext, transform);
+            healthHUD.GetComponent<ChangeHPText>().changeHP = currentHP - previousHP;
+            healthHUD.transform.position = gameObject.transform.position + Vector3.up * 1.0f;
+        }
+
+        textHP.text = $"{currentHP}";
     }
 }
