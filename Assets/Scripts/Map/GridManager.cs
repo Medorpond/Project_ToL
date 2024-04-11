@@ -15,7 +15,7 @@ public class GridManager : MonoBehaviour
     private MapTile tilePrefab;
 
     [SerializeField]
-    private Transform camTransform;
+    private Camera camera;
 
 
 
@@ -54,6 +54,7 @@ public class GridManager : MonoBehaviour
         }
 
         // ¸Ê¿¡ ¸ÂÃç Ä«¸Þ¶ó Á¶Á¤
-        camTransform.position = new Vector3((float)width / 2 - 0.5f, (float)height / 2 - 0.5f, -10);
+        camera.transform.position = new Vector3((float)width / 2 - 0.5f, (float)height / 2 - 0.5f, -10);
+        camera.orthographicSize = height * 0.65f;
     }
 }

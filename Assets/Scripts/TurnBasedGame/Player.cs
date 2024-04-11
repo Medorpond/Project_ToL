@@ -5,58 +5,44 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public Vector3 position;
+    public Character character;
 
-    // 최대 체력, 체력, 데미지, 힐량 등
     [SerializeField]
-    private int maxHealth = 100;
-    private int health;
-    [SerializeField]
-    private int attackDamage = 10;
-    [SerializeField]
-    private int heal = 7;
+    private TextMeshProUGUI userName;
 
-    // 체력, 데미지 표기 텍스트
+    // health, damaget Text
     [SerializeField]
     private TextMeshProUGUI textHP;
     [SerializeField]
     private GameObject textDamage;
 
-    public int Health => health;
-    public int AttackDamage => attackDamage;
 
 
-
-    public void Init()
+    private void Awake()
     {
-        transform.position = position;
-        health = maxHealth;
-        UpdateHP();
+        character = GetComponent<Character>();
+
+        // username (change)
+        userName.text = $"{character.GetType().Name}";
+
+        transform.position = character.position;
+        character.Init();
+
+        character.onHPEvent.AddListener(UpdateHP);
     }
 
-    public bool DecreaseHP(int damage)
+    public bool TakeDamage(int damage)
     {
-        // 받은 데미지 생성 (플레이어보다 위에)
+        // make damage UI
         GameObject damageHUD = Instantiate(textDamage, transform);
         damageHUD.GetComponent<DamageText>().damage = damage;
         damageHUD.transform.position = gameObject.transform.position + Vector3.up * 1.0f;
 
-        // 체력이 0 이하면 0으로 설정하고 보이는 체력 변경
-        health = health - damage > 0 ? health - damage : 0;
-        UpdateHP();
-
-        if (health == 0) return false;
-        else return true;
+        bool isLive = character.DecreaseHP(damage);
+        return isLive;
     }
 
-    public void IncreaseHP()
-    {
-        // 체력이 최대 체력을 넘지 못하도록 설정하고 보이는 체력 변경
-        health = health + heal > maxHealth ? maxHealth : health + heal;
-        UpdateHP();
-    }
-
-    private void UpdateHP()
+    private void UpdateHP(int health)
     {
         textHP.text = $"{health}";
     }
