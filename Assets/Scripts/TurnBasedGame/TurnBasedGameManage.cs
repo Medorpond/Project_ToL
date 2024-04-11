@@ -29,14 +29,12 @@ public class TurnBasedGameManage : MonoBehaviour
     private GameObject gameOverPanel;
     // yong
 
+
+
     private void Awake()
     {
         state = State.start;
         BattleStart();
-
-        // �÷��̾�� �� ���� �ʱ�ȭ
-        player.Init();
-        enemy.Init();
     }
 
     private void BattleStart()
@@ -47,17 +45,28 @@ public class TurnBasedGameManage : MonoBehaviour
 
     public void AttackButton()
     {
-        // �÷��̾� ���϶��� ����
+        // attack only at player Turn
         if (state != State.playerTurn) return;
         else StartCoroutine("Attack");
     }
 
+    public void TurnEndButton()
+    {
+        // Change Player Turn to Enemy Turn
+        if (state != State.playerTurn) return;
+        else
+        {
+            state = State.enemyTurn;
+            StartCoroutine("EnemyTurn");
+        }
+    }
+
     private IEnumerator Attack()
     {
-        // �� ����
-        isEnemyLive = enemy.DecreaseHP(player.AttackDamage);
+        // get Enemy state
+        isEnemyLive = enemy.TakeDamage(player.character.AttackDamage);
 
-        // ���� ������ �̱�
+        // enemy Die = Player Win
         if (!isEnemyLive)
         {
             state = State.win;
@@ -65,27 +74,15 @@ public class TurnBasedGameManage : MonoBehaviour
             yield return new WaitForSeconds(3.0f);
             EndBattle();
         }
-        // ���� ��������� ���� �ѱ�
-        else
-        {
-            state = State.enemyTurn;
-            turn.text = "ENEMY Turn";
-            StartCoroutine("EnemyTurn");
-        }
 
         yield return null;
     }
 
     public void HealButton()
     {
-        // player Turn �϶� ��
+        // player Turn
         if (state != State.playerTurn) return;
-        player.IncreaseHP();
-
-        // ���� �ѱ�
-        state = State.enemyTurn;
-        turn.text = "ENEMY Turn";
-        StartCoroutine("EnemyTurn");
+        player.character.Ability();
     }
 
     private void EndBattle()
@@ -96,11 +93,14 @@ public class TurnBasedGameManage : MonoBehaviour
 
     private IEnumerator EnemyTurn()
     {
+        turn.text = "ENEMY TURN";
+
         yield return new WaitForSeconds(1.5f);
 
-        isPlayerLive = player.DecreaseHP(enemy.AttackDamage);
+        //get Player state
+        isPlayerLive = player.TakeDamage(enemy.character.AttackDamage);
 
-        // �÷��̾ ���������
+        // player Die
         if (isPlayerLive)
         {
             state = State.playerTurn;
