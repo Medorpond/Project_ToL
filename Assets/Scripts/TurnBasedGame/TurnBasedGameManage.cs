@@ -37,6 +37,32 @@ public class TurnBasedGameManage : MonoBehaviour
         BattleStart();
     }
 
+    // temp for move
+    // temp direction ( up : 1, down : 2, right : 3, left : 4)
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            if (state == State.playerTurn) player.character.MoveTo(1);
+            if (state == State.enemyTurn) enemy.character.MoveTo(1);
+        }
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            if (state == State.playerTurn) player.character.MoveTo(2);
+            if (state == State.enemyTurn) enemy.character.MoveTo(2);
+        }
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            if (state == State.playerTurn) player.character.MoveTo(3);
+            if (state == State.enemyTurn) enemy.character.MoveTo(3);
+        }
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            if (state == State.playerTurn) player.character.MoveTo(4);
+            if (state == State.enemyTurn) enemy.character.MoveTo(4);
+        }
+    }
+
     private void BattleStart()
     {
         state = State.playerTurn;
@@ -100,7 +126,7 @@ public class TurnBasedGameManage : MonoBehaviour
         //get Player state
         isPlayerLive = player.TakeDamage(enemy.character.AttackDamage);
 
-        // player Die
+        // player Live
         if (isPlayerLive)
         {
             state = State.playerTurn;

@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 4851745620036225053}
   - component: {fileID: 7240067763577341191}
   - component: {fileID: 1738070551060655883}
-  - component: {fileID: 3837353118712598278}
+  - component: {fileID: 3315985978294775309}
   m_Layer: 0
-  m_Name: DamageText
+  m_Name: ChangeHPText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -172,7 +172,7 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_renderer: {fileID: 7240067763577341191}
   m_maskType: 0
---- !u!114 &3837353118712598278
+--- !u!114 &3315985978294775309
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -208,3 +208,4 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  changeHP: 0

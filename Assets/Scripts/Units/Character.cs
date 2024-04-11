@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.TextCore.Text;
 
 [System.Serializable]
-public class HPEvent : UnityEngine.Events.UnityEvent<int> { }
+public class HPEvent : UnityEngine.Events.UnityEvent<int, int> { }
 
 public abstract class Character : MonoBehaviour
 {
@@ -12,10 +12,11 @@ public abstract class Character : MonoBehaviour
     public HPEvent onHPEvent = new HPEvent();
 
     // character info
-    public Vector3 position;
+    public Vector3 location;
     protected int maxHealth;
     protected int health;
     protected int attackDamage;
+    protected int moveRange;
 
     // For external, Get property
     public int Health => health;
@@ -23,21 +24,24 @@ public abstract class Character : MonoBehaviour
 
 
 
-    public abstract void MoveTo();
+    // temp direction ( up : 1, down : 2, right : 3, left : 4)
+    public abstract void MoveTo(int direction);
     public abstract void Ability();
 
     public virtual void Init()
     {
-        transform.position = position;
+        transform.position = location;
         health = maxHealth;
     }
 
     public virtual bool DecreaseHP(int damage)
     {
+        int previousHP = health;
+
         // make health over 0
         health = health - damage > 0 ? health - damage : 0;
 
-        onHPEvent.Invoke(health);
+        onHPEvent.Invoke(previousHP, health);
 
         if (health > 0) return true;
         else return false;
@@ -45,8 +49,10 @@ public abstract class Character : MonoBehaviour
 
     public virtual void IncreaseHP(int heal)
     {
+        int previousHP = health;
+
         health = health + heal > maxHealth ? maxHealth : health + heal;
 
-        onHPEvent.Invoke(health);
+        onHPEvent.Invoke(previousHP, health);
     }
 }
