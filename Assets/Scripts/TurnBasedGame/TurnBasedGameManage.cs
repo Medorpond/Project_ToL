@@ -27,6 +27,9 @@ public class TurnBasedGameManage : MonoBehaviour
     // yong
     [SerializeField]
     private GameObject gameOverPanel;
+    bool time_active = true;   //timer active?
+    public TextMeshProUGUI[] text_time; //timer text array
+    float time;
     // yong
 
 
@@ -61,6 +64,14 @@ public class TurnBasedGameManage : MonoBehaviour
             if (state == State.playerTurn) player.character.MoveTo(4);
             if (state == State.enemyTurn) enemy.character.MoveTo(4);
         }
+
+        //yong timer text
+        if(time_active){
+            time += Time.deltaTime;
+            text_time[0].text = ((int)time / 60).ToString();
+            text_time[1].text = ((int)time % 60).ToString();
+        }
+        //
     }
 
     private void BattleStart()
@@ -114,7 +125,10 @@ public class TurnBasedGameManage : MonoBehaviour
     private void EndBattle()
     {
         turn.text = "BATTLE END";
-        Invoke("ShowGameOverPanel", 0f); // yong
+        // yong
+        Invoke("ShowGameOverPanel", 0f);
+        time_active = false;
+        // yong
     }
 
     private IEnumerator EnemyTurn()
