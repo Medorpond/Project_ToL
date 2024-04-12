@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Astar;
+using NodeStruct;
 
 public class MapMakerForAStarTest : MonoBehaviour
 {
@@ -34,15 +34,15 @@ public class MapMakerForAStarTest : MonoBehaviour
     private void Start()
     {
         GenerateGrid();
-        pathfinder = new PathFinder(NodeArray);
-
+        pathfinder = PathFinder.GetInstance(); // 싱글톤 인스턴스 생성
+        pathfinder.Init(NodeArray); // 초기화
     }
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            Path = pathfinder.PathFinding(new Vector2Int(0, 0), new Vector2Int(destX, destY), 5);
+            Path = pathfinder.PathFinding(new Vector2Int(0, 0), new Vector2Int(destX, destY));
             showPath();
         }
     }
@@ -79,6 +79,7 @@ public class MapMakerForAStarTest : MonoBehaviour
     }
     void showPath()
     {
+        //if (Path.Count > 5) { Debug.Log("Out Of Range!"); return; }
         for (int i = 0; i < Path.Count; i++)
         {
             Debug.Log(i + "번째 경로: " + Path[i].x + ", " + Path[i].y);

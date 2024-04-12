@@ -18,7 +18,6 @@ public class GridManager : MonoBehaviour
     private Camera camera;
 
 
-
     private void Start()
     {
         GenerateGrid();

@@ -132,7 +132,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1537872315}
-  - component: {fileID: 1537872314}
+  - component: {fileID: 1537872316}
   m_Layer: 0
   m_Name: MapMaker
   m_TagString: Untagged
@@ -140,23 +140,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1537872314
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1537872313}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 378c09463e0e5cd4cb4e477d2a6d1c1d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  width: 16
-  height: 16
-  destX: 15
-  destY: 15
-  tilePrefab: {fileID: 2253586907135676077, guid: a8807a8c4227e3c458aefbbe8d349f57, type: 3}
 --- !u!4 &1537872315
 Transform:
   m_ObjectHideFlags: 0
@@ -172,6 +155,23 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1537872316
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1537872313}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 378c09463e0e5cd4cb4e477d2a6d1c1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  width: 16
+  height: 16
+  destX: 15
+  destY: 15
+  tilePrefab: {fileID: 2253586907135676077, guid: f52049c68e8f59145be94fd8897ecf6a, type: 3}
 --- !u!1 &2143051392
 GameObject:
   m_ObjectHideFlags: 0
