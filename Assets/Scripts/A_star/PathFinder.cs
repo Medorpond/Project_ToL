@@ -16,40 +16,39 @@ namespace Astar
         public int W { get { return D + H; } }
     }
 
-
     public class PathFinder
     {
-        // scale은 10 (14 for Diagnal)으로 임의설정됨. 빠른 연산을 위해 int형 scale 필요.
-        public PathFinder(Node[,] _NodeArray, Vector2Int _startpoint, Vector2Int _destination,
-            int _movePoint)
+        // scale은 1 (1.414 for Diagnal)으로 임의설정됨. 빠른 연산을 위해 int형 scale 필요.
+        public PathFinder(Node[,] _NodeArray)
         {
-            movePoint = _movePoint;
-
-            StartNode = _NodeArray[_startpoint.x, _startpoint.y];
-            TargetNode = _NodeArray[_destination.x, _destination.y];
-            restrictBottom = new Vector2(_NodeArray[0, 0].x, _NodeArray[0, 0].y); // Start of Map, BottomLeft
-            restrictTop = new Vector2(_NodeArray[15, 15].x, _NodeArray[15, 15].y); // End of Map, TopRight
-
-            StartNode.D = 0;
-
             NodeArray = _NodeArray;
 
-            OpenList = new List<Node>() { StartNode };
-            ClosedList = new List<Node>();
-            Path = new List<Node>();
+            int scaleX = NodeArray.GetLength(0) - 1;
+            int scaleY = NodeArray.GetLength(1) - 1;
+
+            restrictBottom = new Vector2(NodeArray[0, 0].x, NodeArray[0, 0].y); // Start of Map, BottomLeft
+            restrictTop = new Vector2(NodeArray[scaleX, scaleY].x, NodeArray[scaleX, scaleY].y); // End of Map, TopRight
         }
         #region Parameter
         Node[,] NodeArray;
         Node StartNode, TargetNode, CurrentNode;
         Vector2 restrictBottom, restrictTop;
-        int movePoint;
         List<Node> OpenList, ClosedList;
 
         public List<Node> Path;
         #endregion
 
-        public List<Node> PathFinding()
+        public List<Node> PathFinding(Vector2Int _startPoint, Vector2Int _destination, int _moveRange)
         {
+
+            StartNode = NodeArray[_startPoint.x, _startPoint.y];
+            TargetNode = NodeArray[_destination.x, _destination.y];
+
+            OpenList = new List<Node>() { StartNode };
+            ClosedList = new List<Node>();
+            Path = new List<Node>();
+
+
             while (OpenList.Count > 0)
             {
                 CurrentNode = OpenList[0];
@@ -116,4 +115,9 @@ namespace Astar
         }
     }
 }
+
+
+
+
+
 

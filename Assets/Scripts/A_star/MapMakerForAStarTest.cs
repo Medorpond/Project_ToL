@@ -25,6 +25,8 @@ public class MapMakerForAStarTest : MonoBehaviour
 
     private List<Node> Path;
 
+    private PathFinder pathfinder;
+
     private void Awake()
     {
         NodeArray = new Node[width, height];
@@ -32,6 +34,7 @@ public class MapMakerForAStarTest : MonoBehaviour
     private void Start()
     {
         GenerateGrid();
+        pathfinder = new PathFinder(NodeArray);
 
     }
 
@@ -39,8 +42,7 @@ public class MapMakerForAStarTest : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            PathFinder pathfinder = new PathFinder(NodeArray, new Vector2Int(0, 0), new Vector2Int(destX, destY), 5);
-            Path = pathfinder.PathFinding();
+            Path = pathfinder.PathFinding(new Vector2Int(0, 0), new Vector2Int(destX, destY), 5);
             showPath();
         }
     }
