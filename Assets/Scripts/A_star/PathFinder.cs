@@ -64,7 +64,7 @@ public class PathFinder
                 while (MileStone != StartNode)
                 {
                     Path.Add(MileStone);
-                    MileStone = MileStone.ParantNode;
+                    MileStone = MileStone.ParentNode;
                 }
                 Path.Reverse();
             }
@@ -108,7 +108,7 @@ public class PathFinder
         {
             OnScanNode.D = moveCost;
             OnScanNode.H = (Mathf.Abs(OnScanNode.x - TargetNode.x) + Mathf.Abs(OnScanNode.y - TargetNode.y));
-            OnScanNode.ParantNode = CurrentNode;
+            OnScanNode.ParentNode = CurrentNode;
 
             OpenList.Add(OnScanNode);
         }
