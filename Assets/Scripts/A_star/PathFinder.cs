@@ -50,7 +50,6 @@ public class PathFinder
         {
 
             CurrentNode = OpenList[0];
-
             for (int i = 1; i < OpenList.Count; i++)
             {
                 if (OpenList[i].W <= CurrentNode.W && OpenList[i].H < CurrentNode.H) { CurrentNode = OpenList[i]; }
@@ -67,6 +66,8 @@ public class PathFinder
                     MileStone = MileStone.ParentNode;
                 }
                 Path.Reverse();
+                OpenList.Clear();
+                continue;
             }
 
             Scan(CurrentNode.x, CurrentNode.y + 1); // »ó

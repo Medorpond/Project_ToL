@@ -11,70 +11,87 @@ public abstract class Unit : MonoBehaviour
     protected int ATK;
     protected int atkRange;
     protected int movePoint;
-    protected int moveSpeed;
+    public int moveSpeed;
 
     protected bool canMove;
     protected bool canAttack;
 
-    private Vector2Int location;
+    protected Vector2Int location;
 
-    private PathFinder pathfinder;
+    protected PathFinder pathfinder;
     #endregion
 
 
 
 
-    void Start()
+    protected virtual void Start()
     {
+        canMove = true;
+        canAttack = true;
+        location = new Vector2Int((int)transform.position.x, (int)transform.position.y);
         pathfinder = PathFinder.GetInstance();
     }
 
-    // Update is called once per frame
-    void Update()
+    protected virtual void Update()
     {
-        
+        // Actions...
     }
 
-    protected virtual void Move(Vector2Int _destination)
-    {
-        int moveLeft = movePoint;
+    public virtual IEnumerator Move(Vector2Int _destination)
+    {// 빠르게 호출시 오류 발생... 천천히 할 것
+        int movePointLeft = movePoint;
         List<Node> Path = pathfinder.PathFinding(location, _destination);
-        if (Path.Count > movePoint) { Debug.Log("Out of Range!"); return; }
+        if (Path.Count > movePoint) { Debug.Log("Out of Range!"); yield return null; }
+        else if (Path.Count == 0) { Debug.Log("Move not to Move"); yield return null; }
         else
         {
-            while (moveLeft > 0)
+            while (movePointLeft > 0)
             {
-                int pathIndex = movePoint - moveLeft;
+                int pathIndex = movePoint - movePointLeft;
                 Vector2Int nextNode = new Vector2Int(Path[pathIndex].x, Path[pathIndex].y);
-                MoveOneGrid(location, nextNode);
+                yield return StartCoroutine(MoveOneGrid(location, nextNode));
                 location = new Vector2Int(nextNode.x, nextNode.y);
-                moveLeft -- ;
+                movePointLeft -- ;
             }
         }
         
     }
 
-    private IEnumerable MoveOneGrid(Vector2Int location, Vector2Int destination)
+    private IEnumerator MoveOneGrid(Vector2Int location, Vector2Int destination)
     {
-        transform.position = Vector2.MoveTowards(location, destination, moveSpeed * Time.deltaTime);
-        yield return new WaitUntil(() => 
-        (transform.position.x == destination.x && transform.position.y == destination.y));
+        float startTime = Time.time;
+        Vector2 startPosition = transform.position;
+        float tripLength = Vector2.Distance(startPosition, destination);
+
+        while ((Vector2)transform.position != destination)
+        {
+            float distCovered = (Time.time - startTime) * moveSpeed;
+            float distFraction = distCovered / tripLength;
+            transform.position = Vector2.Lerp(startPosition, destination, distFraction);
+            yield return null;
+        }
     }
 
-    protected virtual void Attack(Unit _enemy)
+    public virtual void Attack(Unit _enemy)
     {
-        _enemy.isDamaged(ATK);
+        if (Mathf.Abs(_enemy.location.x - location.x) + Mathf.Abs(_enemy.location.y - location.y) <= 1)
+        {
+            _enemy.isDamaged(ATK);
+        }
+        else { Debug.Log("OutOfRange!"); }
+        
     }
 
     public virtual void isDamaged(int _damage)
     {
-        if (currentHP - _damage > 0) { currentHP -= _damage; }
+        if (currentHP - _damage > 0) { Debug.Log(name + ": " + currentHP); currentHP -= _damage; }
         else { currentHP = 0; isDead(); }
     }
 
     protected virtual void isDead()
     {
         Debug.Log(name + " is Down!");
-        Destroy(this, 3); // 사망애니메이션 3초
+        currentHP = maxHP; // Immortal, for Test.
+        // Destroy(this, 3); // 사망애니메이션 3초
     }
 }

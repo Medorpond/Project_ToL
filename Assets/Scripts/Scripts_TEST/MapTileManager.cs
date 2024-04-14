@@ -11,6 +11,7 @@ public class MapTileManager : MonoBehaviour
 
     private void Awake()
     {
+        NodeArray = new Node[32, 17];
         NodeArrayInit();
         pathfinder = PathFinder.GetInstance();
     }
@@ -25,11 +26,10 @@ public class MapTileManager : MonoBehaviour
         {
             for(int y = 0; y < 17; y++)
             {
-                if (y == 0 || y == 16) { isWall = true; }
+                if (x == 0 || x == 31) { isWall = true; }
                 else if (14 <= x && x <= 17 && 6 <= y && y <= 10) { isWall = true; }
                 else if ((x == 7 || x == 8 || x == 23 || x == 24) && (5 <= y && y <= 11)) { isWall = true; }
                 else { isWall = false; }
-
                 NodeArray[x, y] = new Node(isWall, x, y);
             }
         }
