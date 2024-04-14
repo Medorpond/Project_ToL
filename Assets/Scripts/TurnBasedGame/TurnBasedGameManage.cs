@@ -161,7 +161,7 @@ public class TurnBasedGameManage : MonoBehaviour
     }
 
     public void GoMain() {
-        SceneManager.LoadScene("MainScene");
+        LoadingSceneController.LoadScene("MainScene");
     }
     // ~ yong
 }

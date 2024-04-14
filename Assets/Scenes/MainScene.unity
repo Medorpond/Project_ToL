@@ -7320,7 +7320,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1093831247}
         m_TargetAssemblyTypeName: MainMenuScripts, Assembly-CSharp
-        m_MethodName: OnClickMulti
+        m_MethodName: OnClickComponent
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

@@ -7,9 +7,8 @@ using UnityEngine.UI;
 public class MainMenuScripts : MonoBehaviour
 {   
     // CLick button method
-    public void OnClickMulti(){
-        SceneManager.LoadScene("GameScene");
-        Debug.Log("MultiPlay");
+    public void OnClickComponent(){
+        LoadingSceneController.LoadScene("GameScene");
     }
     public void OnClickSingle(){
         Debug.Log("SinglePlay");
