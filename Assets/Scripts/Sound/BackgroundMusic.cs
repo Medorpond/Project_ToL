@@ -11,4 +11,14 @@ public class BackgroundMusic : MonoBehaviour
     {
         musicsource.volume = volume;
     }
+    
+    /*
+    public void SetButtonVolume(float volume)
+    {
+        Btnsource.volume = volume;
+    }
+    public void onSfx(){
+        Btnsource.Play();
+    }
+    */
 }
