@@ -38,7 +38,7 @@ public abstract class Unit : MonoBehaviour
     }
 
     public virtual IEnumerator Move(Vector2Int _destination)
-    {// 빠르게 호출시 오류 발생... 천천히 할 것
+    {
         int movePointLeft = movePoint;
         List<Node> Path = pathfinder.PathFinding(location, _destination);
         if (Path.Count > movePoint) { Debug.Log("Out of Range!"); yield return null; }

@@ -6983,6 +6983,10 @@ PrefabInstance:
       propertyPath: userName
       value: 
       objectReference: {fileID: 1176810127}
+    - target: {fileID: 9004290357578269197, guid: 24cf45983087c2a46a364edeb1c87e5b, type: 3}
+      propertyPath: characterClass
+      value: 
+      objectReference: {fileID: 1915468331183692332, guid: ccf2ce401ec52c640934daea74924f50, type: 3}
     - target: {fileID: 9049692166548375154, guid: 24cf45983087c2a46a364edeb1c87e5b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
