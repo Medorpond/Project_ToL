@@ -11,7 +11,7 @@ public class SwordMan : Unit
         currentHP = maxHP;
         ATK = 30;
         atkRange = 1;
-        movePoint = 3;
+        movePoint = 300;
         moveSpeed = 5;
 
         base.Start();
