@@ -5,8 +5,6 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject characterClass;
     [HideInInspector]
     public Character character;
 
@@ -23,6 +21,17 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
+        //SetCharacter();
+    }
+
+    // temp for Move
+    private void Update()
+    {
+        transform.position = character.location;
+    }
+
+    public void SetCharacter(GameObject characterClass)
+    {
         Instantiate(characterClass, transform);
         character = GetComponentInChildren<Character>();
 
@@ -34,12 +43,6 @@ public class Player : MonoBehaviour
         textHP.text = $"{character.Health}";
 
         character.onHPEvent.AddListener(UpdateHP);
-    }
-
-    // temp for Move
-    private void Update()
-    {
-        transform.position = character.location;
     }
 
     public bool TakeDamage(int damage)

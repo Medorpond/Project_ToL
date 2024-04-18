@@ -10,13 +10,15 @@ public class Dealer : Character
 
     public override void Init()
     {
-        maxHealth = 75;
-        attackDamage = 20;
+        maxHealth = 6;
+        attackDamage = 4;
+        attackRange = 3;
         moveRange = 3;
 
         base.Init();
     }
 
+    /*
     public override void MoveTo(int direction)
     {
         // temp direction ( up : 1, down : 2, right : 3, left : 4)
@@ -25,6 +27,7 @@ public class Dealer : Character
         if (direction == 3) location += new Vector3(moveRange, 0, 0);
         if (direction == 4) location -= new Vector3(moveRange, 0, 0);
     }
+    */
     public override void Ability()
     {
         // Ability

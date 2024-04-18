@@ -5,19 +5,20 @@ using UnityEngine;
 public class Healer : Character
 {
     // Healer Ability : Healing
-    private int healAmount = 25;
+    private int healAmount = 2;
 
 
 
     public override void Init()
     {
-        maxHealth = 100;
+        maxHealth = 4;
         attackDamage = 10;
+        attackRange = 2;
         moveRange = 2;
 
         base.Init();
     }
-
+    /*
     public override void MoveTo(int direction)
     {
         // temp direction ( up : 1, down : 2, right : 3, left : 4)
@@ -26,7 +27,7 @@ public class Healer : Character
         if (direction == 3) location += new Vector3(moveRange, 0, 0);
         if (direction == 4) location -= new Vector3(moveRange, 0, 0);
     }
-
+    */
     public override void Ability()
     {
         base.IncreaseHP(healAmount);

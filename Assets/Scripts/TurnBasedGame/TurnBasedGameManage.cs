@@ -10,11 +10,19 @@ public enum State
     start, playerTurn, enemyTurn, win, lose
 }
 
+public enum CharacterType
+{
+    tanker, dealer, healer
+}
+
 public class TurnBasedGameManage : MonoBehaviour
 {
     public State state;
     private bool isEnemyLive = true;
     private bool isPlayerLive = true;
+
+    [SerializeField]
+    private GameObject[] characters;
 
     [SerializeField]
     private Player player;
@@ -37,41 +45,32 @@ public class TurnBasedGameManage : MonoBehaviour
     private void Awake()
     {
         state = State.start;
-        BattleStart();
+        BeforeBattle();
     }
 
-    // temp for move
-    // temp direction ( up : 1, down : 2, right : 3, left : 4)
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            if (state == State.playerTurn) player.character.MoveTo(1);
-            if (state == State.enemyTurn) enemy.character.MoveTo(1);
-        }
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            if (state == State.playerTurn) player.character.MoveTo(2);
-            if (state == State.enemyTurn) enemy.character.MoveTo(2);
-        }
-        if (Input.GetKeyDown(KeyCode.D))
-        {
-            if (state == State.playerTurn) player.character.MoveTo(3);
-            if (state == State.enemyTurn) enemy.character.MoveTo(3);
-        }
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            if (state == State.playerTurn) player.character.MoveTo(4);
-            if (state == State.enemyTurn) enemy.character.MoveTo(4);
-        }
+
+        //Temp for moving
+        if (Input.GetKeyDown(KeyCode.W)) player.character.MoveTo(8);
+        if (Input.GetKeyDown(KeyCode.S)) player.character.MoveTo(2);
+        if (Input.GetKeyDown(KeyCode.A)) player.character.MoveTo(4);
+        if (Input.GetKeyDown(KeyCode.D)) player.character.MoveTo(6);
 
         //yong timer text
-        if(time_active){
+        if (time_active) {
             time += Time.deltaTime;
             text_time[0].text = ((int)time / 60).ToString();
             text_time[1].text = ((int)time % 60).ToString();
         }
         //
+    }
+
+    private void BeforeBattle()
+    {
+        SelectHealer();
+        SelectDealer();
+        BattleStart();
     }
 
     private void BattleStart()
@@ -100,8 +99,12 @@ public class TurnBasedGameManage : MonoBehaviour
 
     private IEnumerator Attack()
     {
-        // get Enemy state
-        isEnemyLive = enemy.TakeDamage(player.character.AttackDamage);
+        // can attack only at attackRange
+        if (enemy.character.CanAttack(Vector2.Distance(enemy.character.location, player.character.location)))
+        {
+            // get Enemy state
+            isEnemyLive = enemy.TakeDamage(player.character.AttackDamage);
+        }
 
         // enemy Die = Player Win
         if (!isEnemyLive)
@@ -137,8 +140,9 @@ public class TurnBasedGameManage : MonoBehaviour
 
         yield return new WaitForSeconds(1.5f);
 
-        //get Player state
-        isPlayerLive = player.TakeDamage(enemy.character.AttackDamage);
+        if (enemy.character.CanAttack(Vector2.Distance(enemy.character.location, player.character.location)))
+            //get Player state
+            isPlayerLive = player.TakeDamage(enemy.character.AttackDamage);
 
         // player Live
         if (isPlayerLive)
@@ -164,4 +168,24 @@ public class TurnBasedGameManage : MonoBehaviour
         LoadingSceneController.LoadScene("MainScene");
     }
     // ~ yong
+
+    // temp for select Character
+    public void SelectHealer()
+    {
+        if (player.character == null) player.SetCharacter(characters[(int)CharacterType.healer]);
+        else if (enemy.character == null) enemy.SetCharacter(characters[(int)CharacterType.healer]);
+        else return;
+    }
+    public void SelectDealer()
+    {
+        if (player.character == null) player.SetCharacter(characters[(int)CharacterType.dealer]);
+        else if (enemy.character == null) enemy.SetCharacter(characters[(int)CharacterType.dealer]);
+        else return;
+    }
+    public void SelectTanker()
+    {
+        if (player.character == null) player.SetCharacter(characters[(int)CharacterType.tanker]);
+        else if (enemy.character == null) enemy.SetCharacter(characters[(int)CharacterType.tanker]);
+        else return;
+    }
 }

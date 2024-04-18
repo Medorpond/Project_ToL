@@ -12,10 +12,11 @@ public abstract class Character : MonoBehaviour
     public HPEvent onHPEvent = new HPEvent();
 
     // character info
-    public Vector3 location;
+    public Vector2 location;
     protected int maxHealth;
     protected int health;
     protected int attackDamage;
+    protected int attackRange;
     protected int moveRange;
 
     // For external, Get property
@@ -24,8 +25,15 @@ public abstract class Character : MonoBehaviour
 
 
 
-    // temp direction ( up : 1, down : 2, right : 3, left : 4)
-    public abstract void MoveTo(int direction);
+
+    public void MoveTo(int direction)
+    {
+        if (direction == 8) location += Vector2.up * moveRange;
+        if (direction == 2) location -= Vector2.up * moveRange;
+        if (direction == 4) location += Vector2.left * moveRange;
+        if (direction == 6) location -= Vector2.left * moveRange;
+    }
+
     public abstract void Ability();
 
     public virtual void Init()
@@ -54,5 +62,17 @@ public abstract class Character : MonoBehaviour
         health = health + heal > maxHealth ? maxHealth : health + heal;
 
         onHPEvent.Invoke(previousHP, health);
+    }
+
+    // distance, attackRange 비교
+    public bool CanAttack(float distance)
+    {
+        if (distance > attackRange)
+        {
+            Debug.Log("공격 범위 밖입니다. 공격 불가.");
+            return false;
+        }
+
+        else return true;
     }
 }

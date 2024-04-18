@@ -11,13 +11,14 @@ public class Tanker : Character
 
     public override void Init()
     {
-        maxHealth = 150;
-        attackDamage = 7;
+        maxHealth = 7;
+        attackDamage = 2;
+        attackRange = 1;
         moveRange = 1;
 
         base.Init();
     }
-
+    /*
     public override void MoveTo(int direction)
     {
         // temp direction ( up : 1, down : 2, right : 3, left : 4)
@@ -26,7 +27,7 @@ public class Tanker : Character
         if (direction == 3) location += new Vector3(moveRange, 0, 0);
         if (direction == 4) location -= new Vector3(moveRange, 0, 0);
     }
-
+    */
     public override void Ability()
     {
         // Ability
