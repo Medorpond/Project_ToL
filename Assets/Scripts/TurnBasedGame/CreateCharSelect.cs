@@ -45,36 +45,63 @@ public class CreateCharSelect : MonoBehaviour
         {
             Donebutton.onClick.AddListener(onDoneButtonClick);
         }
+
     }
 
     void OnButtonClick(int index){
-        if(index == 0){
+            if(index == 0){
             Transform parent = GameObject.Find("SelectChar").transform;
             GameObject TankerButton = Instantiate(CharBtn[index], Vector3.zero, Quaternion.identity, parent);
             TankerButton.transform.localPosition = new Vector3(x, 0, 0);
             x += 100;
             createdBtns.Add(TankerButton);
-        }
+            Button buttonComponent = TankerButton.GetComponent<Button>();
+            if (buttonComponent != null)
+            {
+                buttonComponent.onClick.AddListener(() =>
+                {
+                    Debug.Log("TankerButton Clicked!");
+                });
+            }
+            }
         else if (index == 1){
             Transform parent = GameObject.Find("SelectChar").transform;
             GameObject DealerButton = Instantiate(CharBtn[index], Vector3.zero, Quaternion.identity, parent);
             DealerButton.transform.localPosition = new Vector3(x, 0, 0);
             x += 100;
             createdBtns.Add(DealerButton);
-        }
+            Button buttonComponent = DealerButton.GetComponent<Button>();
+            if (buttonComponent != null)
+            {
+                buttonComponent.onClick.AddListener(() =>
+                {
+                    Debug.Log("DealerButton Clicked!");
+                });
+            }
+            }
         else if (index == 2){
             Transform parent = GameObject.Find("SelectChar").transform;
             GameObject HealerButton = Instantiate(CharBtn[index], Vector3.zero, Quaternion.identity, parent);
             HealerButton.transform.localPosition = new Vector3(x, 0, 0);
             x += 100;
             createdBtns.Add(HealerButton);
+            Button buttonComponent = HealerButton.GetComponent<Button>();
+            if (buttonComponent != null)
+            {
+                buttonComponent.onClick.AddListener(() =>
+                {
+                    Debug.Log("HealerButton Clicked!");
+                });
+            }
         }
         clickCount++;
         if (clickCount >= 7)
         {
             onDoneButtonClick();
         }
+
     }
+
     void onDoneButtonClick(){
         if (clickCount >= 3 ){
             Destroy(instantiatedDoneBtn);
