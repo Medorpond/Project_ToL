@@ -57,13 +57,13 @@ public class TurnBasedGameManage : MonoBehaviour
         //if (Input.GetKeyDown(KeyCode.A)) player.character.MoveTo(4);
         //if (Input.GetKeyDown(KeyCode.D)) player.character.MoveTo(6);
 
-        //yong timer text
+        // yong timer text
         if (time_active) {
             time += Time.deltaTime;
             text_time[0].text = ((int)time / 60).ToString();
             text_time[1].text = ((int)time % 60).ToString();
         }
-        //
+        // yong
     }
 
     private void BeforeBattle()
