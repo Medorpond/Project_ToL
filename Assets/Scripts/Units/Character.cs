@@ -5,6 +5,8 @@ using UnityEngine;
 using UnityEngine.TextCore.Text;
 
 using NodeStruct;
+using Unity.VisualScripting;
+using static UnityEditor.PlayerSettings;
 
 [System.Serializable]
 public class HPEvent : UnityEngine.Events.UnityEvent<int, int> { }
@@ -59,26 +61,19 @@ public abstract class Character : MonoBehaviour
         // 위 Vec2Int는 임시로 할당한 구조체...
 
         List<Node> path = pathfinder.PathFinding(startPos, targetPos);
-        Debug.Log(this.name + path.Count);
         // 현 위치에서 목적지까지 경로 획득
 
-        foreach (Node elem in path)
-        {
-            Vector2 nextStop = new Vector2(elem.x, elem.y);
-            StartCoroutine(MoveOneGrid(nextStop));
-        } // 경로에 저장된 각 노드를 순환하며 MoveOneGrid() 호출... moveRange에 따른 한계 구현 필요.
+        StartCoroutine(MoveOneGrid());
         
-
-        IEnumerator MoveOneGrid(Vector2 nextStop)
+        IEnumerator MoveOneGrid()
         {
-            while ((Vector2)transform.position != nextStop)
+            foreach (Node elem in path)
             {
-                transform.position = Vector2.MoveTowards(transform.position, nextStop, moveSpeed);
-                if ((Vector2)transform.position == nextStop)
-                    break;
-                yield return null;
-            }
-        }// 내부함수, 그리드 1칸 이동... 오류시 Vector3으로 전부 변경 요망
+                Vector3 nextStop = new Vector3(elem.x, elem.y);
+                while(Vector3.Distance(transform.position, nextStop) > 0.001f) 
+                { transform.position = Vector3.MoveTowards(transform.position, nextStop, moveSpeed); yield return null; } 
+            } // 경로에 저장된 각 노드를 순환하며 MoveOneGrid() 호출... moveRange에 따른 한계 구현 필요.
+        }
     }
 
     
