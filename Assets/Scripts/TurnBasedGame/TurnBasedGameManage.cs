@@ -52,10 +52,10 @@ public class TurnBasedGameManage : MonoBehaviour
     {
 
         //Temp for moving
-        if (Input.GetKeyDown(KeyCode.W)) player.character.MoveTo(8);
-        if (Input.GetKeyDown(KeyCode.S)) player.character.MoveTo(2);
-        if (Input.GetKeyDown(KeyCode.A)) player.character.MoveTo(4);
-        if (Input.GetKeyDown(KeyCode.D)) player.character.MoveTo(6);
+        //if (Input.GetKeyDown(KeyCode.W)) player.character.MoveTo(8);
+        //if (Input.GetKeyDown(KeyCode.S)) player.character.MoveTo(2);
+        //if (Input.GetKeyDown(KeyCode.A)) player.character.MoveTo(4);
+        //if (Input.GetKeyDown(KeyCode.D)) player.character.MoveTo(6);
 
         //yong timer text
         if (time_active) {

@@ -23,7 +23,12 @@ public abstract class Character : MonoBehaviour
     protected int moveRange;
 
     [SerializeField]
-    protected int moveSpeed;
+    protected float moveSpeed = 0.01f;
+
+    //Pseudo Coordinate
+    public int x = 3;
+    public int y = 3;
+    private Vector3 destination;
 
     protected PathFinder pathfinder;
 
@@ -34,7 +39,14 @@ public abstract class Character : MonoBehaviour
     protected void Start()
     {
         pathfinder = PathFinder.GetInstance(); // 길찾기 싱글톤 인스턴스 초기화
+        destination = new Vector3(x, y); // Pseudo Coordinate.
     }
+
+    protected void Update()
+    {
+        MoveTo(destination);
+    }
+
 
 
     public void MoveTo(Vector3 direction)

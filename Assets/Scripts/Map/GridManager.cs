@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
+using NodeStruct;
+using JetBrains.Annotations;
+
 public class GridManager : MonoBehaviour
 {
     [Header("Board Info")]
@@ -17,10 +20,16 @@ public class GridManager : MonoBehaviour
     [SerializeField]
     private Camera camera;
 
+    private NodeStruct.Node[,] NodeArray;
+    public PathFinder pathfinder;
+
 
     private void Start()
     {
+        NodeArray = new NodeStruct.Node[width, height];
         GenerateGrid();
+        pathfinder = PathFinder.GetInstance();
+        pathfinder.Init(NodeArray);
     }
 
     private void GenerateGrid()
@@ -29,13 +38,19 @@ public class GridManager : MonoBehaviour
         {
             for (int y = 0; y < height; y++)
             {
+                bool isBlocked = false;
                 // 타일 생성
                 MapTile spawnedTile = Instantiate(tilePrefab, new Vector3(x, y), Quaternion.identity, gameObject.transform);
                 spawnedTile.name = $"Tile({x}, {y})";
 
                 // 타일의 타입 결정
                 int randomNum = Random.Range(1, 10);    // 랜덤 요소가 몇개 생성되는지 랜덤으로(변경예정)
-                if (x == 0 || x == width - 1 || y == 0 || y == height - 1) spawnedTile.tileType = TileType.block;
+
+                if (x == 0 || x == width - 1 || y == 0 || y == height - 1) 
+                { 
+                    spawnedTile.tileType = TileType.block; 
+                    isBlocked = true; 
+                }
                 else
                 {
                     spawnedTile.tileType = TileType.grass;
@@ -46,6 +61,9 @@ public class GridManager : MonoBehaviour
                         if (x == Random.Range(1, width) && y == Random.Range(1, height)) spawnedTile.tileType = TileType.wall;
                     }
                 }
+
+                // 타입에 맞게 노드 초기화
+                NodeArray[x, y] = new NodeStruct.Node(isBlocked , x, y);
 
                 // 타입에 맞게 스프라이트 변경
                 spawnedTile.SettingTile(spawnedTile.tileType);
