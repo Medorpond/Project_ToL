@@ -76,14 +76,17 @@ public class CreateCharSelect : MonoBehaviour
         }
     }
     void onDoneButtonClick(){
-        Destroy(instantiatedDoneBtn);
-        foreach(GameObject btn in setButtons)
-        {
-            Destroy(btn);
+        if (clickCount >= 3 ){
+            Destroy(instantiatedDoneBtn);
+            foreach(GameObject btn in setButtons)
+            {
+                Destroy(btn);
+            }
+            foreach(GameObject btn in createdBtns)
+            {
+                btn.transform.localPosition += new Vector3(20f, 50f, 0f);
+            }
         }
-        foreach(GameObject btn in createdBtns)
-        {
-            btn.transform.localPosition += new Vector3(20f, 50f, 0f);
-        }
+        
     }
 }
