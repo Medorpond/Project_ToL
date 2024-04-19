@@ -23,11 +23,11 @@ public abstract class Character : MonoBehaviour
     protected int moveRange;
 
     [SerializeField]
-    protected float moveSpeed = 0.01f;
+    protected float moveSpeed;
 
     //Pseudo Coordinate
-    public int x = 3;
-    public int y = 3;
+    public int x;
+    public int y;
     private Vector3 destination;
 
     protected PathFinder pathfinder;
@@ -38,13 +38,16 @@ public abstract class Character : MonoBehaviour
 
     protected void Start()
     {
-        pathfinder = PathFinder.GetInstance(); // 길찾기 싱글톤 인스턴스 초기화
-        destination = new Vector3(x, y); // Pseudo Coordinate.
+        pathfinder = PathFinder.GetInstance(); // 길찾기 싱글톤 인스턴스 
     }
 
     protected void Update()
     {
-        MoveTo(destination);
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            destination = new Vector3(x, y); // Pseudo Coordinate.
+            MoveTo(destination);
+        }
     }
 
 
@@ -56,19 +59,25 @@ public abstract class Character : MonoBehaviour
         // 위 Vec2Int는 임시로 할당한 구조체...
 
         List<Node> path = pathfinder.PathFinding(startPos, targetPos);
+        Debug.Log(this.name + path.Count);
         // 현 위치에서 목적지까지 경로 획득
 
         foreach (Node elem in path)
         {
             Vector2 nextStop = new Vector2(elem.x, elem.y);
-            MoveOneGrid(nextStop);
+            StartCoroutine(MoveOneGrid(nextStop));
         } // 경로에 저장된 각 노드를 순환하며 MoveOneGrid() 호출... moveRange에 따른 한계 구현 필요.
         
 
         IEnumerator MoveOneGrid(Vector2 nextStop)
         {
-            transform.position = Vector2.MoveTowards(transform.position, nextStop, moveSpeed);
-            yield return null;
+            while ((Vector2)transform.position != nextStop)
+            {
+                transform.position = Vector2.MoveTowards(transform.position, nextStop, moveSpeed);
+                if ((Vector2)transform.position == nextStop)
+                    break;
+                yield return null;
+            }
         }// 내부함수, 그리드 1칸 이동... 오류시 Vector3으로 전부 변경 요망
     }
 
