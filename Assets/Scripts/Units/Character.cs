@@ -1,7 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.TextCore.Text;
+
+using NodeStruct;
 
 [System.Serializable]
 public class HPEvent : UnityEngine.Events.UnityEvent<int, int> { }
@@ -19,20 +22,45 @@ public abstract class Character : MonoBehaviour
     protected int attackRange;
     protected int moveRange;
 
+    [SerializeField]
+    protected int moveSpeed;
+
+    protected PathFinder pathfinder;
+
     // For external, Get property
     public int Health => health;
     public int AttackDamage => attackDamage;
 
-
-
-
-    public void MoveTo(int direction)
+    protected void Start()
     {
-        if (direction == 8) location += Vector2.up * moveRange;
-        if (direction == 2) location -= Vector2.up * moveRange;
-        if (direction == 4) location += Vector2.left * moveRange;
-        if (direction == 6) location -= Vector2.left * moveRange;
+        pathfinder = PathFinder.GetInstance(); // 길찾기 싱글톤 인스턴스 초기화
     }
+
+
+    public void MoveTo(Vector3 direction)
+    {
+        Vector2Int startPos = new Vector2Int((int)transform.position.x, (int)transform.position.y);
+        Vector2Int targetPos = new Vector2Int((int)direction.x, (int)direction.y);
+        // 위 Vec2Int는 임시로 할당한 구조체...
+
+        List<Node> path = pathfinder.PathFinding(startPos, targetPos);
+        // 현 위치에서 목적지까지 경로 획득
+
+        foreach (Node elem in path)
+        {
+            Vector2 nextStop = new Vector2(elem.x, elem.y);
+            MoveOneGrid(nextStop);
+        } // 경로에 저장된 각 노드를 순환하며 MoveOneGrid() 호출... moveRange에 따른 한계 구현 필요.
+        
+
+        IEnumerator MoveOneGrid(Vector2 nextStop)
+        {
+            transform.position = Vector2.MoveTowards(transform.position, nextStop, moveSpeed);
+            yield return null;
+        }// 내부함수, 그리드 1칸 이동... 오류시 Vector3으로 전부 변경 요망
+    }
+
+    
 
     public abstract void Ability();
 
