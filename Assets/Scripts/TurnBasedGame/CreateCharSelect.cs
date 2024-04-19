@@ -48,12 +48,27 @@ public class CreateCharSelect : MonoBehaviour
     }
 
     void OnButtonClick(int index){
-        Transform parentTransform = GameObject.Find("SelectChar").transform;
-        GameObject newButton = Instantiate(CharBtn[index], Vector3.zero, Quaternion.identity, parentTransform);
-        newButton.transform.localPosition = new Vector3(x, 0, 0);
-        x += 100;
-        createdBtns.Add(newButton);
-
+        if(index == 0){
+            Transform parent = GameObject.Find("SelectChar").transform;
+            GameObject TankerButton = Instantiate(CharBtn[index], Vector3.zero, Quaternion.identity, parent);
+            TankerButton.transform.localPosition = new Vector3(x, 0, 0);
+            x += 100;
+            createdBtns.Add(TankerButton);
+        }
+        else if (index == 1){
+            Transform parent = GameObject.Find("SelectChar").transform;
+            GameObject DealerButton = Instantiate(CharBtn[index], Vector3.zero, Quaternion.identity, parent);
+            DealerButton.transform.localPosition = new Vector3(x, 0, 0);
+            x += 100;
+            createdBtns.Add(DealerButton);
+        }
+        else if (index == 2){
+            Transform parent = GameObject.Find("SelectChar").transform;
+            GameObject HealerButton = Instantiate(CharBtn[index], Vector3.zero, Quaternion.identity, parent);
+            HealerButton.transform.localPosition = new Vector3(x, 0, 0);
+            x += 100;
+            createdBtns.Add(HealerButton);
+        }
         clickCount++;
         if (clickCount >= 7)
         {
