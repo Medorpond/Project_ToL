@@ -58,10 +58,9 @@ public abstract class Character : MonoBehaviour
     {
         Vector2Int startPos = new Vector2Int((int)transform.position.x, (int)transform.position.y);
         Vector2Int targetPos = new Vector2Int((int)direction.x, (int)direction.y);
-        // 위 Vec2Int는 임시로 할당한 구조체...
 
         List<Node> path = pathfinder.PathFinding(startPos, targetPos);
-        // 현 위치에서 목적지까지 경로 획득
+        // 현 위치에서 목적지까지 경로 배열 획득
 
         StartCoroutine(MoveOneGrid());
         
@@ -72,7 +71,7 @@ public abstract class Character : MonoBehaviour
                 Vector3 nextStop = new Vector3(elem.x, elem.y);
                 while(Vector3.Distance(transform.position, nextStop) > 0.001f) 
                 { transform.position = Vector3.MoveTowards(transform.position, nextStop, moveSpeed); yield return null; } 
-            } // 경로에 저장된 각 노드를 순환하며 MoveOneGrid() 호출... moveRange에 따른 한계 구현 필요.
+            } // 경로에 저장된 각 노드를 순환하며 한 칸씩 이동.
         }
     }
 
