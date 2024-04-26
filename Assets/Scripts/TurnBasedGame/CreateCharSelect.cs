@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using Unity.Collections;
 using Unity.VisualScripting;
 using UnityEditor.ProjectWindowCallback;
@@ -9,6 +10,8 @@ using UnityEngine.UI;
 
 public class CreateCharSelect : MonoBehaviour
 {
+    [SerializeField]
+    private GameObject[] characters;
     [SerializeField]
     private GameObject[] CharBtn; // prefabs
     [SerializeField]
@@ -19,6 +22,9 @@ public class CreateCharSelect : MonoBehaviour
     List<GameObject> setButtons = new List<GameObject>(); // for destroy
     List<GameObject> createdBtns = new List<GameObject>(); // for reference
     GameObject instantiatedDoneBtn; // for destroy
+    
+    [SerializeField]
+    private Player player;
     void Start()
     {
         Transform parentTransform = GameObject.Find("SelectChar").transform; // sub SelectChar
@@ -49,6 +55,7 @@ public class CreateCharSelect : MonoBehaviour
     }
 
     void OnButtonClick(int index){ // click 1-level button(choose)
+        player.SetCharacter(characters[index]);
             if(index == 0){ // ex) 1 = tanker, 2 = dealer, ...
             Transform parent = GameObject.Find("SelectChar").transform;       // sub SelectChar
             GameObject TankerButton = Instantiate(CharBtn[index], Vector3.zero, Quaternion.identity, parent); // create 2-level button (tanker)
@@ -57,14 +64,15 @@ public class CreateCharSelect : MonoBehaviour
             createdBtns.Add(TankerButton); // List add 
             Button buttonComponent = TankerButton.GetComponent<Button>(); // click 2-level button (select)
             if (buttonComponent != null)
-            {
-                buttonComponent.onClick.AddListener(() =>
                 {
-                    Debug.Log("TankerButton Clicked!"); // print log
-                });
+                    buttonComponent.onClick.AddListener(() =>
+                    {
+                        Debug.Log("TankerButton Clicked!"); // print log
+                    });
+                }
             }
-            }
-        else if (index == 1){ // ex) 1 = tanker, 2 = dealer, ...
+            else if (index == 1)
+            { // ex) 1 = tanker, 2 = dealer, ...
             Transform parent = GameObject.Find("SelectChar").transform;
             GameObject DealerButton = Instantiate(CharBtn[index], Vector3.zero, Quaternion.identity, parent);
             DealerButton.transform.localPosition = new Vector3(x, 0, 0);
@@ -72,28 +80,29 @@ public class CreateCharSelect : MonoBehaviour
             createdBtns.Add(DealerButton);
             Button buttonComponent = DealerButton.GetComponent<Button>();
             if (buttonComponent != null)
-            {
-                buttonComponent.onClick.AddListener(() =>
                 {
-                    Debug.Log("DealerButton Clicked!");
-                });
+                    buttonComponent.onClick.AddListener(() =>
+                    {
+                        Debug.Log("DealerButton Clicked!");
+                    });
+                }
             }
-            }
-        else if (index == 2){
-            Transform parent = GameObject.Find("SelectChar").transform;
-            GameObject HealerButton = Instantiate(CharBtn[index], Vector3.zero, Quaternion.identity, parent);
-            HealerButton.transform.localPosition = new Vector3(x, 0, 0);
-            x += 100;
-            createdBtns.Add(HealerButton);
-            Button buttonComponent = HealerButton.GetComponent<Button>();
-            if (buttonComponent != null)
+            else if (index == 2)
             {
-                buttonComponent.onClick.AddListener(() =>
+                Transform parent = GameObject.Find("SelectChar").transform;
+                GameObject HealerButton = Instantiate(CharBtn[index], Vector3.zero, Quaternion.identity, parent);
+                HealerButton.transform.localPosition = new Vector3(x, 0, 0);
+                x += 100;
+                createdBtns.Add(HealerButton);
+                Button buttonComponent = HealerButton.GetComponent<Button>();
+                if (buttonComponent != null)
                 {
-                    Debug.Log("HealerButton Clicked!");
-                });
+                    buttonComponent.onClick.AddListener(() =>
+                    {
+                        Debug.Log("HealerButton Clicked!");
+                    });
+                }
             }
-        }
         clickCount++;      // created 2-level button count
         if (clickCount >= 7)    // why 7? size issue
         {
