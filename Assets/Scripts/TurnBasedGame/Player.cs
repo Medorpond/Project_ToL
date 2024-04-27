@@ -7,6 +7,8 @@ public class Player : MonoBehaviour
 {
     [HideInInspector]
     public Character character;
+    [HideInInspector]
+    public int kingHP;
 
     [SerializeField]
     private TextMeshProUGUI userName;
@@ -22,12 +24,14 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         //SetCharacter();
+        kingHP = character.Health;
     }
 
     // temp for Move
     private void Update()
     {
         transform.position = character.location;
+        kingHP = character.Health;
     }
 
     public void SetCharacter(GameObject characterClass)
