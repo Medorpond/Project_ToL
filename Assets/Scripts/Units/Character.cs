@@ -37,10 +37,11 @@ public abstract class Character : MonoBehaviour
     // For external, Get property
     public int Health => health;
     public int AttackDamage => attackDamage;
+    public int MoveRange => moveRange;
 
     protected void Start()
     {
-        pathfinder = PathFinder.GetInstance(); // ±æÃ£±â ½Ì±ÛÅæ ÀÎ½ºÅÏ½º 
+        pathfinder = PathFinder.GetInstance(); // ï¿½ï¿½Ã£ï¿½ï¿½ ï¿½Ì±ï¿½ï¿½ï¿½ ï¿½Î½ï¿½ï¿½Ï½ï¿½ 
     }
 
     protected void Update()
@@ -60,7 +61,7 @@ public abstract class Character : MonoBehaviour
         Vector2Int targetPos = new Vector2Int((int)direction.x, (int)direction.y);
 
         List<Node> path = pathfinder.PathFinding(startPos, targetPos);
-        // Çö À§Ä¡¿¡¼­ ¸ñÀûÁö±îÁö °æ·Î ¹è¿­ È¹µæ
+        // ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½è¿­ È¹ï¿½ï¿½
 
         StartCoroutine(MoveOneGrid());
         
@@ -71,7 +72,7 @@ public abstract class Character : MonoBehaviour
                 Vector3 nextStop = new Vector3(elem.x, elem.y);
                 while(Vector3.Distance(transform.position, nextStop) > 0.001f) 
                 { transform.position = Vector3.MoveTowards(transform.position, nextStop, moveSpeed); yield return null; } 
-            } // °æ·Î¿¡ ÀúÀåµÈ °¢ ³ëµå¸¦ ¼øÈ¯ÇÏ¸ç ÇÑ Ä­¾¿ ÀÌµ¿.
+            } // ï¿½ï¿½Î¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½å¸¦ ï¿½ï¿½È¯ï¿½Ï¸ï¿½ ï¿½ï¿½ Ä­ï¿½ï¿½ ï¿½Ìµï¿½.
         }
     }
 
@@ -107,12 +108,12 @@ public abstract class Character : MonoBehaviour
         onHPEvent.Invoke(previousHP, health);
     }
 
-    // distance, attackRange ºñ±³
+    // distance, attackRange ï¿½ï¿½
     public bool CanAttack(float distance)
     {
         if (distance > attackRange)
         {
-            Debug.Log("°ø°Ý ¹üÀ§ ¹ÛÀÔ´Ï´Ù. °ø°Ý ºÒ°¡.");
+            Debug.Log("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ô´Ï´ï¿½. ï¿½ï¿½ï¿½ï¿½ ï¿½Ò°ï¿½.");
             return false;
         }
 

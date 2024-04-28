@@ -18,6 +18,15 @@ public class Player : MonoBehaviour
     private TextMeshProUGUI textHP;
     [SerializeField]
     private GameObject changeHPtext;
+    
+    // yong ~ 
+    [SerializeField]
+    private TextMeshProUGUI textClass;
+    [SerializeField]
+    private TextMeshProUGUI textATK;
+    [SerializeField]
+    private TextMeshProUGUI textmovement;
+    // ~ yong
 
 
 
@@ -45,7 +54,11 @@ public class Player : MonoBehaviour
         transform.position = character.location;
         character.Init();
         textHP.text = $"{character.Health}";
-
+        // yong
+        textClass.text = $"{character.GetType().Name}";
+        textATK.text = $"{character.AttackDamage}";
+        textmovement.text = $"{character.MoveRange}";
+        // ~yong
         character.onHPEvent.AddListener(UpdateHP);
     }
 
