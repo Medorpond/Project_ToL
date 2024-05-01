@@ -16,7 +16,7 @@ public abstract class Map : MonoBehaviour
 
     protected abstract void Init(); // Map Initialize itself by this Method.
 
-    private void genBuff()
+    private void GenBuff()
     {
 
     }
