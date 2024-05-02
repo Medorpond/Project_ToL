@@ -7,10 +7,6 @@ public abstract class Stage : MonoBehaviour
 {
     protected string stageType;
     protected int stageSize;
-    
-
-    [SerializeField]
-    public GameObject stagePrefab;
 
     protected Node[,] NodeArray; //PreDefine NodeArray for each Stage...
 
