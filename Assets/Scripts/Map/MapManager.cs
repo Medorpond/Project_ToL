@@ -16,20 +16,39 @@ public class MapManager : MonoBehaviour
     private void Awake()
     {
         stageSize = "3x3"; //Predefined for test
-        stageName = "Standard"; //Predefined for test
+        SelectStage();
     }
     private void Start()
     {
-        GameObject prefab = Resources.Load<GameObject>("Prefabs/Map/" + stageSize + "/" +  stageName);
-        if (prefab != null)
+        LoadStage();
+    }
+
+
+    void SelectStage()
+    {
+        if (stageList.TryGetValue(stageSize, out List<string> stages))
         {
-            Instantiate(prefab, new Vector3(-0.5f, -0.5f), Quaternion.identity);
-        }
+            stageName = stages[Random.Range(0, stages.Count)]; 
+        }// Random select
         else
         {
-            Debug.LogError("Failed to load prefab from path: Prefabs/Map/" + stageSize + "/" + stageName);
+            Debug.LogError($"No stages found for size: {stageSize}");
         }
 
     }
 
+    void LoadStage()
+    {
+        string path = $"Prefabs/Map/{stageSize}/{stageName}";
+        GameObject prefab = Resources.Load<GameObject>(path);
+        if (prefab != null) { Instantiate(prefab, new Vector3(-0.5f, -0.5f), Quaternion.identity); }
+        else { Debug.LogError("Failed to load prefab from path: " + path);}
+    }
+
+
+    private Dictionary<string, List<string>> stageList = new Dictionary<string, List<string>>()
+    {
+        {"3x3", new List<string> {"Standard", "Dogbone", "GoAround"}},
+        // Add other sizes and stage names as needed
+    };
 }
