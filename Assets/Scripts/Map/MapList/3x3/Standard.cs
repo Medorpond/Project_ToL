@@ -13,10 +13,9 @@ public class Standard : Stage
         NodeArray = new Node[27, 11];
         NodeInit();
     }
-
-    private void Start()
+    protected override void Start()
     {
-        foreach (Node elem in NodeArray) { if(!elem.isBlocked) LoadTile(elem.x, elem.y); }
+        base.Start();
     }
     void NodeInit()
     {
@@ -31,11 +30,5 @@ public class Standard : Stage
         }
     }
 
-    void LoadTile(int x, int y)
-    {
-        string path = $"Prefabs/Map/Tile";
-        GameObject prefab = Resources.Load<GameObject>(path);
-        if (prefab != null) { Instantiate(prefab, new Vector3(x, y), Quaternion.identity, gameObject.transform).name = $"Tile({x}, {y})"; }
-        else { Debug.LogError("Failed to load prefab from path: " + path); }
-    }
+    
 }
