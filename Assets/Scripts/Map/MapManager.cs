@@ -28,7 +28,8 @@ public class MapManager : MonoBehaviour
     {
         if (stageList.TryGetValue(stageSize, out List<string> stages))
         {
-            stageName = stages[Random.Range(0, stages.Count)]; 
+            //stageName = stages[Random.Range(0, stages.Count)]; 
+            stageName = "Standard"; // Fix Stage for TEST
         }// Random select
         else
         {

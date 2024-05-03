@@ -10,6 +10,6 @@ public abstract class Stage : MonoBehaviour
 
     protected Node[,] NodeArray; //PreDefine NodeArray for each Stage...
 
-    public abstract void Init(); // Map Initialize itself by this Method.
+    //public abstract void Init(); // Map Initialize itself by this Method.
 
 }
