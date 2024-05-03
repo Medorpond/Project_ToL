@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
@@ -49,17 +50,20 @@ public class Player : MonoBehaviour
         character = GetComponentInChildren<Character>();
 
         // username (change)
-        userName.text = $"{character.GetType().Name}";
-
         transform.position = character.location;
         character.Init();
-        textHP.text = $"{character.Health}";
         // yong
+        UpdateUI();
+        // ~yong
+        character.onHPEvent.AddListener(UpdateHP);
+    }
+    private void UpdateUI() // update UI component
+    {
+        userName.text = $"{character.GetType().Name}";
+        textHP.text = $"{character.Health}";
         textClass.text = $"{character.GetType().Name}";
         textATK.text = $"{character.AttackDamage}";
         textmovement.text = $"{character.MoveRange}";
-        // ~yong
-        character.onHPEvent.AddListener(UpdateHP);
     }
 
     public bool TakeDamage(int damage)

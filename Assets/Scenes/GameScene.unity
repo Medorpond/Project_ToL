@@ -215,7 +215,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4001516
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6511,6 +6511,7 @@ MonoBehaviour:
   - {fileID: 483545366580099485, guid: ca499c6632a5a9945b86f2227986ea4f, type: 3}
   - {fileID: 6651413811386304837, guid: 2446a75effe10094b891a5533327f0d7, type: 3}
   DoneBtn: {fileID: 4355290757171214027, guid: 95cde604149bc1240be84c5a66ba2575, type: 3}
+  controller: {fileID: 686408922}
   player: {fileID: 1639206226}
 --- !u!1 &1267142348
 GameObject:
