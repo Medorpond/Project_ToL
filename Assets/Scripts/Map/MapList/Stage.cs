@@ -8,7 +8,7 @@ public abstract class Stage : MonoBehaviour
     protected string stageType;
     protected int stageSize;
 
-    protected Node[,] NodeArray; //PreDefine NodeArray for each Stage...
+    public Node[,] NodeArray; //PreDefine NodeArray for each Stage...
 
     protected virtual void Start()
     {

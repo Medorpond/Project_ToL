@@ -9,6 +9,8 @@ public class MapManager : MonoBehaviour
     private string stageSize;
     private string stageName;
 
+    private Stage stage;
+
     public PathFinder pathfinder;
     #endregion
 
@@ -21,6 +23,8 @@ public class MapManager : MonoBehaviour
     private void Start()
     {
         LoadStage();
+        pathfinder = PathFinder.GetInstance();
+        pathfinder.Init(stage.NodeArray) ;
     }
 
 
@@ -42,7 +46,7 @@ public class MapManager : MonoBehaviour
     {
         string path = $"Prefabs/Map/{stageSize}/{stageName}";
         GameObject prefab = Resources.Load<GameObject>(path);
-        if (prefab != null) { Instantiate(prefab, new Vector3(-0.5f, -0.5f), Quaternion.identity); }
+        if (prefab != null) { stage = Instantiate(prefab, new Vector3(-0.5f, -0.5f), Quaternion.identity).GetComponent<Stage>(); }
         else { Debug.LogError("Failed to load prefab from path: " + path);}
     }
 
