@@ -12,7 +12,7 @@ public enum State
 
 public enum CharacterType
 {
-    tanker, dealer, healer
+    king, tanker, dealer, healer
 }
 
 public class TurnBasedGameManage : MonoBehaviour
@@ -50,13 +50,6 @@ public class TurnBasedGameManage : MonoBehaviour
 
     private void Update()
     {
-
-        //Temp for moving
-        //if (Input.GetKeyDown(KeyCode.W)) player.character.MoveTo(8);
-        //if (Input.GetKeyDown(KeyCode.S)) player.character.MoveTo(2);
-        //if (Input.GetKeyDown(KeyCode.A)) player.character.MoveTo(4);
-        //if (Input.GetKeyDown(KeyCode.D)) player.character.MoveTo(6);
-
         // yong timer text
         if (time_active) {
             time += Time.deltaTime;
@@ -68,8 +61,8 @@ public class TurnBasedGameManage : MonoBehaviour
 
     private void BeforeBattle()
     {
-        SelectHealer();
-        SelectDealer();
+        player.characters.Add(characters[(int)CharacterType.king]);
+        enemy.characters.Add(characters[(int)CharacterType.dealer]);
         BattleStart();
     }
 
@@ -170,6 +163,12 @@ public class TurnBasedGameManage : MonoBehaviour
     // ~ yong
 
     // temp for select Character
+    public void SelectKing()
+    {
+        if (player.character == null) player.SetCharacter(characters[(int)CharacterType.king]);
+        else if (enemy.character == null) enemy.SetCharacter(characters[(int)CharacterType.king]);
+        else return;
+    }
     public void SelectHealer()
     {
         if (player.character == null) player.SetCharacter(characters[(int)CharacterType.healer]);

@@ -70,7 +70,10 @@ MonoBehaviour:
   onHPEvent:
     m_PersistentCalls:
       m_Calls: []
-  location: {x: 9, y: 0.5, z: 0}
+  location: {x: 9, y: 0.5}
+  moveSpeed: 0
+  x: 0
+  y: 0
 --- !u!1 &3195512380077572229
 GameObject:
   m_ObjectHideFlags: 0

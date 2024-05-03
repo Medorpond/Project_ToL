@@ -9,10 +9,8 @@ using JetBrains.Annotations;
 public class GridManager : MonoBehaviour
 {
     [Header("Board Info")]
-    [SerializeField]
-    private int width;
-    [SerializeField]
-    private int height;
+    public int width;
+    public int height;
 
     [SerializeField]
     private MapTile tilePrefab;

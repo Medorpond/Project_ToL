@@ -25,7 +25,9 @@ public abstract class Character : MonoBehaviour
     protected int moveRange;
 
     [SerializeField]
-    protected float moveSpeed;
+    protected float moveSpeed = 0.05f;
+
+    private MousePosition mousePosition;
 
     //Pseudo Coordinate
     public int x;
@@ -39,9 +41,12 @@ public abstract class Character : MonoBehaviour
     public int AttackDamage => attackDamage;
     public int MoveRange => moveRange;
 
+
+
     protected void Start()
     {
         pathfinder = PathFinder.GetInstance(); // ��ã�� �̱��� �ν��Ͻ� 
+        mousePosition = GameObject.Find("TurnBasedGameManage").GetComponent<MousePosition>();
     }
 
     protected void Update()
@@ -51,9 +56,19 @@ public abstract class Character : MonoBehaviour
             destination = new Vector3(x, y); // Pseudo Coordinate.
             MoveTo(destination);
         }
+        
+        /*
+        if (Input.GetMouseButtonDown(0))
+        {
+            if (mousePosition.CheckRange())
+            {
+                destination = mousePosition.SwitchToNode();
+                MoveTo(destination);
+                Debug.Log($"({destination.x}, {destination.y})");
+            }
+        }
+        */
     }
-
-
 
     public void MoveTo(Vector3 direction)
     {
@@ -75,8 +90,6 @@ public abstract class Character : MonoBehaviour
             } // ��ο� ����� �� ��带 ��ȯ�ϸ� �� ĭ�� �̵�.
         }
     }
-
-    
 
     public abstract void Ability();
 
@@ -113,7 +126,7 @@ public abstract class Character : MonoBehaviour
     {
         if (distance > attackRange)
         {
-            Debug.Log("���� ���� ���Դϴ�. ���� �Ұ�.");
+            Debug.Log("Can't Attack. Out of Range.");
             return false;
         }
 

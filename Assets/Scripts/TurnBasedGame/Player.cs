@@ -8,6 +8,7 @@ public class Player : MonoBehaviour
 {
     [HideInInspector]
     public Character character;
+    public List<GameObject> characters;
     [HideInInspector]
     public int kingHP;
 
@@ -34,14 +35,7 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         //SetCharacter();
-        kingHP = character.Health;
-    }
-
-    // temp for Move
-    private void Update()
-    {
-        transform.position = character.location;
-        kingHP = character.Health;
+        kingHP = 10;
     }
 
     public void SetCharacter(GameObject characterClass)
@@ -57,9 +51,9 @@ public class Player : MonoBehaviour
         // ~yong
         character.onHPEvent.AddListener(UpdateHP);
     }
+
     private void UpdateUI() // update UI component
     {
-        userName.text = $"{character.GetType().Name}";
         textHP.text = $"{character.Health}";
         textClass.text = $"{character.GetType().Name}";
         textATK.text = $"{character.AttackDamage}";
