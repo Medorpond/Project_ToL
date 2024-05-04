@@ -26,7 +26,7 @@ public class GridManager : MonoBehaviour
     {
         NodeArray = new NodeStruct.Node[width, height];
         GenerateGrid();
-        pathfinder = PathFinder.GetInstance();
+        //pathfinder = PathFinder.GetInstance();
         //pathfinder.Init(NodeArray);
     }
 

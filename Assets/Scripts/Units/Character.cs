@@ -79,9 +79,7 @@ public abstract class Character : MonoBehaviour
         Vector2Int targetPos = new Vector2Int((int)direction.x, (int)direction.y);
 
         List<Node> path = pathfinder.PathFinding(startPos, targetPos, NodeArray);
-        mapManager.stage.OnMove(startPos, targetPos); // 유닛 관통 방지
-
-        Debug.Log(path.Count);
+        //mapManager.stage.OnMove(startPos, targetPos); // 유닛 관통 방지
 
         StartCoroutine(MoveOneGrid());
         
@@ -90,7 +88,6 @@ public abstract class Character : MonoBehaviour
             foreach (Node elem in path)
             {
                 Vector3 nextStop = new Vector3(elem.x, elem.y);
-                Debug.Log(nextStop);
                 while(Vector3.Distance(transform.position, nextStop) > 0.001f) 
                 { transform.position = Vector3.MoveTowards(transform.position, nextStop, moveSpeed); yield return null; } 
             }

@@ -13,7 +13,6 @@ public class PathFinder
         if (instance == null)
         {
             instance = new PathFinder();
-            Debug.Log("체크포인트");
         }
         return instance;
     }
@@ -31,16 +30,14 @@ public class PathFinder
 
     #region Parameter
     Node StartNode, TargetNode, CurrentNode;
-    Node[,] NodeArray;
     Vector3 restrictBottom, restrictTop;
     List<Node> OpenList, ClosedList;
 
     public List<Node> Path;
     #endregion
 
-    public List<Node> PathFinding(Vector2Int _startPoint, Vector2Int _destination, Node[,] _NodeArray)
+    public List<Node> PathFinding(Vector2Int _startPoint, Vector2Int _destination, Node[,] NodeArray)
     {
-        NodeArray = _NodeArray;
         restrictBottom = new Vector3 (NodeArray[0, 0].x, NodeArray[0, 0].y);
         restrictTop = new Vector3(NodeArray[26, 10].x, NodeArray[26, 10].y);
 
@@ -87,9 +84,7 @@ public class PathFinder
         }
         return Path;
 
-        
-    }
-    void Scan(int _scanX, int _scanY)
+        void Scan(int _scanX, int _scanY)
     {
         if (_scanX < restrictBottom.x || _scanX > restrictTop.x ||
             _scanY < restrictBottom.y || _scanY > restrictTop.y)
@@ -117,6 +112,8 @@ public class PathFinder
             OpenList.Add(OnScanNode);
         }
     }
+    }
+    
 }
 
 
