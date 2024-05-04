@@ -24,7 +24,6 @@ public abstract class Character : MonoBehaviour
     protected int attackRange;
     protected int moveRange;
 
-    [SerializeField]
     protected float moveSpeed = 0.05f;
 
     private MousePosition mousePosition;

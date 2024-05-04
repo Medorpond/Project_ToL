@@ -54,7 +54,6 @@ public class MapManager : MonoBehaviour
             stageName = "Standard"; // Fix Stage for TEST
         }// Random select
         else { Debug.LogError($"No stages found for size: {stageSize}"); }
-
     }
 
     void LoadStage()
