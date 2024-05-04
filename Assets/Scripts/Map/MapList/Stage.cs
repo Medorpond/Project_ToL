@@ -6,9 +6,11 @@ using NodeStruct;
 public abstract class Stage : MonoBehaviour
 {
     protected string stageType;
-    protected int stageSize;
+    protected int stageSize; // Num Of Units can placed
 
     public Node[,] NodeArray; //PreDefine NodeArray for each Stage...
+    public Vector3 restrictBottom;
+    public Vector3 restrictTop;
 
     protected virtual void Start()
     {
@@ -27,4 +29,10 @@ public abstract class Stage : MonoBehaviour
     }
 
     protected abstract void NodeInit();
+
+    public void OnMove(Vector2Int startPos, Vector2Int targetPos)
+    {
+        NodeArray[startPos.x, startPos.y].isBlocked = false;
+        NodeArray[targetPos.x, targetPos.y].isBlocked = true;
+    }
 }

@@ -14,22 +14,16 @@ public class PathFinder
         return instance;
     }
 
-    public void Init(Node[,] _NodeArray)
+    public void Init(Vector3 _restrictBottom, Vector3 _restrictTop)
     {
-        NodeArray = _NodeArray;
-
-        int scaleX = NodeArray.GetLength(0) - 1;
-        int scaleY = NodeArray.GetLength(1) - 1;
-
-        restrictBottom = new Vector2(NodeArray[0, 0].x, NodeArray[0, 0].y); // Start of Map, BottomLeft
-        restrictTop = new Vector2(NodeArray[scaleX, scaleY].x, NodeArray[scaleX, scaleY].y); // End of Map, TopRight
+        restrictBottom = _restrictBottom;
+        restrictTop = _restrictTop;
     }
 
     public static PathFinder Instance { get { return instance; } }
     #endregion
 
     #region Parameter
-    Node[,] NodeArray;
     Node StartNode, TargetNode, CurrentNode;
     Vector2 restrictBottom, restrictTop;
     List<Node> OpenList, ClosedList;
@@ -37,7 +31,7 @@ public class PathFinder
     public List<Node> Path;
     #endregion
 
-    public List<Node> PathFinding(Vector2Int _startPoint, Vector2Int _destination)
+    public List<Node> PathFinding(Vector2Int _startPoint, Vector2Int _destination, Node[,] NodeArray)
     {
         StartNode = NodeArray[_startPoint.x, _startPoint.y];
         TargetNode = NodeArray[_destination.x, _destination.y];
@@ -82,38 +76,38 @@ public class PathFinder
             대각선 비활성... */
         }
         return Path;
-    }
 
-    void Scan(int _scanX, int _scanY)
-    {
-        if (_scanX < restrictBottom.x || _scanX > restrictTop.x ||
-            _scanY < restrictBottom.y || _scanY > restrictTop.y)
-        { return; }// 맵 경계 외부를 탐색할 경우 중단
-
-        Node OnScanNode = NodeArray[_scanX, _scanY];
-
-        if (OnScanNode.isBlocked || ClosedList.Contains(OnScanNode))
-        { return; }// 탐색 대상이 벽이거나 이미 경로에 있으면 중단
-
-        /*
-        if (NodeArray[CurrentNode.x, _scanY].isBlocked ||
-            NodeArray[_scanX, CurrentNode.y].isBlocked)
-        { return; }// 대각선 이동 중 코너를 가로지르게 되는 경우 중단
-        대각선 비활성 */
-
-
-
-        int moveCost = CurrentNode.D + 1; // 대각선을 허용할 경우 => (CurrentNode.x == _scanX || CurrentNode.y == _scanY ? 10 : 14);
-
-        if (!OpenList.Contains(OnScanNode) || moveCost < OnScanNode.D)
+        void Scan(int _scanX, int _scanY)
         {
-            OnScanNode.D = moveCost;
-            OnScanNode.H = (Mathf.Abs(OnScanNode.x - TargetNode.x) + Mathf.Abs(OnScanNode.y - TargetNode.y));
-            OnScanNode.ParentNode = CurrentNode;
+            if (_scanX < restrictBottom.x || _scanX > restrictTop.x ||
+                _scanY < restrictBottom.y || _scanY > restrictTop.y)
+            { return; }// 맵 경계 외부를 탐색할 경우 중단
 
-            OpenList.Add(OnScanNode);
+            Node OnScanNode = NodeArray[_scanX, _scanY];
+
+            if (OnScanNode.isBlocked || ClosedList.Contains(OnScanNode))
+            { return; }// 탐색 대상이 벽이거나 이미 경로에 있으면 중단
+
+            /*
+            if (NodeArray[CurrentNode.x, _scanY].isBlocked ||
+                NodeArray[_scanX, CurrentNode.y].isBlocked)
+            { return; }// 대각선 이동 중 코너를 가로지르게 되는 경우 중단
+            대각선 비활성 */
+
+
+
+            int moveCost = CurrentNode.D + 1; // 대각선을 허용할 경우 => (CurrentNode.x == _scanX || CurrentNode.y == _scanY ? 10 : 14);
+
+            if (!OpenList.Contains(OnScanNode) || moveCost < OnScanNode.D)
+            {
+                OnScanNode.D = moveCost;
+                OnScanNode.H = (Mathf.Abs(OnScanNode.x - TargetNode.x) + Mathf.Abs(OnScanNode.y - TargetNode.y));
+                OnScanNode.ParentNode = CurrentNode;
+
+                OpenList.Add(OnScanNode);
+            }
         }
-    }
+    } 
 }
 
 

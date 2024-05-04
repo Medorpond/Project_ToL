@@ -9,6 +9,8 @@ public class Standard : Stage
     {
         stageType = "Basic";
         stageSize = 3;
+        restrictBottom = new Vector3(0, 0);
+        restrictTop = new Vector3(26, 26);
         NodeArray = new Node[27, 11]; // Dedicated NodeArray
         NodeInit();
     }

@@ -5,11 +5,28 @@ using NodeStruct;
 
 public class MapManager : MonoBehaviour
 {
+    #region Singletone
+    private static MapManager instance;
+
+    public static MapManager GetInstance()
+    {
+        if (instance == null) Debug.LogError("MapManager Yet Initialized");
+        return instance;
+    }
+    
+    void SingletoneInit()
+    {
+        if (instance == null) { instance = this; DontDestroyOnLoad(gameObject); }
+        else { Destroy(gameObject); }
+    }
+    #endregion
+
+
     #region Parameter
     private string stageSize;
     private string stageName;
 
-    private Stage stage;
+    public Stage stage;
 
     public PathFinder pathfinder;
     #endregion
@@ -17,6 +34,7 @@ public class MapManager : MonoBehaviour
 
     private void Awake()
     {
+        SingletoneInit();
         stageSize = "3x3"; //Predefined for test
         SelectStage();
     }
@@ -24,7 +42,7 @@ public class MapManager : MonoBehaviour
     {
         LoadStage();
         pathfinder = PathFinder.GetInstance();
-        pathfinder.Init(stage.NodeArray) ;
+        pathfinder.Init(stage.restrictBottom, stage.restrictTop);
     }
 
 
@@ -35,10 +53,7 @@ public class MapManager : MonoBehaviour
             //stageName = stages[Random.Range(0, stages.Count)]; 
             stageName = "Standard"; // Fix Stage for TEST
         }// Random select
-        else
-        {
-            Debug.LogError($"No stages found for size: {stageSize}");
-        }
+        else { Debug.LogError($"No stages found for size: {stageSize}"); }
 
     }
 
