@@ -5827,6 +5827,8 @@ MonoBehaviour:
   - {fileID: 483545366580099485, guid: ca499c6632a5a9945b86f2227986ea4f, type: 3}
   - {fileID: 6651413811386304837, guid: 2446a75effe10094b891a5533327f0d7, type: 3}
   DoneBtn: {fileID: 4355290757171214027, guid: 95cde604149bc1240be84c5a66ba2575, type: 3}
+  ResetBtn: {fileID: 1091947899221164515, guid: 7d918703fde79e249a8e89916be1772f, type: 3}
+  createtextPrefab: {fileID: 2429209468654028960, guid: fd9103093891c694bb84a85720be1704, type: 3}
   player: {fileID: 1639206226}
 --- !u!114 &1265891515
 MonoBehaviour:

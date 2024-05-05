@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using JetBrains.Annotations;
+using TMPro;
 using Unity.Collections;
 using Unity.VisualScripting;
 using UnityEditor.ProjectWindowCallback;
@@ -9,7 +10,9 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class CreateCharSelect : MonoBehaviour
-{
+{   
+    // for Prefab
+    
     [SerializeField]
     private GameObject[] characters;
     [SerializeField]
@@ -18,14 +21,24 @@ public class CreateCharSelect : MonoBehaviour
     private GameObject DoneBtn; // done button
     [SerializeField]
     private GameObject ResetBtn; // reset button
+    [SerializeField]
+    private GameObject createtextPrefab;
+
+    //
     Vector3 createPoint = new Vector3(0, 100, 0); // first spawn
-    private int x = 0; // + 100
     private int clickCount = 0; // 3 ~ 7 char count
-    List<GameObject> setButtons = new List<GameObject>(); // for destroy
-    List<GameObject> createdBtns = new List<GameObject>(); // for reference
-    GameObject instantiatedDoneBtn; // for destroy
-    GameObject ResetButton;
+    //
+    // for destroy
+    List<GameObject> setButtons = new List<GameObject>(); 
+    private GameObject instantiatedDoneBtn; 
+    private GameObject ResetButton; 
     
+    private GameObject CreatecountObj;
+    private TextMeshProUGUI createCountText;
+    
+    // for destroy
+    
+
     [SerializeField]
     private Player player;
     void Start()
@@ -59,21 +72,30 @@ public class CreateCharSelect : MonoBehaviour
         ResetButton = Instantiate(ResetBtn, Vector3.zero, Quaternion.identity, parentTransform);
         ResetButton.transform.localPosition = createPoint;
 
+        // Reset Button Instantiate
         Button ResetButtonclicked = ResetButton.GetComponent<Button>();
         if (ResetButtonclicked != null)
         {
             ResetButtonclicked.onClick.AddListener(ResetClick);
         }
+        
+        // text Instantiate
+        createPoint = new Vector3 (660, 100, 0);
+        CreatecountObj = Instantiate(createtextPrefab, Vector3.zero, Quaternion.identity, parentTransform);
+        CreatecountObj.transform.localPosition = createPoint;
+        createCountText = CreatecountObj.GetComponent<TextMeshProUGUI>();
     }
 
     void OnButtonClick(int index){ // click 1-level button(choose)
         player.SetCharacter(characters[index]);
 
         clickCount++;      // created 2-level button count
+        UpdateCreateCountText();
         if (clickCount >= 7)    // why 7? size issue
         {
             onDoneButtonClick(); // auto end
         }
+
 
     }
 
@@ -85,9 +107,19 @@ public class CreateCharSelect : MonoBehaviour
                 Destroy(btn);
             }
             Destroy(ResetButton);
+            Destroy(CreatecountObj);
+        }
+    }
+
+    void UpdateCreateCountText()
+    {
+        if (createCountText != null)
+        {
+            createCountText.text = "Create : " + clickCount.ToString();
         }
     }
     void ResetClick()
     {
     }
 }
+
