@@ -31,7 +31,8 @@ public class MousePosition : MonoBehaviour
 
     public Vector3 SwitchToNode()
     {
-        nodePosition = new Vector3((float)System.Math.Truncate(mousePosition.x + 0.5f), (float)System.Math.Truncate(mousePosition.y + 0.5f), 0);
+        //nodePosition = new Vector3((float)System.Math.Truncate(mousePosition.x + 0.5f), (float)System.Math.Truncate(mousePosition.y + 0.5f), 0);
+        nodePosition = mousePosition;
         return nodePosition;
     }
 }
