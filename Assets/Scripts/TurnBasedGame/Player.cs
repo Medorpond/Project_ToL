@@ -96,15 +96,13 @@ public class Player : MonoBehaviour
 
     private void OnMouseDown()
     {
-        /*
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
+        Vector2 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        RaycastHit2D hit = Physics2D.Raycast(pos, Vector2.zero, 0f);
 
-        if (Physics.Raycast(ray, out hit))
+        if (hit.collider != null)
         {
-            Debug.Log(hit.transform.name);
+            GameObject click_obj = hit.transform.gameObject;
+            Debug.Log(click_obj.name);
         }
-        */
-        Debug.Log("Mouse Clicked");
     }
 }

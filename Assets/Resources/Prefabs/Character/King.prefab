@@ -775,10 +775,10 @@ GameObject:
   - component: {fileID: 3805498113224370125}
   - component: {fileID: 890755494593667202}
   - component: {fileID: 7943374899144920423}
-  - component: {fileID: 4748469047968427497}
+  - component: {fileID: 4812803798149721345}
   m_Layer: 0
   m_Name: King
-  m_TagString: Untagged
+  m_TagString: Unit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -838,7 +838,7 @@ MonoBehaviour:
   location: {x: 1, y: 0.5}
   x: 1
   y: 1
---- !u!70 &4748469047968427497
+--- !u!70 &4812803798149721345
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -870,6 +870,6 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.8787301}
-  m_Size: {x: 0.5, y: 1.7478555}
+  m_Offset: {x: 0, y: 0.86003375}
+  m_Size: {x: 0.5, y: 1.7478559}
   m_Direction: 0

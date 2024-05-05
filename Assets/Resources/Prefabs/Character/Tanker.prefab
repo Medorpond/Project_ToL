@@ -265,10 +265,10 @@ GameObject:
   - component: {fileID: 5141452652302281269}
   - component: {fileID: 3616357179535792883}
   - component: {fileID: 6681105368308429391}
-  - component: {fileID: 3913779060865876681}
+  - component: {fileID: 8079630142450442174}
   m_Layer: 0
   m_Name: Tanker
-  m_TagString: Untagged
+  m_TagString: Unit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -328,7 +328,7 @@ MonoBehaviour:
   location: {x: 9, y: 0.5}
   x: 0
   y: 0
---- !u!70 &3913779060865876681
+--- !u!70 &8079630142450442174
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -360,8 +360,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.016852789, y: 0.85527956}
-  m_Size: {x: 0.64605755, y: 1.8847728}
+  m_Offset: {x: -0.023481548, y: 0.84240085}
+  m_Size: {x: 0.664371, y: 1.7396699}
   m_Direction: 0
 --- !u!1 &4196250756755424376
 GameObject:

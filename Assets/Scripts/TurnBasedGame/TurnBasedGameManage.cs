@@ -29,6 +29,8 @@ public class TurnBasedGameManage : MonoBehaviour
     [SerializeField]
     private Player enemy;
 
+    private GameObject selectedUnit;
+
     [SerializeField]
     private TextMeshProUGUI turn;
 
@@ -57,6 +59,35 @@ public class TurnBasedGameManage : MonoBehaviour
             text_time[1].text = ((int)time % 60).ToString();
         }
         // yong
+
+        // check Clicked object
+        // before use enable tile collider
+        /*
+        if (Input.GetMouseButtonDown(0))
+        {
+            Vector2 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            RaycastHit2D hit = Physics2D.Raycast(pos, Vector2.zero, 0f);
+
+            if (hit.transform.gameObject.tag == "Unit")
+            {
+                if (selectedUnit == null)
+                {
+                    selectedUnit = hit.transform.gameObject;
+                    Debug.Log($"Unit Selected : {selectedUnit.name}");
+                }
+
+                else
+                {
+                    Debug.Log($"Unit unselected : {selectedUnit.name}");
+                    selectedUnit = null;
+                }
+            }
+
+            else return;
+            
+        }
+        */
+
     }
 
     private void BeforeBattle()
@@ -76,6 +107,7 @@ public class TurnBasedGameManage : MonoBehaviour
     {
         // attack only at player Turn
         if (state != State.playerTurn) return;
+        //if (selectedUnit == null) return;
         else StartCoroutine("Attack");
     }
 
