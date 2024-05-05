@@ -19,7 +19,7 @@ public class GridManager : MonoBehaviour
     private Camera camera;
 
     private NodeStruct.Node[,] NodeArray;
-    public PathFinder pathfinder;
+    //public PathFinder pathfinder;
 
 
     private void Start()

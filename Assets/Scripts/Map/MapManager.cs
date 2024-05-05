@@ -27,8 +27,6 @@ public class MapManager : MonoBehaviour
     private string stageName;
 
     public Stage stage;
-
-    public PathFinder pathfinder;
     #endregion
 
 
@@ -41,8 +39,6 @@ public class MapManager : MonoBehaviour
     private void Start()
     {
         LoadStage();
-        pathfinder = PathFinder.GetInstance();
-        pathfinder.Init(stage.restrictBottom, stage.restrictTop);
     }
 
 

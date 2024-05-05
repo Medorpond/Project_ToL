@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using NodeStruct;
+using UnityEngine.Rendering;
 
 public abstract class Stage : MonoBehaviour
 {
@@ -29,6 +30,75 @@ public abstract class Stage : MonoBehaviour
     }
 
     protected abstract void NodeInit();
+
+    public List<Node> Pathfinding(Vector2Int startPos, Vector2Int targetPos)
+    {
+        Node[,] Field = NodeArray;
+
+        Node StartNode = Field[startPos.x, startPos.y];
+        Node TargetNode = Field[targetPos.x, targetPos.y];
+        Node CurrentNode;
+
+        List<Node> OpenList = new List<Node>() { StartNode };
+        List<Node> ClosedList = new List<Node>();
+        List<Node> Path = new List<Node>();
+
+        while (OpenList.Count > 0)
+        {
+            CurrentNode = OpenList[0];
+            for (int i = 1; i < OpenList.Count; i++)
+            {
+                if (OpenList[i].W <= CurrentNode.W && OpenList[i].H < CurrentNode.H)
+                { CurrentNode = OpenList[i]; }
+            }
+
+            OpenList.Remove(CurrentNode);
+            ClosedList.Add(CurrentNode);
+
+            if (CurrentNode == TargetNode)
+            {
+                Node MileStone = TargetNode;
+                while (MileStone != StartNode)
+                {
+                    Path.Add(MileStone);
+                    MileStone = MileStone.ParentNode;
+                }
+                Path.Reverse();
+                OpenList.Clear();
+                continue;
+            }
+
+            Scan(CurrentNode.x, CurrentNode.y + 1);
+            Scan(CurrentNode.x, CurrentNode.y - 1);
+            Scan(CurrentNode.x - 1, CurrentNode.y);
+            Scan(CurrentNode.x + 1, CurrentNode.y);
+        }
+        return Path;
+
+        void Scan(int scanX, int scanY)
+        {
+            if (scanX < restrictBottom.x || scanX > restrictTop.x 
+                ||scanY < restrictBottom.y || scanY > restrictTop.y)
+            { return; }// 맵 경계 외부를 탐색할 경우 중단
+
+            Node ScanNode = Field[scanX, scanY];
+
+            if(ScanNode.isBlocked || ClosedList.Contains(ScanNode)) { return; }
+
+            int moveCost = CurrentNode.D + 1;
+
+            if( moveCost < ScanNode.D || !OpenList.Contains(ScanNode) )
+            {
+                ScanNode.D = moveCost;
+                ScanNode.H
+                    = (Mathf.Abs(ScanNode.x - TargetNode.x) + Mathf.Abs(ScanNode.y - TargetNode.y));
+                ScanNode.ParentNode = CurrentNode;
+
+                OpenList.Add(ScanNode);
+            }
+        }
+    }
+
 
     public void OnMove(Vector2Int startPos, Vector2Int targetPos)
     {
