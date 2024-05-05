@@ -10880,6 +10880,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 25144330}
     - target: {fileID: 9004290357578269197, guid: 24cf45983087c2a46a364edeb1c87e5b, type: 3}
+      propertyPath: kingUnit
+      value: 
+      objectReference: {fileID: 7640578927759556569, guid: 3737b8b955841dc4fae6ba86a51f876c, type: 3}
+    - target: {fileID: 9004290357578269197, guid: 24cf45983087c2a46a364edeb1c87e5b, type: 3}
       propertyPath: userName
       value: 
       objectReference: {fileID: 1176810127}
@@ -10895,6 +10899,22 @@ PrefabInstance:
       propertyPath: characterClass
       value: 
       objectReference: {fileID: 8090110064924515552, guid: c82d1099e05e7d64b960fb75cb3201e9, type: 3}
+    - target: {fileID: 9004290357578269197, guid: 24cf45983087c2a46a364edeb1c87e5b, type: 3}
+      propertyPath: kingPosition.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9004290357578269197, guid: 24cf45983087c2a46a364edeb1c87e5b, type: 3}
+      propertyPath: kingPosition.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9004290357578269197, guid: 24cf45983087c2a46a364edeb1c87e5b, type: 3}
+      propertyPath: kingSpawnPoint.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9004290357578269197, guid: 24cf45983087c2a46a364edeb1c87e5b, type: 3}
+      propertyPath: kingSpawnPoint.y
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9049692166548375154, guid: 24cf45983087c2a46a364edeb1c87e5b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -10961,6 +10981,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 958645461}
     - target: {fileID: 1061012605063674845, guid: 2e0b88aa6a1bc934e87c6ae99d4a8ccc, type: 3}
+      propertyPath: kingUnit
+      value: 
+      objectReference: {fileID: 7640578927759556569, guid: 3737b8b955841dc4fae6ba86a51f876c, type: 3}
+    - target: {fileID: 1061012605063674845, guid: 2e0b88aa6a1bc934e87c6ae99d4a8ccc, type: 3}
       propertyPath: userName
       value: 
       objectReference: {fileID: 2042087720}
@@ -10972,6 +10996,22 @@ PrefabInstance:
       propertyPath: textmovement
       value: 
       objectReference: {fileID: 756473949}
+    - target: {fileID: 1061012605063674845, guid: 2e0b88aa6a1bc934e87c6ae99d4a8ccc, type: 3}
+      propertyPath: kingPosition.x
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1061012605063674845, guid: 2e0b88aa6a1bc934e87c6ae99d4a8ccc, type: 3}
+      propertyPath: kingPosition.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1061012605063674845, guid: 2e0b88aa6a1bc934e87c6ae99d4a8ccc, type: 3}
+      propertyPath: kingSpawnPoint.x
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1061012605063674845, guid: 2e0b88aa6a1bc934e87c6ae99d4a8ccc, type: 3}
+      propertyPath: kingSpawnPoint.y
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7516802316034090282, guid: 2e0b88aa6a1bc934e87c6ae99d4a8ccc, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

@@ -6,11 +6,9 @@ using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
-    [HideInInspector]
-    public Character character;
+
     public List<GameObject> characters;
-    [HideInInspector]
-    public int kingHP;
+    public Character kingCharacter;
 
     [SerializeField]
     private TextMeshProUGUI userName;
@@ -31,38 +29,50 @@ public class Player : MonoBehaviour
     // ~ yong
 
 
+    // temp for king unit
+    [SerializeField]
+    private GameObject kingUnit;
+    [SerializeField]
+    private Vector2 kingSpawnPoint;
+
 
     private void Awake()
     {
-        //SetCharacter();
-        kingHP = 10;
+        GameObject king = Instantiate(kingUnit, transform);
+        characters.Add(king);
+
+        kingCharacter = characters[0].GetComponentInChildren<Character>();
+        kingCharacter.Init();
+        king.transform.position = kingSpawnPoint;
+        kingCharacter.onHPEvent.AddListener(UpdateHP);
+
+        UpdateUI();
     }
 
     public void SetCharacter(GameObject characterClass)
     {
-        Instantiate(characterClass, transform);
-        character = GetComponentInChildren<Character>();
+        GameObject newCharacter = Instantiate(characterClass, transform);
+        characters.Add(newCharacter);
+        newCharacter.GetComponentInChildren<Character>().Init();
 
-        // username (change)
-        transform.position = character.location;
-        character.Init();
         // yong
-        UpdateUI();
+        // UpdateUI();
         // ~yong
-        character.onHPEvent.AddListener(UpdateHP);
     }
 
     private void UpdateUI() // update UI component
     {
-        textHP.text = $"{character.Health}";
-        textClass.text = $"{character.GetType().Name}";
-        textATK.text = $"{character.AttackDamage}";
-        textmovement.text = $"{character.MoveRange}";
+        textHP.text = $"{kingCharacter.Health}";
+        textClass.text = $"{kingCharacter.GetType().Name}";
+        textATK.text = $"{kingCharacter.AttackDamage}";
+        textmovement.text = $"{kingCharacter.MoveRange}";
     }
 
     public bool TakeDamage(int damage)
     {
-        return character.DecreaseHP(damage);
+        //return characters[index].GetComponentInChildren<Character>().DecreaseHP(damage);
+
+        return kingCharacter.DecreaseHP(damage);
     }
 
     private void UpdateHP(int previousHP, int currentHP)
@@ -76,5 +86,11 @@ public class Player : MonoBehaviour
         }
 
         textHP.text = $"{currentHP}";
+    }
+
+    public bool IsKingLive()
+    {
+        if (kingCharacter.Health > 0) return true;
+        else return false;
     }
 }

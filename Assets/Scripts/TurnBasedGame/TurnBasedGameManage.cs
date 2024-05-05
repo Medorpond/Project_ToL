@@ -5,14 +5,14 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public enum State
-{
-    start, playerTurn, enemyTurn, win, lose
-}
-
 public enum CharacterType
 {
     king, tanker, dealer, healer
+}
+
+public enum State
+{
+    start, playerTurn, enemyTurn, win, lose
 }
 
 public class TurnBasedGameManage : MonoBehaviour
@@ -61,8 +61,8 @@ public class TurnBasedGameManage : MonoBehaviour
 
     private void BeforeBattle()
     {
-        player.characters.Add(characters[(int)CharacterType.king]);
-        enemy.characters.Add(characters[(int)CharacterType.dealer]);
+        // before battle
+
         BattleStart();
     }
 
@@ -93,10 +93,11 @@ public class TurnBasedGameManage : MonoBehaviour
     private IEnumerator Attack()
     {
         // can attack only at attackRange
-        if (enemy.character.CanAttack(Vector2.Distance(enemy.character.location, player.character.location)))
+        if (enemy.kingCharacter.CanAttack(Vector2.Distance(enemy.kingCharacter.location, player.kingCharacter.location)))
         {
             // get Enemy state
-            isEnemyLive = enemy.TakeDamage(player.character.AttackDamage);
+            enemy.TakeDamage(player.kingCharacter.AttackDamage);
+            isEnemyLive = enemy.IsKingLive();
         }
 
         // enemy Die = Player Win
@@ -113,9 +114,9 @@ public class TurnBasedGameManage : MonoBehaviour
 
     public void HealButton()
     {
+        // didn't work
         // player Turn
         if (state != State.playerTurn) return;
-        player.character.Ability();
     }
 
     private void EndBattle()
@@ -133,9 +134,12 @@ public class TurnBasedGameManage : MonoBehaviour
 
         yield return new WaitForSeconds(1.5f);
 
-        if (enemy.character.CanAttack(Vector2.Distance(enemy.character.location, player.character.location)))
-            //get Player state
-            isPlayerLive = player.TakeDamage(enemy.character.AttackDamage);
+        if (enemy.kingCharacter.CanAttack(Vector2.Distance(enemy.kingCharacter.location, player.kingCharacter.location)))
+        //get Player state
+        {
+            player.TakeDamage(enemy.kingCharacter.AttackDamage);
+            isPlayerLive = player.IsKingLive();
+        }
 
         // player Live
         if (isPlayerLive)
@@ -162,29 +166,4 @@ public class TurnBasedGameManage : MonoBehaviour
     }
     // ~ yong
 
-    // temp for select Character
-    public void SelectKing()
-    {
-        if (player.character == null) player.SetCharacter(characters[(int)CharacterType.king]);
-        else if (enemy.character == null) enemy.SetCharacter(characters[(int)CharacterType.king]);
-        else return;
-    }
-    public void SelectHealer()
-    {
-        if (player.character == null) player.SetCharacter(characters[(int)CharacterType.healer]);
-        else if (enemy.character == null) enemy.SetCharacter(characters[(int)CharacterType.healer]);
-        else return;
-    }
-    public void SelectDealer()
-    {
-        if (player.character == null) player.SetCharacter(characters[(int)CharacterType.dealer]);
-        else if (enemy.character == null) enemy.SetCharacter(characters[(int)CharacterType.dealer]);
-        else return;
-    }
-    public void SelectTanker()
-    {
-        if (player.character == null) player.SetCharacter(characters[(int)CharacterType.tanker]);
-        else if (enemy.character == null) enemy.SetCharacter(characters[(int)CharacterType.tanker]);
-        else return;
-    }
 }
