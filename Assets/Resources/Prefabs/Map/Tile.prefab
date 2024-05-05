@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 3276693159427833889}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -1.0947671, y: -0.5083155, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 3328581043700673757}
   - component: {fileID: 1727828658327589546}
   - component: {fileID: 3120557806757986809}
-  - component: {fileID: 4991795737558218006}
+  - component: {fileID: 2930177558614809403}
   m_Layer: 0
   m_Name: Tile
   m_TagString: Untagged
@@ -184,7 +184,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   highlight: {fileID: 3276693159427833889}
---- !u!61 &4991795737558218006
+--- !u!61 &2930177558614809403
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
