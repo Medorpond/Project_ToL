@@ -10790,7 +10790,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9004290357578269197, guid: 24cf45983087c2a46a364edeb1c87e5b, type: 3}
       propertyPath: kingSpawnPoint.x
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 9004290357578269197, guid: 24cf45983087c2a46a364edeb1c87e5b, type: 3}
       propertyPath: kingSpawnPoint.y
@@ -10887,11 +10887,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1061012605063674845, guid: 2e0b88aa6a1bc934e87c6ae99d4a8ccc, type: 3}
       propertyPath: kingSpawnPoint.x
-      value: 5
+      value: 24
       objectReference: {fileID: 0}
     - target: {fileID: 1061012605063674845, guid: 2e0b88aa6a1bc934e87c6ae99d4a8ccc, type: 3}
       propertyPath: kingSpawnPoint.y
-      value: 1
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7516802316034090282, guid: 2e0b88aa6a1bc934e87c6ae99d4a8ccc, type: 3}
       propertyPath: m_LocalPosition.x

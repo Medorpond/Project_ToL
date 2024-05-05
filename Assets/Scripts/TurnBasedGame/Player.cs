@@ -93,4 +93,18 @@ public class Player : MonoBehaviour
         if (kingCharacter.Health > 0) return true;
         else return false;
     }
+
+    private void OnMouseDown()
+    {
+        /*
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit))
+        {
+            Debug.Log(hit.transform.name);
+        }
+        */
+        Debug.Log("Mouse Clicked");
+    }
 }
