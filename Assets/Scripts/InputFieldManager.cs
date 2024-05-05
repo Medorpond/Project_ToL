@@ -7,15 +7,10 @@ public class InputFieldManager : MonoBehaviour
 {
     public TMP_InputField inputID;
     public TMP_InputField inputPW;
-    public CognitoManager cognitoManager;
+    public ApiGatewayManager apigatewaymanager;
 
     public void SendData()
     {
-        if (cognitoManager != null)
-        {
-            cognitoManager.GetID(inputID.text);
-            cognitoManager.GetPW(inputPW.text);
-            cognitoManager.SignIn();
-        }
+        
     }
 }
