@@ -7,11 +7,22 @@ using UnityEngine;
 
 public class ApiGatewayManager : MonoBehaviour
 {
-    private string _apiGatewayUrl = "https://v7j5jso2w3.execute-api.ap-northeast-2.amazonaws.com/prod/testres";
+    private string _apiGatewayUrl = "https://zzjkwpmtzb.execute-api.ap-northeast-2.amazonaws.com/prod/cognito_api";
     private string _username = "username";
     private string _password = "password";
     private string _email = "stcwh@naver.com";
+    private string _apiKey = "z5ZZGN6bUF6jZxE6Bg77c2fxRQSv9iuN4HjFqlbc"; // API Ű
 
+
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Debug.Log("GO");
+            Register();
+        }
+    }
     // Call this method to register a new user
     private async void Register()
     {
@@ -29,6 +40,7 @@ public class ApiGatewayManager : MonoBehaviour
             // Send the registration request to API Gateway
             using (var client = new HttpClient())
             {
+                client.DefaultRequestHeaders.Add("x-api-key", _apiKey);
                 var response = await client.PostAsync(_apiGatewayUrl + "/register", content);
 
                 if (response.IsSuccessStatusCode)
@@ -47,7 +59,7 @@ public class ApiGatewayManager : MonoBehaviour
             Debug.LogError("Registration error: " + e.Message);
         }
     }
-
+    
     // Call this method to confirm user registration with confirmation code
     private async void ConfirmRegistration(string confirmationCode)
     {
@@ -119,4 +131,5 @@ public class ApiGatewayManager : MonoBehaviour
             Debug.LogError("Login error: " + e.Message);
         }
     }
+    
 }
