@@ -89,6 +89,7 @@ public abstract class Character : MonoBehaviour
                 while(Vector3.Distance(transform.position, nextStop) > 0.001f) 
                 { transform.position = Vector3.MoveTowards(transform.position, nextStop, moveSpeed); yield return null; } 
             }
+            transform.position = direction;
         }
     }
 
