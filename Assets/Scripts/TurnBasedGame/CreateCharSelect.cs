@@ -6,6 +6,7 @@ using TMPro;
 using Unity.Collections;
 using Unity.VisualScripting;
 using UnityEditor.ProjectWindowCallback;
+using UnityEditor.U2D.Aseprite;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -25,7 +26,7 @@ public class CreateCharSelect : MonoBehaviour
     private GameObject createtextPrefab;
 
     //
-    Vector3 createPoint = new Vector3(0, 100, 0); // first spawn
+    Vector3 createPoint; // first spawn
     private int clickCount = 0; // 3 ~ 7 char count
     //
     // for destroy
@@ -36,6 +37,7 @@ public class CreateCharSelect : MonoBehaviour
     private GameObject CreatecountObj;
     private TextMeshProUGUI createCountText;
     
+    private GameObject playerObject;
     // for destroy
     
 
@@ -43,6 +45,9 @@ public class CreateCharSelect : MonoBehaviour
     private Player player;
     void Start()
     {
+        playerObject = GameObject.Find("Player");
+
+        createPoint = new Vector3(0, 100, 0);
         Transform parentTransform = GameObject.Find("SelectChar").transform; // sub SelectChar
         for(int i = 0; i < CharBtn.Length; i++) // create 1 level button(choose button)
         {
@@ -95,19 +100,11 @@ public class CreateCharSelect : MonoBehaviour
         {
             onDoneButtonClick(); // auto end
         }
-
-
     }
 
     void onDoneButtonClick(){ // click end 
         if (clickCount >= 3 ){      // created at least 3
-            Destroy(instantiatedDoneBtn); // destroy end button
-            foreach(GameObject btn in setButtons) // destroy 1-level button
-            {
-                Destroy(btn);
-            }
-            Destroy(ResetButton);
-            Destroy(CreatecountObj);
+            DestoryComponent();
         }
     }
 
@@ -120,6 +117,45 @@ public class CreateCharSelect : MonoBehaviour
     }
     void ResetClick()
     {
+        if(playerObject != null)
+        {
+            Transform[] children = playerObject.GetComponentsInChildren<Transform>();
+
+            foreach(Transform child in children)
+            {
+                if (child != playerObject.transform && child.name != "King(Clone)" && !IsDescendantOfKing(child))
+                {
+                    Destroy(child.gameObject);
+                }
+            }
+        }
+        DestoryComponent();
+        clickCount = 0;
+        Start();
+    }
+    private bool IsDescendantOfKing(Transform child)
+    {
+        Transform parent = child.parent;
+        while(parent != null)
+        {
+            if(parent.name == "King(Clone)")
+            {
+                return true;
+            }
+            parent = parent.parent;
+        }
+        return false;
+    }
+
+    private void DestoryComponent()
+    {
+        Destroy(instantiatedDoneBtn);
+            foreach(GameObject btn in setButtons)
+            {
+                Destroy(btn);
+            }
+        Destroy(ResetButton);
+        Destroy(CreatecountObj);
     }
 }
 
