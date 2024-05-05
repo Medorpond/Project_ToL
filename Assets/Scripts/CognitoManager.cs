@@ -20,6 +20,8 @@ public class CognitoManager : MonoBehaviour
     private string _password = "password";
     private string _email = "stcwh@naver.com";
 
+    private string _token;
+
     private AmazonCognitoIdentityProviderClient _client;
 
     private void Start()
@@ -87,7 +89,7 @@ public class CognitoManager : MonoBehaviour
     {
         InitiateAuthRequest request = new InitiateAuthRequest
         {
-            AuthFlow = AuthFlowType.USER_PASSWORD_AUTH,
+            AuthFlow = AuthFlowType.USER_PASSWORD_AUTH, //USER_PASSWORD_AUTH,
             ClientId = _clientId,
             AuthParameters = new Dictionary<string, string>
             {
@@ -99,7 +101,8 @@ public class CognitoManager : MonoBehaviour
         try
         {
             InitiateAuthResponse response = await _client.InitiateAuthAsync(request);
-            Debug.Log("Sign in successful. Access token: " + response.AuthenticationResult.AccessToken);
+            _token = response.AuthenticationResult.AccessToken;
+            Debug.Log("Sign in successful. Access token: " + _token);
         }
         catch (Exception e)
         {
