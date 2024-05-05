@@ -20,4 +20,7 @@ public class MainMenuScripts : MonoBehaviour
         Application.Quit();
 #endif
     }
+    public void OnClickSign_Out(){
+        SceneManager.LoadScene("FirstScene");
+    }
 }
