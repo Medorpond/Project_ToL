@@ -34,7 +34,6 @@ public abstract class Character : MonoBehaviour
     private Vector3 destination;
 
     #region Singletone Instances
-    protected PathFinder pathfinder;
     protected MapManager mapManager;
     #endregion
 
@@ -48,7 +47,6 @@ public abstract class Character : MonoBehaviour
     protected void Start()
     {
         mapManager = MapManager.GetInstance();
-        pathfinder = PathFinder.GetInstance();
         mousePosition = GameObject.Find("TurnBasedGameManage").GetComponent<MousePosition>();
     }
 
@@ -78,7 +76,7 @@ public abstract class Character : MonoBehaviour
         Vector2Int startPos = new Vector2Int((int)transform.position.x, (int)transform.position.y);
         Vector2Int targetPos = new Vector2Int((int)direction.x, (int)direction.y);
 
-        List<Node> path = pathfinder.PathFinding(startPos, targetPos, NodeArray);
+        List<Node> path = mapManager.stage.Pathfinding(startPos, targetPos);
         //mapManager.stage.OnMove(startPos, targetPos); // 유닛 관통 방지
 
         StartCoroutine(MoveOneGrid());
@@ -124,7 +122,6 @@ public abstract class Character : MonoBehaviour
         onHPEvent.Invoke(previousHP, health);
     }
 
-    // distance, attackRange ��
     public bool CanAttack(float distance)
     {
         if (distance > attackRange)
