@@ -3,9 +3,16 @@ using Amazon.CognitoIdentityProvider;
 using Amazon.CognitoIdentityProvider.Model;
 using System;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class CognitoManager : MonoBehaviour
 {
+    #region The REGION
+    public void GetID(string value) { _username = value; Debug.Log(_username); }
+    public void GetPW(string value) { _password = value; Debug.Log(_password); }
+
+    #endregion
+
     // Set your AWS region
     private string _region = "ap-northeast-2";
 
