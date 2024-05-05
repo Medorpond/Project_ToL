@@ -58,15 +58,12 @@ public abstract class Character : MonoBehaviour
             MoveTo(destination, mapManager.stage.NodeArray);
         }
         
+        // need to change switchToNode
         /*
         if (Input.GetMouseButtonDown(0))
         {
-            if (mousePosition.CheckRange())
-            {
-                destination = mousePosition.SwitchToNode();
-                MoveTo(destination);
-                Debug.Log($"({destination.x}, {destination.y})");
-            }
+            destination = mousePosition.SwitchToNode();
+            MoveTo(destination, mapManager.stage.NodeArray);
         }
         */
     }
