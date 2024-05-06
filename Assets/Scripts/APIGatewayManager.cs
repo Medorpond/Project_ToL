@@ -8,11 +8,10 @@ using UnityEngine;
 public class ApiGatewayManager : MonoBehaviour
 {
     private string _apiGatewayUrl = "https://zzjkwpmtzb.execute-api.ap-northeast-2.amazonaws.com/prod/cognito_api";
-    private string _username = "username";
-    private string _password = "password";
-    private string _email = "stcwh@naver.com";
-    private string _apiKey = "z5ZZGN6bUF6jZxE6Bg77c2fxRQSv9iuN4HjFqlbc"; // API Ű
-
+    private string _username = "testuser1";
+    private string _password = "testpw1";
+    private string _email = "jjangj11@kau.kr";
+    
 
 
     private void Update()
@@ -40,8 +39,8 @@ public class ApiGatewayManager : MonoBehaviour
             // Send the registration request to API Gateway
             using (var client = new HttpClient())
             {
-                client.DefaultRequestHeaders.Add("x-api-key", _apiKey);
-                var response = await client.PostAsync(_apiGatewayUrl + "/register", content);
+                
+                var response = await client.PostAsync(_apiGatewayUrl, content);
 
                 if (response.IsSuccessStatusCode)
                 {
