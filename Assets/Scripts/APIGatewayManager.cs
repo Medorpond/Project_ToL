@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using Newtonsoft.Json;
 
 public class ApiGatewayManager : MonoBehaviour
 {
@@ -34,7 +35,10 @@ public class ApiGatewayManager : MonoBehaviour
                 { "password", _password },
                 { "email", _email }
             };
-            var content = new StringContent(JsonUtility.ToJson(requestData), Encoding.UTF8, "application/json");
+
+            var json = JsonConvert.SerializeObject(requestData);
+            
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
 
             // Send the registration request to API Gateway
             using (var client = new HttpClient())
