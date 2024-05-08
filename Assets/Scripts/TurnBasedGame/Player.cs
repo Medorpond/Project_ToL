@@ -57,9 +57,6 @@ public class Player : MonoBehaviour
         characters.Add(newCharacter);
         newCharacter.GetComponentInChildren<Character>().Init();
 
-        // yong
-        // UpdateUI();
-        // ~yong
     }
 
     private void UpdateUI() // update UI component
