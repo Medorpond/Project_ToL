@@ -36,6 +36,8 @@ public class Player : MonoBehaviour
     private Vector2 kingSpawnPoint;
 
 
+
+    // at first add king unit
     private void Awake()
     {
         GameObject king = Instantiate(kingUnit, transform);
@@ -104,5 +106,15 @@ public class Player : MonoBehaviour
             GameObject click_obj = hit.transform.gameObject;
             Debug.Log(click_obj.name);
         }
+    }
+
+    public int GetIndex(GameObject selectedUnit)
+    {   
+        for (int i = 0; i < characters.Count; i++)
+        {
+            if (characters[i] == selectedUnit) return i;
+        }
+
+        return -1;
     }
 }

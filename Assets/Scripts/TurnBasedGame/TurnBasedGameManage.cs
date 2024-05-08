@@ -30,6 +30,8 @@ public class TurnBasedGameManage : MonoBehaviour
     private Player enemy;
 
     private GameObject selectedUnit;
+    private Character selectedCharacter;
+    //private int unitIndex = -1;
 
     [SerializeField]
     private TextMeshProUGUI turn;
@@ -60,34 +62,35 @@ public class TurnBasedGameManage : MonoBehaviour
         }
         // yong
 
-        // check Clicked object
+        // check Clicked object only At player turn
         // before use enable tile collider
-        /*
-        if (Input.GetMouseButtonDown(0))
+        if (state == State.playerTurn)
         {
-            Vector2 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            RaycastHit2D hit = Physics2D.Raycast(pos, Vector2.zero, 0f);
-
-            if (hit.transform.gameObject.tag == "Unit")
+            if (Input.GetMouseButtonDown(0))
             {
-                if (selectedUnit == null)
-                {
-                    selectedUnit = hit.transform.gameObject;
-                    Debug.Log($"Unit Selected : {selectedUnit.name}");
-                }
+                Vector2 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                RaycastHit2D hit = Physics2D.Raycast(pos, Vector2.zero, 0f);
 
-                else
+                if (hit.transform == null) return;
+
+                if (hit.transform.gameObject.tag == "Unit")
                 {
-                    Debug.Log($"Unit unselected : {selectedUnit.name}");
-                    selectedUnit = null;
+                    if (selectedUnit == null)
+                    {
+                        selectedUnit = hit.transform.gameObject;
+                        selectedCharacter = player.characters[player.GetIndex(selectedUnit)].GetComponentInChildren<Character>();
+                        Debug.Log($"Unit Selected : {selectedUnit.name}");
+                    }
+
+                    else
+                    {
+                        Debug.Log($"Unit unselected : {selectedUnit.name}");
+                        selectedUnit = null;
+                        selectedCharacter = null;
+                    }
                 }
             }
-
-            else return;
-            
         }
-        */
-
     }
 
     private void BeforeBattle()
@@ -105,9 +108,8 @@ public class TurnBasedGameManage : MonoBehaviour
 
     public void AttackButton()
     {
-        // attack only at player Turn
-        if (state != State.playerTurn) return;
-        //if (selectedUnit == null) return;
+        // attack only at player Turn, can attack only when chararcter selected
+        if (state != State.playerTurn || selectedUnit == null) return;
         else StartCoroutine("Attack");
     }
 
@@ -117,6 +119,10 @@ public class TurnBasedGameManage : MonoBehaviour
         if (state != State.playerTurn) return;
         else
         {
+            // at enemy turn deactivate selected unit
+            selectedUnit = null;
+            selectedCharacter = null;
+            
             state = State.enemyTurn;
             StartCoroutine("EnemyTurn");
         }
@@ -125,10 +131,10 @@ public class TurnBasedGameManage : MonoBehaviour
     private IEnumerator Attack()
     {
         // can attack only at attackRange
-        if (enemy.kingCharacter.CanAttack(Vector2.Distance(enemy.kingCharacter.location, player.kingCharacter.location)))
+        if (selectedCharacter.CanAttack(Vector2.Distance(enemy.kingCharacter.location, selectedCharacter.location)))
         {
             // get Enemy state
-            enemy.TakeDamage(player.kingCharacter.AttackDamage);
+            enemy.TakeDamage(selectedCharacter.AttackDamage);
             isEnemyLive = enemy.IsKingLive();
         }
 
@@ -151,6 +157,14 @@ public class TurnBasedGameManage : MonoBehaviour
         if (state != State.playerTurn) return;
     }
 
+    public void MoveButton()
+    {
+        if (state != State.playerTurn || selectedUnit == null) return;
+        selectedCharacter.canMove = true;
+
+        // will add move turn count and move range
+    }
+
     private void EndBattle()
     {
         turn.text = "BATTLE END";
@@ -160,6 +174,7 @@ public class TurnBasedGameManage : MonoBehaviour
         // yong
     }
 
+    // only attack my king
     private IEnumerator EnemyTurn()
     {
         turn.text = "ENEMY TURN";
@@ -197,5 +212,4 @@ public class TurnBasedGameManage : MonoBehaviour
         LoadingSceneController.LoadScene("MainScene");
     }
     // ~ yong
-
 }

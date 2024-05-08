@@ -32,6 +32,7 @@ public abstract class Character : MonoBehaviour
     public int x;
     public int y;
     private Vector3 destination;
+    public bool canMove;
 
     #region Singletone Instances
     protected MapManager mapManager;
@@ -48,24 +49,31 @@ public abstract class Character : MonoBehaviour
     {
         mapManager = MapManager.GetInstance();
         mousePosition = GameObject.Find("TurnBasedGameManage").GetComponent<MousePosition>();
+        canMove = false;
     }
 
     protected void Update()
     {
+        location = transform.position;
+        /*
         if (Input.GetKeyDown(KeyCode.Space))
         {
             destination = new Vector3(x, y); // Pseudo Coordinate.
             MoveTo(destination, mapManager.stage.NodeArray);
         }
-        
-        // need to change switchToNode
-        /*
-        if (Input.GetMouseButtonDown(0))
-        {
-            destination = mousePosition.SwitchToNode();
-            MoveTo(destination, mapManager.stage.NodeArray);
-        }
         */
+
+        // need to change switchToNode
+        if (canMove)
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                destination = mousePosition.SwitchToNode();
+                MoveTo(destination, mapManager.stage.NodeArray);
+                // can move only Once
+                canMove = false;
+            }
+        }
     }
 
     public void MoveTo(Vector3 direction, Node[,] NodeArray)

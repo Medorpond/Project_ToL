@@ -10,7 +10,7 @@ public class Tile : MonoBehaviour
 
     private void Awake()
     {
-        //gameObject.GetComponent<BoxCollider2D>().enabled = false;
+        gameObject.GetComponent<BoxCollider2D>().enabled = false;
     }
 
     private void OnMouseEnter()
@@ -21,5 +21,10 @@ public class Tile : MonoBehaviour
     private void OnMouseExit()
     {
         highlight.SetActive(false);
+    }
+
+    public void MoveButtonClicked()
+    {
+        gameObject.GetComponent<BoxCollider2D>().enabled = false;
     }
 }
