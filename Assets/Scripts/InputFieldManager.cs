@@ -9,6 +9,7 @@ public class InputFieldManager : MonoBehaviour
     public TMP_InputField inputPW;
     public ApiGatewayManager apigatewaymanager;
 
+
     public void SendData()
     {
         
