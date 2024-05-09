@@ -44,6 +44,7 @@ public class TurnBasedGameManage : MonoBehaviour
     float time;
     [SerializeField]
     private TextMeshProUGUI winner;
+    public GameObject[] buttonPrefab;
     // yong
 
 
@@ -82,6 +83,9 @@ public class TurnBasedGameManage : MonoBehaviour
                         selectedUnit = hit.transform.gameObject;
                         selectedCharacter = player.characters[player.GetIndex(selectedUnit)].GetComponentInChildren<Character>();
                         Debug.Log($"Unit Selected : {selectedUnit.name}");
+                        //yong 
+                        ButtonCreate();
+                        //yong
                     }
 
                     else
@@ -225,6 +229,40 @@ public class TurnBasedGameManage : MonoBehaviour
         {
             winner.text = "Enemy win";
         }
+    }
+
+    private void ButtonCreate()
+    {
+        Vector3 characterHeadPosition = selectedUnit.transform.position + Vector3.up * 2f;
+        Vector3 screenPosition = Camera.main.WorldToScreenPoint(characterHeadPosition);
+
+        GameObject canvas = GameObject.Find("Canvas");
+    
+        GameObject buttonATK = Instantiate(buttonPrefab[0], screenPosition + Vector3.up * 100f, Quaternion.identity);
+        RectTransform buttonATKRect = buttonATK.GetComponent<RectTransform>();
+        buttonATKRect.anchorMin = new Vector2(0f, 0f);
+        buttonATKRect.anchorMax = new Vector2(0f, 0f);
+
+        GameObject buttonMove = Instantiate(buttonPrefab[1], screenPosition + Vector3.up * 50f, Quaternion.identity);
+        RectTransform buttonMoveRect = buttonMove.GetComponent<RectTransform>();
+        buttonMoveRect.anchorMin = new Vector2(0f, 0f);
+        buttonMoveRect.anchorMax = new Vector2(0f, 0f);
+                        
+        GameObject buttonAbility = Instantiate(buttonPrefab[2], screenPosition, Quaternion.identity);
+        RectTransform buttonAbilityRect = buttonAbility.GetComponent<RectTransform>();
+        buttonAbilityRect.anchorMin = new Vector2(0f, 0f);
+        buttonAbilityRect.anchorMax = new Vector2(0f, 0f);
+
+        buttonATK.transform.SetParent(canvas.transform, false);
+        buttonMove.transform.SetParent(canvas.transform, false);
+        buttonAbility.transform.SetParent(canvas.transform, false);
+                        
+        Button button = buttonATK.GetComponent<Button>();
+        button.onClick.AddListener(AttackButton);
+        Button button1 = buttonMove.GetComponent<Button>();
+        button1.onClick.AddListener(MoveButton);
+        Button button2 = buttonAbility.GetComponent<Button>();
+        button2.onClick.AddListener(HealButton);
     }
     // ~ yong
 }
