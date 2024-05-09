@@ -42,6 +42,8 @@ public class TurnBasedGameManage : MonoBehaviour
     bool time_active = true;   //timer active?
     public TextMeshProUGUI[] text_time; //timer text array
     float time;
+    [SerializeField]
+    private TextMeshProUGUI winner;
     // yong
 
 
@@ -206,10 +208,23 @@ public class TurnBasedGameManage : MonoBehaviour
     // yong ~
     void ShowGameOverPanel() {
         gameOverPanel.SetActive(true);
+        Winner();
     }
 
     public void GoMain() {
         LoadingSceneController.LoadScene("MainScene");
+    }
+
+    private void Winner()
+    {
+        if(state == State.win)
+        {
+            winner.text = "Player win";
+        }
+        else
+        {
+            winner.text = "Enemy win";
+        }
     }
     // ~ yong
 }
