@@ -45,6 +45,7 @@ public class TurnBasedGameManage : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI winner;
     public GameObject[] buttonPrefab;
+    List<GameObject> controlbuttons = new List<GameObject>();
     // yong
 
 
@@ -93,6 +94,9 @@ public class TurnBasedGameManage : MonoBehaviour
                         Debug.Log($"Unit unselected : {selectedUnit.name}");
                         selectedUnit = null;
                         selectedCharacter = null;
+
+                        //yong
+                        DestoryBtn();
                     }
                 }
             }
@@ -117,6 +121,9 @@ public class TurnBasedGameManage : MonoBehaviour
         // attack only at player Turn, can attack only when chararcter selected
         if (state != State.playerTurn || selectedUnit == null) return;
         else StartCoroutine("Attack");
+
+        //yong
+        DestoryBtn();
     }
 
     public void TurnEndButton()
@@ -161,6 +168,9 @@ public class TurnBasedGameManage : MonoBehaviour
         // didn't work
         // player Turn
         if (state != State.playerTurn) return;
+
+        //yong
+        DestoryBtn();
     }
 
     public void MoveButton()
@@ -169,6 +179,9 @@ public class TurnBasedGameManage : MonoBehaviour
         selectedCharacter.canMove = true;
 
         // will add move turn count and move range
+
+        //yong
+        DestoryBtn();
     }
 
     private void EndBattle()
@@ -263,6 +276,17 @@ public class TurnBasedGameManage : MonoBehaviour
         button1.onClick.AddListener(MoveButton);
         Button button2 = buttonAbility.GetComponent<Button>();
         button2.onClick.AddListener(HealButton);
+        controlbuttons.Add(buttonATK);
+        controlbuttons.Add(buttonMove);
+        controlbuttons.Add(buttonAbility);
+    }
+    
+    private void DestoryBtn()
+    {
+        foreach(GameObject btn in controlbuttons)
+            {
+                Destroy(btn);
+            }
     }
     // ~ yong
 }
