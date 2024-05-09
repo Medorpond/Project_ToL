@@ -28,10 +28,7 @@ public class Tanker : Character
         if (direction == 4) location -= new Vector3(moveRange, 0, 0);
     }
     */
-    public override void Ability()
-    {
-        // Ability
-    }
+
 
     public override bool DecreaseHP(int damage)
     {

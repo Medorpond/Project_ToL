@@ -12,5 +12,6 @@ namespace NodeStruct
         public Node ParentNode;
         public int x, y, D, H;
         public int W { get { return D + H; } }
+
     }
 }

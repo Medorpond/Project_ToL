@@ -14,8 +14,4 @@ public class King : Character
         base.Init();
     }
 
-    public override void Ability()
-    {
-        // Ability
-    }
 }

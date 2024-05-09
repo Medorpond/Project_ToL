@@ -18,8 +18,5 @@ public class Dealer : Character
         base.Init();
     }
 
-    public override void Ability()
-    {
-        // Ability
-    }
+
 }
