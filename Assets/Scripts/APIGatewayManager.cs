@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 
 public class ApiGatewayManager : MonoBehaviour
 {
-    private string _apiGatewayUrl = "https://zzjkwpmtzb.execute-api.ap-northeast-2.amazonaws.com/prod/cognito_api";
+    private string _apiGatewayUrl = "https://zzjkwpmtzb.execute-api.ap-northeast-2.amazonaws.com/prod/";
     private string _username = "testuser1";
     private string _password = "testpw1";
     private string _email = "jjangj11@kau.kr";
@@ -20,7 +20,7 @@ public class ApiGatewayManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             Debug.Log("GO");
-            Register();
+            Login();
         }
     }
     // Call this method to register a new user
@@ -44,7 +44,7 @@ public class ApiGatewayManager : MonoBehaviour
             using (var client = new HttpClient())
             {
                 
-                var response = await client.PostAsync(_apiGatewayUrl, content);
+                var response = await client.PostAsync(_apiGatewayUrl + "register", content);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -74,12 +74,14 @@ public class ApiGatewayManager : MonoBehaviour
                 { "username", _username },
                 { "confirmationCode", confirmationCode }
             };
-            var content = new StringContent(JsonUtility.ToJson(requestData), Encoding.UTF8, "application/json");
+            var json = JsonConvert.SerializeObject(requestData);
+
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
 
             // Send the confirmation request to API Gateway
             using (var client = new HttpClient())
             {
-                var response = await client.PostAsync(_apiGatewayUrl + "/confirm-registration", content);
+                var response = await client.PostAsync(_apiGatewayUrl + "confirm-registration", content);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -109,7 +111,9 @@ public class ApiGatewayManager : MonoBehaviour
                 { "username", _username },
                 { "password", _password }
             };
-            var content = new StringContent(JsonUtility.ToJson(requestData), Encoding.UTF8, "application/json");
+            var json = JsonConvert.SerializeObject(requestData);
+
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
 
             // Send the login request to API Gateway
             using (var client = new HttpClient())
