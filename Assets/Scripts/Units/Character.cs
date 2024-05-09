@@ -69,14 +69,14 @@ public abstract class Character : MonoBehaviour
             if (Input.GetMouseButtonDown(0))
             {
                 destination = mousePosition.SwitchToNode();
-                MoveTo(destination, mapManager.stage.NodeArray);
+                MoveTo(destination);
                 // can move only Once
                 canMove = false;
             }
         }
     }
 
-    public void MoveTo(Vector3 direction, Node[,] NodeArray)
+    public void MoveTo(Vector3 direction)
     {
         Vector2Int startPos = new Vector2Int((int)transform.position.x, (int)transform.position.y);
         Vector2Int targetPos = new Vector2Int((int)direction.x, (int)direction.y);
@@ -98,8 +98,6 @@ public abstract class Character : MonoBehaviour
         }
     }
 
-    public abstract void Ability();
-
     public virtual void Init()
     {
         transform.position = location;
@@ -119,6 +117,30 @@ public abstract class Character : MonoBehaviour
         else return false;
     }
 
+    public void Attack(Character _opponent)
+    {
+        _opponent.getDamage(attackDamage);
+    }
+
+    //public abstract void Ability1();
+    //public abstract void Ability2();
+    //public abstract void Ability3();
+
+    public void getDamage(int atk)
+    {
+        health -= atk;
+        if(health <= 0)
+        {
+            health = 0;
+            isDead();
+        }
+    }
+
+    public void isDead() 
+    {
+        // parent.RemoveUnit(this); Remove this from parent(PlayerManager)'s List
+        Destroy(this, 0);
+    }
     public virtual void IncreaseHP(int heal)
     {
         int previousHP = health;

@@ -28,7 +28,7 @@ public class Healer : Character
         if (direction == 4) location -= new Vector3(moveRange, 0, 0);
     }
     */
-    public override void Ability()
+    public void Ability()
     {
         base.IncreaseHP(healAmount);
     }
