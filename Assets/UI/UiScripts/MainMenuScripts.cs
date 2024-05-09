@@ -5,7 +5,10 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class MainMenuScripts : MonoBehaviour
-{   
+{
+    void Start(){
+        AudioManager.instance.PlayBgm(true);
+    }
     // CLick button method
     public void OnClickComponent(){
         LoadingSceneController.LoadScene("GameScene");

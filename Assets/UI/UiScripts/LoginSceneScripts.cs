@@ -5,6 +5,9 @@ using UnityEngine.SceneManagement;
 
 public class LoginSceneScripts : MonoBehaviour
 {
+    public void Start(){
+        AudioManager.instance.PlayBgm(true);
+    }
     public void OnclickSign_in()
     {
         SceneManager.LoadScene("MainScene");
