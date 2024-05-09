@@ -9,12 +9,12 @@ using Newtonsoft.Json;
 public class ApiGatewayManager : MonoBehaviour
 {
     private string _apiGatewayUrl = "https://zzjkwpmtzb.execute-api.ap-northeast-2.amazonaws.com/prod/";
-    private string _username = "testuser1";
-    private string _password = "testpw1";
-    private string _email = "jjangj11@kau.kr";
+    private string _username;
+    private string _password;
+    private string _email;
     
 
-
+    /* for debug
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
@@ -23,6 +23,8 @@ public class ApiGatewayManager : MonoBehaviour
             Login();
         }
     }
+    */
+
     // Call this method to register a new user
     private async void Register()
     {
