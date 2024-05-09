@@ -56,6 +56,9 @@ public class Player : MonoBehaviour
         GameObject newCharacter = Instantiate(characterClass, transform);
         newCharacter.name = $"{characterClass.name}{characters.Count}";
         characters.Add(newCharacter);
+
+        // set newCharacter
+        newCharacter.GetComponent<Character>().location += new Vector2(characters.Count - 2, 0);
         newCharacter.GetComponentInChildren<Character>().Init();
     }
 
@@ -92,18 +95,6 @@ public class Player : MonoBehaviour
     {
         if (kingCharacter.Health > 0) return true;
         else return false;
-    }
-
-    private void OnMouseDown()
-    {
-        Vector2 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        RaycastHit2D hit = Physics2D.Raycast(pos, Vector2.zero, 0f);
-
-        if (hit.collider != null)
-        {
-            GameObject click_obj = hit.transform.gameObject;
-            Debug.Log(click_obj.name);
-        }
     }
 
     public int GetIndex(GameObject selectedUnit)
