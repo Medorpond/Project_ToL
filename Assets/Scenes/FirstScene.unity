@@ -1701,7 +1701,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Sign_In
+  m_text: Sign In
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c62eeb763880d5743b24d133bea2491f, type: 2}
   m_sharedMaterial: {fileID: -1846124232593335617, guid: c62eeb763880d5743b24d133bea2491f, type: 2}
@@ -2217,9 +2217,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Sign_In
-
-'
+  m_text: Game Start
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2353,7 +2351,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Sign_Up
+  m_text: 'Sign Up
 
 '
   m_isRightToLeft: 0
@@ -2578,7 +2576,7 @@ GameObject:
   - component: {fileID: 778501128}
   - component: {fileID: 778501127}
   m_Layer: 5
-  m_Name: NickName
+  m_Name: Username
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2623,9 +2621,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'NIckName
-
-'
+  m_text: Username
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c62eeb763880d5743b24d133bea2491f, type: 2}
   m_sharedMaterial: {fileID: -1846124232593335617, guid: c62eeb763880d5743b24d133bea2491f, type: 2}
@@ -3331,7 +3327,7 @@ GameObject:
   - component: {fileID: 864137122}
   - component: {fileID: 864137121}
   m_Layer: 5
-  m_Name: Sign_In
+  m_Name: GameStart
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5122,7 +5118,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Password
+  m_text: PASSWORD
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c62eeb763880d5743b24d133bea2491f, type: 2}
   m_sharedMaterial: {fileID: -1846124232593335617, guid: c62eeb763880d5743b24d133bea2491f, type: 2}
@@ -7645,7 +7641,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Confirm Password
+  m_text: Confirm P.W
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c62eeb763880d5743b24d133bea2491f, type: 2}
   m_sharedMaterial: {fileID: -1846124232593335617, guid: c62eeb763880d5743b24d133bea2491f, type: 2}
@@ -7672,8 +7668,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 12
-  m_fontSizeBase: 12
+  m_fontSize: 18
+  m_fontSizeBase: 18
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -7688,7 +7684,7 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 1
+  m_enableWordWrapping: 0
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
   m_linkedTextComponent: {fileID: 0}
@@ -7779,7 +7775,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Sign_Up
+  m_text: Sign Up
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c62eeb763880d5743b24d133bea2491f, type: 2}
   m_sharedMaterial: {fileID: -1846124232593335617, guid: c62eeb763880d5743b24d133bea2491f, type: 2}
