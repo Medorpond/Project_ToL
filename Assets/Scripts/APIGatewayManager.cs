@@ -14,7 +14,7 @@ public class ApiGatewayManager : MonoBehaviour
     private string _email;
     
 
-
+    /* for debug
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
@@ -23,6 +23,8 @@ public class ApiGatewayManager : MonoBehaviour
             Login();
         }
     }
+    */
+
     // Call this method to register a new user
     private async void Register()
     {
