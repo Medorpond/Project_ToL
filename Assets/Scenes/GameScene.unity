@@ -2669,7 +2669,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e12407bf751254242b301a051f2cbb85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridManager: {fileID: 1575851921}
 --- !u!1 &704138150
 GameObject:
   m_ObjectHideFlags: 0
@@ -4801,7 +4800,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 10
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -4845,6 +4844,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90955c796a9fb7b4c9e7ae6abecac49d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  zoomSpeed: 1
+  minZoom: 1
+  maxZoom: 10
 --- !u!1 &1126324008
 GameObject:
   m_ObjectHideFlags: 0
@@ -10640,7 +10642,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9004290357578269197, guid: 24cf45983087c2a46a364edeb1c87e5b, type: 3}
       propertyPath: kingSpawnPoint.y
-      value: 1
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 9049692166548375154, guid: 24cf45983087c2a46a364edeb1c87e5b, type: 3}
       propertyPath: m_LocalPosition.x

@@ -75,7 +75,7 @@ public class TurnBasedGameManage : MonoBehaviour
 
                 if (hit.transform.gameObject.tag == "Unit")
                 {
-                    if (selectedUnit == null)
+                    if (selectedUnit == null || hit.transform.gameObject != selectedUnit)
                     {
                         selectedUnit = hit.transform.gameObject;
                         selectedCharacter = player.characters[player.GetIndex(selectedUnit)].GetComponentInChildren<Character>();

@@ -13,7 +13,7 @@ public class Player : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI userName;
 
-    // health, damaget Text
+    // health, damage Text
     [SerializeField]
     private TextMeshProUGUI textHP;
     [SerializeField]
@@ -54,9 +54,9 @@ public class Player : MonoBehaviour
     public void SetCharacter(GameObject characterClass)
     {
         GameObject newCharacter = Instantiate(characterClass, transform);
+        newCharacter.name = $"{characterClass.name}{characters.Count}";
         characters.Add(newCharacter);
         newCharacter.GetComponentInChildren<Character>().Init();
-
     }
 
     private void UpdateUI() // update UI component
@@ -81,7 +81,8 @@ public class Player : MonoBehaviour
             // make UI
             GameObject healthHUD = Instantiate(changeHPtext, transform);
             healthHUD.GetComponent<ChangeHPText>().changeHP = currentHP - previousHP;
-            healthHUD.transform.position = gameObject.transform.position + Vector3.up * 1.0f;
+            // make above the king
+            healthHUD.transform.position = kingCharacter.location + new Vector2(0, 1);
         }
 
         textHP.text = $"{currentHP}";
