@@ -24,7 +24,7 @@ public abstract class Character : MonoBehaviour
     protected int attackRange;
     protected int moveRange;
 
-    protected float moveSpeed = 0.05f;
+    protected float moveSpeed = 0.001f;
 
     private MousePosition mousePosition;
 
@@ -94,7 +94,7 @@ public abstract class Character : MonoBehaviour
                 while(Vector3.Distance(transform.position, nextStop) > 0.001f) 
                 { transform.position = Vector3.MoveTowards(transform.position, nextStop, moveSpeed); yield return null; } 
             }
-            transform.position = direction;
+            transform.position = (Vector3Int)targetPos;
         }
     }
 
