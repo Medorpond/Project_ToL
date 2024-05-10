@@ -63,9 +63,12 @@ public class CreateCharSelect : MonoBehaviour
                 button.onClick.AddListener(() => OnButtonClick(index));
             }
         }
-        createPoint = new Vector3(710, 175, 0); // right-top
+        
         instantiatedDoneBtn = Instantiate(DoneBtn, Vector3.zero, Quaternion.identity, parentTransform); // create end button
-        instantiatedDoneBtn.transform.localPosition = createPoint; // move to craetePoint
+        RectTransform doneRect = instantiatedDoneBtn.GetComponent<RectTransform>();
+        doneRect.anchorMin = new Vector2(1f, 1f);
+        doneRect.anchorMax = new Vector2(1f, 1f);
+        doneRect.anchoredPosition = new Vector2(-50f, -25f);
 
         Button Donebutton = instantiatedDoneBtn.GetComponent<Button>(); // end button click
         if (Donebutton != null)
@@ -73,9 +76,11 @@ public class CreateCharSelect : MonoBehaviour
             Donebutton.onClick.AddListener(onDoneButtonClick);
         }
 
-        createPoint = new Vector3(710, 25, 0);
         ResetButton = Instantiate(ResetBtn, Vector3.zero, Quaternion.identity, parentTransform);
-        ResetButton.transform.localPosition = createPoint;
+        RectTransform ResetRect = ResetButton.GetComponent<RectTransform>();
+        ResetRect.anchorMin = new Vector2(1f, 0f);
+        ResetRect.anchorMax = new Vector2(1f, 0f);
+        ResetRect.anchoredPosition = new Vector2(-50f, 25f);
 
         // Reset Button Instantiate
         Button ResetButtonclicked = ResetButton.GetComponent<Button>();
@@ -85,9 +90,11 @@ public class CreateCharSelect : MonoBehaviour
         }
         
         // text Instantiate
-        createPoint = new Vector3 (660, 100, 0);
         CreatecountObj = Instantiate(createtextPrefab, Vector3.zero, Quaternion.identity, parentTransform);
-        CreatecountObj.transform.localPosition = createPoint;
+        RectTransform countRect = CreatecountObj.GetComponent<RectTransform>();
+        countRect.anchorMin = new Vector2(1f, 0.5f);
+        countRect.anchorMax = new Vector2(1f, 0.5f);
+        countRect.anchoredPosition = new Vector2(-100f, 0f);
         createCountText = CreatecountObj.GetComponent<TextMeshProUGUI>();
     }
 
