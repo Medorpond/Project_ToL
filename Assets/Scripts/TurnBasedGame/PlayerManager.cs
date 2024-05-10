@@ -6,7 +6,7 @@ public class PlayerManager : MonoBehaviour
 {
     public List<GameObject> UnitList;
 
-    private bool isMyTurn;
+    public bool isMyTurn { get; set; }
     private bool isOperating;
     private Character atService;
     private Command currentCommand;

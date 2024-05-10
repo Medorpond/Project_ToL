@@ -1,10 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
-public class TimeManager : MonoBehaviour, ISubject
+public class TimeManager : MonoBehaviour
 {
-    private float timeLimit = 60f; // time Limit for each turn
+    public class TimeEvent: UnityEvent<float> { }
+
+    [Header("Time Events")]
+    public UnityEvent onTimerSet;
+    public UnityEvent onTimerEnd;
+
+    public TimeEvent onTimerTick;
+    public TimeEvent onMatchTimeTick;
+
+    private float timeLimit = 5f; // time Limit for each turn
     private float timeLeft;
     private float matchTime = 0f;
     private float gameTime = 0f;
@@ -16,6 +26,10 @@ public class TimeManager : MonoBehaviour, ISubject
     private void Awake()
     {
         SingletoneInit();
+        
+    }
+    private void Start()
+    {
         StartGameTime();
     }
 
@@ -45,56 +59,47 @@ public class TimeManager : MonoBehaviour, ISubject
 
     #endregion
 
-    #region IObserver
-    private List<IObserver> observerList = new List<IObserver>();
-    public void RegisterObserver(IObserver observer)
-    {
-        observerList.Add(observer);
-    }
-
-    public void RemoveObserver(IObserver observer)
-    {
-        observerList.Remove(observer);
-    }
-
-    public void NotifyObservers(EventData data)
-    {
-        foreach (IObserver observer in observerList) { observer.Update(data); }
-    }
-    #endregion
-
     #region Timer
     public void StartTimer()
     {
         if (timerCoroutine == null)
         {
             timerCoroutine = StartCoroutine(SetTimerCoroutine());
-            NotifyObservers(new EventData { Type = EventType.Init }); // << Notify Observers
+            Debug.Log("Timer Set!");
+            onTimerSet?.Invoke();
+        }
+        else
+        {
+            Debug.Log("에러! 에러! 에러!");
         }
     }
     IEnumerator SetTimerCoroutine()
     {
+        Debug.Log("Timer start!");
+        timeLeft = timeLimit;
         while (timeLeft > 0)
         {
             timeLeft -= Time.deltaTime;
-            NotifyObservers(new EventData { Type = EventType.Event }); // << Notify Observers
-            Debug.Log("Time Left... " + timeLeft);
+            onTimerTick?.Invoke(timeLeft);
             yield return null;
         }
 
         if (timeLeft <= 0)
         {
+            Debug.Log("Timeout!");
             ResetTimer();
+            onTimerEnd?.Invoke();
         }
     }
 
     public void ResetTimer()
     {
-        StopCoroutine(timerCoroutine);
-        timerCoroutine = null;
-        timeLeft = timeLimit;
-        NotifyObservers(new EventData { Type = EventType.End });
-        Debug.Log("Timer Reset");
+        if (timerCoroutine != null)
+        {
+            StopCoroutine(timerCoroutine);
+            timerCoroutine = null;
+            Debug.Log("Stop Timer");
+        }        
     }
     #endregion
 
@@ -126,7 +131,6 @@ public class TimeManager : MonoBehaviour, ISubject
         while (true)
         {
             gameTime += Time.deltaTime;
-            Debug.Log("Elapsed GameTime: " + gameTime);
             yield return null;
         }
     }
@@ -136,8 +140,7 @@ public class TimeManager : MonoBehaviour, ISubject
         while (true)
         {
             matchTime += Time.deltaTime;
-            NotifyObservers(new EventData { Type = EventType.Event, NumericValue = timeLeft });
-            Debug.Log("Elapsed MatchTime: " + matchTime);
+            onMatchTimeTick?.Invoke(matchTime);
             yield return null;
         }
     }
