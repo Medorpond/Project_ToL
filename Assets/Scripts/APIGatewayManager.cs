@@ -26,7 +26,7 @@ public class ApiGatewayManager : MonoBehaviour
     */
 
     // Call this method to register a new user
-    private async void Register()
+    public async void Register()
     {
         try
         {
@@ -66,7 +66,7 @@ public class ApiGatewayManager : MonoBehaviour
     }
     
     // Call this method to confirm user registration with confirmation code
-    private async void ConfirmRegistration(string confirmationCode)
+    public async void ConfirmRegistration(string confirmationCode)
     {
         try
         {
@@ -103,7 +103,7 @@ public class ApiGatewayManager : MonoBehaviour
     }
 
     // Call this method to login
-    private async void Login()
+    public async void Login()
     {
         try
         {

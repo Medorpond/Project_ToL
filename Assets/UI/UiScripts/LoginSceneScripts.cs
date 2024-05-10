@@ -3,14 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+
 public class LoginSceneScripts : MonoBehaviour
 {
+
     public void Start(){
         AudioManager.instance.PlayBgm(true);
-    }
-    public void OnclickSign_in()
-    {
-        SceneManager.LoadScene("MainScene");
     }
     public void OnClickExit(){
 #if UNITY_EDITOR
