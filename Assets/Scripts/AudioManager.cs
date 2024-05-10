@@ -22,13 +22,15 @@ public class AudioManager : MonoBehaviour
 
     int channelIndex;
 
+    // for volume Control
     public Slider volumeSlider;
+    private float lastVolume;
 
     public enum Sfx{sfx_click_ui, sfx_mouse_on_ui}
 
     void Awake(){
         instance = this;
-        volumeSlider.onValueChanged.AddListener(delegate { ChangeVolume(); });
+        if (volumeSlider != null) volumeSlider.onValueChanged.AddListener(delegate { ChangeVolume(); });
         Init();
     }
 
@@ -39,8 +41,11 @@ public class AudioManager : MonoBehaviour
         bgmPlayer = bgmObject.AddComponent<AudioSource>();
         bgmPlayer.loop = true;
         bgmPlayer.volume = bgmVolume;
-        volumeSlider.value = bgmVolume;
         bgmPlayer.clip = bgmClip;
+
+        //for sound control
+        if (volumeSlider != null) volumeSlider.value = bgmVolume;
+        lastVolume = bgmVolume;
 
         //SFX 초기화
         GameObject sfxObject = new GameObject("SFX");
@@ -90,12 +95,13 @@ public class AudioManager : MonoBehaviour
 
     public void TurnOnSound()
     {
-        bgmPlayer.volume = 1;
-        volumeSlider.value = 1;
+        bgmPlayer.volume = lastVolume;
+        volumeSlider.value = bgmPlayer.volume;
     }
 
     public void TurnOffSound()
     {
+        lastVolume = bgmPlayer.volume;
         bgmPlayer.volume = 0;
         volumeSlider.value = 0;
     }
