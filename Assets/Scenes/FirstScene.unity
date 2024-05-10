@@ -136,6 +136,7 @@ GameObject:
   - component: {fileID: 1469884}
   - component: {fileID: 1469883}
   - component: {fileID: 1469887}
+  - component: {fileID: 1469888}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -241,6 +242,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e983433c17b09444b8487ff1f1b87f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1469888
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1469882}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d6e846c9447896448a89cfb5a140fde, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LoginButton: {fileID: 803856394}
+  RegisterButton: {fileID: 885948107}
+  ConfirmRegisterationButton: {fileID: 1972218007}
+  apiGatewayManager: {fileID: 1834262826}
 --- !u!1 &87274366
 GameObject:
   m_ObjectHideFlags: 0
@@ -3380,19 +3397,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 803856395}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1469887}
-        m_TargetAssemblyTypeName: LoginScene, Assembly-CSharp
-        m_MethodName: OnclickSign_in
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &803856395
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3556,7 +3561,7 @@ MonoBehaviour:
   m_CaretColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
   m_CustomCaretColor: 0
   m_SelectionColor: {r: 0.65882355, g: 0.80784315, b: 1, a: 0.7529412}
-  m_Text: ...
+  m_Text: 
   m_CaretBlinkRate: 0.85
   m_CaretWidth: 1
   m_ReadOnly: 0
@@ -4186,7 +4191,7 @@ GameObject:
   - component: {fileID: 1036033705}
   - component: {fileID: 1036033704}
   m_Layer: 5
-  m_Name: Email
+  m_Name: Username
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4231,9 +4236,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Email
-
-'
+  m_text: Username
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c62eeb763880d5743b24d133bea2491f, type: 2}
   m_sharedMaterial: {fileID: -1846124232593335617, guid: c62eeb763880d5743b24d133bea2491f, type: 2}
@@ -4994,7 +4997,7 @@ GameObject:
   - component: {fileID: 1208440810}
   - component: {fileID: 1208440809}
   m_Layer: 5
-  m_Name: TopText (1)
+  m_Name: TopText2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5990,7 +5993,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "...\u200B"
+  m_text: "\u200B"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -7033,6 +7036,50 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+--- !u!1 &1834262825
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1834262827}
+  - component: {fileID: 1834262826}
+  m_Layer: 0
+  m_Name: ApiGatewayManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1834262826
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1834262825}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb9bbc97d6ffc5246adf0f12463eee96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1834262827
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1834262825}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1865609944
 GameObject:
   m_ObjectHideFlags: 0
@@ -7098,7 +7145,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1865609944}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
@@ -7111,7 +7158,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Enter text...
+  m_text: ...
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -8483,3 +8530,4 @@ SceneRoots:
   - {fileID: 1374998871}
   - {fileID: 98998001}
   - {fileID: 1618093351}
+  - {fileID: 1834262827}

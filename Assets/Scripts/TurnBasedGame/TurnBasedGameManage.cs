@@ -98,6 +98,9 @@ public class TurnBasedGameManage : MonoBehaviour
                         Debug.Log($"Unit unselected : {selectedUnit.name}");
                         selectedUnit = null;
                         selectedCharacter = null;
+                        //yong 
+                        DestoryBtn();
+                        //yong
                     }
                 }
             }
