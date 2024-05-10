@@ -1120,8 +1120,8 @@ RectTransform:
   - {fileID: 867458100}
   - {fileID: 1368541464}
   - {fileID: 990007138}
-  - {fileID: 1755362569}
   - {fileID: 1966385025}
+  - {fileID: 1755362569}
   m_Father: {fileID: 1418004061}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -5206,7 +5206,7 @@ GameObject:
   - component: {fileID: 1755362571}
   - component: {fileID: 1755362570}
   m_Layer: 5
-  m_Name: SoundControlScrollbar
+  m_Name: SoundControlScrollbar (temp)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5227,11 +5227,11 @@ RectTransform:
   - {fileID: 1867670742}
   m_Father: {fileID: 454384422}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 250, y: -180}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 300, y: 50}
-  m_Pivot: {x: 0, y: 1}
+  m_Pivot: {x: 0, y: 0}
 --- !u!114 &1755362570
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5797,8 +5797,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -880, y: -510}
-  m_SizeDelta: {x: 160, y: 20}
+  m_AnchoredPosition: {x: 100, y: 150}
+  m_SizeDelta: {x: 320, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1966385026
 MonoBehaviour:
