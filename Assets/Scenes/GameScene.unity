@@ -2759,6 +2759,10 @@ MonoBehaviour:
   - {fileID: 373203231}
   - {fileID: 722840766}
   winner: {fileID: 1807219436}
+  buttonPrefab:
+  - {fileID: 4513720224310394559, guid: c7e94d4c678ad2f44acd656ad6b61a53, type: 3}
+  - {fileID: 4652852332407535307, guid: ec7f413c5dbf373458a67ad100736175, type: 3}
+  - {fileID: 1066050675052277729, guid: 56df3b1f67dec3e4284d4f96c92b6253, type: 3}
 --- !u!114 &686408925
 MonoBehaviour:
   m_ObjectHideFlags: 0
