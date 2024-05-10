@@ -10,15 +10,26 @@ public class CameraManager : MonoBehaviour
     private float minZoom = 1.0f;
     [SerializeField]
     private float maxZoom = 10.0f;
-    private float cameraMovespeed = 5.0f;
+
+    [SerializeField]
+    private AnimationCurve moveCurve;
+    private Vector3 targetPosition;
+    private float cameraMoveTime = 0.1f;
 
 
 
     private void Update()
     {
-        
-        if (Input.GetMouseButtonDown(1)) MoveMap();
-   
+
+        if (Input.GetMouseButtonDown(1))
+        {
+            targetPosition = Camera.main.ScreenToWorldPoint(
+                new Vector3(Input.mousePosition.x, Input.mousePosition.y, -Camera.main.transform.position.z));
+            targetPosition.z = transform.position.z;
+
+            StartCoroutine("MoveCamera");
+        }
+
         // zoom inout with scroll
         float scroll = Input.GetAxis("Mouse ScrollWheel");
 
@@ -27,11 +38,20 @@ public class CameraManager : MonoBehaviour
         else Zoom(scroll);
     }
 
-    private void MoveMap()
+    private IEnumerator MoveCamera()
     {
-        Vector3 targetPosition = Camera.main.ScreenToWorldPoint(
-                new Vector3(Input.mousePosition.x, Input.mousePosition.y, -10));
-        transform.position = targetPosition;
+        float current = 0;
+        float percent = 0;
+
+        while (percent < 1)
+        {
+            current += Time.deltaTime;
+            percent = current / cameraMoveTime;
+
+            transform.position = Vector3.Lerp(transform.position, targetPosition, moveCurve.Evaluate(percent));
+
+            yield return null;
+        }
     }
 
     private void Zoom(float scroll)

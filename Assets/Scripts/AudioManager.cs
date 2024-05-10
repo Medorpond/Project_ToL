@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class AudioManager : MonoBehaviour
 {
@@ -18,12 +19,16 @@ public class AudioManager : MonoBehaviour
     public int channels;
     AudioSource[] sfxPlayers;
 
+
     int channelIndex;
+
+    public Slider volumeSlider;
 
     public enum Sfx{sfx_click_ui, sfx_mouse_on_ui}
 
     void Awake(){
         instance = this;
+        volumeSlider.onValueChanged.AddListener(delegate { ChangeVolume(); });
         Init();
     }
 
@@ -34,6 +39,7 @@ public class AudioManager : MonoBehaviour
         bgmPlayer = bgmObject.AddComponent<AudioSource>();
         bgmPlayer.loop = true;
         bgmPlayer.volume = bgmVolume;
+        volumeSlider.value = bgmVolume;
         bgmPlayer.clip = bgmClip;
 
         //SFX 초기화
@@ -75,5 +81,22 @@ public class AudioManager : MonoBehaviour
         }else{
             bgmPlayer.Stop();
         }
+    }
+
+    private void ChangeVolume()
+    {
+        bgmPlayer.volume = volumeSlider.value;
+    }
+
+    public void TurnOnSound()
+    {
+        bgmPlayer.volume = 1;
+        volumeSlider.value = 1;
+    }
+
+    public void TurnOffSound()
+    {
+        bgmPlayer.volume = 0;
+        volumeSlider.value = 0;
     }
 }
