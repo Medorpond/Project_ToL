@@ -258,6 +258,9 @@ MonoBehaviour:
   RegisterButton: {fileID: 885948107}
   ConfirmRegisterationButton: {fileID: 1972218007}
   apiGatewayManager: {fileID: 1834262826}
+  ConfirmCodeInputField: {fileID: 818786973}
+  SignUppanel: {fileID: 2042755944}
+  EmailConfirmPanel: {fileID: 87274366}
 --- !u!1 &87274366
 GameObject:
   m_ObjectHideFlags: 0
@@ -3826,19 +3829,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 885948108}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 87274366}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &885948108
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6185,6 +6176,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 4c698fe487a0f1d438f4afc5bf78d5df, type: 3}
   sfxVolume: 1
   channels: 16
+  volumeSlider: {fileID: 0}
 --- !u!4 &1618093351
 Transform:
   m_ObjectHideFlags: 0
@@ -7065,6 +7057,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb9bbc97d6ffc5246adf0f12463eee96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  emailInputField: {fileID: 1303826598}
+  usernameInputField: {fileID: 1707912901}
+  passwordInputField: {fileID: 1268585400}
+  confirmPassWordInputField: {fileID: 1697345883}
+  LoginusernameInputField: {fileID: 792590810}
+  LoginpasswordInputField: {fileID: 1878723830}
 --- !u!4 &1834262827
 Transform:
   m_ObjectHideFlags: 0
@@ -8117,31 +8115,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1972218008}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2042755944}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 87274366}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1972218008
 MonoBehaviour:
   m_ObjectHideFlags: 0

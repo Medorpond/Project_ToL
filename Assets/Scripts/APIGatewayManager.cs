@@ -5,9 +5,20 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using Newtonsoft.Json;
-
+using UnityEngine.UI;
+using TMPro;
 public class ApiGatewayManager : MonoBehaviour
 {
+    // yong
+    public TMP_InputField emailInputField;
+    public TMP_InputField usernameInputField;
+    public TMP_InputField passwordInputField;
+    public TMP_InputField confirmPassWordInputField;
+
+    public TMP_InputField LoginusernameInputField;
+    public TMP_InputField LoginpasswordInputField;
+    // yong
+
     private string _apiGatewayUrl = "https://zzjkwpmtzb.execute-api.ap-northeast-2.amazonaws.com/prod/";
     private string _username;
     private string _password;
@@ -30,6 +41,19 @@ public class ApiGatewayManager : MonoBehaviour
     {
         try
         {
+            // yong
+            _email = emailInputField.text;
+            _username = usernameInputField.text;
+            _password = passwordInputField.text;
+            // yong
+            string confirmPassword = confirmPassWordInputField.text;
+            if (_password != confirmPassword)
+            {
+                Debug.LogError("Password and Confirm Password do not match");
+                return;
+            }
+            // yong 
+            
             // Prepare the registration request payload
             var requestData = new Dictionary<string, string>
             {
@@ -107,6 +131,11 @@ public class ApiGatewayManager : MonoBehaviour
     {
         try
         {
+            // yong
+            _username = LoginusernameInputField.text;
+            _password = LoginpasswordInputField.text;
+            // yong
+
             // Prepare the login request payload
             var requestData = new Dictionary<string, string>
             {
