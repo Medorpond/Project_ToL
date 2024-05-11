@@ -34,6 +34,9 @@ public class TurnBasedGameManage : MonoBehaviour
     //private int unitIndex = -1;
 
     [SerializeField]
+    private CameraManager cameraManager;
+
+    [SerializeField]
     private TextMeshProUGUI turn;
 
     // yong
@@ -87,7 +90,10 @@ public class TurnBasedGameManage : MonoBehaviour
                     {
                         selectedUnit = hit.transform.gameObject;
                         selectedCharacter = player.characters[player.GetIndex(selectedUnit)].GetComponentInChildren<Character>();
+
                         Debug.Log($"Unit Selected : {selectedUnit.name}");
+
+                        cameraManager.ZoomCharacter(selectedCharacter.location);
                         //yong 
                         ButtonCreate();
                         //yong
@@ -139,6 +145,7 @@ public class TurnBasedGameManage : MonoBehaviour
             // at enemy turn deactivate selected unit
             selectedUnit = null;
             selectedCharacter = null;
+            cameraManager.ResetCamera();
             
             state = State.enemyTurn;
             StartCoroutine("EnemyTurn");
@@ -225,6 +232,8 @@ public class TurnBasedGameManage : MonoBehaviour
            
             AudioManager.instance.PlayBgm(false);
         }
+
+        cameraManager.ResetCamera();
 
         yield return null;
     }
