@@ -2293,6 +2293,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 1620080287}
   opponent: {fileID: 1074396748}
+  unitSelectPhaseTime: 90
+  battlePhaseTime: 60
+  maxTurnCount: 100
 --- !u!4 &407919657
 Transform:
   m_ObjectHideFlags: 0
@@ -5437,7 +5440,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UnitList: []
-  queueAction: 0
+  waitingCmd: 0
 --- !u!1 &1103453760
 GameObject:
   m_ObjectHideFlags: 0
@@ -9654,7 +9657,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UnitList: []
-  queueAction: 0
+  waitingCmd: 0
 --- !u!1 &1626703356
 GameObject:
   m_ObjectHideFlags: 0

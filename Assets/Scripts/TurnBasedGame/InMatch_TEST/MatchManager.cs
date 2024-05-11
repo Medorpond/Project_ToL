@@ -31,6 +31,7 @@ public class MatchManager : MonoBehaviour
     private void Start()
     {
         TimeManager.Instance.StartMatchTime();
+        UnitSelectPhase();
     }
     private void Update()
     {
@@ -128,7 +129,7 @@ public class MatchManager : MonoBehaviour
         player.StopAllCoroutines();
         opponent.StopAllCoroutines();
 
-        TimeManager.Instance.StartTimer();
+        TimeManager.Instance.StartTimer(battlePhaseTime);
     }
 
     public void GameOver()
