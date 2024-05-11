@@ -20,12 +20,17 @@ public class MatchManager : MonoBehaviour
     {
         
     }
-
-    void OnDisable()
+    
+    private void OnDisabled()
     {
-        TimeManager.Instance.onTimerEnd.RemoveListener(HandleTimerEnd);
-        TimeManager.Instance.EndMatchTime();        
+        if (TimeManager.Instance != null)
+        {
+            TimeManager.Instance.onTimerEnd.RemoveListener(HandleTimerEnd);
+            TimeManager.Instance.EndMatchTime();
+        }
     }
+    
+
 
     void SetTurn()
     {
