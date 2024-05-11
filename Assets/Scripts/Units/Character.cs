@@ -82,7 +82,7 @@ public abstract class Character : MonoBehaviour
         Vector2Int targetPos = new Vector2Int((int)direction.x, (int)direction.y);
 
         List<Node> path = mapManager.stage.Pathfinding(startPos, targetPos);
-        //mapManager.stage.OnMove(startPos, targetPos); // 유닛 관통 방지
+        mapManager.stage.OnMove(startPos, targetPos); // 유닛 관통 방지
 
         StartCoroutine(MoveOneGrid());
         

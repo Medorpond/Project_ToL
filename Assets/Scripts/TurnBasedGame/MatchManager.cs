@@ -104,7 +104,6 @@ public class MatchManager : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             Vector3 ray = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            ray.z = 10;
             RaycastHit2D hit = Physics2D.Raycast(ray, Vector2.zero);
 
             if (hit.collider != null)
@@ -123,7 +122,6 @@ public class MatchManager : MonoBehaviour
         if (Input.GetMouseButtonUp(0))
         {
             Vector3 ray = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            ray.z = 10;
             RaycastHit2D hit = Physics2D.Raycast(ray, Vector2.zero);
 
             if (hit.collider != null)

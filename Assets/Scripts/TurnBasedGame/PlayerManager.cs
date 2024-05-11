@@ -7,7 +7,9 @@ public class PlayerManager : MonoBehaviour
     public List<GameObject> UnitList;
 
     public bool isMyTurn { get; set; }
-    private Character atService;
+    public bool queueAction = false;
+
+    private Character currentUnit;
     private GameObject clicked;
 
     private void Start()
@@ -33,7 +35,14 @@ public class PlayerManager : MonoBehaviour
         Debug.Log($"{_unit.name} got Removed from {name}");
     }
 
-    void OnClickRelease(GameObject _clicked) => clicked = _clicked;
+    void OnClickRelease(GameObject _clicked)
+    {
+        if (queueAction) { clicked = _clicked; Debug.Log($"clicked: {clicked}"); }
+        else
+        {
+            if (_clicked.CompareTag("MyUnit")) { currentUnit = _clicked.GetComponent<Character>(); Debug.Log($"CurUnit: {_clicked}"); }
+        }
+    }
 
     void OnClickHold(GameObject _clicked)
     {
@@ -60,17 +69,21 @@ public class PlayerManager : MonoBehaviour
     #region IEnumerable Acts
     IEnumerator ReadyMove()
     {
+        Debug.Log($"ReadyMove: {queueAction}");
+        queueAction = true;
         // Highligts MoveButton
         yield return new WaitUntil(() => Input.GetMouseButtonUp(0));
         // Dehighlight MoveButton
         if (clicked.CompareTag("Node"))
         {
-            atService.MoveTo(clicked.transform.position);
+            currentUnit.MoveTo(clicked.transform.position);
         }
         else
         {
             Debug.Log("Click On Tile to Move");
         }
+
+        queueAction = false;
     }
     public void Move()
     {
@@ -82,17 +95,28 @@ public class PlayerManager : MonoBehaviour
 
     IEnumerator ReadyAttack()
     {
-        // Highligts MoveButton
+        Debug.Log($"ReadyAttack: {queueAction}");
+        queueAction = true;
         yield return new WaitUntil(() => Input.GetMouseButtonUp(0));
-        // Dehighlight MoveButton
+        
         if (clicked.CompareTag("Opponent"))
         {
-            atService.Attack(clicked.GetComponent<Character>());
+            currentUnit.Attack(clicked.GetComponent<Character>());
+        }
+        else if (clicked.CompareTag("MyUnit"))
+        {
+            currentUnit = clicked.GetComponent<Character>();
+        }
+        else if (clicked.CompareTag("ActionBtn"))
+        {
+            Debug.Log("Another Action Triggered");
         }
         else
         {
+            currentUnit = null;
             Debug.Log("Click On Opponent to Attack");
         }
+        queueAction = false;
     }
 
     public void Attack()
@@ -108,6 +132,7 @@ public class PlayerManager : MonoBehaviour
 
     IEnumerator ReadyAbility1()
     {
+
         yield return new WaitUntil(() => Input.GetMouseButtonUp(0));
         Debug.Log("Ability1!");
     }
