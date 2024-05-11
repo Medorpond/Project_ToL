@@ -34,9 +34,6 @@ public abstract class Character : MonoBehaviour
     private Vector3 destination;
     public bool canMove;
 
-    #region Singletone Instances
-    protected MapManager mapManager;
-    #endregion
 
     // For external, Get property
     public int Health => health;
@@ -47,7 +44,6 @@ public abstract class Character : MonoBehaviour
 
     protected void Start()
     {
-        mapManager = MapManager.GetInstance();
         mousePosition = GameObject.Find("TurnBasedGameManage").GetComponent<MousePosition>();
         canMove = false;
     }
@@ -81,8 +77,8 @@ public abstract class Character : MonoBehaviour
         Vector2Int startPos = new Vector2Int((int)transform.position.x, (int)transform.position.y);
         Vector2Int targetPos = new Vector2Int((int)direction.x, (int)direction.y);
 
-        List<Node> path = mapManager.stage.Pathfinding(startPos, targetPos);
-        mapManager.stage.OnMove(startPos, targetPos); // 유닛 관통 방지
+        List<Node> path = MapManager.Instance.stage.Pathfinding(startPos, targetPos);
+        MapManager.Instance.stage.Occupy(startPos, targetPos); // 유닛 관통 방지
 
         StartCoroutine(MoveOneGrid());
         

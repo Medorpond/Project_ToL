@@ -69,9 +69,36 @@ public class TimeManager : MonoBehaviour
             onTimerSet?.Invoke();
         }
     }
+
     IEnumerator SetTimerCoroutine()
     {
         timeLeft = timeLimit;
+        while (timeLeft > 0)
+        {
+            timeLeft -= Time.deltaTime;
+            onTimerTick?.Invoke(timeLeft);
+            yield return null;
+        }
+
+        if (timeLeft <= 0)
+        {
+            ResetTimer();
+            onTimerEnd?.Invoke();
+        }
+    }
+
+    public void StartTimer(float _arbitraryTime)
+    {
+        if (timerCoroutine == null)
+        {
+            timerCoroutine = StartCoroutine(SetTimerCoroutine(_arbitraryTime));
+            onTimerSet?.Invoke();
+        }
+    }// Overroading for arbitrary timer set
+
+    IEnumerator SetTimerCoroutine(float _arbitraryTime)
+    {
+        timeLeft = _arbitraryTime;
         while (timeLeft > 0)
         {
             timeLeft -= Time.deltaTime;

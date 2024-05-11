@@ -6,19 +6,28 @@ using NodeStruct;
 public class MapManager : MonoBehaviour
 {
     #region Singletone
-    private static MapManager instance;
+    private static MapManager instance = null;
+    public static MapManager Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                instance = new GameObject("MapManager").AddComponent<MapManager>();
+            }
+            return instance;
+        }
+    }
 
-    public static MapManager GetInstance()
+    private void SingletoneInit()
     {
-        if (instance == null) Debug.LogError("MapManager Yet Initialized");
-        return instance;
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else { Destroy(this.gameObject); }
     }
-    
-    void SingletoneInit()
-    {
-        if (instance == null) { instance = this;}
-        else { Destroy(gameObject); }
-    }
+
     #endregion
 
 

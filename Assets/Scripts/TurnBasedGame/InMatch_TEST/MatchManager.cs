@@ -18,6 +18,11 @@ public class MatchManager : MonoBehaviour
     [SerializeField]
     private PlayerManager opponent;
 
+    public float unitSelectPhaseTime = 90f;
+    public float battlePhaseTime = 60f;
+    public int maxTurnCount = 100; // Draw if hit maxTurnCount
+    private int currentTurnCount = 1;
+    
     private void Awake()
     {
         SingletoneInit();
@@ -26,20 +31,11 @@ public class MatchManager : MonoBehaviour
     private void Start()
     {
         TimeManager.Instance.StartMatchTime();
-        TimeManager.Instance.onTimerEnd.AddListener(HandleTimerEnd);
-        SetTurn();
-        TimeManager.Instance.StartTimer();
     }
     private void Update()
     {
         GetClickRelease();
         GetClickDown();
-    }
-
-    private void OnDisable()
-    {
-            TimeManager.Instance.onTimerEnd?.RemoveListener(HandleTimerEnd);
-            TimeManager.Instance?.EndMatchTime();
     }
 
     private void OnDestroy()
@@ -72,20 +68,59 @@ public class MatchManager : MonoBehaviour
 
     #endregion
 
+    #region Unit Select Phase
+    void UnitSelectPhase()
+    {
+        Debug.Log("Unit Select Phase Start");
+        
+        TimeManager.Instance.onTimerEnd.AddListener(FinishDeploy);
+        TimeManager.Instance.StartTimer(unitSelectPhaseTime);
 
+        SetTurn();
+    }
 
     void SetTurn()
     {
         int turn = Random.Range(0, 2); // Return 0 or 1, Player go First if 0.
-        if(turn == 0) { player.isMyTurn = true; opponent.isMyTurn = false; }
+
+        if (turn == 0) { player.isMyTurn = true; opponent.isMyTurn = false; }
         else { player.isMyTurn = false; opponent.isMyTurn = true; }
+
         Debug.Log($"{turn} Starts First.");
         // Need to have unified value over players, so should be done via server afterward
+    }
+
+    void FinishDeploy()
+    {
+        TimeManager.Instance.onTimerEnd?.RemoveListener(FinishDeploy);
+        TimeManager.Instance.ResetTimer();
+        player.StopAllCoroutines();
+        opponent.StopAllCoroutines();
+        Debug.Log("Unit Select Phase End");
+        BattlePhase();
+    }
+    #endregion
+
+    #region BattlePhase
+
+    void BattlePhase()
+    {
+        Debug.Log("Battle Phase Start");
+        TimeManager.Instance.onTimerEnd.AddListener(ChangeTurn);
+        TimeManager.Instance.StartTimer(battlePhaseTime);
     }
 
     public void ChangeTurn()
     {
         TimeManager.Instance.ResetTimer();
+
+        currentTurnCount++;
+        if (currentTurnCount > maxTurnCount)
+        {
+            GameOver();
+            return;
+        }
+
         player.isMyTurn = !player.isMyTurn;
         opponent.isMyTurn = !opponent.isMyTurn;
 
@@ -95,10 +130,20 @@ public class MatchManager : MonoBehaviour
 
         TimeManager.Instance.StartTimer();
     }
-    private void HandleTimerEnd() => ChangeTurn();
 
+    public void GameOver()
+    {
+        player.StopAllCoroutines();
+        opponent.StopAllCoroutines();
+        TimeManager.Instance.onTimerEnd?.RemoveListener(ChangeTurn);
+        TimeManager.Instance?.ResetTimer();
+        TimeManager.Instance?.EndMatchTime();
+        Debug.Log("Game Over!");
+        //trigger Result UI
+    }
+    #endregion
 
-
+    #region GetClickMethod
     void GetClickDown()
     {
         if (Input.GetMouseButtonDown(0))
@@ -112,7 +157,7 @@ public class MatchManager : MonoBehaviour
             }
             else
             {
-                Debug.Log("No collided");
+                Debug.Log("No Clickable Object");
             }
         }
     }
@@ -130,8 +175,9 @@ public class MatchManager : MonoBehaviour
             }
             else
             {
-                Debug.Log("No collided");
+                Debug.Log("No Clickable Object");
             }
         }
     }
+    #endregion
 }

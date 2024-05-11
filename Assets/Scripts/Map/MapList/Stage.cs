@@ -100,7 +100,7 @@ public abstract class Stage : MonoBehaviour
     }
 
 
-    public void OnMove(Vector2Int startPos, Vector2Int targetPos)
+    public void Occupy(Vector2Int startPos, Vector2Int targetPos)
     {
         NodeArray[startPos.x, startPos.y].isBlocked = false;
         NodeArray[targetPos.x, targetPos.y].isBlocked = true;

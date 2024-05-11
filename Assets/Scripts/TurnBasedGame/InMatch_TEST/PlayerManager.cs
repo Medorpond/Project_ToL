@@ -7,7 +7,9 @@ public class PlayerManager : MonoBehaviour
     public List<GameObject> UnitList;
 
     public bool isMyTurn { get; set; }
-    public bool queueAction = false;
+    public bool waitingCmd = false;
+
+    private Coroutine inAction = null;
 
     private Character currentUnit;
     private GameObject clicked;
@@ -37,7 +39,7 @@ public class PlayerManager : MonoBehaviour
 
     void OnClickRelease(GameObject _clicked)
     {
-        if (queueAction) { clicked = _clicked; Debug.Log($"clicked: {clicked}"); }
+        if (waitingCmd) { clicked = _clicked; Debug.Log($"clicked: {clicked}"); }
         else
         {
             if (_clicked.CompareTag("MyUnit")) { currentUnit = _clicked.GetComponent<Character>(); Debug.Log($"CurUnit: {_clicked}"); }
@@ -46,7 +48,7 @@ public class PlayerManager : MonoBehaviour
 
     void OnClickHold(GameObject _clicked)
     {
-        if (_clicked.tag == "Unit")
+        if (_clicked.tag == "Ally")
         {
             StartCoroutine(HoldObject());
         }
@@ -69,61 +71,48 @@ public class PlayerManager : MonoBehaviour
     #region IEnumerable Acts
     IEnumerator ReadyMove()
     {
-        Debug.Log($"ReadyMove: {queueAction}");
-        queueAction = true;
         // Highligts MoveButton
         yield return new WaitUntil(() => Input.GetMouseButtonUp(0));
         // Dehighlight MoveButton
-        if (clicked.CompareTag("Node"))
+        if (clicked.CompareTag("Tile"))
         {
             currentUnit.MoveTo(clicked.transform.position);
         }
         else
         {
-            Debug.Log("Click On Tile to Move");
+            Debug.Log("Click On Tile to move");
         }
 
-        queueAction = false;
+        inAction = null;
     }
     public void Move()
     {
         if (isMyTurn)
         {
-            StartCoroutine(ReadyMove());
+            if(inAction == null) { inAction = StartCoroutine(ReadyMove()); }
         }
     }
 
     IEnumerator ReadyAttack()
     {
-        Debug.Log($"ReadyAttack: {queueAction}");
-        queueAction = true;
         yield return new WaitUntil(() => Input.GetMouseButtonUp(0));
         
-        if (clicked.CompareTag("Opponent"))
+        if (clicked.CompareTag("Hostile"))
         {
             currentUnit.Attack(clicked.GetComponent<Character>());
         }
-        else if (clicked.CompareTag("MyUnit"))
-        {
-            currentUnit = clicked.GetComponent<Character>();
-        }
-        else if (clicked.CompareTag("ActionBtn"))
-        {
-            Debug.Log("Another Action Triggered");
-        }
         else
         {
-            currentUnit = null;
-            Debug.Log("Click On Opponent to Attack");
+            Debug.Log("Click On Hostile to Attack");
         }
-        queueAction = false;
+        inAction = null;
     }
 
     public void Attack()
     {
         if (isMyTurn)
         {
-            StartCoroutine(ReadyAttack());
+            if (inAction == null) { inAction = StartCoroutine(ReadyAttack()); }
         }
     }
 
@@ -135,12 +124,13 @@ public class PlayerManager : MonoBehaviour
 
         yield return new WaitUntil(() => Input.GetMouseButtonUp(0));
         Debug.Log("Ability1!");
+        inAction = null;
     }
     public void Ability1()
     {
         if (isMyTurn)
         {
-            StartCoroutine(ReadyAbility1());
+            if (inAction == null) { inAction = StartCoroutine(ReadyAbility1()); }
         }
     }
 
@@ -148,12 +138,13 @@ public class PlayerManager : MonoBehaviour
     {
         yield return new WaitUntil(() => Input.GetMouseButtonUp(0));
         Debug.Log("Ability2!");
+        inAction = null;
     }
     public void Ability2()
     {
         if (isMyTurn)
         {
-            StartCoroutine(ReadyAbility2());
+            if (inAction == null) { inAction = StartCoroutine(ReadyAbility2()); }
         }
     }
 
@@ -161,12 +152,13 @@ public class PlayerManager : MonoBehaviour
     {
         yield return new WaitUntil(() => Input.GetMouseButtonUp(0));
         Debug.Log("Ability3!");
+        inAction = null;
     }
     public void Ability3()
     {
         if (isMyTurn)
         {
-            StartCoroutine(ReadyAbility3());
+            if (inAction == null) { inAction = StartCoroutine(ReadyAbility3()); }
         }
     }
 
