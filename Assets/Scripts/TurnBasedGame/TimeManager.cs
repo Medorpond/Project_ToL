@@ -121,8 +121,11 @@ public class TimeManager : MonoBehaviour
 
     public void EndMatchTime()
     {
-        StopCoroutine(matchTimeCoroutine);
-        matchTimeCoroutine = null;
+        if (matchTimeCoroutine != null)
+        {
+            StopCoroutine(matchTimeCoroutine);
+            matchTimeCoroutine = null;
+        }      
         matchTime = 0f;
     }
 
