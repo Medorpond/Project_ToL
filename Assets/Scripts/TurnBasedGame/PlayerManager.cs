@@ -37,7 +37,11 @@ public class PlayerManager : MonoBehaviour
 
     void OnClickHold(GameObject _clicked)
     {
-        StartCoroutine(HoldObject());
+        if (_clicked.tag == "Unit")
+        {
+            StartCoroutine(HoldObject());
+        }
+        
 
         IEnumerator HoldObject()
         {
