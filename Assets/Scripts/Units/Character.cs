@@ -92,9 +92,9 @@ public abstract class Character : MonoBehaviour
             {
                 Vector3 nextStop = new Vector3(elem.x, elem.y);
                 while(Vector3.Distance(transform.position, nextStop) > 0.001f) 
-                { transform.position = Vector3.MoveTowards(transform.position, nextStop, moveSpeed); yield return null; } 
+                { transform.position = Vector3.MoveTowards(transform.position, nextStop, moveSpeed); yield return null; }
+                transform.position = nextStop;
             }
-            transform.position = (Vector3Int)targetPos;
         }
     }
 
