@@ -24,7 +24,7 @@ public abstract class Character : MonoBehaviour
     protected int attackRange;
     protected int moveRange;
 
-    protected float moveSpeed = 0.001f;
+    protected float moveSpeed = 0.01f;
 
     private MousePosition mousePosition;
 
