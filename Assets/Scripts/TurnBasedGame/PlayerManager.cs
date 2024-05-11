@@ -12,7 +12,13 @@ public class PlayerManager : MonoBehaviour
 
     private void Start()
     {
-        MatchManager.Instance.onClick.AddListener(ReceiveClicked);
+        MatchManager.Instance.onClickDown.AddListener(OnClickHold);
+        MatchManager.Instance.onClickRelease.AddListener(OnClickRelease);
+    }
+
+    private void Update()
+    {
+        if(clicked != null) Debug.Log(clicked);
     }
 
     public void RegisterUnit(GameObject _unit)
@@ -27,7 +33,25 @@ public class PlayerManager : MonoBehaviour
         Debug.Log($"{_unit.name} got Removed from {name}");
     }
 
-    void ReceiveClicked(GameObject _clicked) => clicked = _clicked;
+    void OnClickRelease(GameObject _clicked) => clicked = _clicked;
+
+    void OnClickHold(GameObject _clicked)
+    {
+        StartCoroutine(HoldObject());
+
+        IEnumerator HoldObject()
+        {
+            while (Input.GetMouseButton(0))
+            {
+                _clicked.transform.position = (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                yield return new WaitForSeconds(0.001f);
+            }
+        }
+    }
+
+    
+
+
 
     #region IEnumerable Acts
     IEnumerator ReadyMove()

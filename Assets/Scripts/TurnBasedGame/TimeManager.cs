@@ -8,15 +8,15 @@ public class TimeManager : MonoBehaviour
     public class TimeEvent: UnityEvent<float> { }
 
     [Header("Time Events")]
-    public UnityEvent onTimerSet;
-    public UnityEvent onTimerEnd;
+    public UnityEvent onTimerSet = new UnityEvent();
+    public UnityEvent onTimerEnd = new UnityEvent();
     
-    public TimeEvent onTimerTick;
-    public TimeEvent onMatchTimeTick;
+    public TimeEvent onTimerTick = new TimeEvent();
+    public TimeEvent onMatchTimeTick = new TimeEvent();
 
     [SerializeField]
-    private float timeLimit = 10f; // time Limit for each turn
-    private float timeLeft;
+    private float timeLimit = 60f; // time Limit for each turn
+    private float timeLeft; // time left in second
     private float matchTime = 0f;
     private float gameTime = 0f;
 

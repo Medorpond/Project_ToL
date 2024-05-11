@@ -9,8 +9,9 @@ public class MatchManager : MonoBehaviour
 
     [Header("Click Event")]
 
-    public ClickEvent onClick = new ClickEvent();
-
+    public ClickEvent onClickRelease = new ClickEvent();
+    public ClickEvent onClickDown = new ClickEvent();
+    
 
     [SerializeField]
     private PlayerManager player;
@@ -31,9 +32,10 @@ public class MatchManager : MonoBehaviour
     }
     private void Update()
     {
-        GetClick();
+        GetClickRelease();
+        GetClickDown();
     }
-    
+
     private void OnDisable()
     {
             TimeManager.Instance.onTimerEnd?.RemoveListener(HandleTimerEnd);
@@ -96,7 +98,27 @@ public class MatchManager : MonoBehaviour
     private void HandleTimerEnd() => ChangeTurn();
 
 
-    void GetClick()
+
+    void GetClickDown()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            Vector3 ray = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            ray.z = 10;
+            RaycastHit2D hit = Physics2D.Raycast(ray, Vector2.zero);
+
+            if (hit.collider != null)
+            {
+                onClickDown?.Invoke(hit.collider.gameObject);
+            }
+            else
+            {
+                Debug.Log("No collided");
+            }
+        }
+    }
+
+    void GetClickRelease()
     {
         if (Input.GetMouseButtonUp(0))
         {
@@ -106,11 +128,11 @@ public class MatchManager : MonoBehaviour
 
             if (hit.collider != null)
             {
-                onClick?.Invoke(hit.collider.gameObject);
+                onClickRelease?.Invoke(hit.collider.gameObject);
             }
             else
             {
-                Debug.Log("No collide");
+                Debug.Log("No collided");
             }
         }
     }
