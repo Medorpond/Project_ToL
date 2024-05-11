@@ -10,11 +10,12 @@ public class TimeManager : MonoBehaviour
     [Header("Time Events")]
     public UnityEvent onTimerSet;
     public UnityEvent onTimerEnd;
-
+    
     public TimeEvent onTimerTick;
     public TimeEvent onMatchTimeTick;
 
-    private float timeLimit = 5f; // time Limit for each turn
+    [SerializeField]
+    private float timeLimit = 10f; // time Limit for each turn
     private float timeLeft;
     private float matchTime = 0f;
     private float gameTime = 0f;
@@ -65,17 +66,11 @@ public class TimeManager : MonoBehaviour
         if (timerCoroutine == null)
         {
             timerCoroutine = StartCoroutine(SetTimerCoroutine());
-            Debug.Log("Timer Set!");
             onTimerSet?.Invoke();
-        }
-        else
-        {
-            Debug.Log("에러! 에러! 에러!");
         }
     }
     IEnumerator SetTimerCoroutine()
     {
-        Debug.Log("Timer start!");
         timeLeft = timeLimit;
         while (timeLeft > 0)
         {
@@ -86,7 +81,6 @@ public class TimeManager : MonoBehaviour
 
         if (timeLeft <= 0)
         {
-            Debug.Log("Timeout!");
             ResetTimer();
             onTimerEnd?.Invoke();
         }
@@ -98,7 +92,6 @@ public class TimeManager : MonoBehaviour
         {
             StopCoroutine(timerCoroutine);
             timerCoroutine = null;
-            Debug.Log("Stop Timer");
         }        
     }
     #endregion

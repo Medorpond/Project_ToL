@@ -1,13 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class MatchManager : MonoBehaviour
 {
+    public class ClickEvent: UnityEvent<GameObject> { }
+
+    [Header("Click Event")]
+
+    public ClickEvent onClick = new ClickEvent();
+
+
     [SerializeField]
     private PlayerManager player;
     [SerializeField]
     private PlayerManager opponent;
+
+    private void Awake()
+    {
+        SingletoneInit();
+    }
 
     private void Start()
     {
@@ -18,18 +31,45 @@ public class MatchManager : MonoBehaviour
     }
     private void Update()
     {
-        
+        GetClick();
     }
     
-    private void OnDisabled()
+    private void OnDisable()
     {
-        if (TimeManager.Instance != null)
+            TimeManager.Instance.onTimerEnd?.RemoveListener(HandleTimerEnd);
+            TimeManager.Instance?.EndMatchTime();
+    }
+
+    private void OnDestroy()
+    {
+        if (instance == this) { instance = null; }
+    }
+
+    #region Singletone
+    private static MatchManager instance = null;
+    public static MatchManager Instance
+    {
+        get
         {
-            TimeManager.Instance.onTimerEnd.RemoveListener(HandleTimerEnd);
-            TimeManager.Instance.EndMatchTime();
+            if (instance == null)
+            {
+                instance = new GameObject("MatchManager").AddComponent<MatchManager>();
+            }
+            return instance;
         }
     }
-    
+
+    private void SingletoneInit()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else { Destroy(this.gameObject); }
+    }
+
+    #endregion
+
 
 
     void SetTurn()
@@ -46,9 +86,32 @@ public class MatchManager : MonoBehaviour
         TimeManager.Instance.ResetTimer();
         player.isMyTurn = !player.isMyTurn;
         opponent.isMyTurn = !opponent.isMyTurn;
-        TimeManager.Instance.StartTimer();
-        Debug.Log("Turn Changed!");
-    }
 
+        // Disable all acts
+        player.StopAllCoroutines();
+        opponent.StopAllCoroutines();
+
+        TimeManager.Instance.StartTimer();
+    }
     private void HandleTimerEnd() => ChangeTurn();
+
+
+    void GetClick()
+    {
+        if (Input.GetMouseButtonUp(0))
+        {
+            Vector3 ray = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            ray.z = 10;
+            RaycastHit2D hit = Physics2D.Raycast(ray, Vector2.zero);
+
+            if (hit.collider != null)
+            {
+                onClick?.Invoke(hit.collider.gameObject);
+            }
+            else
+            {
+                Debug.Log("No collide");
+            }
+        }
+    }
 }

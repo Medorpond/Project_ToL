@@ -7,22 +7,14 @@ public class Tile : MonoBehaviour
 {
     [SerializeField]
     private GameObject highlight;
-    private GameObject player;
+
 
     private void Awake()
     {
-        gameObject.GetComponent<BoxCollider2D>().enabled = false;
-        player = GameObject.FindWithTag("Player");
+        //gameObject.GetComponent<BoxCollider2D>().enabled = false;
     }
 
     private void OnMouseEnter() => highlight.SetActive(true);
-    void OnMouseUp()
-    {
-        if (player != null)
-        {
-            player.SendMessage("ReceiveClicked", gameObject);
-        }
-    }
 
     private void OnMouseExit() => highlight.SetActive(false);
 

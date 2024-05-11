@@ -385,6 +385,7 @@ MonoBehaviour:
   onTimerEnd:
     m_PersistentCalls:
       m_Calls: []
+  timeLimit: 5
 --- !u!4 &1268784347
 Transform:
   m_ObjectHideFlags: 0

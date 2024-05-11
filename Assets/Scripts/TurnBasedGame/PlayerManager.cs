@@ -7,13 +7,13 @@ public class PlayerManager : MonoBehaviour
     public List<GameObject> UnitList;
 
     public bool isMyTurn { get; set; }
-    private bool isOperating;
     private Character atService;
-    private Command currentCommand;
-    private Vector3 targetPosition;
     private GameObject clicked;
 
-    
+    private void Start()
+    {
+        MatchManager.Instance.onClick.AddListener(ReceiveClicked);
+    }
 
     public void RegisterUnit(GameObject _unit)
     {
@@ -26,11 +26,11 @@ public class PlayerManager : MonoBehaviour
         UnitList.Remove(_unit);
         Debug.Log($"{_unit.name} got Removed from {name}");
     }
-    
+
     void ReceiveClicked(GameObject _clicked) => clicked = _clicked;
 
     #region IEnumerable Acts
-    IEnumerator Move()
+    IEnumerator ReadyMove()
     {
         // Highligts MoveButton
         yield return new WaitUntil(() => Input.GetMouseButtonUp(0));
@@ -44,8 +44,15 @@ public class PlayerManager : MonoBehaviour
             Debug.Log("Click On Tile to Move");
         }
     }
+    public void Move()
+    {
+        if (isMyTurn)
+        {
+            StartCoroutine(ReadyMove());
+        }
+    }
 
-    IEnumerator Attack()
+    IEnumerator ReadyAttack()
     {
         // Highligts MoveButton
         yield return new WaitUntil(() => Input.GetMouseButtonUp(0));
@@ -58,29 +65,58 @@ public class PlayerManager : MonoBehaviour
         {
             Debug.Log("Click On Opponent to Attack");
         }
-
     }
 
-    IEnumerator Ability1()
+    public void Attack()
+    {
+        if (isMyTurn)
+        {
+            StartCoroutine(ReadyAttack());
+        }
+    }
+
+
+    
+
+    IEnumerator ReadyAbility1()
     {
         yield return new WaitUntil(() => Input.GetMouseButtonUp(0));
+        Debug.Log("Ability1!");
     }
-    IEnumerator Ability2()
+    public void Ability1()
+    {
+        if (isMyTurn)
+        {
+            StartCoroutine(ReadyAbility1());
+        }
+    }
+
+    IEnumerator ReadyAbility2()
     {
         yield return new WaitUntil(() => Input.GetMouseButtonUp(0));
+        Debug.Log("Ability2!");
     }
-    IEnumerator Ability3()
+    public void Ability2()
+    {
+        if (isMyTurn)
+        {
+            StartCoroutine(ReadyAbility2());
+        }
+    }
+
+    IEnumerator ReadyAbility3()
     {
         yield return new WaitUntil(() => Input.GetMouseButtonUp(0));
+        Debug.Log("Ability3!");
     }
+    public void Ability3()
+    {
+        if (isMyTurn)
+        {
+            StartCoroutine(ReadyAbility3());
+        }
+    }
+
     #endregion
-    private enum Command
-    {
-        Move,
-        Attack,
-        Ability1,
-        Ability2,
-        Ability3
-    }
 }
 
