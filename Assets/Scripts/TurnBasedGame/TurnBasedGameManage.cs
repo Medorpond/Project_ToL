@@ -307,4 +307,5 @@ public class TurnBasedGameManage : MonoBehaviour
             }
     }
     // ~ yong
+    // 회고 필요
 }
