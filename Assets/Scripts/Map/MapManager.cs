@@ -16,7 +16,7 @@ public class MapManager : MonoBehaviour
     
     void SingletoneInit()
     {
-        if (instance == null) { instance = this; DontDestroyOnLoad(gameObject); }
+        if (instance == null) { instance = this;}
         else { Destroy(gameObject); }
     }
     #endregion
