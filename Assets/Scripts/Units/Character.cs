@@ -68,7 +68,7 @@ public abstract class Character : MonoBehaviour
         {
             if (Input.GetMouseButtonDown(0))
             {
-                destination = mousePosition.SwitchToNode();
+                destination = new Vector3 (Mathf.Round(mousePosition.SwitchToNode().x), Mathf.Round(mousePosition.SwitchToNode().y));
                 MoveTo(destination);
                 // can move only Once
                 canMove = false;
