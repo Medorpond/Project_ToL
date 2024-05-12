@@ -14,7 +14,7 @@ public class MainMenuScripts : MonoBehaviour
         LoadingSceneController.LoadScene("GameScene");
     }
     public void OnClickSingle(){
-        Debug.Log("SinglePlay");
+        SceneManager.LoadScene("GameScene_TEST");
     }
     public void OnClickExit(){
 #if UNITY_EDITOR

@@ -4,10 +4,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class MatchManager : MonoBehaviour
 {
     public GameObject DeployPanel;
+    public GameObject ResultPanel;
+
+    public Button MainMenuBtn;
+
+    void Exit()
+    {
+        SceneManager.LoadScene("MainScene");
+    }
 
 
     public class ClickEvent: UnityEvent<GameObject> { }
@@ -32,6 +42,7 @@ public class MatchManager : MonoBehaviour
     private void Awake()
     {
         SingletoneInit();
+        MainMenuBtn.onClick.AddListener(Exit);
     }
 
     private void Start()
@@ -176,6 +187,7 @@ public class MatchManager : MonoBehaviour
         TimeManager.Instance?.EndMatchTime();
         Debug.Log("Game Over!");
         //trigger Result UI
+        ResultPanel.SetActive(true);
     }
     #endregion
 
