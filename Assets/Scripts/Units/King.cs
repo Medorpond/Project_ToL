@@ -14,4 +14,15 @@ public class King : Character
         base.Init();
     }
 
+    public override void getDamage(int atk)
+    {
+        int previousHP = health;
+        health = health - atk > 0 ? health - atk : 0;
+        onHPEvent.Invoke(previousHP, health);
+
+        if (health <= 0)
+        {
+            health = 0;
+        }
+    }
 }

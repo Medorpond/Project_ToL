@@ -51,15 +51,7 @@ public abstract class Character : MonoBehaviour
     protected void Update()
     {
         location = transform.position;
-        /*
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            destination = new Vector3(x, y); // Pseudo Coordinate.
-            MoveTo(destination, mapManager.stage.NodeArray);
-        }
-        */
 
-        // need to change switchToNode
         if (canMove)
         {
             if (Input.GetMouseButtonDown(0))
@@ -99,7 +91,7 @@ public abstract class Character : MonoBehaviour
         transform.position = location;
         health = maxHealth;
     }
-
+    /*
     public virtual bool DecreaseHP(int damage)
     {
         int previousHP = health;
@@ -112,7 +104,7 @@ public abstract class Character : MonoBehaviour
         if (health > 0) return true;
         else return false;
     }
-
+    */
     public void Attack(Character _opponent)
     {
         _opponent.getDamage(attackDamage);
@@ -122,9 +114,12 @@ public abstract class Character : MonoBehaviour
     //public abstract void Ability2();
     //public abstract void Ability3();
 
-    public void getDamage(int atk)
+    public virtual void getDamage(int atk)
     {
-        health -= atk;
+        int previousHP = health;
+        health = health - atk > 0 ? health - atk : 0;
+        onHPEvent.Invoke(previousHP, health);
+
         if(health <= 0)
         {
             health = 0;

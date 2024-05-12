@@ -12614,6 +12614,10 @@ PrefabInstance:
       propertyPath: kingSpawnPoint.y
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 9004290357578269197, guid: 24cf45983087c2a46a364edeb1c87e5b, type: 3}
+      propertyPath: kingSpawnPoint.z
+      value: -1
+      objectReference: {fileID: 0}
     - target: {fileID: 9049692166548375154, guid: 24cf45983087c2a46a364edeb1c87e5b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -12710,6 +12714,10 @@ PrefabInstance:
     - target: {fileID: 1061012605063674845, guid: 2e0b88aa6a1bc934e87c6ae99d4a8ccc, type: 3}
       propertyPath: kingSpawnPoint.y
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1061012605063674845, guid: 2e0b88aa6a1bc934e87c6ae99d4a8ccc, type: 3}
+      propertyPath: kingSpawnPoint.z
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 7516802316034090282, guid: 2e0b88aa6a1bc934e87c6ae99d4a8ccc, type: 3}
       propertyPath: m_LocalPosition.x
