@@ -95,7 +95,7 @@ public class TurnBasedGameManage : MonoBehaviour
 
                         cameraManager.ZoomCharacter(selectedCharacter.location);
                         //yong 
-                        ButtonCreate();
+                        //ButtonCreate();
                         //yong
                     }
 
@@ -105,7 +105,7 @@ public class TurnBasedGameManage : MonoBehaviour
                         selectedUnit = null;
                         selectedCharacter = null;
                         //yong 
-                        DestoryBtn();
+                        //DestoryBtn();
                         //yong
                     }
                 }
@@ -133,7 +133,7 @@ public class TurnBasedGameManage : MonoBehaviour
         else StartCoroutine("Attack");
 
         //yong
-        DestoryBtn();
+        //DestoryBtn();
     }
 
     public void TurnEndButton()
@@ -181,7 +181,7 @@ public class TurnBasedGameManage : MonoBehaviour
         if (state != State.playerTurn) return;
 
         //yong
-        DestoryBtn();
+        //DestoryBtn();
     }
 
     public void MoveButton()
@@ -192,7 +192,7 @@ public class TurnBasedGameManage : MonoBehaviour
         // will add move turn count and move range
 
         //yong
-        DestoryBtn();
+        //DestoryBtn();
     }
 
     private void EndBattle()
@@ -307,5 +307,5 @@ public class TurnBasedGameManage : MonoBehaviour
             }
     }
     // ~ yong
-    // È¸°í ÇÊ¿ä
+    // È¸ï¿½ï¿½ ï¿½Ê¿ï¿½
 }
