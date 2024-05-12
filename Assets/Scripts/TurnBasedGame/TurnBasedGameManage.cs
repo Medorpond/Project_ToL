@@ -18,8 +18,6 @@ public enum State
 public class TurnBasedGameManage : MonoBehaviour
 {
     public State state;
-    private bool isEnemyLive = true;
-    private bool isPlayerLive = true;
 
     [SerializeField]
     private GameObject[] characters;
@@ -31,7 +29,8 @@ public class TurnBasedGameManage : MonoBehaviour
 
     private GameObject selectedUnit;
     private Character selectedCharacter;
-    //private int unitIndex = -1;
+    private GameObject selectedEnemy;
+    private Character enemyCharacter;
 
     [SerializeField]
     private CameraManager cameraManager;
@@ -56,10 +55,11 @@ public class TurnBasedGameManage : MonoBehaviour
     private void Awake()
     {
         state = State.start;
-        BeforeBattle();
+        BattleStart();
     }
 
-    void Start(){
+    void Start()
+    {
         AudioManager.instance.PlayBgm(true);
     }
 
@@ -72,10 +72,9 @@ public class TurnBasedGameManage : MonoBehaviour
             text_time[1].text = ((int)time % 60).ToString();
         }
         // yong
-
-        // check Clicked object only At player turn
-        // before use enable tile collider
-        if (state == State.playerTurn)
+        
+        // select Character
+        if (state == State.playerTurn || state == State.enemyTurn)
         {
             if (Input.GetMouseButtonDown(0))
             {
@@ -86,50 +85,88 @@ public class TurnBasedGameManage : MonoBehaviour
 
                 if (hit.transform.gameObject.tag == "Unit")
                 {
-                    if (selectedUnit == null || hit.transform.gameObject != selectedUnit)
+                    // select
+                    if (selectedUnit == null)
                     {
-                        selectedUnit = hit.transform.gameObject;
-                        selectedCharacter = player.characters[player.GetIndex(selectedUnit)].GetComponentInChildren<Character>();
-
-                        Debug.Log($"Unit Selected : {selectedUnit.name}");
-
-                        cameraManager.ZoomCharacter(selectedCharacter.location);
-                        //yong 
-                        //ButtonCreate();
-                        //yong
+                        if (state == State.playerTurn)
+                        {
+                            if (isMyTeam(hit.transform.gameObject, player)) SelectCharacter(hit.transform.gameObject, player);
+                        }
+                        else if (state == State.enemyTurn)
+                        {
+                            if (isMyTeam(hit.transform.gameObject, enemy)) SelectCharacter(hit.transform.gameObject, enemy);
+                        }
                     }
 
                     else
                     {
-                        Debug.Log($"Unit unselected : {selectedUnit.name}");
-                        selectedUnit = null;
-                        selectedCharacter = null;
-                        //yong 
-                        //DestoryBtn();
-                        //yong
+                        // select same unit, unselect
+                        if (selectedUnit == hit.transform.gameObject)
+                        {
+                            Debug.Log($"Unit Unselected : {selectedUnit.name}");
+                            selectedUnit = null;
+                            selectedCharacter = null;
+                            cameraManager.ResetCamera();
+                        }
+                        else
+                        {
+                            if (state == State.playerTurn)
+                            {
+                                // same team, reselect
+                                if (isMyTeam(hit.transform.gameObject, player)) SelectCharacter(hit.transform.gameObject, player);
+                                // another team, select enemy
+                                else
+                                {
+                                    selectedEnemy = hit.transform.gameObject;
+                                    enemyCharacter = selectedEnemy.GetComponentInChildren<Character>();
+                                    Debug.Log($"Enemy Selected : {selectedEnemy.name}");
+                                }
+                            }
+                            else if (state == State.enemyTurn)
+                            {
+                                // same team, reselect
+                                if (isMyTeam(hit.transform.gameObject, enemy)) SelectCharacter(hit.transform.gameObject, enemy);
+                                // another team, select enemy
+                                else
+                                {
+                                    selectedEnemy = hit.transform.gameObject;
+                                    enemyCharacter = selectedEnemy.GetComponentInChildren<Character>();
+                                    Debug.Log($"Enemy Selected : {selectedEnemy.name}");
+                                }
+                            }
+                        }
                     }
                 }
             }
         }
     }
 
-    private void BeforeBattle()
+    private void SelectCharacter(GameObject selected, Player user)
     {
-        // before battle
+        selectedUnit = selected;
+        selectedCharacter = selectedUnit.GetComponentInChildren<Character>();
+        Debug.Log($"Unit Selected : {user}.{selectedUnit.name}");
 
-        BattleStart();
+        cameraManager.ZoomCharacter(selectedCharacter.location);
+    }
+
+    private bool isMyTeam(GameObject unit, Player user)
+    {
+        // not in index, not my team
+        if (user.GetIndex(unit) == -1) return false;
+        else return true;
     }
 
     private void BattleStart()
     {
         state = State.playerTurn;
-        turn.text = "PLAYER Turn";
+        ChangeStateText();
     }
 
     public void AttackButton()
     {
         // attack only at player Turn, can attack only when chararcter selected
-        if (state != State.playerTurn || selectedUnit == null) return;
+        if (selectedUnit == null || selectedEnemy == null) return;
         else StartCoroutine("Attack");
 
         //yong
@@ -138,35 +175,40 @@ public class TurnBasedGameManage : MonoBehaviour
 
     public void TurnEndButton()
     {
-        // Change Player Turn to Enemy Turn
-        if (state != State.playerTurn) return;
-        else
-        {
-            // at enemy turn deactivate selected unit
-            selectedUnit = null;
-            selectedCharacter = null;
-            cameraManager.ResetCamera();
-            
-            state = State.enemyTurn;
-            StartCoroutine("EnemyTurn");
-        }
+        // deactivate selected unit
+        selectedUnit = null;
+        selectedCharacter = null;
+        selectedEnemy = null;
+        enemyCharacter = null;
+        cameraManager.ResetCamera();
+
+        // Change Player
+        if (state == State.playerTurn) state = State.enemyTurn;
+        else if (state == State.enemyTurn) state = State.playerTurn;
+        ChangeStateText();
     }
 
     private IEnumerator Attack()
     {
-        // can attack only at attackRange
-        if (selectedCharacter.CanAttack(Vector2.Distance(enemy.kingCharacter.location, selectedCharacter.location)))
+        // can attack at attackRange
+        if (selectedCharacter.CanAttack(Vector2.Distance(enemyCharacter.location, selectedCharacter.location)))
         {
-            // get Enemy state
-            enemy.TakeDamage(selectedCharacter.AttackDamage);
-            isEnemyLive = enemy.IsKingLive();
+            // attack
+            selectedCharacter.Attack(enemyCharacter);
         }
 
-        // enemy Die = Player Win
-        if (!isEnemyLive)
+        // check king state
+        if (player.IsKingDead())
+        {
+            state = State.lose;
+            ChangeStateText();
+            yield return new WaitForSeconds(3.0f);
+            EndBattle();
+        }
+        if (enemy.IsKingDead())
         {
             state = State.win;
-            turn.text = "PLAYER Win";
+            ChangeStateText();
             yield return new WaitForSeconds(3.0f);
             EndBattle();
         }
@@ -186,7 +228,7 @@ public class TurnBasedGameManage : MonoBehaviour
 
     public void MoveButton()
     {
-        if (state != State.playerTurn || selectedUnit == null) return;
+        if (selectedUnit == null) return;
         selectedCharacter.canMove = true;
 
         // will add move turn count and move range
@@ -197,19 +239,31 @@ public class TurnBasedGameManage : MonoBehaviour
 
     private void EndBattle()
     {
-        turn.text = "BATTLE END";
         // yong
         Invoke("ShowGameOverPanel", 0f);
         time_active = false;
         // yong
     }
 
+    private void ChangeStateText()
+    {
+        switch (state)
+        {
+            case State.start: turn.text = "GAME START"; break;
+            case State.playerTurn: turn.text = "PLAYER Turn"; break;
+            case State.enemyTurn: turn.text = "ENEMY Turn"; break;
+            case State.win: turn.text = "PLAYER Win"; break;
+            case State.lose: turn.text = "ENEMY Win"; break;
+            default: break;
+        }
+    }
+    /*
     // only attack my king
     private IEnumerator EnemyTurn()
     {
         turn.text = "ENEMY TURN";
 
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(5.0f);
 
         if (enemy.kingCharacter.CanAttack(Vector2.Distance(enemy.kingCharacter.location, player.kingCharacter.location)))
         //get Player state
@@ -237,6 +291,8 @@ public class TurnBasedGameManage : MonoBehaviour
 
         yield return null;
     }
+    */
+
     // yong ~
     void ShowGameOverPanel() {
         

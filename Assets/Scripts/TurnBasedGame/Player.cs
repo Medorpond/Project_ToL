@@ -6,7 +6,6 @@ using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
-
     public List<GameObject> characters;
     public Character kingCharacter;
 
@@ -28,12 +27,11 @@ public class Player : MonoBehaviour
     private TextMeshProUGUI textmovement;
     // ~ yong
 
-
     // temp for king unit
     [SerializeField]
     private GameObject kingUnit;
     [SerializeField]
-    private Vector2 kingSpawnPoint;
+    private Vector3 kingSpawnPoint;
 
 
 
@@ -58,7 +56,7 @@ public class Player : MonoBehaviour
         characters.Add(newCharacter);
 
         // set newCharacter
-        newCharacter.GetComponent<Character>().location += new Vector2(characters.Count - 2, 0);
+        newCharacter.GetComponent<Character>().location += new Vector2(characters.Count - 1, 0);
         newCharacter.GetComponentInChildren<Character>().Init();
     }
 
@@ -68,13 +66,6 @@ public class Player : MonoBehaviour
         textClass.text = $"{kingCharacter.GetType().Name}";
         textATK.text = $"{kingCharacter.AttackDamage}";
         textmovement.text = $"{kingCharacter.MoveRange}";
-    }
-
-    public bool TakeDamage(int damage)
-    {
-        //return characters[index].GetComponentInChildren<Character>().DecreaseHP(damage);
-
-        return kingCharacter.DecreaseHP(damage);
     }
 
     private void UpdateHP(int previousHP, int currentHP)
@@ -91,10 +82,10 @@ public class Player : MonoBehaviour
         textHP.text = $"{currentHP}";
     }
 
-    public bool IsKingLive()
+    public bool IsKingDead()
     {
-        if (kingCharacter.Health > 0) return true;
-        else return false;
+        if (kingCharacter.Health > 0) return false;
+        else return true;
     }
 
     public int GetIndex(GameObject selectedUnit)
