@@ -47,6 +47,7 @@ public class MatchManager : MonoBehaviour
 
     private void Start()
     {
+        AudioManager.instance.PlayBgm(true);
         TimeManager.Instance.StartMatchTime();
         UnitSelectPhase();
     }
