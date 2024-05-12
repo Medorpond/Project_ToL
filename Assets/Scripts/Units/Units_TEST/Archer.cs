@@ -11,9 +11,9 @@ public class Archer : Unit
     }
     protected override void Init()
     {
-        maxHealth = 70;
+        maxHealth = 7;
         currentHealth = maxHealth;
-        attackDamage = 25;
+        attackDamage = 2;
         attackRange = 5;
         moveRange = 2;
     }

@@ -9,14 +9,17 @@ public class Captain : Unit
         base.Awake();
         Init();
     }
-
+    void Update()
+    {
+        Debug.Log(currentHealth);
+    }
     protected override void Init()
     {
-        maxHealth = 100;
+        maxHealth = 10;
         currentHealth = maxHealth;
-        attackDamage = 20;
+        attackDamage = 4;
         attackRange = 1;
-        moveRange = 3;
+        moveRange = 30;
     }
 
     public override void IsDead()

@@ -11,9 +11,9 @@ public class Knight : Unit
     }
     protected override void Init()
     {
-        maxHealth = 120;
+        maxHealth = 12;
         currentHealth = maxHealth;
-        attackDamage = 15;
+        attackDamage = 3;
         attackRange = 1;
         moveRange = 3;
     }

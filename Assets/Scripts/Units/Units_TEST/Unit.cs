@@ -24,6 +24,8 @@ public abstract class Unit : MonoBehaviour
         // Add this to PlayerManager
     }
 
+    
+
     protected abstract void Init();
     public void MoveTo(Vector3 direction)
     {
@@ -60,6 +62,7 @@ public abstract class Unit : MonoBehaviour
 
     public virtual void Attack(Unit _opponent)
     {
+        Debug.Log($"{name} attacked {_opponent.name}");
         _opponent.IsDamaged(attackDamage);
         // Trigger Animation
     }
