@@ -20,6 +20,7 @@ public Node[,] NodeArray; //PreDefine NodeArray for each Stage...
     {
         GameObject gridSet = new GameObject("GridSet");
         gridSet.transform.parent = transform;
+
         
         foreach (Node elem in NodeArray) { if (!elem.isBlocked) LoadTile(elem.x, elem.y, gridSet.transform); }
     }

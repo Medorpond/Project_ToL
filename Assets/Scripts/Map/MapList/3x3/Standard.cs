@@ -33,5 +33,7 @@ public class Standard : Stage
                 NodeArray[x, y] = new Node(isDeployable, isBlocked, x, y);
             }
         }
+        NodeArray[2, 5].isDeployable = false;
+        NodeArray[24, 5].isDeployable = false;
     }
 }
