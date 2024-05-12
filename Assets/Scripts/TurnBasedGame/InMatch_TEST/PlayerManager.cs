@@ -41,7 +41,7 @@ public class PlayerManager : MonoBehaviour
 
     void OnClickRelease(GameObject _clicked)
     {
-        if (inAction != null) { clicked = _clicked; Debug.Log($"clicked: {clicked}"); }
+        if (inAction != null) { clicked = _clicked;}
         else if (UnitList.Contains(_clicked) && isMyTurn)
         {
             if(currentUnit != null) { currentUnit.transform.Find("ArrowPointDown").gameObject.SetActive(false); }
@@ -107,7 +107,8 @@ public class PlayerManager : MonoBehaviour
         {
             if(currentUnit != null)
             {
-                currentUnit.GetComponent<Unit>().Attack(clicked.GetComponent<Unit>());
+                
+                currentUnit.GetComponent<Unit>().Attack(clicked);
             }   
         }
         else

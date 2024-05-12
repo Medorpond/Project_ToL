@@ -2,19 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using NodeStruct;
+using UnityEngine.UI;
 
 public abstract class Unit : MonoBehaviour
 {
+    public RectTransform hp_bar;
+
     [SerializeField]
     protected float moveSpeed = 0.01f;
 
-    protected int maxHealth;
-    protected int currentHealth;
-    protected int attackDamage;
-    protected int attackRange;
-    protected int moveRange;
+    protected float maxHealth;
+    protected float currentHealth;
+    protected float attackDamage;
+    protected float attackRange;
+    protected float moveRange;
 
     private Coroutine moveCoroutine;
+
     protected virtual void Awake()
     {
 
@@ -38,14 +42,13 @@ public abstract class Unit : MonoBehaviour
 
         if (path.Count > moveRange)
         {
-            Debug.Log("Out of Range");
+            Debug.Log("Too Far to Go");
             return;
         }
         if (path.Count == 0) Debug.Log("You can't reach there.");
 
         MapManager.Instance.stage.Occupy(startPos, targetPos); // 유닛 관통 방지
         moveCoroutine = StartCoroutine(MoveOneGrid());
-        moveCoroutine = null;
 
         // Local Method
         IEnumerator MoveOneGrid()
@@ -57,32 +60,46 @@ public abstract class Unit : MonoBehaviour
                 { transform.position = Vector3.MoveTowards(transform.position, nextStop, moveSpeed); yield return null; }
                 transform.position = nextStop;
             }
+            moveCoroutine = null;
         }
     }
 
-    public virtual void Attack(Unit _opponent)
+    public virtual void Attack(GameObject _opponent)
     {
+        if (Vector2.Distance(transform.position, _opponent.transform.position) > attackRange)
+        {
+            Debug.Log("Out of Range");
+            return;
+        }
         Debug.Log($"{name} attacked {_opponent.name}");
-        _opponent.IsDamaged(attackDamage);
+        _opponent.GetComponent<Unit>().IsDamaged(attackDamage);
         // Trigger Animation
     }
 
 
 
-    public virtual void IsDamaged(int _damage)
+    public virtual void IsDamaged(float _damage)
     {
         currentHealth = currentHealth - _damage > 0 ? currentHealth - _damage : 0;
+        HP_BarUpdate();
         if (currentHealth <= 0) IsDead();
         // Invoke Event to Trigger Animation, Update UI.
     }
 
-    public virtual void IsHealed(int _heal)
+    public virtual void IsHealed(float _heal)
     {
         currentHealth = currentHealth + _heal < maxHealth ? 
             currentHealth + _heal : maxHealth;
+        HP_BarUpdate();        
         // Invoke Event to Trigger Animation, Update UI.
     }
 
+    private void HP_BarUpdate()
+    {
+        float widthratio = currentHealth / maxHealth;
+        Debug.Log(widthratio);
+        hp_bar.sizeDelta = new Vector2(0.5f * widthratio, hp_bar.sizeDelta.y);
+    }
 
     public virtual void IsDead()
     {
