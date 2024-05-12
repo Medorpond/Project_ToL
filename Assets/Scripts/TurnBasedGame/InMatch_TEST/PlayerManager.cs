@@ -34,7 +34,7 @@ public class PlayerManager : MonoBehaviour
     void OnClickRelease(GameObject _clicked)
     {
         if (inAction != null) { clicked = _clicked; Debug.Log($"clicked: {clicked}"); }
-        else if (_clicked.CompareTag("MyUnit"))
+        else if (UnitList.Contains(_clicked))//   _clicked.CompareTag("MyUnit") || _clicked.CompareTag("Opponent"
         {
             currentUnit = _clicked.GetComponent<Unit>(); Debug.Log($"CurUnit: {_clicked}"); 
         }
@@ -42,7 +42,7 @@ public class PlayerManager : MonoBehaviour
 
     void OnClickHold(GameObject _clicked)
     {
-        if (_clicked.tag == "MyUnit")
+        if (_clicked.CompareTag("Unit"))
         {
             StartCoroutine(HoldObject());
         }
@@ -55,7 +55,7 @@ public class PlayerManager : MonoBehaviour
                 Vector3 position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 position.z = -1;
                 _clicked.transform.position = position;
-                Debug.Log($"{_clicked.transform.position}");
+                //Debug.Log($"{_clicked.transform.position}");
                 yield return new WaitForSeconds(0.001f);
             }
         }
@@ -72,7 +72,6 @@ public class PlayerManager : MonoBehaviour
             {
                 currentUnit.MoveTo(clicked.transform.position);
             }
-            else { Debug.Log("Á¨Àå"); }
         }
         else
         {
@@ -94,9 +93,9 @@ public class PlayerManager : MonoBehaviour
     {
         yield return new WaitUntil(() => clicked != null);
 
-        if (clicked.CompareTag("Opponent"))
+        if (!UnitList.Contains(clicked) && clicked.CompareTag("Unit"))// clicked.CompareTag("Opponent")
         {
-            currentUnit.Attack(clicked.GetComponent<Unit>());
+            currentUnit?.Attack(clicked.GetComponent<Unit>());
         }
         else
         {

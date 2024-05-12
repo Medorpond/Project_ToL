@@ -778,7 +778,7 @@ GameObject:
   - component: {fileID: 8977003951211868602}
   m_Layer: 0
   m_Name: Captain
-  m_TagString: MyUnit
+  m_TagString: Unit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

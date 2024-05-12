@@ -7,6 +7,9 @@ using UnityEngine.EventSystems;
 
 public class MatchManager : MonoBehaviour
 {
+    public GameObject DeployPanel;
+
+
     public class ClickEvent: UnityEvent<GameObject> { }
 
     [Header("Click Event")]
@@ -101,6 +104,7 @@ public class MatchManager : MonoBehaviour
         TimeManager.Instance.ResetTimer();
         player.StopAllCoroutines();
         opponent.StopAllCoroutines();
+        DeployPanel.SetActive(false);
         Debug.Log("Unit Select Phase End");
 
         DeployCaptain();
@@ -120,12 +124,12 @@ public class MatchManager : MonoBehaviour
         GameObject MyCaptain = Instantiate(prefab, MyCaptainPos, Quaternion.identity, player.transform);
         MapManager.Instance.stage.NodeArray[(int)MyCaptainPos.x, (int)MyCaptainPos.y].isBlocked = true;
         MyCaptain.GetComponent<BoxCollider2D>().enabled = true;
-        MyCaptain.tag = "MyUnit";
+        player.RegisterUnit(MyCaptain);
 
         GameObject OpponentCaptain = Instantiate(prefab, OpponentCaptainPos, Quaternion.identity, opponent.transform);
         MapManager.Instance.stage.NodeArray[(int)OpponentCaptainPos.x, (int)OpponentCaptainPos.y].isBlocked = true;
         OpponentCaptain.GetComponent<BoxCollider2D>().enabled = true;
-        OpponentCaptain.tag = "Opponent";
+        opponent.RegisterUnit(OpponentCaptain);
     }
     #endregion
 
@@ -182,7 +186,6 @@ public class MatchManager : MonoBehaviour
         if (currentPhase != Phase.UnitSelect) return;
         string path = $"Prefabs/Character/Unit_TEST/Archer";
         
-
         GameObject prefab = Resources.Load<GameObject>(path);
         if (prefab == null) { Debug.LogError("Failed to load prefab from path: " + path); return; }
         Vector3 position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -191,12 +194,13 @@ public class MatchManager : MonoBehaviour
             Quaternion.identity,player.transform);
 
         onClickDown?.Invoke(unit);
+        DeployPanel.SetActive(false);
 
         StartCoroutine(DeployCoroutine());
 
         IEnumerator DeployCoroutine()
         {
-            yield return new WaitUntil(() => Input.GetMouseButtonUp(0));
+            yield return new WaitUntil(() => currentPhase == Phase.Battle|| Input.GetMouseButtonUp(0));
 
             Vector3 ray = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             RaycastHit2D hit = Physics2D.Raycast(ray, Vector2.zero);
@@ -211,11 +215,30 @@ public class MatchManager : MonoBehaviour
                     unit.transform.position = new Vector3(posX, posY);
                     MapManager.Instance.stage.NodeArray[posX, posY].isBlocked = true;
                     unit.GetComponent<BoxCollider2D>().enabled = true;
+                    player.RegisterUnit(unit);
+                    if (currentPhase == Phase.UnitSelect)
+                    {
+                        DeployPanel.SetActive(true);
+                    }
                 }
-                else { Destroy(unit); }
+                else
+                {
+                    Destroy(unit);
+                    if (currentPhase == Phase.UnitSelect)
+                    {
+                        DeployPanel.SetActive(true);
+                    }
+                }
 
             }
-            else { Destroy(unit); }
+            else
+            {
+                Destroy(unit);
+                if (currentPhase == Phase.UnitSelect)
+                {
+                    DeployPanel.SetActive(true);
+                }
+            }
         }
     }
 
@@ -233,11 +256,13 @@ public class MatchManager : MonoBehaviour
 
         onClickDown?.Invoke(unit);
 
+        DeployPanel.SetActive(false);
+
         StartCoroutine(DeployCoroutine());
 
         IEnumerator DeployCoroutine()
         {
-            yield return new WaitUntil(() => Input.GetMouseButtonUp(0));
+            yield return new WaitUntil(() => currentPhase == Phase.Battle || Input.GetMouseButtonUp(0));
 
             Vector3 ray = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             RaycastHit2D hit = Physics2D.Raycast(ray, Vector2.zero);
@@ -252,11 +277,30 @@ public class MatchManager : MonoBehaviour
                     unit.transform.position = new Vector3(posX, posY);
                     MapManager.Instance.stage.NodeArray[posX, posY].isBlocked = true;
                     unit.GetComponent<BoxCollider2D>().enabled = true;
+                    player.RegisterUnit(unit);
+                    if (currentPhase == Phase.UnitSelect)
+                    {
+                        DeployPanel.SetActive(true);
+                    }
                 }
-                else { Destroy(unit); }
+                else 
+                { 
+                    Destroy(unit);
+                    if (currentPhase == Phase.UnitSelect)
+                    {
+                        DeployPanel.SetActive(true);
+                    }
+                }
 
             }
-            else { Destroy(unit); }
+            else 
+            { 
+                Destroy(unit);
+                if (currentPhase == Phase.UnitSelect)
+                {
+                    DeployPanel.SetActive(true);
+                }
+            }
         }
     }
 
@@ -272,11 +316,13 @@ public class MatchManager : MonoBehaviour
 
         onClickDown?.Invoke(unit);
 
+        DeployPanel.SetActive(false);
+
         StartCoroutine(DeployCoroutine());
 
         IEnumerator DeployCoroutine()
         {
-            yield return new WaitUntil(() => Input.GetMouseButtonUp(0));
+            yield return new WaitUntil(() => currentPhase == Phase.Battle || Input.GetMouseButtonUp(0));
 
             Vector3 ray = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             RaycastHit2D hit = Physics2D.Raycast(ray, Vector2.zero);
@@ -291,11 +337,30 @@ public class MatchManager : MonoBehaviour
                     unit.transform.position = new Vector3(posX, posY);
                     MapManager.Instance.stage.NodeArray[posX, posY].isBlocked = true;
                     unit.GetComponent<BoxCollider2D>().enabled = true;
+                    player.RegisterUnit(unit);
+                    if(currentPhase == Phase.UnitSelect)
+                    {
+                        DeployPanel.SetActive(true);
+                    }
                 }
-                else { Destroy(unit); }
+                else
+                {
+                    Destroy(unit);
+                    if (currentPhase == Phase.UnitSelect)
+                    {
+                        DeployPanel.SetActive(true);
+                    }
+                }
 
             }
-            else { Destroy(unit); }
+            else
+            {
+                Destroy(unit);
+                if (currentPhase == Phase.UnitSelect)
+                {
+                    DeployPanel.SetActive(true);
+                }
+            }
         }
     }
 

@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 4786173313724238249}
   m_Layer: 0
   m_Name: Archer
-  m_TagString: MyUnit
+  m_TagString: Unit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

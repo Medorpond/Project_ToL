@@ -85,7 +85,9 @@ public abstract class Unit : MonoBehaviour
     {
         // Remove this from PlayerManager's List<Character>;
         // Wait Until DeathAnimation Ends
-        Destroy(this, 0);
+
+
+        Destroy(gameObject, 0);
     }
 
 }
