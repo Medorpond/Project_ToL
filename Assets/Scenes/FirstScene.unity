@@ -137,6 +137,7 @@ GameObject:
   - component: {fileID: 1469883}
   - component: {fileID: 1469887}
   - component: {fileID: 1469888}
+  - component: {fileID: 1469890}
   - component: {fileID: 1469889}
   m_Layer: 5
   m_Name: Canvas
@@ -274,6 +275,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9e08eae9913e364eb747e6a7393c4ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1469890
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1469882}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f56d3fbc356b3bf49bc4abb9801c7dfc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bgmClip: {fileID: 0}
+  bgmVolume: 0
+  sfxClips:
+  - {fileID: 8300000, guid: 3e4e6c4308c9aa348a851f5e524d6c2e, type: 3}
+  - {fileID: 8300000, guid: 4c698fe487a0f1d438f4afc5bf78d5df, type: 3}
+  clickUiSound: {fileID: 8300000, guid: 3e4e6c4308c9aa348a851f5e524d6c2e, type: 3}
+  mouseOnUiSound: {fileID: 8300000, guid: 4c698fe487a0f1d438f4afc5bf78d5df, type: 3}
+  sfxVolume: 1
+  channels: 16
+  volumeSlider: {fileID: 0}
 --- !u!1 &87274366
 GameObject:
   m_ObjectHideFlags: 0
@@ -6248,6 +6271,8 @@ MonoBehaviour:
   sfxClips:
   - {fileID: 8300000, guid: 3e4e6c4308c9aa348a851f5e524d6c2e, type: 3}
   - {fileID: 8300000, guid: 4c698fe487a0f1d438f4afc5bf78d5df, type: 3}
+  clickUiSound: {fileID: 0}
+  mouseOnUiSound: {fileID: 0}
   sfxVolume: 1
   channels: 16
   volumeSlider: {fileID: 0}
