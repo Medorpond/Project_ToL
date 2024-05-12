@@ -67,38 +67,38 @@ public class CreateCharSelect : MonoBehaviour
             }
         }
         
-        instantiatedDoneBtn = Instantiate(DoneBtn, Vector3.zero, Quaternion.identity, parentTransform); // create end button
-        RectTransform doneRect = instantiatedDoneBtn.GetComponent<RectTransform>();
-        doneRect.anchorMin = new Vector2(1f, 1f);
-        doneRect.anchorMax = new Vector2(1f, 1f);
-        doneRect.anchoredPosition = new Vector2(-50f, -25f);
+        //instantiatedDoneBtn = Instantiate(DoneBtn, Vector3.zero, Quaternion.identity, parentTransform); // create end button
+        //RectTransform doneRect = instantiatedDoneBtn.GetComponent<RectTransform>();
+        //doneRect.anchorMin = new Vector2(1f, 1f);
+        //doneRect.anchorMax = new Vector2(1f, 1f);
+        //doneRect.anchoredPosition = new Vector2(-50f, -25f);
 
-        Button Donebutton = instantiatedDoneBtn.GetComponent<Button>(); // end button click
-        if (Donebutton != null)
-        {
-            Donebutton.onClick.AddListener(onDoneButtonClick);
-        }
+        //Button Donebutton = instantiatedDoneBtn.GetComponent<Button>(); // end button click
+        //if (Donebutton != null)
+        //{
+        //    Donebutton.onClick.AddListener(onDoneButtonClick);
+        //}
 
-        ResetButton = Instantiate(ResetBtn, Vector3.zero, Quaternion.identity, parentTransform);
-        RectTransform ResetRect = ResetButton.GetComponent<RectTransform>();
-        ResetRect.anchorMin = new Vector2(1f, 0f);
-        ResetRect.anchorMax = new Vector2(1f, 0f);
-        ResetRect.anchoredPosition = new Vector2(-50f, 25f);
+        //ResetButton = Instantiate(ResetBtn, Vector3.zero, Quaternion.identity, parentTransform);
+        //RectTransform ResetRect = ResetButton.GetComponent<RectTransform>();
+        //ResetRect.anchorMin = new Vector2(1f, 0f);
+        //ResetRect.anchorMax = new Vector2(1f, 0f);
+        //ResetRect.anchoredPosition = new Vector2(-50f, 25f);
 
         // Reset Button Instantiate
-        Button ResetButtonclicked = ResetButton.GetComponent<Button>();
-        if (ResetButtonclicked != null)
-        {
-            ResetButtonclicked.onClick.AddListener(ResetClick);
-        }
+        //Button ResetButtonclicked = ResetButton.GetComponent<Button>();
+        //if (ResetButtonclicked != null)
+        //{
+          //  ResetButtonclicked.onClick.AddListener(ResetClick);
+        //}
         
         // text Instantiate
-        CreatecountObj = Instantiate(createtextPrefab, Vector3.zero, Quaternion.identity, parentTransform);
-        RectTransform countRect = CreatecountObj.GetComponent<RectTransform>();
-        countRect.anchorMin = new Vector2(1f, 0.5f);
-        countRect.anchorMax = new Vector2(1f, 0.5f);
-        countRect.anchoredPosition = new Vector2(-100f, 0f);
-        createCountText = CreatecountObj.GetComponent<TextMeshProUGUI>();
+        //CreatecountObj = Instantiate(createtextPrefab, Vector3.zero, Quaternion.identity, parentTransform);
+        //RectTransform countRect = CreatecountObj.GetComponent<RectTransform>();
+        //countRect.anchorMin = new Vector2(1f, 0.5f);
+        //countRect.anchorMax = new Vector2(1f, 0.5f);
+        //countRect.anchoredPosition = new Vector2(-100f, 0f);
+        //createCountText = CreatecountObj.GetComponent<TextMeshProUGUI>();
     }
 
     void OnButtonClick(int index){ // click 1-level button(choose)
@@ -160,13 +160,13 @@ public class CreateCharSelect : MonoBehaviour
 
     private void DestoryComponent()
     {
-        Destroy(instantiatedDoneBtn);
+        //Destroy(instantiatedDoneBtn);
             foreach(GameObject btn in setButtons)
             {
                 Destroy(btn);
             }
-        Destroy(ResetButton);
-        Destroy(CreatecountObj);
+        //Destroy(ResetButton);
+        //Destroy(CreatecountObj);
     }
 }
 
