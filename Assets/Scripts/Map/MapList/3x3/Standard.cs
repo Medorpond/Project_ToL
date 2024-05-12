@@ -12,6 +12,8 @@ public class Standard : Stage
         restrictBottom = new Vector3(0, 0);
         restrictTop = new Vector3(26, 10);
         NodeArray = new Node[27, 11]; // Dedicated NodeArray
+        PlayerLeaderPosition = new Vector3(2, 5);
+        OpponentLeaderPosition = new Vector3(24, 5);
         NodeInit();
     }
     protected override void Start()
@@ -21,12 +23,14 @@ public class Standard : Stage
     protected override void NodeInit()
     {
         bool isBlocked;
+        bool isDeployable;
         for (int x = 0; x < 27; x++)
         {
             for (int y = 0; y < 11; y++) 
             { 
                 if (x == 0 || x == 26) isBlocked = true; else isBlocked = false;
-                NodeArray[x, y] = new Node(isBlocked, x, y);
+                if ((x >= 0 && x <= 6) || (x <= 26 && x >= 21)) isDeployable = true; else isDeployable = false;
+                NodeArray[x, y] = new Node(isDeployable, isBlocked, x, y);
             }
         }
     }

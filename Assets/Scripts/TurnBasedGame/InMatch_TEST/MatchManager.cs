@@ -1,7 +1,9 @@
+using NodeStruct;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
 
 public class MatchManager : MonoBehaviour
 {
@@ -22,6 +24,9 @@ public class MatchManager : MonoBehaviour
     public float battlePhaseTime = 60f;
     public int maxTurnCount = 100; // Draw if hit maxTurnCount
     private int currentTurnCount = 1;
+    private Phase currentPhase;
+
+    private GameObject UnitDeploying;
     
     private void Awake()
     {
@@ -73,7 +78,8 @@ public class MatchManager : MonoBehaviour
     void UnitSelectPhase()
     {
         Debug.Log("Unit Select Phase Start");
-        
+
+        currentPhase = Phase.UnitSelect;
         TimeManager.Instance.onTimerEnd.AddListener(FinishDeploy);
         TimeManager.Instance.StartTimer(unitSelectPhaseTime);
 
@@ -82,8 +88,8 @@ public class MatchManager : MonoBehaviour
 
     void SetTurn()
     {
-        int turn = Random.Range(0, 2); // Return 0 or 1, Player go First if 0.
-
+        //int turn = Random.Range(0, 2); // Return 0 or 1, Player go First if 0.
+        int turn = 0;
         if (turn == 0) { player.isMyTurn = true; opponent.isMyTurn = false; }
         else { player.isMyTurn = false; opponent.isMyTurn = true; }
 
@@ -107,6 +113,9 @@ public class MatchManager : MonoBehaviour
     void BattlePhase()
     {
         Debug.Log("Battle Phase Start");
+        
+        currentPhase = Phase.Battle;
+
         TimeManager.Instance.onTimerEnd.AddListener(ChangeTurn);
         TimeManager.Instance.StartTimer(battlePhaseTime);
     }
@@ -134,6 +143,7 @@ public class MatchManager : MonoBehaviour
 
     public void GameOver()
     {
+        currentPhase = Phase.End;
         player.StopAllCoroutines();
         opponent.StopAllCoroutines();
         TimeManager.Instance.onTimerEnd?.RemoveListener(ChangeTurn);
@@ -145,8 +155,85 @@ public class MatchManager : MonoBehaviour
     #endregion
 
     #region GetClickMethod
+
+    public void DeployUnitOrigin()
+    {
+        string path = $"Prefabs/Character/Sample";
+        GameObject prefab = Resources.Load<GameObject>(path);
+        if(prefab == null) { Debug.LogError("Failed to load prefab from path: " + path); return; }
+
+        onClickDown?.Invoke(prefab);
+
+        StartCoroutine(DeployCoroutine());
+
+        IEnumerator DeployCoroutine()
+        {
+            yield return new WaitUntil(() => Input.GetMouseButtonUp(0));
+
+            Vector3 ray = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            RaycastHit2D hit = Physics2D.Raycast(ray, Vector2.zero);
+            if(hit.collider.CompareTag("Tile"))
+            {
+                int posX = (int)hit.collider.transform.position.x;
+                int posY = (int)hit.collider.transform.position.y;
+                Node node = MapManager.Instance.stage.NodeArray[posX, posY];
+
+                if(!node.isBlocked && node.isDeployable)
+                {
+                    Instantiate(
+                        prefab,
+                        new Vector3(posX, posY),
+                        Quaternion.identity,
+                        player.transform).name = $"{prefab.name}";
+
+                    prefab.GetComponent<BoxCollider2D>().enabled = true;
+                }
+                
+            }
+        }
+    }
+
+    public void DeployUnit()
+    {
+        if (currentPhase != Phase.UnitSelect) return;
+        string path = $"Prefabs/Character/Sample";
+        GameObject prefab = Resources.Load<GameObject>(path);
+        if (prefab == null) { Debug.LogError("Failed to load prefab from path: " + path); return; }
+        GameObject unit = Instantiate(prefab,
+            new Vector3(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y, -1),
+            Quaternion.identity,player.transform);
+
+        onClickDown?.Invoke(unit);
+
+        StartCoroutine(DeployCoroutine());
+
+        IEnumerator DeployCoroutine()
+        {
+            yield return new WaitUntil(() => Input.GetMouseButtonUp(0));
+
+            Vector3 ray = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            RaycastHit2D hit = Physics2D.Raycast(ray, Vector2.zero);
+            if (hit.collider != null && hit.collider.CompareTag("Tile"))
+            {
+                int posX = (int)hit.collider.transform.position.x;
+                int posY = (int)hit.collider.transform.position.y;
+                Node node = MapManager.Instance.stage.NodeArray[posX, posY];
+
+                if (!node.isBlocked && node.isDeployable)
+                {
+                    unit.transform.position = new Vector3(posX, posY);
+                    unit.GetComponent<BoxCollider2D>().enabled = true;
+                }
+                else { Destroy(unit); }
+
+            }
+            else { Destroy(unit); }
+        }
+    }
+
     void GetClickDown()
     {
+        if (EventSystem.current.IsPointerOverGameObject()) return;
         if (Input.GetMouseButtonDown(0))
         {
             Vector3 ray = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -154,7 +241,7 @@ public class MatchManager : MonoBehaviour
 
             if (hit.collider != null)
             {
-                onClickDown?.Invoke(hit.collider.gameObject);
+                //onClickDown?.Invoke(hit.collider.gameObject);
             }
             else
             {
@@ -165,7 +252,8 @@ public class MatchManager : MonoBehaviour
 
     void GetClickRelease()
     {
-        if (Input.GetMouseButtonUp(0))
+        if (EventSystem.current.IsPointerOverGameObject()) return;
+        if (Input.GetMouseButtonUp(0) && currentPhase == Phase.Battle)
         {
             Vector3 ray = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             RaycastHit2D hit = Physics2D.Raycast(ray, Vector2.zero);
@@ -181,4 +269,12 @@ public class MatchManager : MonoBehaviour
         }
     }
     #endregion
+
+
+    private enum Phase
+    {
+        UnitSelect,
+        Battle,
+        End
+    }
 }

@@ -58,11 +58,13 @@ public abstract class Unit : MonoBehaviour
         }
     }
 
-    public virtual void Attack(Character _opponent)
+    public virtual void Attack(Unit _opponent)
     {
-        _opponent.getDamage(attackDamage);
+        _opponent.IsDamaged(attackDamage);
         // Trigger Animation
     }
+
+
 
     public virtual void IsDamaged(int _damage)
     {

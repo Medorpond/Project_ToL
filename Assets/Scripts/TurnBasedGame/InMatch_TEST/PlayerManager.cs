@@ -7,22 +7,16 @@ public class PlayerManager : MonoBehaviour
     public List<GameObject> UnitList;
 
     public bool isMyTurn { get; set; }
-    public bool waitingCmd = false;
 
     private Coroutine inAction = null;
 
-    private Character currentUnit;
-    private GameObject clicked;
+    private Unit currentUnit;
+    private GameObject clicked = null;
 
     private void Start()
     {
         MatchManager.Instance.onClickDown.AddListener(OnClickHold);
         MatchManager.Instance.onClickRelease.AddListener(OnClickRelease);
-    }
-
-    private void Update()
-    {
-        if(clicked != null) Debug.Log(clicked);
     }
 
     public void RegisterUnit(GameObject _unit)
@@ -39,16 +33,16 @@ public class PlayerManager : MonoBehaviour
 
     void OnClickRelease(GameObject _clicked)
     {
-        if (waitingCmd) { clicked = _clicked; Debug.Log($"clicked: {clicked}"); }
-        else
+        if (inAction != null) { clicked = _clicked; Debug.Log($"clicked: {clicked}"); }
+        else if (_clicked.CompareTag("MyUnit"))
         {
-            if (_clicked.CompareTag("MyUnit")) { currentUnit = _clicked.GetComponent<Character>(); Debug.Log($"CurUnit: {_clicked}"); }
+            currentUnit = _clicked.GetComponent<Unit>(); Debug.Log($"CurUnit: {_clicked}"); 
         }
     }
 
     void OnClickHold(GameObject _clicked)
     {
-        if (_clicked.tag == "Ally")
+        if (_clicked.tag == "MyUnit")
         {
             StartCoroutine(HoldObject());
         }
@@ -64,25 +58,25 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
-    
-
-
-
     #region IEnumerable Acts
     IEnumerator ReadyMove()
     {
-        // Highligts MoveButton
-        yield return new WaitUntil(() => Input.GetMouseButtonUp(0));
-        // Dehighlight MoveButton
+        yield return new WaitUntil(() => clicked != null);
+
         if (clicked.CompareTag("Tile"))
         {
-            currentUnit.MoveTo(clicked.transform.position);
+            if(currentUnit != null)
+            {
+                currentUnit.MoveTo(clicked.transform.position);
+            }
+            else { Debug.Log("Á¨Àå"); }
         }
         else
         {
             Debug.Log("Click On Tile to move");
         }
 
+        clicked = null;
         inAction = null;
     }
     public void Move()
@@ -95,16 +89,19 @@ public class PlayerManager : MonoBehaviour
 
     IEnumerator ReadyAttack()
     {
-        yield return new WaitUntil(() => Input.GetMouseButtonUp(0));
-        
-        if (clicked.CompareTag("Hostile"))
+        yield return new WaitUntil(() => clicked != null);
+
+        if (clicked.CompareTag("MyUnit"))
         {
-            currentUnit.Attack(clicked.GetComponent<Character>());
+            currentUnit.Attack(clicked.GetComponent<Unit>());
         }
         else
         {
             Debug.Log("Click On Hostile to Attack");
         }
+
+
+        clicked = null;
         inAction = null;
     }
 
@@ -122,7 +119,7 @@ public class PlayerManager : MonoBehaviour
     IEnumerator ReadyAbility1()
     {
 
-        yield return new WaitUntil(() => Input.GetMouseButtonUp(0));
+        yield return new WaitUntil(() => clicked != null);
         Debug.Log("Ability1!");
         inAction = null;
     }
@@ -136,7 +133,7 @@ public class PlayerManager : MonoBehaviour
 
     IEnumerator ReadyAbility2()
     {
-        yield return new WaitUntil(() => Input.GetMouseButtonUp(0));
+        yield return new WaitUntil(() => clicked != null);
         Debug.Log("Ability2!");
         inAction = null;
     }
@@ -150,7 +147,7 @@ public class PlayerManager : MonoBehaviour
 
     IEnumerator ReadyAbility3()
     {
-        yield return new WaitUntil(() => Input.GetMouseButtonUp(0));
+        yield return new WaitUntil(() => clicked != null);
         Debug.Log("Ability3!");
         inAction = null;
     }

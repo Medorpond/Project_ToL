@@ -8,10 +8,13 @@ public abstract class Stage : MonoBehaviour
 {
     protected string stageType;
     protected int stageSize; // Num Of Units can placed
+    protected Vector3 PlayerLeaderPosition;
+    protected Vector3 OpponentLeaderPosition;
+
 
     public Node[,] NodeArray; //PreDefine NodeArray for each Stage...
-    public Vector3 restrictBottom;
-    public Vector3 restrictTop;
+    protected Vector3 restrictBottom;
+    protected Vector3 restrictTop;
 
     protected virtual void Start()
     {
