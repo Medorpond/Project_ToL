@@ -25,8 +25,6 @@ public class MatchManager : MonoBehaviour
     public int maxTurnCount = 100; // Draw if hit maxTurnCount
     private int currentTurnCount = 1;
     private Phase currentPhase;
-
-    private GameObject UnitDeploying;
     
     private void Awake()
     {
@@ -104,7 +102,30 @@ public class MatchManager : MonoBehaviour
         player.StopAllCoroutines();
         opponent.StopAllCoroutines();
         Debug.Log("Unit Select Phase End");
+
+        DeployCaptain();
+
         BattlePhase();
+    }
+
+    void DeployCaptain()
+    {
+        Vector3 MyCaptainPos = MapManager.Instance.stage.PlayerLeaderPosition;
+        Vector3 OpponentCaptainPos = MapManager.Instance.stage.OpponentLeaderPosition;
+
+        string path = $"Prefabs/Character/Unit_TEST/Captain";
+        GameObject prefab = Resources.Load<GameObject>(path);
+        if (prefab == null) { Debug.LogError("Failed to load prefab from path: " + path); return; }
+
+        GameObject MyCaptain = Instantiate(prefab, MyCaptainPos, Quaternion.identity, player.transform);
+        MapManager.Instance.stage.NodeArray[(int)MyCaptainPos.x, (int)MyCaptainPos.y].isBlocked = true;
+        MyCaptain.GetComponent<BoxCollider2D>().enabled = true;
+        MyCaptain.tag = "MyUnit";
+
+        GameObject OpponentCaptain = Instantiate(prefab, OpponentCaptainPos, Quaternion.identity, opponent.transform);
+        MapManager.Instance.stage.NodeArray[(int)OpponentCaptainPos.x, (int)OpponentCaptainPos.y].isBlocked = true;
+        OpponentCaptain.GetComponent<BoxCollider2D>().enabled = true;
+        OpponentCaptain.tag = "Opponent";
     }
     #endregion
 
@@ -156,51 +177,17 @@ public class MatchManager : MonoBehaviour
 
     #region GetClickMethod
 
-    public void DeployUnitOrigin()
-    {
-        string path = $"Prefabs/Character/Sample";
-        GameObject prefab = Resources.Load<GameObject>(path);
-        if(prefab == null) { Debug.LogError("Failed to load prefab from path: " + path); return; }
-
-        onClickDown?.Invoke(prefab);
-
-        StartCoroutine(DeployCoroutine());
-
-        IEnumerator DeployCoroutine()
-        {
-            yield return new WaitUntil(() => Input.GetMouseButtonUp(0));
-
-            Vector3 ray = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            RaycastHit2D hit = Physics2D.Raycast(ray, Vector2.zero);
-            if(hit.collider.CompareTag("Tile"))
-            {
-                int posX = (int)hit.collider.transform.position.x;
-                int posY = (int)hit.collider.transform.position.y;
-                Node node = MapManager.Instance.stage.NodeArray[posX, posY];
-
-                if(!node.isBlocked && node.isDeployable)
-                {
-                    Instantiate(
-                        prefab,
-                        new Vector3(posX, posY),
-                        Quaternion.identity,
-                        player.transform).name = $"{prefab.name}";
-
-                    prefab.GetComponent<BoxCollider2D>().enabled = true;
-                }
-                
-            }
-        }
-    }
-
-    public void DeployUnit()
+    public void DeployArcher()
     {
         if (currentPhase != Phase.UnitSelect) return;
-        string path = $"Prefabs/Character/Sample";
+        string path = $"Prefabs/Character/Unit_TEST/Archer";
+        
+
         GameObject prefab = Resources.Load<GameObject>(path);
         if (prefab == null) { Debug.LogError("Failed to load prefab from path: " + path); return; }
+        Vector3 position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         GameObject unit = Instantiate(prefab,
-            new Vector3(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y, -1),
+            position,
             Quaternion.identity,player.transform);
 
         onClickDown?.Invoke(unit);
@@ -222,6 +209,87 @@ public class MatchManager : MonoBehaviour
                 if (!node.isBlocked && node.isDeployable)
                 {
                     unit.transform.position = new Vector3(posX, posY);
+                    MapManager.Instance.stage.NodeArray[posX, posY].isBlocked = true;
+                    unit.GetComponent<BoxCollider2D>().enabled = true;
+                }
+                else { Destroy(unit); }
+
+            }
+            else { Destroy(unit); }
+        }
+    }
+
+    public void DeployKnight()
+    {
+        if (currentPhase != Phase.UnitSelect) return;
+        string path = $"Prefabs/Character/Unit_TEST/Knight";
+
+        GameObject prefab = Resources.Load<GameObject>(path);
+        if (prefab == null) { Debug.LogError("Failed to load prefab from path: " + path); return; }
+        Vector3 position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        GameObject unit = Instantiate(prefab,
+            position,
+            Quaternion.identity, player.transform);
+
+        onClickDown?.Invoke(unit);
+
+        StartCoroutine(DeployCoroutine());
+
+        IEnumerator DeployCoroutine()
+        {
+            yield return new WaitUntil(() => Input.GetMouseButtonUp(0));
+
+            Vector3 ray = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            RaycastHit2D hit = Physics2D.Raycast(ray, Vector2.zero);
+            if (hit.collider != null && hit.collider.CompareTag("Tile"))
+            {
+                int posX = (int)hit.collider.transform.position.x;
+                int posY = (int)hit.collider.transform.position.y;
+                Node node = MapManager.Instance.stage.NodeArray[posX, posY];
+
+                if (!node.isBlocked && node.isDeployable)
+                {
+                    unit.transform.position = new Vector3(posX, posY);
+                    MapManager.Instance.stage.NodeArray[posX, posY].isBlocked = true;
+                    unit.GetComponent<BoxCollider2D>().enabled = true;
+                }
+                else { Destroy(unit); }
+
+            }
+            else { Destroy(unit); }
+        }
+    }
+
+    public void DeployPriest()
+    {
+        if (currentPhase != Phase.UnitSelect) return;
+        string path = $"Prefabs/Character/Unit_TEST/Priest";
+        GameObject prefab = Resources.Load<GameObject>(path);
+        if (prefab == null) { Debug.LogError("Failed to load prefab from path: " + path); return; }
+        GameObject unit = Instantiate(prefab,
+            new Vector3(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y, -1),
+            Quaternion.identity, player.transform);
+
+        onClickDown?.Invoke(unit);
+
+        StartCoroutine(DeployCoroutine());
+
+        IEnumerator DeployCoroutine()
+        {
+            yield return new WaitUntil(() => Input.GetMouseButtonUp(0));
+
+            Vector3 ray = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            RaycastHit2D hit = Physics2D.Raycast(ray, Vector2.zero);
+            if (hit.collider != null && hit.collider.CompareTag("Tile"))
+            {
+                int posX = (int)hit.collider.transform.position.x;
+                int posY = (int)hit.collider.transform.position.y;
+                Node node = MapManager.Instance.stage.NodeArray[posX, posY];
+
+                if (!node.isBlocked && node.isDeployable)
+                {
+                    unit.transform.position = new Vector3(posX, posY);
+                    MapManager.Instance.stage.NodeArray[posX, posY].isBlocked = true;
                     unit.GetComponent<BoxCollider2D>().enabled = true;
                 }
                 else { Destroy(unit); }

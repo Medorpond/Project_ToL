@@ -69,6 +69,7 @@ public abstract class Unit : MonoBehaviour
     public virtual void IsDamaged(int _damage)
     {
         currentHealth = currentHealth - _damage > 0 ? currentHealth - _damage : 0;
+        if (currentHealth <= 0) IsDead();
         // Invoke Event to Trigger Animation, Update UI.
     }
 

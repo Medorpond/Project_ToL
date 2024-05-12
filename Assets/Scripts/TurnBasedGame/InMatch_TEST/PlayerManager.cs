@@ -52,7 +52,10 @@ public class PlayerManager : MonoBehaviour
         {
             while (Input.GetMouseButton(0))
             {
-                _clicked.transform.position = (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                Vector3 position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                position.z = -1;
+                _clicked.transform.position = position;
+                Debug.Log($"{_clicked.transform.position}");
                 yield return new WaitForSeconds(0.001f);
             }
         }
@@ -91,7 +94,7 @@ public class PlayerManager : MonoBehaviour
     {
         yield return new WaitUntil(() => clicked != null);
 
-        if (clicked.CompareTag("MyUnit"))
+        if (clicked.CompareTag("Opponent"))
         {
             currentUnit.Attack(clicked.GetComponent<Unit>());
         }

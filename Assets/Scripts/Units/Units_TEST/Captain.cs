@@ -9,6 +9,7 @@ public class Captain : Unit
         base.Awake();
         Init();
     }
+
     protected override void Init()
     {
         maxHealth = 100;
