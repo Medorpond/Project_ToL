@@ -6,8 +6,8 @@ public class CameraController : MonoBehaviour
 {
     public float panSpeed = 20f; // Speed of the camera movement
     public float zoomSpeed = 1f; // Speed of the zoom
-    public float minZoom = 1f; // Minimum zoom level (smallest orthographic size)
-    public float maxZoom = 5f; // Maximum zoom level (largest orthographic size)
+    public float minZoom = 3f; // Minimum zoom level (smallest orthographic size)
+    public float maxZoom = 12f; // Maximum zoom level (largest orthographic size)
 
     public float minX = 2f; // Minimum x position of the camera
     public float maxX = 24f; // Maximum x position of the camera

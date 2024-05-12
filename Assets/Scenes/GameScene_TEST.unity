@@ -2060,7 +2060,7 @@ MonoBehaviour:
   MainMenuBtn: {fileID: 1187632223}
   player: {fileID: 1620080287}
   opponent: {fileID: 1074396748}
-  unitSelectPhaseTime: 2
+  unitSelectPhaseTime: 10
   battlePhaseTime: 60
   maxTurnCount: 100
 --- !u!4 &407919657
@@ -4098,9 +4098,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   panSpeed: 20
-  zoomSpeed: 10
-  minZoom: 5
-  maxZoom: 15
+  zoomSpeed: 1
+  minZoom: 3
+  maxZoom: 12
   minX: 2
   maxX: 24
   minY: 2
