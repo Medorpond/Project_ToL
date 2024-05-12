@@ -2086,9 +2086,9 @@ MonoBehaviour:
   MainMenuBtn: {fileID: 1187632223}
   player: {fileID: 1620080287}
   opponent: {fileID: 1074396748}
-  unitSelectPhaseTime: 1
-  battlePhaseTime: 1
-  maxTurnCount: 2
+  unitSelectPhaseTime: 60
+  battlePhaseTime: 60
+  maxTurnCount: 100
 --- !u!4 &407919657
 Transform:
   m_ObjectHideFlags: 0
