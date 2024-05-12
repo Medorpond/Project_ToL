@@ -72,8 +72,13 @@ public class TurnBasedGameManage : MonoBehaviour
             text_time[1].text = ((int)time % 60).ToString();
         }
         // yong
-        
-        // select Character
+
+        ClickCharacter();
+    }
+
+    // // select Character
+    private void ClickCharacter()
+    {
         if (state == State.playerTurn || state == State.enemyTurn)
         {
             if (Input.GetMouseButtonDown(0))
@@ -195,6 +200,9 @@ public class TurnBasedGameManage : MonoBehaviour
         {
             // attack
             selectedCharacter.Attack(enemyCharacter);
+
+            selectedEnemy = null;
+            enemyCharacter = null;
         }
 
         // check king state
@@ -229,6 +237,7 @@ public class TurnBasedGameManage : MonoBehaviour
     public void MoveButton()
     {
         if (selectedUnit == null) return;
+
         selectedCharacter.canMove = true;
 
         // will add move turn count and move range
@@ -257,41 +266,6 @@ public class TurnBasedGameManage : MonoBehaviour
             default: break;
         }
     }
-    /*
-    // only attack my king
-    private IEnumerator EnemyTurn()
-    {
-        turn.text = "ENEMY TURN";
-
-        yield return new WaitForSeconds(5.0f);
-
-        if (enemy.kingCharacter.CanAttack(Vector2.Distance(enemy.kingCharacter.location, player.kingCharacter.location)))
-        //get Player state
-        {
-            player.TakeDamage(enemy.kingCharacter.AttackDamage);
-            isPlayerLive = player.IsKingLive();
-        }
-
-        // player Live
-        if (isPlayerLive)
-        {
-            state = State.playerTurn;
-            turn.text = "PLAYER Turn";
-        }
-        else
-        {
-            turn.text = "PLAYER Lose";
-            yield return new WaitForSeconds(1.5f);
-            EndBattle();
-           
-            AudioManager.instance.PlayBgm(false);
-        }
-
-        cameraManager.ResetCamera();
-
-        yield return null;
-    }
-    */
 
     // yong ~
     void ShowGameOverPanel() {
