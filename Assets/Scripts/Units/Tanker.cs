@@ -8,7 +8,11 @@ public class Tanker : Character
     private float decreaseDamage = 0.8f;
 
 
-
+    public override void getDamage(int atk)
+    {
+        int atk_modified = (int)(atk * decreaseDamage);
+        base.getDamage(atk_modified);
+    }
     public override void Init()
     {
         maxHealth = 7;
