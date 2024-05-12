@@ -14,11 +14,12 @@ public class AudioManager : MonoBehaviour
     AudioSource bgmPlayer;
 
     [Header("#SFX")]
-    public AudioClip[] sfxClips;
+    public AudioClip[] sfxClips; 
+    public AudioClip clickUiSound; 
+    public AudioClip mouseOnUiSound; 
     public float sfxVolume;
     public int channels;
     AudioSource[] sfxPlayers;
-
 
     int channelIndex;
 
@@ -26,16 +27,34 @@ public class AudioManager : MonoBehaviour
     public Slider volumeSlider;
     private float lastVolume;
 
-    public enum Sfx{sfx_click_ui, sfx_mouse_on_ui}
+    public enum Sfx { sfx_click_ui, sfx_mouse_on_ui }
 
-    void Awake(){
+    void Awake()
+    {
         instance = this;
         if (volumeSlider != null) volumeSlider.onValueChanged.AddListener(delegate { ChangeVolume(); });
         Init();
     }
 
-    void Init(){
-        //배경음 초기화
+    void Start()
+    {
+        Button[] buttons = FindObjectsOfType<Button>();
+
+        foreach (Button button in buttons)
+        {
+            button.onClick.AddListener(() => PlaySfx(Sfx.sfx_click_ui));
+
+            EventTrigger trigger = button.gameObject.AddComponent<EventTrigger>();
+            EventTrigger.Entry entry = new EventTrigger.Entry();
+            entry.eventID = EventTriggerType.PointerEnter;
+            entry.callback.AddListener((data) => { PlaySfx(Sfx.sfx_mouse_on_ui); });
+            trigger.triggers.Add(entry);
+        }
+    }
+
+    void Init()
+    {
+        // 배경음 초기화
         GameObject bgmObject = new GameObject("BGM");
         bgmObject.transform.parent = transform;
         bgmPlayer = bgmObject.AddComponent<AudioSource>();
@@ -43,47 +62,61 @@ public class AudioManager : MonoBehaviour
         bgmPlayer.volume = bgmVolume;
         bgmPlayer.clip = bgmClip;
 
-        //for sound control
+    
         if (volumeSlider != null) volumeSlider.value = bgmVolume;
         lastVolume = bgmVolume;
 
-        //SFX 초기화
+        // SFX 초기화
         GameObject sfxObject = new GameObject("SFX");
         sfxObject.transform.parent = transform;
         sfxPlayers = new AudioSource[channels];
 
-        for(int index = 0; index < channels;index++){
+        for (int index = 0; index < channels; index++)
+        {
             sfxPlayers[index] = sfxObject.AddComponent<AudioSource>();
             sfxPlayers[index].playOnAwake = false;
             sfxPlayers[index].loop = false;
             sfxPlayers[index].volume = sfxVolume;
         }
     }
-    public void mousePoint(){
+
+    public void mousePoint()
+    {
         PlaySfx(Sfx.sfx_mouse_on_ui);
     }
-    public void PlayClick(){
+
+    public void PlayClick()
+    {
         PlaySfx(Sfx.sfx_click_ui);
     }
-    
-    public void PlaySfx(Sfx sfx){
-        for(int index = 0; index < sfxPlayers.Length; index++){
-            int loopIndex = (index + channelIndex) % sfxPlayers.Length;
 
-            if(sfxPlayers[loopIndex].isPlaying){
-                continue;
-            }
-            channelIndex = loopIndex;
-            sfxPlayers[loopIndex].clip = sfxClips[(int)sfx];
-            sfxPlayers[loopIndex].Play();
-            break;
+    public void PlaySfx(Sfx sfx)
+    {
+        AudioClip clipToPlay = null;
+        switch (sfx)
+        {
+            case Sfx.sfx_click_ui:
+                clipToPlay = clickUiSound;
+                break;
+            case Sfx.sfx_mouse_on_ui:
+                clipToPlay = mouseOnUiSound;
+                break;
         }
-        
+
+        if (clipToPlay != null)
+        {
+            AudioSource.PlayClipAtPoint(clipToPlay, Camera.main.transform.position, sfxVolume);
+        }
     }
-    public void PlayBgm(bool isPlay){
-        if(isPlay){
+
+    public void PlayBgm(bool isPlay)
+    {
+        if (isPlay)
+        {
             bgmPlayer.Play();
-        }else{
+        }
+        else
+        {
             bgmPlayer.Stop();
         }
     }
