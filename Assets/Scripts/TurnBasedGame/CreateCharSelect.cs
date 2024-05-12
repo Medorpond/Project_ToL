@@ -28,6 +28,9 @@ public class CreateCharSelect : MonoBehaviour
     //
     Vector3 createPoint; // first spawn
     private int clickCount = 0; // 3 ~ 7 char count
+
+    [SerializeField]
+    private GameObject CharacterPanel;
     //
     // for destroy
     List<GameObject> setButtons = new List<GameObject>(); 
@@ -113,6 +116,7 @@ public class CreateCharSelect : MonoBehaviour
         if (clickCount >= 3 ){      // created at least 3
             DestoryComponent();
         }
+        CharacterPanel.SetActive(false);
     }
 
     void UpdateCreateCountText()
