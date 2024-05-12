@@ -10,13 +10,21 @@ public class PlayerManager : MonoBehaviour
 
     private Coroutine inAction = null;
 
-    private Unit currentUnit;
+    private GameObject currentUnit;
     private GameObject clicked = null;
 
     private void Start()
     {
         MatchManager.Instance.onClickDown.AddListener(OnClickHold);
         MatchManager.Instance.onClickRelease.AddListener(OnClickRelease);
+    }
+
+    private void Update()
+    {
+        if (!isMyTurn && currentUnit != null)
+        {
+            currentUnit.transform.Find("ArrowPointDown").gameObject.SetActive(false);
+        }
     }
 
     public void RegisterUnit(GameObject _unit)
@@ -34,9 +42,11 @@ public class PlayerManager : MonoBehaviour
     void OnClickRelease(GameObject _clicked)
     {
         if (inAction != null) { clicked = _clicked; Debug.Log($"clicked: {clicked}"); }
-        else if (UnitList.Contains(_clicked))//   _clicked.CompareTag("MyUnit") || _clicked.CompareTag("Opponent"
+        else if (UnitList.Contains(_clicked) && isMyTurn)
         {
-            currentUnit = _clicked.GetComponent<Unit>(); Debug.Log($"CurUnit: {_clicked}"); 
+            if(currentUnit != null) { currentUnit.transform.Find("ArrowPointDown").gameObject.SetActive(false); }
+            currentUnit = _clicked; Debug.Log($"CurUnit: {_clicked}");
+            currentUnit.transform.Find("ArrowPointDown").gameObject.SetActive(true);
         }
     }
 
@@ -70,7 +80,7 @@ public class PlayerManager : MonoBehaviour
         {
             if(currentUnit != null)
             {
-                currentUnit.MoveTo(clicked.transform.position);
+                currentUnit.GetComponent<Unit>().MoveTo(clicked.transform.position);
             }
         }
         else
@@ -95,7 +105,10 @@ public class PlayerManager : MonoBehaviour
 
         if (!UnitList.Contains(clicked) && clicked.CompareTag("Unit"))// clicked.CompareTag("Opponent")
         {
-            currentUnit?.Attack(clicked.GetComponent<Unit>());
+            if(currentUnit != null)
+            {
+                currentUnit.GetComponent<Unit>().Attack(clicked.GetComponent<Unit>());
+            }   
         }
         else
         {
