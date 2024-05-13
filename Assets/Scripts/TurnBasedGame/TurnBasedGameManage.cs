@@ -196,7 +196,7 @@ public class TurnBasedGameManage : MonoBehaviour
     private IEnumerator Attack()
     {
         // can attack at attackRange
-        if (selectedCharacter.CanAttack(Vector2.Distance(enemyCharacter.location, selectedCharacter.location)))
+        if (selectedCharacter.InRange(Vector2.Distance(enemyCharacter.location, selectedCharacter.location)))
         {
             // attack
             selectedCharacter.Attack(enemyCharacter);
