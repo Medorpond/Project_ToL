@@ -29,7 +29,7 @@ public Node[,] NodeArray; //PreDefine NodeArray for each Stage...
     {
         string path = $"Prefabs/Map/Tile";
         GameObject prefab = Resources.Load<GameObject>(path);
-        if (prefab != null) { Instantiate(prefab, new Vector3(x, y), Quaternion.identity, parent).name = $"Tile({x}, {y})"; }
+        if (prefab != null) { Instantiate(prefab, new Vector3(x, y, 1), Quaternion.identity, parent).name = $"Tile({x}, {y})"; }
         else { Debug.LogError("Failed to load prefab from path: " + path); }
     }
 
