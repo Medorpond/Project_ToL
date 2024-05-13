@@ -141,7 +141,7 @@ public abstract class Character : MonoBehaviour
         onHPEvent.Invoke(previousHP, health);
     }
 
-    public bool CanAttack(float distance)
+    public bool InRange(float distance)
     {
         if (distance > attackRange)
         {

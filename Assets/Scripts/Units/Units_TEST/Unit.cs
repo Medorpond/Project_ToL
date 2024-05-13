@@ -106,7 +106,7 @@ public abstract class Unit : MonoBehaviour
         // Remove this from PlayerManager's List<Character>;
         // Wait Until DeathAnimation Ends
 
-
+        MapManager.Instance.stage.NodeArray[(int)transform.position.x, (int)transform.position.y].isBlocked = false;
         Destroy(gameObject, 0);
     }
 
