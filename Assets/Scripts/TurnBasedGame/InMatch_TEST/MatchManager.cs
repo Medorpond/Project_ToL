@@ -9,42 +9,39 @@ using UnityEngine.UI;
 
 public class MatchManager : MonoBehaviour
 {
-    public GameObject DeployPanel;
-    public GameObject ResultPanel;
-
-    public Button MainMenuBtn;
-
-    void Exit()
-    {
-        SceneManager.LoadScene("MainScene");
-    }
-
-
+    #region Event System
     public class ClickEvent: UnityEvent<GameObject> { }
 
     [Header("Click Event")]
-
     public ClickEvent onClickRelease = new ClickEvent();
     public ClickEvent onClickDown = new ClickEvent();
-    
+    #endregion
 
+    #region Serialized parameter
     [SerializeField]
     private PlayerManager player;
     [SerializeField]
     private PlayerManager opponent;
 
+    public Button MainMenuBtn;
+    public GameObject DeployPanel;
+    public GameObject ResultPanel;
+    #endregion
+
+    #region Parameter
     public float unitSelectPhaseTime = 90f;
     public float battlePhaseTime = 60f;
     public int maxTurnCount = 100; // Draw if hit maxTurnCount
     private int currentTurnCount = 1;
     private Phase currentPhase;
-    
+    #endregion
+
+    #region Unity Object LifeCycle
     private void Awake()
     {
         SingletoneInit();
         MainMenuBtn.onClick.AddListener(Exit);
     }
-
     private void Start()
     {
         AudioManager.instance.PlayBgm(true);
@@ -56,11 +53,11 @@ public class MatchManager : MonoBehaviour
         GetClickRelease();
         GetClickDown();
     }
-
     private void OnDestroy()
     {
         if (instance == this) { instance = null; }
     }
+    #endregion
 
     #region Singletone
     private static MatchManager instance = null;
@@ -177,7 +174,9 @@ public class MatchManager : MonoBehaviour
 
         TimeManager.Instance.StartTimer(battlePhaseTime);
     }
+    #endregion
 
+    #region EndPhase
     public void GameOver()
     {
         currentPhase = Phase.End;
@@ -416,7 +415,10 @@ public class MatchManager : MonoBehaviour
     }
     #endregion
 
-
+    void Exit()
+    {
+        SceneManager.LoadScene("MainScene");
+    }
     private enum Phase
     {
         UnitSelect,
