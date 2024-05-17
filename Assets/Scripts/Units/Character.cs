@@ -112,8 +112,8 @@ public abstract class Character : MonoBehaviour
         _opponent.getDamage(attackDamage);
     }
 
-    public abstract void Ability1();
-    public abstract void Ability2();
+    //public abstract void Ability1();
+    //public abstract void Ability2();
     //public abstract void Ability3();
 
     public virtual void getDamage(int atk)
