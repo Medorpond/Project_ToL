@@ -1,64 +1,122 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.SceneManagement;
 using UnityEngine;
+using UnityEngine.Rendering;
 
-public class MemoryPool : MonoBehaviour
+public class MemoryPool
 {
-    // 오브젝트 풀링에서 관리하는 게임 오브젝트 프리팹 배열
-    public GameObject[] poolObjects;
-    // 관리되는 모든 오브젝트를 저장하는 리스트
-    private List<GameObject>[] poolItemList;
-
-
-
-    private void Awake()
+    private class PoolItem
     {
-        poolItemList = new List<GameObject>[poolObjects.Length];
+        public bool isActive;
+        public GameObject gameObject;
+    }
 
-        for (int i = 0;  i < poolItemList.Length; i++)
+    private int increaseCount = 1;
+    private int maxCount;
+    private int activeCount;
+
+    private GameObject poolObject;
+    private List<PoolItem> poolItemList;
+
+    public MemoryPool(GameObject poolObject)
+    {
+        maxCount = 0;
+        activeCount = 0;
+        this.poolObject = poolObject;
+        poolItemList = new List<PoolItem>();
+
+        InstantiateObjects();
+    }
+
+    public void InstantiateObjects()
+    {
+        maxCount += increaseCount;
+
+        for (int i = 0; i < increaseCount; i++)
         {
-            poolItemList[i] = new List<GameObject>();
+            PoolItem poolItem = new PoolItem();
+
+            poolItem.isActive = false;
+            poolItem.gameObject = GameObject.Instantiate(poolObject);
+            poolItem.gameObject.SetActive(false);
+
+            poolItemList.Add(poolItem);
         }
     }
 
-    public GameObject Get(int index)
+    public void DestroyObject()
     {
-        GameObject select = null;
+        if (poolItemList == null) return;
 
-        foreach(GameObject item in poolItemList[index])
+        int count = poolItemList.Count;
+        for (int i = 0; i < count; i++)
         {
-            // 오브젝트가 비활성화되어 있는 경우 활성화
-            if (!item.activeSelf)
-            {
-                select = item;
-                select.SetActive(true);
+            GameObject.Destroy(poolItemList[i].gameObject);
+        }
 
-                break;
+        poolItemList.Clear();
+    }
+    
+    public GameObject ActivatePoolItem()
+    {
+        if (poolItemList == null) return null;
+
+        if (maxCount == activeCount) InstantiateObjects();
+
+        int count = poolItemList.Count;
+        for (int i = 0; i < count; i++)
+        {
+            PoolItem poolItem = poolItemList[i];
+
+            if (!poolItem.isActive)
+            {
+                activeCount++;
+                poolItem.isActive = true;
+                poolItem.gameObject.SetActive(true);
+
+                return poolItem.gameObject;
             }
         }
-
-        // 못 찾았을 경우 생성하고 리스트에 추가
-        if (select == null)
-        {
-            select = Instantiate(poolObjects[index], transform);
-            poolItemList[index].Add(select);
-        }
-
-        return select;
+        return null;
     }
 
-    // 현재 관리 중인 모든 오브젝트를 삭제
-    public void DestroyObjects()
+    public void DeactivatePoolItem(GameObject removeObject)
     {
-        for (int i = 0; poolItemList.Length < 0; i++)
-        {
-            // 비어있을 경우
-            if (poolItemList[i] == null) continue;
+        if (poolItemList == null || removeObject == null) return;
 
-            for (int j = 0; j < poolItemList[i].Count; j++)
+        int count = poolItemList.Count;
+        for (int i = 0; i < count; i++)
+        {
+            PoolItem poolItem = poolItemList[i];
+
+            if (poolItem.gameObject == removeObject)
             {
-                GameObject.Destroy(poolItemList[i][j]);
+                activeCount--;
+                poolItem.isActive = false;
+                poolItem.gameObject.SetActive(false);
+
+                return;
             }
         }
+    }
+
+    public void DeactivateAllPoolItems()
+    {
+        if (poolItemList == null) return;
+
+        int count = poolItemList.Count;
+        for (int i = 0; i < count; i++)
+        {
+            PoolItem poolItem = poolItemList[i];
+
+            if (poolItem.gameObject != null && poolItem.isActive)
+            {
+                poolItem.isActive = false;
+                poolItem.gameObject.SetActive(false);
+            }
+        }
+
+        activeCount = 0;
     }
 }
