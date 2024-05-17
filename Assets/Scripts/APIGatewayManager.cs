@@ -344,7 +344,7 @@ public class ApiGatewayManager : MonoBehaviour
                     string jsonResponse = await response.Content.ReadAsStringAsync();
                     var userInfo = JsonConvert.DeserializeObject<UserInfo>(jsonResponse);
 
-                    // ����� ������ ������ ����
+                    //
                     string userId = userInfo.sub;
 
                     Debug.Log("Get UserInfo Success");
@@ -384,7 +384,7 @@ public class ApiGatewayManager : MonoBehaviour
 public class UserInfo
 {
     public string sub;
-    // ���⿡ �ٸ� ����� ���� �ʵ带 �߰�
+    //
 
     public string GetSub()
     {
