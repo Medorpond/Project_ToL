@@ -43,7 +43,7 @@ public class ApiGatewayManager : MonoBehaviour
     public class LoginEvent : UnityEvent { }
 
     [Header("Login Events")]
-    public UnityEvent onLoginSuccess = new UnityEvent();
+    public LoginEvent onLoginSuccess = new LoginEvent();
 
     // yong
     public TMP_InputField emailInputField;
