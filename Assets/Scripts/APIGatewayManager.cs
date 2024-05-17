@@ -53,6 +53,10 @@ public class ApiGatewayManager : MonoBehaviour
 
     public TMP_InputField LoginusernameInputField;
     public TMP_InputField LoginpasswordInputField;
+
+    private bool Loginsuccess = false;
+    private bool ProgressIn = false;
+    private bool Registersuccess = false;
     // yong
 
     private string _apiGatewayUrl = "https://zzjkwpmtzb.execute-api.ap-northeast-2.amazonaws.com/prod/";
@@ -89,6 +93,7 @@ public class ApiGatewayManager : MonoBehaviour
                 Debug.LogError("Password and Confirm Password do not match");
                 return;
             }
+            ProgressIn = true;
             // yong 
             
             // Prepare the registration request payload
@@ -113,17 +118,33 @@ public class ApiGatewayManager : MonoBehaviour
                 {
                     Debug.Log("Registration successful.");
                     // Proceed with confirmation if needed
+
+                    //yong
+                    Registersuccess = true;
+                    ProgressIn = true;
                 }
                 else
                 {
                     Debug.LogError("Registration failed. Status Code: " + response.StatusCode);
+
+                    //yong
+                    Registersuccess = false;
                 }
             }
         }
         catch (Exception e)
         {
             Debug.LogError("Registration error: " + e.Message);
+
+            //yong
+            Registersuccess = false;
         }
+        //yong
+        finally
+        {
+            ProgressIn = false;
+        }
+        //yong
     }
     
     // Call this method to confirm user registration with confirmation code
@@ -171,6 +192,8 @@ public class ApiGatewayManager : MonoBehaviour
             // yong
             _username = LoginusernameInputField.text;
             _password = LoginpasswordInputField.text;
+
+            ProgressIn = true;
             // yong
 
             // Prepare the login request payload
@@ -199,17 +222,33 @@ public class ApiGatewayManager : MonoBehaviour
                     _jwtToken = responseData["token"];
                     onLoginSuccess.Invoke();
                     // Handle the response as needed
+
+                    // yong
+                    ProgressIn = true;
+                    Loginsuccess = true;
                 }
                 else
                 {
                     Debug.LogError("Login failed. Status Code: " + response.StatusCode);
+
+                    //yong
+                    Loginsuccess = false;
                 }
             }
         }
         catch (Exception e)
         {
             Debug.LogError("Login error: " + e.Message);
+
+            // yong
+            Loginsuccess = false;
         }
+        //yong
+        finally
+        {
+            ProgressIn = false;
+        }
+        //yong
     }
 
     public async void ResendConfirmation()
@@ -305,7 +344,7 @@ public class ApiGatewayManager : MonoBehaviour
                     string jsonResponse = await response.Content.ReadAsStringAsync();
                     var userInfo = JsonConvert.DeserializeObject<UserInfo>(jsonResponse);
 
-                    // »ç¿ëÀÚ Á¤º¸¸¦ º¯¼ö¿¡ ÀúÀå
+                    // ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
                     string userId = userInfo.sub;
 
                     Debug.Log("Get UserInfo Success");
@@ -323,13 +362,29 @@ public class ApiGatewayManager : MonoBehaviour
         }
     }
     
+    //yong
+    public bool IsLoginsuccess()
+    {
+        return Loginsuccess;
+    }
+    public bool isProgressIn()
+    {
+        return ProgressIn;
+    }
+    public bool IsRegistersuccess()
+    {
+        return Registersuccess;
+    }
+    //yong
 }
+
+
 
 [System.Serializable]
 public class UserInfo
 {
     public string sub;
-    // ¿©±â¿¡ ´Ù¸¥ »ç¿ëÀÚ Á¤º¸ ÇÊµå¸¦ Ãß°¡
+    // ï¿½ï¿½ï¿½â¿¡ ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Êµå¸¦ ï¿½ß°ï¿½
 
     public string GetSub()
     {
