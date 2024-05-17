@@ -7,6 +7,7 @@ using UnityEngine.TextCore.Text;
 using NodeStruct;
 using Unity.VisualScripting;
 using static UnityEditor.PlayerSettings;
+using JetBrains.Annotations;
 
 [System.Serializable]
 public class HPEvent : UnityEngine.Events.UnityEvent<int, int> { }
@@ -23,8 +24,9 @@ public abstract class Character : MonoBehaviour
     protected int attackDamage;
     protected int attackRange;
     protected int moveRange;
-
     protected float moveSpeed = 0.01f;
+    public int coolTime1;
+    public int coolTime2;
 
     private MousePosition mousePosition;
 
@@ -110,8 +112,8 @@ public abstract class Character : MonoBehaviour
         _opponent.getDamage(attackDamage);
     }
 
-    //public abstract void Ability1();
-    //public abstract void Ability2();
+    public abstract void Ability1();
+    public abstract void Ability2();
     //public abstract void Ability3();
 
     public virtual void getDamage(int atk)
