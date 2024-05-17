@@ -7,8 +7,44 @@ using UnityEngine;
 using Newtonsoft.Json;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.Events;
+
 public class ApiGatewayManager : MonoBehaviour
 {
+    #region Singletone
+    private static ApiGatewayManager instance = null;
+    public static ApiGatewayManager Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                instance = new GameObject("ApiGatewayManager").AddComponent<ApiGatewayManager>();
+            }
+            return instance;
+        }
+    }
+
+    private void SingletoneInit()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else { Destroy(this.gameObject); }
+    }
+
+    #endregion
+
+    void Awake() {
+        SingletoneInit();
+    }
+
+    public class LoginEvent : UnityEvent { }
+
+    [Header("Login Events")]
+    public UnityEvent onLoginSuccess = new UnityEvent();
+
     // yong
     public TMP_InputField emailInputField;
     public TMP_InputField usernameInputField;
@@ -161,6 +197,7 @@ public class ApiGatewayManager : MonoBehaviour
                     // Extract JWT token from response and store it
                     var responseData = JsonConvert.DeserializeObject<Dictionary<string, string>>(responseContent);
                     _jwtToken = responseData["token"];
+                    onLoginSuccess.Invoke();
                     // Handle the response as needed
                 }
                 else

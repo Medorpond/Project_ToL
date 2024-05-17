@@ -29,11 +29,13 @@ public class LoginClickHandler : MonoBehaviour
         RegisterButton.onClick.AddListener(Register);
         ConfirmRegisterationButton.onClick.AddListener(Confirm);
     }
+    
     private void Login()
     {
         apiGatewayManager.Login();
-        SceneManager.LoadScene("MainScene");
+        //SceneManager.LoadScene("MainScene");
     }
+    
     private void Register()
     {
         apiGatewayManager.Register();
