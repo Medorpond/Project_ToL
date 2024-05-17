@@ -7,6 +7,8 @@ public class Tile : MonoBehaviour
 {
     [SerializeField]
     private GameObject highlight;
+    //[SerializeField]
+    //private GameObject moveHighlight;
 
     private void Update()
     {
@@ -22,4 +24,14 @@ public class Tile : MonoBehaviour
             highlight.SetActive(false);
         }
     }
+    /*
+    public void ActivateHighlight()
+    {
+        moveHighlight.SetActive(true);
+    }
+    public void DeactivateHightlight()
+    {
+        moveHighlight.SetActive(false);
+    }
+    */
 }

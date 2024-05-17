@@ -109,5 +109,4 @@ public abstract class Unit : MonoBehaviour
         MapManager.Instance.stage.NodeArray[(int)transform.position.x, (int)transform.position.y].isBlocked = false;
         Destroy(gameObject, 0);
     }
-
 }

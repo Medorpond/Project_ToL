@@ -11,10 +11,10 @@ public class Priest : Unit
     }
     protected override void Init()
     {
-        maxHealth = 7;
+        maxHealth = 4;
         currentHealth = maxHealth;
-        attackDamage = 2;
-        attackRange = 3;
+        attackDamage = 0;
+        attackRange = 0;
         moveRange = 4;
     }
 }
