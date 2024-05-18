@@ -10,12 +10,12 @@ public class SettingUI : MonoBehaviour
     public void Awake(){
         animator = GetComponent<Animator>();
         AudioManager.instance.EffectBgm(true);
-        
     }
     public void Close()
     {
-        StartCoroutine(CloseAfterDelay());
         AudioManager.instance.EffectBgm(false);
+        StartCoroutine(CloseAfterDelay());
+        
     }
     private IEnumerator CloseAfterDelay(){
         animator.SetTrigger("Close");
