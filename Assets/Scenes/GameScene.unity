@@ -7471,6 +7471,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f56d3fbc356b3bf49bc4abb9801c7dfc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  volumeSlider: {fileID: 0}
   bgmClip: {fileID: 0}
   bgmVolume: 0
   sfxClips:
@@ -7480,7 +7481,6 @@ MonoBehaviour:
   mouseOnUiSound: {fileID: 8300000, guid: 4c698fe487a0f1d438f4afc5bf78d5df, type: 3}
   sfxVolume: 1
   channels: 16
-  volumeSlider: {fileID: 0}
 --- !u!1 &1270988615
 GameObject:
   m_ObjectHideFlags: 0
@@ -8666,7 +8666,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1444261546
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10529,7 +10529,7 @@ RectTransform:
   m_Father: {fileID: 1522909186}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -12154,6 +12154,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f56d3fbc356b3bf49bc4abb9801c7dfc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  volumeSlider: {fileID: 0}
   bgmClip: {fileID: 8300000, guid: db592d359e375804093c4c72372651ed, type: 3}
   bgmVolume: 0.05
   sfxClips:
@@ -12163,7 +12164,6 @@ MonoBehaviour:
   mouseOnUiSound: {fileID: 0}
   sfxVolume: 1
   channels: 16
-  volumeSlider: {fileID: 0}
 --- !u!4 &1935059930
 Transform:
   m_ObjectHideFlags: 0
@@ -12695,7 +12695,7 @@ RectTransform:
   m_Father: {fileID: 362672723}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}

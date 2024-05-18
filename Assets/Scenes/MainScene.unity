@@ -1284,6 +1284,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f56d3fbc356b3bf49bc4abb9801c7dfc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  volumeSlider: {fileID: 0}
   bgmClip: {fileID: 0}
   bgmVolume: 0
   sfxClips:
@@ -1293,7 +1294,6 @@ MonoBehaviour:
   mouseOnUiSound: {fileID: 8300000, guid: 4c698fe487a0f1d438f4afc5bf78d5df, type: 3}
   sfxVolume: 1
   channels: 16
-  volumeSlider: {fileID: 0}
 --- !u!1 &282181639
 GameObject:
   m_ObjectHideFlags: 0
@@ -10309,6 +10309,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f56d3fbc356b3bf49bc4abb9801c7dfc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  volumeSlider: {fileID: 1966385026}
   bgmClip: {fileID: 8300000, guid: dc3a7dc4c8603fe49935dfffd79a0cca, type: 3}
   bgmVolume: 1
   sfxClips:
@@ -10318,7 +10319,6 @@ MonoBehaviour:
   mouseOnUiSound: {fileID: 0}
   sfxVolume: 1
   channels: 16
-  volumeSlider: {fileID: 1966385026}
 --- !u!4 &1792601561
 Transform:
   m_ObjectHideFlags: 0
