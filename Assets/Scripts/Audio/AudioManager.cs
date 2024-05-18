@@ -8,10 +8,16 @@ public class AudioManager : MonoBehaviour
 {
     public static AudioManager instance;
 
+    // for volume Control
+    public Slider volumeSlider;
+    private float lastVolume;
+
     [Header("#BGM")]
     public AudioClip bgmClip;
     public float bgmVolume;
     AudioSource bgmPlayer;
+    AudioHighPassFilter bgmEffect;
+    AudioLowPassFilter bgmEffect2;
 
     [Header("#SFX")]
     public AudioClip[] sfxClips; 
@@ -23,9 +29,7 @@ public class AudioManager : MonoBehaviour
 
     int channelIndex;
 
-    // for volume Control
-    public Slider volumeSlider;
-    private float lastVolume;
+
 
     public enum Sfx { sfx_click_ui, sfx_mouse_on_ui }
 
@@ -61,6 +65,8 @@ public class AudioManager : MonoBehaviour
         bgmPlayer.loop = true;
         bgmPlayer.volume = bgmVolume;
         bgmPlayer.clip = bgmClip;
+        bgmEffect = Camera.main.GetComponent<AudioHighPassFilter>();
+        bgmEffect2 = Camera.main.GetComponent<AudioLowPassFilter>();
 
     
         if (volumeSlider != null) volumeSlider.value = bgmVolume;
@@ -70,12 +76,14 @@ public class AudioManager : MonoBehaviour
         GameObject sfxObject = new GameObject("SFX");
         sfxObject.transform.parent = transform;
         sfxPlayers = new AudioSource[channels];
+        //sfxPlayers[channels].volume = sfxVolume;
 
         for (int index = 0; index < channels; index++)
         {
             sfxPlayers[index] = sfxObject.AddComponent<AudioSource>();
             sfxPlayers[index].playOnAwake = false;
             sfxPlayers[index].loop = false;
+            sfxPlayers[index].bypassListenerEffects = true;
             sfxPlayers[index].volume = sfxVolume;
         }
     }
@@ -121,9 +129,15 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    public void effectBgm(bool isPlay)
+    {
+        bgmEffect.enabled = isPlay;
+        bgmEffect2.enabled = isPlay;
+    }
+
     private void ChangeVolume()
     {
-        bgmPlayer.volume = volumeSlider.value;
+        bgmPlayer.volume = volumeSlider.value / 25;
     }
 
     public void TurnOnSound()
