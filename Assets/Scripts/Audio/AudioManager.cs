@@ -88,7 +88,7 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    public void mousePoint()
+    public void MousePoint()
     {
         PlaySfx(Sfx.sfx_mouse_on_ui);
     }
@@ -129,7 +129,7 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    public void effectBgm(bool isPlay)
+    public void EffectBgm(bool isPlay)
     {
         bgmEffect.enabled = isPlay;
         bgmEffect2.enabled = isPlay;
