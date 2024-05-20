@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerManager : MonoBehaviour
 {
     public List<GameObject> UnitList;
+    public List<string> CmdList;
 
     public bool isMyTurn { get; set; }
 
@@ -80,7 +81,10 @@ public class PlayerManager : MonoBehaviour
         {
             if(currentUnit != null)
             {
-                currentUnit.GetComponent<Unit>().MoveTo(clicked.transform.position);
+                Vector3 clickedPos = clicked.transform.position;
+                CmdList.Add($"Move, {(int)currentUnit.transform.position.x}, {(int)currentUnit.transform.position.y}, {(int)clickedPos.x}, {(int)clickedPos.y}");
+                currentUnit.GetComponent<Unit>().MoveTo(clickedPos);
+                
             }
         }
         else
@@ -107,7 +111,7 @@ public class PlayerManager : MonoBehaviour
         {
             if(currentUnit != null)
             {
-                
+                CmdList.Add($"Attack, {(int)currentUnit.transform.position.x}, {(int)currentUnit.transform.position.y}, {(int)clicked.transform.position.x}, {(int)clicked.transform.position.y}");
                 currentUnit.GetComponent<Unit>().Attack(clicked);
             }   
         }

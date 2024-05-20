@@ -132,11 +132,13 @@ public class MatchManager : MonoBehaviour
 
         GameObject MyCaptain = Instantiate(prefab, MyCaptainPos, Quaternion.identity, player.transform);
         MapManager.Instance.stage.NodeArray[(int)MyCaptainPos.x, (int)MyCaptainPos.y].isBlocked = true;
+        MapManager.Instance.stage.NodeArray[(int)MyCaptainPos.x, (int)MyCaptainPos.y].unitOn = MyCaptain;
         MyCaptain.GetComponent<BoxCollider2D>().enabled = true;
         player.RegisterUnit(MyCaptain);
 
         GameObject OpponentCaptain = Instantiate(prefab, OpponentCaptainPos, Quaternion.identity, opponent.transform);
         MapManager.Instance.stage.NodeArray[(int)OpponentCaptainPos.x, (int)OpponentCaptainPos.y].isBlocked = true;
+        MapManager.Instance.stage.NodeArray[(int)OpponentCaptainPos.x, (int)OpponentCaptainPos.y].unitOn = OpponentCaptain;
         OpponentCaptain.GetComponent<BoxCollider2D>().enabled = true;
         opponent.RegisterUnit(OpponentCaptain);
     }
@@ -171,6 +173,15 @@ public class MatchManager : MonoBehaviour
         // Disable all acts
         player.StopAllCoroutines();
         opponent.StopAllCoroutines();
+
+        foreach (string elem in player.CmdList)
+        {
+            Debug.Log($"{elem}");
+        }
+        
+
+        player.CmdList.Clear();
+        opponent.CmdList.Clear();
 
         TimeManager.Instance.StartTimer(battlePhaseTime);
     }
@@ -226,6 +237,7 @@ public class MatchManager : MonoBehaviour
                 {
                     unit.transform.position = new Vector3(posX, posY);
                     MapManager.Instance.stage.NodeArray[posX, posY].isBlocked = true;
+                    MapManager.Instance.stage.NodeArray[posX, posY].unitOn = unit;
                     unit.GetComponent<BoxCollider2D>().enabled = true;
                     player.RegisterUnit(unit);
                     if (currentPhase == Phase.UnitSelect)
@@ -288,6 +300,7 @@ public class MatchManager : MonoBehaviour
                 {
                     unit.transform.position = new Vector3(posX, posY);
                     MapManager.Instance.stage.NodeArray[posX, posY].isBlocked = true;
+                    MapManager.Instance.stage.NodeArray[posX, posY].unitOn = unit;
                     unit.GetComponent<BoxCollider2D>().enabled = true;
                     player.RegisterUnit(unit);
                     if (currentPhase == Phase.UnitSelect)
@@ -348,6 +361,7 @@ public class MatchManager : MonoBehaviour
                 {
                     unit.transform.position = new Vector3(posX, posY);
                     MapManager.Instance.stage.NodeArray[posX, posY].isBlocked = true;
+                    MapManager.Instance.stage.NodeArray[posX, posY].unitOn = unit;
                     unit.GetComponent<BoxCollider2D>().enabled = true;
                     player.RegisterUnit(unit);
                     if(currentPhase == Phase.UnitSelect)

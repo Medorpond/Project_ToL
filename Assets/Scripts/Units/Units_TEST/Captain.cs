@@ -9,10 +9,6 @@ public class Captain : Unit
         base.Awake();
         Init();
     }
-    void Update()
-    {
-        Debug.Log(currentHealth);
-    }
     protected override void Init()
     {
         maxHealth = 10;

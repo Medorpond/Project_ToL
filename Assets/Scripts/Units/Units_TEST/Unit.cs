@@ -47,7 +47,7 @@ public abstract class Unit : MonoBehaviour
         }
         if (path.Count == 0) Debug.Log("You can't reach there.");
 
-        MapManager.Instance.stage.Occupy(startPos, targetPos); // 유닛 관통 방지
+        MapManager.Instance.stage.Occupy(startPos, targetPos, gameObject); // 유닛 관통 방지
         moveCoroutine = StartCoroutine(MoveOneGrid());
 
         // Local Method

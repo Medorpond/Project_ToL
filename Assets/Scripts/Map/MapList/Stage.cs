@@ -104,9 +104,11 @@ public Node[,] NodeArray; //PreDefine NodeArray for each Stage...
     }
 
 
-    public void Occupy(Vector2Int startPos, Vector2Int targetPos)
+    public void Occupy(Vector2Int startPos, Vector2Int targetPos, GameObject _thisUnit)
     {
         NodeArray[startPos.x, startPos.y].isBlocked = false;
+        NodeArray[startPos.x, startPos.y].unitOn = null;
         NodeArray[targetPos.x, targetPos.y].isBlocked = true;
+        NodeArray[targetPos.x, targetPos.y].unitOn = _thisUnit;
     }
 }
