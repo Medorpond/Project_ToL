@@ -41,16 +41,26 @@ public class LoginClickHandler : MonoBehaviour
     [SerializeField]
     private GameObject EmailConfirmPanel;
 
+    // Spinner
+    [SerializeField]
+    private GameObject LoadingSpinner1;
+    [SerializeField]
+    private GameObject LoadingSpinner2;
+
     // panel
     private void Start()
     {
         LoginButton.onClick.AddListener(Login);
         RegisterButton.onClick.AddListener(Register);
         ConfirmRegisterationButton.onClick.AddListener(Confirm);
+        LoadingSpinner1.SetActive(false);
+        LoadingSpinner2.SetActive(false);
     }
     
     private void Login()
     {
+        LoadingSpinner1.SetActive(true);
+        LoadingSpinner2.SetActive(true);
         apiGatewayManager.Login();
         //SceneManager.LoadScene("MainScene");
         StartCoroutine(WaitLoginStatus());
@@ -74,6 +84,9 @@ public class LoginClickHandler : MonoBehaviour
         {
             yield return null;
         }
+
+        LoadingSpinner1.SetActive(false);
+        LoadingSpinner2.SetActive(false);
 
         if (apiGatewayManager.IsLoginsuccess())
         {
