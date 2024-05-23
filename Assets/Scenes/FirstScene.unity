@@ -260,6 +260,7 @@ MonoBehaviour:
   LoginButton: {fileID: 803856394}
   RegisterButton: {fileID: 885948107}
   ConfirmRegisterationButton: {fileID: 1972218007}
+  ResendConfirmButton: {fileID: 1193025601}
   apiGatewayManager: {fileID: 1834262826}
   ConfirmCodeInputField: {fileID: 818786973}
   Errortext: {fileID: 1831394738}

@@ -86,7 +86,7 @@ public class ApiGatewayManager : MonoBehaviour
             _email = emailInputField.text;
             _username = usernameInputField.text;
             _password = passwordInputField.text;
-            // yong
+            
             string confirmPassword = confirmPassWordInputField.text;
             if (_password != confirmPassword)
             {

@@ -13,6 +13,7 @@ public class LoginClickHandler : MonoBehaviour
     public Button LoginButton;
     public Button RegisterButton;
     public Button ConfirmRegisterationButton;
+    public Button ResendConfirmButton;
     public ApiGatewayManager apiGatewayManager;
     public TMP_InputField ConfirmCodeInputField;
     
@@ -53,6 +54,7 @@ public class LoginClickHandler : MonoBehaviour
         LoginButton.onClick.AddListener(Login);
         RegisterButton.onClick.AddListener(Register);
         ConfirmRegisterationButton.onClick.AddListener(Confirm);
+        ResendConfirmButton.onClick.AddListener(Resend);
         LoadingSpinner1.SetActive(false);
         LoadingSpinner2.SetActive(false);
     }
@@ -77,6 +79,11 @@ public class LoginClickHandler : MonoBehaviour
         apiGatewayManager.ConfirmRegistration(ConfirmCode);
         SignUppanel.SetActive(false);
         EmailConfirmPanel.SetActive(false);
+    }
+
+    private void Resend()
+    {
+        apiGatewayManager.ResendConfirmation();
     }
     private IEnumerator WaitLoginStatus()
     {
