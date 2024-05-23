@@ -85,6 +85,7 @@ public class LoginClickHandler : MonoBehaviour
     {
         apiGatewayManager.ResendConfirmation();
     }
+    
     private IEnumerator WaitLoginStatus()
     {
         while(apiGatewayManager.isProgressIn())
