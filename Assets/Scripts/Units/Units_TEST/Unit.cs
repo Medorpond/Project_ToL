@@ -17,11 +17,21 @@ public abstract class Unit : MonoBehaviour
     protected float attackRange;
     protected float moveRange;
 
+    protected int coolTime1;
+    protected int coolTime2;
+    protected int currentCool1;
+    protected int currentCool2;
+    protected bool skillActive1;
+    protected bool skillActive2;
+
     private Coroutine moveCoroutine;
 
     protected virtual void Awake()
     {
-
+        currentCool1 = 0;
+        currentCool2 = 0;
+        skillActive1 = false;
+        skillActive2 = false;
     }
     protected virtual void Start()
     {
@@ -31,7 +41,7 @@ public abstract class Unit : MonoBehaviour
     
 
     protected abstract void Init();
-    public void MoveTo(Vector3 direction)
+    public virtual void MoveTo(Vector3 direction)
     {
         if (moveCoroutine != null) return; // Make sure one can't move while moving
 
@@ -76,8 +86,6 @@ public abstract class Unit : MonoBehaviour
         // Trigger Animation
     }
 
-
-
     public virtual void IsDamaged(float _damage)
     {
         currentHealth = currentHealth - _damage > 0 ? currentHealth - _damage : 0;
@@ -108,5 +116,41 @@ public abstract class Unit : MonoBehaviour
 
         MapManager.Instance.stage.NodeArray[(int)transform.position.x, (int)transform.position.y].isBlocked = false;
         Destroy(gameObject, 0);
+    }
+
+    public void StartTurn()
+    {
+        if (skillActive1) AfterAbility1();
+        if (skillActive2) AfterAbility2();
+
+        if (currentCool1 > 0) currentCool1--;
+        if (currentCool2 > 0) currentCool2--;
+    }
+
+    public virtual void Ability1()
+    {
+        if (currentCool1 != 0) return;
+        else
+        {
+            currentCool1 = coolTime1;
+            skillActive1 = true;
+        }
+    }
+    public virtual void Ability2()
+    {
+        if (currentCool2 != 0) return;
+        else
+        {
+            currentCool2 = coolTime2;
+            skillActive2 = true;
+        }
+    }
+
+    protected abstract void AfterAbility1();
+    protected abstract void AfterAbility2();
+
+    public void ChangeAttackDamage(float damage)
+    {
+        attackDamage += damage;
     }
 }
