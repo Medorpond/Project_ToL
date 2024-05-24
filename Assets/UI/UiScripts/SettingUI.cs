@@ -5,22 +5,35 @@ using UnityEngine.UI;
 
 public class SettingUI : MonoBehaviour
 {
-    private Animator animator;
-
-    public void Awake(){
-        animator = GetComponent<Animator>();
-        AudioManager.instance.EffectBgm(true);
-    }
-    public void Close()
+    private Coroutine cSetting;
+    private void Update()
     {
-        AudioManager.instance.EffectBgm(false);
-        StartCoroutine(CloseAfterDelay());
-        
+        if (Input.GetKeyDown(KeyCode.Escape) && cSetting == null)
+        {
+            cSetting = StartCoroutine(ControlSettingUI());
+        }
     }
-    private IEnumerator CloseAfterDelay(){
-        animator.SetTrigger("Close");
-        yield return new WaitForSeconds(0.5f);
-        gameObject.SetActive(false);
-        animator.ResetTrigger("Close");
+
+    IEnumerator ControlSettingUI()
+    {
+        GameObject childObject = transform.Find("SettingsUI").gameObject;
+        Animator animator = childObject.GetComponent<Animator>();
+        if (childObject.activeSelf)
+        {
+            AudioManager.instance.EffectBgm(false);
+            animator.SetTrigger("Close");
+            yield return new WaitForSeconds(0.5f);
+            childObject.SetActive(false);
+            animator.ResetTrigger("Close");
+        }
+        else
+        {
+            AudioManager.instance.EffectBgm(true);
+            childObject.SetActive(true);
+            animator.SetTrigger("Open");
+            animator.ResetTrigger("Open");
+        }
+
+        cSetting = null;
     }
 }

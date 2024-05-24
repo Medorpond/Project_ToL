@@ -1573,10 +1573,9 @@ GameObject:
   - component: {fileID: 283081561}
   - component: {fileID: 283081560}
   - component: {fileID: 283081559}
-  - component: {fileID: 283081558}
-  - component: {fileID: 283081557}
   - component: {fileID: 283081564}
   - component: {fileID: 283081563}
+  - component: {fileID: 283081565}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -1584,44 +1583,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &283081557
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 283081554}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a253e65146f4b742b8cfae81ea61615, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SettingUI: {fileID: 553508285}
---- !u!114 &283081558
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 283081554}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0fa1e24f4bef22e42afb81fb6815d14a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  characters:
-  - {fileID: 2767949369686896902, guid: 9e065a628537bee49a9671991a5ae16e, type: 3}
-  - {fileID: 1915468331183692332, guid: ccf2ce401ec52c640934daea74924f50, type: 3}
-  - {fileID: 8090110064924515552, guid: c82d1099e05e7d64b960fb75cb3201e9, type: 3}
-  CharBtn:
-  - {fileID: 9122418619326186000, guid: e4dfd20d8e69f5349ad61c2f6809b513, type: 3}
-  - {fileID: 483545366580099485, guid: ca499c6632a5a9945b86f2227986ea4f, type: 3}
-  - {fileID: 6651413811386304837, guid: 2446a75effe10094b891a5533327f0d7, type: 3}
-  DoneBtn: {fileID: 4355290757171214027, guid: 95cde604149bc1240be84c5a66ba2575, type: 3}
-  ResetBtn: {fileID: 1091947899221164515, guid: 7d918703fde79e249a8e89916be1772f, type: 3}
-  createtextPrefab: {fileID: 2429209468654028960, guid: fd9103093891c694bb84a85720be1704, type: 3}
-  CharacterPanel: {fileID: 0}
-  player: {fileID: 0}
 --- !u!114 &283081559
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1740,6 +1701,18 @@ MonoBehaviour:
   mouseOnUiSound: {fileID: 8300000, guid: 4c698fe487a0f1d438f4afc5bf78d5df, type: 3}
   sfxVolume: 1
   channels: 16
+--- !u!114 &283081565
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 283081554}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9e6b1d42654b794eb7eef57c610e388, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &358502724
 GameObject:
   m_ObjectHideFlags: 0
@@ -2591,7 +2564,6 @@ GameObject:
   m_Component:
   - component: {fileID: 553508288}
   - component: {fileID: 553508287}
-  - component: {fileID: 553508286}
   m_Layer: 5
   m_Name: SettingsUI
   m_TagString: Untagged
@@ -2599,18 +2571,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 0
---- !u!114 &553508286
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 553508285}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a9e6b1d42654b794eb7eef57c610e388, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!95 &553508287
 Animator:
   serializedVersion: 5
@@ -4581,6 +4541,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UnitList: []
+  CmdList: []
 --- !u!1 &1103453760
 GameObject:
   m_ObjectHideFlags: 0
@@ -6536,7 +6497,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 553508286}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: SettingUI, Assembly-CSharp
         m_MethodName: Close
         m_Mode: 1
@@ -7188,6 +7149,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UnitList: []
+  CmdList: []
 --- !u!1 &1626703356
 GameObject:
   m_ObjectHideFlags: 0
