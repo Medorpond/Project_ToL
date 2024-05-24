@@ -28,9 +28,8 @@ public abstract class Unit : MonoBehaviour
         // Add this to PlayerManager
     }
 
-    
-
     protected abstract void Init();
+
     public void MoveTo(Vector3 direction)
     {
         if (moveCoroutine != null) return; // Make sure one can't move while moving
