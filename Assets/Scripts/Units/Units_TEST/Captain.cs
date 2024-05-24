@@ -32,7 +32,7 @@ public class Captain : Unit
         MatchManager.Instance.GameOver();
     }
 
-    public override void MoveTo(Vector3 direction)
+    public override bool MoveTo(Vector3 direction)
     {
         if (skillActive1)
         {
@@ -43,6 +43,8 @@ public class Captain : Unit
             }
         }
         else base.MoveTo(direction);
+
+        return false;
     }
 
     public override void Ability1()

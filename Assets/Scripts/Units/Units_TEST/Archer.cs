@@ -20,7 +20,7 @@ public class Archer : Unit
         coolTime2 = 3;
     }
 
-    public override void MoveTo(Vector3 direction)
+    public override bool MoveTo(Vector3 direction)
     {
         if (skillActive1)
         {
@@ -31,6 +31,8 @@ public class Archer : Unit
             }
         }
         else base.MoveTo(direction);
+
+        return false;
     }
 
     public override void Ability1()
