@@ -81,10 +81,13 @@ public class PlayerManager : MonoBehaviour
         {
             if(currentUnit != null)
             {
+                Vector3 curUnitPos = currentUnit.transform.position;
                 Vector3 clickedPos = clicked.transform.position;
-                CmdList.Add($"Move, {(int)currentUnit.transform.position.x}, {(int)currentUnit.transform.position.y}, {(int)clickedPos.x}, {(int)clickedPos.y}");
-                currentUnit.GetComponent<Unit>().MoveTo(clickedPos);
-                
+
+                if (currentUnit.GetComponent<Unit>().MoveTo(clickedPos))
+                {
+                    CmdList.Add($"Move, {(int)curUnitPos.x}, {(int)curUnitPos.y}, {(int)clickedPos.x}, {(int)clickedPos.y}");
+                }
             }
         }
         else
@@ -110,9 +113,11 @@ public class PlayerManager : MonoBehaviour
         if (!UnitList.Contains(clicked) && clicked.CompareTag("Unit"))// clicked.CompareTag("Opponent")
         {
             if(currentUnit != null)
-            {
-                CmdList.Add($"Attack, {(int)currentUnit.transform.position.x}, {(int)currentUnit.transform.position.y}, {(int)clicked.transform.position.x}, {(int)clicked.transform.position.y}");
-                currentUnit.GetComponent<Unit>().Attack(clicked);
+            {                
+                if (currentUnit.GetComponent<Unit>().Attack(clicked))
+                {
+                    CmdList.Add($"Attack, {(int)currentUnit.transform.position.x}, {(int)currentUnit.transform.position.y}, {(int)clicked.transform.position.x}, {(int)clicked.transform.position.y}");
+                }
             }   
         }
         else

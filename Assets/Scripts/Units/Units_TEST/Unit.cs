@@ -38,12 +38,11 @@ public abstract class Unit : MonoBehaviour
         // Add this to PlayerManager
     }
 
-    
-
     protected abstract void Init();
-    public virtual void MoveTo(Vector3 direction)
+
+    public virtual bool MoveTo(Vector3 direction)
     {
-        if (moveCoroutine != null) return; // Make sure one can't move while moving
+        if (moveCoroutine != null) return false; // Make sure one can't move while moving
 
         Vector2Int startPos = new Vector2Int((int)transform.position.x, (int)transform.position.y);
         Vector2Int targetPos = new Vector2Int((int)direction.x, (int)direction.y);
@@ -53,12 +52,17 @@ public abstract class Unit : MonoBehaviour
         if (path.Count > moveRange)
         {
             Debug.Log("Too Far to Go");
-            return;
+            return false;
         }
-        if (path.Count == 0) Debug.Log("You can't reach there.");
+        if (path.Count == 0)
+        {
+            Debug.Log("You can't reach there.");
+            return false;
+        }
 
         MapManager.Instance.stage.Occupy(startPos, targetPos, gameObject); // 유닛 관통 방지
         moveCoroutine = StartCoroutine(MoveOneGrid());
+        return true;
 
         // Local Method
         IEnumerator MoveOneGrid()
@@ -74,17 +78,20 @@ public abstract class Unit : MonoBehaviour
         }
     }
 
-    public virtual void Attack(GameObject _opponent)
+    public virtual bool Attack(GameObject _opponent)
     {
         if (Vector2.Distance(transform.position, _opponent.transform.position) > attackRange)
         {
             Debug.Log("Out of Range");
-            return;
+            return false;
         }
         Debug.Log($"{name} attacked {_opponent.name}");
         _opponent.GetComponent<Unit>().IsDamaged(attackDamage);
+        return true;
         // Trigger Animation
     }
+
+
 
     public virtual void IsDamaged(float _damage)
     {
@@ -96,9 +103,9 @@ public abstract class Unit : MonoBehaviour
 
     public virtual void IsHealed(float _heal)
     {
-        currentHealth = currentHealth + _heal < maxHealth ? 
+        currentHealth = currentHealth + _heal < maxHealth ?
             currentHealth + _heal : maxHealth;
-        HP_BarUpdate();        
+        HP_BarUpdate();
         // Invoke Event to Trigger Animation, Update UI.
     }
 
@@ -154,3 +161,4 @@ public abstract class Unit : MonoBehaviour
         attackDamage += damage;
     }
 }
+

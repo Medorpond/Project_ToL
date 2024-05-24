@@ -2033,7 +2033,7 @@ MonoBehaviour:
   MainMenuBtn: {fileID: 1187632223}
   DeployPanel: {fileID: 383419111}
   ResultPanel: {fileID: 2127389625}
-  unitSelectPhaseTime: 10
+  unitSelectPhaseTime: 5
   battlePhaseTime: 60
   maxTurnCount: 100
 --- !u!4 &407919657
