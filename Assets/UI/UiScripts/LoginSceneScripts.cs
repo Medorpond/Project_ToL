@@ -8,7 +8,7 @@ public class LoginSceneScripts : MonoBehaviour
 {
 
     public void Start(){
-        AudioManager.instance.PlayBgm(true);
+        UIAudioManager.instance.PlayBgm(true);
     }
     public void OnClickExit(){
 #if UNITY_EDITOR

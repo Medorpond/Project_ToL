@@ -20,7 +20,7 @@ public class SettingUI : MonoBehaviour
         Animator animator = childObject.GetComponent<Animator>();
         if (childObject.activeSelf)
         {
-            AudioManager.instance.EffectBgm(false);
+            UIAudioManager.instance.EffectBgm(false);
             animator.SetTrigger("Close");
             yield return new WaitForSeconds(0.5f);
             childObject.SetActive(false);
@@ -28,7 +28,7 @@ public class SettingUI : MonoBehaviour
         }
         else
         {
-            AudioManager.instance.EffectBgm(true);
+            UIAudioManager.instance.EffectBgm(true);
             childObject.SetActive(true);
             animator.SetTrigger("Open");
             animator.ResetTrigger("Open");

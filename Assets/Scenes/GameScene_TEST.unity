@@ -393,6 +393,65 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 20113861}
   m_CullTransparentMesh: 1
+--- !u!1 &41947004
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 41947006}
+  - component: {fileID: 41947005}
+  m_Layer: 0
+  m_Name: BattleAudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &41947005
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 41947004}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eca164adb772ccb4896732ca91678434, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sfxClips:
+  - {fileID: 8300000, guid: 9a77e95866e8ce245925447ab55e654b, type: 3}
+  - {fileID: 8300000, guid: c9cef54de3af09b4ca85fe882fe5f2d0, type: 3}
+  - {fileID: 8300000, guid: 5d495c119f810d6429939d88e415489f, type: 3}
+  - {fileID: 8300000, guid: ee7cbfcc5cccdb94f81dafc0734746fe, type: 3}
+  - {fileID: 8300000, guid: e1b907382706ae949ab03210712efeee, type: 3}
+  - {fileID: 8300000, guid: aa5981d0faf29324b9cf205519be89ab, type: 3}
+  - {fileID: 8300000, guid: bff883dc0ae175d45bf37f4be136ee62, type: 3}
+  - {fileID: 8300000, guid: d7bd4013c90fee548bc6d0fe2cc661d8, type: 3}
+  - {fileID: 8300000, guid: 5eba6d574e853774bbbe437eb6b971d8, type: 3}
+  - {fileID: 8300000, guid: 565293309bdce3d4a9dc845ed7d25760, type: 3}
+  sfxVolume: 0.3
+  channels: 16
+  ambienceClip: {fileID: 8300000, guid: 23327e09fd7db5741a1d2f7729996abe, type: 3}
+  ambienceVolume: 0.1
+--- !u!4 &41947006
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 41947004}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &70481064
 GameObject:
   m_ObjectHideFlags: 0
@@ -1573,7 +1632,6 @@ GameObject:
   - component: {fileID: 283081561}
   - component: {fileID: 283081560}
   - component: {fileID: 283081559}
-  - component: {fileID: 283081564}
   - component: {fileID: 283081563}
   - component: {fileID: 283081565}
   m_Layer: 5
@@ -1681,26 +1739,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9e08eae9913e364eb747e6a7393c4ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &283081564
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 283081554}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f56d3fbc356b3bf49bc4abb9801c7dfc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  volumeSlider: {fileID: 1134385223}
-  bgmClip: {fileID: 8300000, guid: db592d359e375804093c4c72372651ed, type: 3}
-  bgmVolume: 0
-  sfxClips: []
-  clickUiSound: {fileID: 8300000, guid: 3e4e6c4308c9aa348a851f5e524d6c2e, type: 3}
-  mouseOnUiSound: {fileID: 8300000, guid: 4c698fe487a0f1d438f4afc5bf78d5df, type: 3}
-  sfxVolume: 1
-  channels: 16
 --- !u!114 &283081565
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2751,7 +2789,7 @@ GameObject:
   - component: {fileID: 600866710}
   - component: {fileID: 600866709}
   m_Layer: 0
-  m_Name: AudioManager
+  m_Name: UIAudioManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2771,7 +2809,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   volumeSlider: {fileID: 1134385223}
   bgmClip: {fileID: 8300000, guid: a5413ae8b96e43d47a00bc01eeaf7f50, type: 3}
-  bgmVolume: 1.5
+  bgmVolume: 2
   sfxClips:
   - {fileID: 8300000, guid: 3e4e6c4308c9aa348a851f5e524d6c2e, type: 3}
   - {fileID: 8300000, guid: 4c698fe487a0f1d438f4afc5bf78d5df, type: 3}
@@ -9130,3 +9168,4 @@ SceneRoots:
   - {fileID: 1677742860}
   - {fileID: 283081562}
   - {fileID: 600866710}
+  - {fileID: 41947006}

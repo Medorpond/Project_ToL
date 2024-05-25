@@ -60,7 +60,7 @@ public abstract class Unit : MonoBehaviour
             return false;
         }
 
-        MapManager.Instance.stage.Occupy(startPos, targetPos, gameObject); // À¯´Ö °üÅë ¹æÁö
+        MapManager.Instance.stage.Occupy(startPos, targetPos, gameObject); // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         moveCoroutine = StartCoroutine(MoveOneGrid());
         return true;
 
@@ -88,8 +88,12 @@ public abstract class Unit : MonoBehaviour
         }
         Debug.Log($"{name} attacked {_opponent.name}");
         _opponent.GetComponent<Unit>().IsDamaged(attackDamage);
+        
+        //ìœ ë‹›ë³„ ì‚¬ìš´ë“œ ì¶œë ¥
+        //Light Sword Attack SFX
+        BattleAudioManager.instance.PlayBSfx(BattleAudioManager.Sfx.lightSwordAtk);
         return true;
-        // Trigger Animation
+        // Trigger Animation  
     }
 
 
@@ -98,6 +102,7 @@ public abstract class Unit : MonoBehaviour
     {
         currentHealth = currentHealth - _damage > 0 ? currentHealth - _damage : 0;
         HP_BarUpdate();
+        BattleAudioManager.instance.PlayBSfx(BattleAudioManager.Sfx.damage);
         if (currentHealth <= 0) IsDead();
         // Invoke Event to Trigger Animation, Update UI.
     }

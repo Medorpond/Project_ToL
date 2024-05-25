@@ -60,7 +60,7 @@ public class TurnBasedGameManage : MonoBehaviour
 
     void Start()
     {
-        AudioManager.instance.PlayBgm(true);
+        UIAudioManager.instance.PlayBgm(true);
     }
 
     private void Update()
@@ -272,7 +272,7 @@ public class TurnBasedGameManage : MonoBehaviour
         
         gameOverPanel.SetActive(true);
         Winner();
-        AudioManager.instance.PlayBgm(false);
+        UIAudioManager.instance.PlayBgm(false);
     }
 
     public void GoMain() {

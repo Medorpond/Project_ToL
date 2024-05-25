@@ -4,9 +4,9 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class AudioManager : MonoBehaviour
+public class UIAudioManager : MonoBehaviour
 {
-    public static AudioManager instance;
+    public static UIAudioManager instance;
 
     // for volume Control
     public Slider volumeSlider;
@@ -31,7 +31,8 @@ public class AudioManager : MonoBehaviour
 
 
 
-    public enum Sfx { sfx_click_ui, sfx_mouse_on_ui }
+    public enum Sfx { sfx_click_ui, sfx_mouse_on_ui, sfx_vitory }
+
 
     void Awake()
     {
@@ -109,6 +110,7 @@ public class AudioManager : MonoBehaviour
             case Sfx.sfx_mouse_on_ui:
                 clipToPlay = mouseOnUiSound;
                 break;
+            
         }
 
         if (clipToPlay != null)

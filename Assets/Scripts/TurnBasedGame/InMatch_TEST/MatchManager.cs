@@ -41,10 +41,11 @@ public class MatchManager : MonoBehaviour
     {
         SingletoneInit();
         MainMenuBtn.onClick.AddListener(Exit);
+        BattleAudioManager.instance.PlayAmbience(true);
     }
     private void Start()
     {
-        AudioManager.instance.PlayBgm(true);
+        UIAudioManager.instance.PlayBgm(true);
         TimeManager.Instance.StartMatchTime();
         UnitSelectPhase();
     }
@@ -190,6 +191,8 @@ public class MatchManager : MonoBehaviour
     #region EndPhase
     public void GameOver()
     {
+        BattleAudioManager.instance.PlayAmbience(false);
+        UIAudioManager.instance.PlayBgm(false);
         currentPhase = Phase.End;
         player.StopAllCoroutines();
         opponent.StopAllCoroutines();
@@ -198,7 +201,11 @@ public class MatchManager : MonoBehaviour
         TimeManager.Instance?.EndMatchTime();
         Debug.Log("Game Over!");
         //trigger Result UI
+        
         ResultPanel.SetActive(true);
+
+        // BattleAudioManager.instance.PlayBSfx(BattleAudioManager.Sfx.victory1);
+        // BattleAudioManager.instance.PlayBSfx(BattleAudioManager.Sfx.victory2);
     }
     #endregion
 

@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class MainMenuScripts : MonoBehaviour
 {
     void Start(){
-        AudioManager.instance.PlayBgm(true);
+        UIAudioManager.instance.PlayBgm(true);
     }
     // CLick button method
     public void OnClickComponent(){

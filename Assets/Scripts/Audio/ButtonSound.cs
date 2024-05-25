@@ -16,12 +16,12 @@ public class ButtonSoundManager : MonoBehaviour
 
         foreach (Button button in buttons)
         {
-            button.onClick.AddListener(() => AudioManager.instance.PlaySfx(AudioManager.Sfx.sfx_click_ui));
+            button.onClick.AddListener(() => UIAudioManager.instance.PlaySfx(UIAudioManager.Sfx.sfx_click_ui));
 
             EventTrigger trigger = button.gameObject.GetComponent<EventTrigger>() ?? button.gameObject.AddComponent<EventTrigger>();
             EventTrigger.Entry entry = new EventTrigger.Entry();
             entry.eventID = EventTriggerType.PointerEnter;
-            entry.callback.AddListener((data) => { AudioManager.instance.PlaySfx(AudioManager.Sfx.sfx_mouse_on_ui); });
+            entry.callback.AddListener((data) => { UIAudioManager.instance.PlaySfx(UIAudioManager.Sfx.sfx_mouse_on_ui); });
             trigger.triggers.Add(entry);
         }
     }
