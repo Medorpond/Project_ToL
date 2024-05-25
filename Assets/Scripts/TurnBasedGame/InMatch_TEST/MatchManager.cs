@@ -178,7 +178,7 @@ public class MatchManager : MonoBehaviour
         {
             Debug.Log($"{elem}");
         }
-        
+        // Send player CmdList via Network HERE.
 
         player.CmdList.Clear();
         opponent.CmdList.Clear();
