@@ -4,18 +4,22 @@ using UnityEngine;
 
 public class Knight : Unit
 {
+    private List<GameObject> myUnits;
+    private float increaseAttack;
+
     protected override void Awake()
     {
         base.Awake();
-        Init();
+        Init();    
     }
+
     protected override void Init()
     {
         maxHealth = 7;
         currentHealth = maxHealth;
         attackDamage = 2;
         attackRange = 1;
-        moveRange = 3;
+        moveRange = 10;
         coolTime1 = 3;
         coolTime2 = 7;
     }

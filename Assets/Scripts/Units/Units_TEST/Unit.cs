@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public abstract class Unit : MonoBehaviour
 {
     public RectTransform hp_bar;
+    protected Animator animator;
 
     [SerializeField]
     protected float moveSpeed = 0.01f;
@@ -24,7 +25,7 @@ public abstract class Unit : MonoBehaviour
     protected bool skillActive1;
     protected bool skillActive2;
 
-    private Coroutine moveCoroutine;
+    protected Coroutine moveCoroutine;
 
     protected virtual void Awake()
     {
@@ -32,6 +33,7 @@ public abstract class Unit : MonoBehaviour
         currentCool2 = 0;
         skillActive1 = false;
         skillActive2 = false;
+        animator = GetComponent<Animator>();    
     }
     protected virtual void Start()
     {
@@ -62,6 +64,7 @@ public abstract class Unit : MonoBehaviour
 
         MapManager.Instance.stage.Occupy(startPos, targetPos, gameObject); // ���� ���� ����
         moveCoroutine = StartCoroutine(MoveOneGrid());
+        TriggerMoveAnimation();
         return true;
 
         // Local Method
@@ -75,6 +78,7 @@ public abstract class Unit : MonoBehaviour
                 transform.position = nextStop;
             }
             moveCoroutine = null;
+            ResetMoveAnimation();
         }
     }
 
@@ -92,11 +96,44 @@ public abstract class Unit : MonoBehaviour
         //유닛별 사운드 출력
         //Light Sword Attack SFX
         BattleAudioManager.instance.PlayBSfx(BattleAudioManager.Sfx.lightSwordAtk);
+        TriggerAttackAnimation();
         return true;
         // Trigger Animation  
     }
 
+    protected void TriggerMoveAnimation()
+    {
+        if (animator != null)
+        {
+            animator.SetBool("Move", true);
+        }
+    }
 
+    protected void ResetMoveAnimation()
+    {
+        if (animator != null)
+        {
+            animator.SetBool("Move", false);
+        }
+    }
+
+    protected void TriggerAttackAnimation()
+    {
+        if (animator != null)
+        {
+            animator.SetBool("Attack", true);
+            StartCoroutine(ResetAttackAnimation());
+        }
+    }
+
+    private IEnumerator ResetAttackAnimation()
+    {
+        yield return new WaitForSeconds(1.0f);
+        if (animator != null)
+        {
+            animator.SetBool("Attack", false);
+        }
+    }
 
     public virtual void IsDamaged(float _damage)
     {

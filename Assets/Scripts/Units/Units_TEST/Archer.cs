@@ -7,7 +7,7 @@ public class Archer : Unit
     protected override void Awake()
     {
         base.Awake();
-        Init();
+        Init();   
     }
     protected override void Init()
     {
@@ -15,7 +15,7 @@ public class Archer : Unit
         currentHealth = maxHealth;
         attackDamage = 2;
         attackRange = 5; 
-        moveRange = 7;
+        moveRange = 10;
         coolTime1 = 3;
         coolTime2 = 3;
     }
