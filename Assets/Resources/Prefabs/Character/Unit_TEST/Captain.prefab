@@ -416,7 +416,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hp_bar: {fileID: 7341105902715239061}
-  moveSpeed: 0.01
+  moveSpeed: 0.05
 --- !u!61 &-7420749638303594808
 BoxCollider2D:
   m_ObjectHideFlags: 0
