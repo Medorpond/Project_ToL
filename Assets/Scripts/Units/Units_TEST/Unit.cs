@@ -26,6 +26,8 @@ public abstract class Unit : MonoBehaviour
     protected bool skillActive2;
 
     protected Coroutine moveCoroutine;
+    protected bool canAttack = true;
+    private float attackCooldown = 1.0f;
 
     protected virtual void Awake()
     {
@@ -84,7 +86,8 @@ public abstract class Unit : MonoBehaviour
 
     public virtual bool Attack(GameObject _opponent)
     {
-
+        if(!canAttack) return false;
+                 
         if (Vector2.Distance(transform.position, _opponent.transform.position) > attackRange)
         {
             Debug.Log("Out of Range");
@@ -97,10 +100,17 @@ public abstract class Unit : MonoBehaviour
         //Light Sword Attack SFX
         BattleAudioManager.instance.PlayBSfx(BattleAudioManager.Sfx.lightSwordAtk);
         TriggerAttackAnimation();
+        StartCoroutine(AttackCooldown());
         return true;
         // Trigger Animation  
     }
 
+    private IEnumerator AttackCooldown()
+    {
+        canAttack = false;
+        yield return new WaitForSeconds(attackCooldown);
+        canAttack = true;
+    }
     protected void TriggerMoveAnimation()
     {
         if (animator != null)
@@ -121,19 +131,10 @@ public abstract class Unit : MonoBehaviour
     {
         if (animator != null)
         {
-            animator.SetBool("Attack", true);
-            StartCoroutine(ResetAttackAnimation());
+            animator.SetTrigger("Attack");
         }
     }
 
-    private IEnumerator ResetAttackAnimation()
-    {
-        yield return new WaitForSeconds(1.0f);
-        if (animator != null)
-        {
-            animator.SetBool("Attack", false);
-        }
-    }
 
     public virtual void IsDamaged(float _damage)
     {
