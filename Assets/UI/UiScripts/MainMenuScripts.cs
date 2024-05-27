@@ -11,10 +11,10 @@ public class MainMenuScripts : MonoBehaviour
     }
     // CLick button method
     public void OnClickComponent(){
-        LoadingSceneController.LoadScene("GameScene");
+        LoadingSceneController.LoadScene("GameScene_TEST");
     }
     public void OnClickSingle(){
-        SceneManager.LoadScene("GameScene_TEST");
+        LoadingSceneController.LoadScene("GameScene_TEST");
     }
     public void OnClickExit(){
 #if UNITY_EDITOR
