@@ -87,22 +87,23 @@ public abstract class Unit : MonoBehaviour
     public virtual bool Attack(GameObject _opponent)
     {
         if(!canAttack) return false;
-                 
+
+        //공통 기능 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
         if (Vector2.Distance(transform.position, _opponent.transform.position) > attackRange)
         {
             Debug.Log("Out of Range");
             return false;
         }
         Debug.Log($"{name} attacked {_opponent.name}");
+        TriggerAttackAnimation();
         _opponent.GetComponent<Unit>().IsDamaged(attackDamage);
-        
+        StartCoroutine(AttackCooldown());
+        //공통 기능 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
         //유닛별 사운드 출력
         //Light Sword Attack SFX
         BattleAudioManager.instance.PlayBSfx(BattleAudioManager.Sfx.lightSwordAtk);
-        TriggerAttackAnimation();
-        StartCoroutine(AttackCooldown());
         return true;
-        // Trigger Animation  
     }
 
     private IEnumerator AttackCooldown()
@@ -134,6 +135,11 @@ public abstract class Unit : MonoBehaviour
             animator.SetTrigger("Attack");
         }
     }
+
+
+
+
+
 
 
     public virtual void IsDamaged(float _damage)

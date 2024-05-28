@@ -63,35 +63,9 @@ public class Priest : Unit
 
     public override bool Attack(GameObject _opponent)
     {
-        if (Vector2.Distance(transform.position, _opponent.transform.position) > attackRange)
-        {
-            Debug.Log("Out of Range");
-            return false;
-        }
-
-        Debug.Log($"{name} attacked {_opponent.name}");
-        _opponent.GetComponent<Unit>().IsDamaged(attackDamage);
-        BattleAudioManager.instance.PlayBSfx(BattleAudioManager.Sfx.lightSwordAtk);
-
-        TriggerAttackAnimation();
-        return true;
-    }
-
-    protected void TriggerAttackAnimation()
-    {
-        if (animator != null)
-        {
-            animator.SetBool("Attack", true);
-            StartCoroutine(ResetAttackAnimation());
-        }
-    }
-
-    private IEnumerator ResetAttackAnimation()
-    {
-        yield return new WaitForSeconds(1.0f);
-        if (animator != null)
-        {
-            animator.SetBool("Attack", false);
-        }
+        //공통 기능 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+        return base.Attack(_opponent);
+        //공통 기능 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+        //BattleAudioManager.instance.PlayBSfx(BattleAudioManager.Sfx.lightSwordAtk); <<사운드 중복 출력?
     }
 }
