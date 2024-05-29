@@ -18,6 +18,7 @@ public class Archer : Unit
         moveRange = 10;
         coolTime1 = 3;
         coolTime2 = 3;
+        weaponType = WeaponType.ArrowAtk;
     }
 
     public override bool MoveTo(Vector3 direction)

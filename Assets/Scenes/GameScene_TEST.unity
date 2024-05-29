@@ -438,6 +438,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 21a04c7ee4bc23843963c7c5842c3c37, type: 3}
   - {fileID: 8300000, guid: a556fc7d34610ca4a9fce9a6b167a365, type: 3}
   - {fileID: 8300000, guid: ed715d2397fcf2949a776b8de9567aac, type: 3}
+  - {fileID: 8300000, guid: d6a762c262160ac4ab19ee2dabb38c5a, type: 3}
   sfxVolume: 0.3
   channels: 16
   ambienceClip: {fileID: 8300000, guid: 23327e09fd7db5741a1d2f7729996abe, type: 3}

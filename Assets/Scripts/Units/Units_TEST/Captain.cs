@@ -21,6 +21,7 @@ public class Captain : Unit
         moveRange = 30;
         coolTime1 = 4;
         coolTime2 = 5;
+        weaponType = WeaponType.LightSword;
 
         myUnits = GetComponentInParent<PlayerManager>().UnitList;
         increaseAttack = 1.0f;

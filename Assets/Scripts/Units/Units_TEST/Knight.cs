@@ -6,7 +6,6 @@ public class Knight : Unit
 {
     private List<GameObject> myUnits;
     private float increaseAttack;
-    public AudioClip audioClip;
     
 
     protected override void Awake()
@@ -24,6 +23,7 @@ public class Knight : Unit
         moveRange = 10;
         coolTime1 = 3;
         coolTime2 = 7;
+        weaponType = WeaponType.LightSword;
     }
     public override void Ability1()
     {
@@ -52,10 +52,4 @@ public class Knight : Unit
         }
     }
     
-
-    void Start()
-    {
-        AudioSource audioSource = gameObject.AddComponent<AudioSource>();
-        audioSource.clip = audioClip;
-    }
 }

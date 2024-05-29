@@ -18,6 +18,7 @@ public class Assassin : Unit
         moveRange = 7;
         coolTime1 = 3;
         coolTime2 = 5;
+        weaponType = WeaponType.DoubleBlade;
     }
     public override void Ability1()
     {
