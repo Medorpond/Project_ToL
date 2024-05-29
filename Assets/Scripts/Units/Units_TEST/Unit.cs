@@ -8,6 +8,8 @@ public abstract class Unit : MonoBehaviour
 {
     public RectTransform hp_bar;
     protected Animator animator;
+    public enum WeaponType { LightSword, Shield, DoubleBlade }
+    protected WeaponType weaponType;
 
     [SerializeField]
     protected float moveSpeed = 0.01f;
@@ -24,6 +26,9 @@ public abstract class Unit : MonoBehaviour
     protected int currentCool2;
     protected bool skillActive1;
     protected bool skillActive2;
+    protected bool isSword;
+    protected bool isDoubleBlade;
+    private AudioClip attackSoundClip;
 
     protected Coroutine moveCoroutine;
     protected bool canAttack = true;
@@ -99,10 +104,8 @@ public abstract class Unit : MonoBehaviour
         _opponent.GetComponent<Unit>().IsDamaged(attackDamage);
         StartCoroutine(AttackCooldown());
         //공통 기능 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+        BattleAudioManager.instance.PlayWeaponSfx(weaponType);
 
-        //유닛별 사운드 출력
-        //Light Sword Attack SFX
-        BattleAudioManager.instance.PlayBSfx(BattleAudioManager.Sfx.lightSwordAtk);
         return true;
     }
 
@@ -135,12 +138,6 @@ public abstract class Unit : MonoBehaviour
             animator.SetTrigger("Attack");
         }
     }
-
-
-
-
-
-
 
     public virtual void IsDamaged(float _damage)
     {
