@@ -12,13 +12,8 @@ public class TestUnit : Unit
         currentHealth = maxHealth;
         attackDamage = 5;
         attackRange = 3;
+        moveRange = 100;
     }
-
-
-
-
-
-
 
     protected override void Init() { }
     protected override void AfterAbility1() { }
