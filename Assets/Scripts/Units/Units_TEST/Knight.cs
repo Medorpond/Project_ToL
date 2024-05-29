@@ -6,6 +6,8 @@ public class Knight : Unit
 {
     private List<GameObject> myUnits;
     private float increaseAttack;
+    public AudioClip audioClip;
+    
 
     protected override void Awake()
     {
@@ -48,5 +50,12 @@ public class Knight : Unit
             currentHealth -= 3;
             skillActive2 = false;
         }
+    }
+    
+
+    void Start()
+    {
+        AudioSource audioSource = gameObject.AddComponent<AudioSource>();
+        audioSource.clip = audioClip;
     }
 }

@@ -433,6 +433,11 @@ MonoBehaviour:
   - {fileID: 8300000, guid: d7bd4013c90fee548bc6d0fe2cc661d8, type: 3}
   - {fileID: 8300000, guid: 5eba6d574e853774bbbe437eb6b971d8, type: 3}
   - {fileID: 8300000, guid: 565293309bdce3d4a9dc845ed7d25760, type: 3}
+  - {fileID: 8300000, guid: d7370c53a7a98bd4cab1770fba4506e4, type: 3}
+  - {fileID: 8300000, guid: 7eaa36dc4cb6dd749950701f5dc07a1f, type: 3}
+  - {fileID: 8300000, guid: 21a04c7ee4bc23843963c7c5842c3c37, type: 3}
+  - {fileID: 8300000, guid: a556fc7d34610ca4a9fce9a6b167a365, type: 3}
+  - {fileID: 8300000, guid: ed715d2397fcf2949a776b8de9567aac, type: 3}
   sfxVolume: 0.3
   channels: 16
   ambienceClip: {fileID: 8300000, guid: 23327e09fd7db5741a1d2f7729996abe, type: 3}

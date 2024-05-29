@@ -22,15 +22,17 @@ public class BattleAudioManager : MonoBehaviour
     public AudioClip ambienceClip;
     public float ambienceVolume;
     AudioSource ambiencePlayer;
+    
 
 
 
-
-    public enum Sfx { damage, lightSwordAtk, sfx_shieldsUp = 7, victory1, victory2}
+    public enum Sfx { damage, lightSwordAtk, sfx_shieldsUp = 7, victory1, victory2,doubleBladeAtk}
+    private Dictionary<Unit.WeaponType, Sfx> weaponToSfxMap;
 
     public void Awake(){
         instance = this;
         Init();
+        SetupWeaponToSfxMap();
     }
 
     public void Init()
@@ -56,6 +58,15 @@ public class BattleAudioManager : MonoBehaviour
             sfxPlayers[index].volume = sfxVolume;
         }
     }
+    private void SetupWeaponToSfxMap()
+    {
+        weaponToSfxMap = new Dictionary<Unit.WeaponType, Sfx>
+        {
+            { Unit.WeaponType.LightSword, Sfx.lightSwordAtk },
+            { Unit.WeaponType.Shield, Sfx.sfx_shieldsUp },
+            { Unit.WeaponType.DoubleBlade, Sfx.doubleBladeAtk }
+        };
+    }
 
     public void PlayAmbience(bool isPlay)
     {
@@ -80,6 +91,13 @@ public class BattleAudioManager : MonoBehaviour
             sfxPlayers[loopIndex].clip = sfxClips[(int)sfx];
             sfxPlayers[loopIndex].Play();
             break;
+        }
+    }
+        public void PlayWeaponSfx(Unit.WeaponType weaponType)
+    {
+        if (weaponToSfxMap.TryGetValue(weaponType, out Sfx sfx))
+        {
+            PlayBSfx(sfx);
         }
     }
     
