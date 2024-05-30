@@ -23,7 +23,7 @@ public class Captain : Unit
         coolTime2 = 5;
         weaponType = WeaponType.LightSword;
 
-        myUnits = GetComponentInParent<PlayerManager>().UnitList;
+        GetUnitList();
         increaseAttack = 1.0f;
     }
 
@@ -31,21 +31,6 @@ public class Captain : Unit
     {
         // Trigger Death Animation
         MatchManager.Instance.GameOver();
-    }
-
-    public override bool MoveTo(Vector3 direction)
-    {
-        if (skillActive1)
-        {
-            if (CheckDirection(direction))
-            {
-                moveRange *= 2;
-                base.MoveTo(direction);
-            }
-        }
-        else base.MoveTo(direction);
-
-        return false;
     }
 
     public override void Ability1()
@@ -56,10 +41,14 @@ public class Captain : Unit
     public override void Ability2()
     {
         base.Ability2();
+        GetUnitList();
 
-        foreach (GameObject unit in myUnits)
+        if (myUnits != null)
         {
-            unit.GetComponent<Unit>().ChangeAttackDamage(increaseAttack);
+            foreach (GameObject unit in myUnits)
+            {
+                unit.GetComponent<Unit>().ChangeAttackDamage(increaseAttack);
+            }
         }
     }
     protected override void AfterAbility1()
@@ -70,9 +59,13 @@ public class Captain : Unit
     {
         if (currentCool2 == 3)
         {
-            foreach (GameObject unit in myUnits)
+            GetUnitList();
+            if (myUnits != null)
             {
-                unit.GetComponent<Unit>().ChangeAttackDamage(-increaseAttack);
+                foreach (GameObject unit in myUnits)
+                {
+                    unit.GetComponent<Unit>().ChangeAttackDamage(-increaseAttack);
+                }
             }
             skillActive2 = false;
         }
@@ -90,5 +83,10 @@ public class Captain : Unit
         if (Mathf.Abs(direction.x) == Mathf.Abs(direction.y)) return true;
         if (direction.x == 0 || direction.y == 0) return true;
         else return false;
+    }
+
+    private void GetUnitList()
+    {
+        myUnits = GetComponentInParent<PlayerManager>().UnitList;
     }
 }

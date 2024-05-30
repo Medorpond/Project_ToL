@@ -22,7 +22,7 @@ public class Priest : Unit
         coolTime1 = 3;
         coolTime2 = 5;
 
-        myUnits = GetComponentInParent<PlayerManager>().UnitList;
+        GetUnitList();
         healAmount = 2.0f;
     }
 
@@ -35,15 +35,15 @@ public class Priest : Unit
     public override void Ability2()
     {
         base.Ability2();
-        maxHealth += 3;
-        currentHealth += 3;
+        GetUnitList();
 
-        /*base.Ability2();
-        
-        foreach (GameObject unit in myUnits)
+        if (myUnits != null)
         {
-            unit.GetComponent<Unit>().IsHealed(healAmount);
-        }*/
+            foreach (GameObject unit in myUnits)
+            {
+                unit.GetComponent<Unit>().IsHealed(healAmount);
+            }
+        }
     }
     protected override void AfterAbility1()
     {
@@ -67,5 +67,10 @@ public class Priest : Unit
         return base.Attack(_opponent);
         //공통 기능 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
         //BattleAudioManager.instance.PlayBSfx(BattleAudioManager.Sfx.lightSwordAtk); <<사운드 중복 출력?
+    }
+
+    private void GetUnitList()
+    {
+        myUnits = GetComponentInParent<PlayerManager>().UnitList;
     }
 }

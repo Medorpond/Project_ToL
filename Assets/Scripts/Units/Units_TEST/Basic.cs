@@ -25,7 +25,6 @@ public class Basic : Unit
         base.Ability1();
         moveRange += 2;
     }
-
     public override void Ability2()
     {
         base.Ability2();
