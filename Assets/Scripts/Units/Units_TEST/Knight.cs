@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Knight : Unit
 {
-    private List<GameObject> myUnits;
     private float increaseAttack;
     
 
@@ -51,5 +50,4 @@ public class Knight : Unit
             skillActive2 = false;
         }
     }
-    
 }

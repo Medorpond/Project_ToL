@@ -32,7 +32,6 @@ public abstract class Unit : MonoBehaviour
 
     protected Coroutine moveCoroutine;
     protected bool canAttack = true;
-    private float attackCooldown = 1.0f;
 
     protected virtual void Awake()
     {
@@ -49,7 +48,7 @@ public abstract class Unit : MonoBehaviour
 
     protected abstract void Init();
 
-    public virtual bool MoveTo(Vector3 direction)
+    public bool MoveTo(Vector3 direction)
     {
         if (moveCoroutine != null) return false; // Make sure one can't move while moving
 
@@ -102,7 +101,7 @@ public abstract class Unit : MonoBehaviour
         Debug.Log($"{name} attacked {_opponent.name}");
         TriggerAttackAnimation();
         _opponent.GetComponent<Unit>().IsDamaged(attackDamage);
-        StartCoroutine(AttackCooldown());
+        canAttack = false;
         //공통 기능 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
         BattleAudioManager.instance.PlayWeaponSfx(weaponType);
         Debug.Log("Attack!");
@@ -110,12 +109,6 @@ public abstract class Unit : MonoBehaviour
         return true;
     }
 
-    private IEnumerator AttackCooldown()
-    {
-        canAttack = false;
-        yield return new WaitForSeconds(attackCooldown);
-        canAttack = true;
-    }
     protected void TriggerMoveAnimation()
     {
         if (animator != null)
@@ -175,6 +168,8 @@ public abstract class Unit : MonoBehaviour
 
     public void StartTurn()
     {
+        canAttack = true;
+
         if (skillActive1) AfterAbility1();
         if (skillActive2) AfterAbility2();
 
@@ -209,4 +204,3 @@ public abstract class Unit : MonoBehaviour
         attackDamage += damage;
     }
 }
-

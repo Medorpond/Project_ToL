@@ -22,7 +22,7 @@ public class AxeGiant : Unit
         coolTime1 = 6;
         coolTime2 = 8;
 
-        myUnits = GetComponentInParent<PlayerManager>().UnitList;
+        GetUnitList();
     }
     public override void Ability1()
     {
@@ -33,6 +33,8 @@ public class AxeGiant : Unit
     public override void Ability2()
     {
         base.Ability2();
+        GetUnitList();
+
         Collider[] colliders = Physics.OverlapSphere(transform.position, moveRange);
         foreach (Collider collider in colliders)
         {
@@ -60,5 +62,10 @@ public class AxeGiant : Unit
             if (myUnit == unit) return true;
         }
         return false;
+    }
+
+    private void GetUnitList()
+    {
+        myUnits = GetComponentInParent<PlayerManager>().UnitList;
     }
 }
