@@ -4,7 +4,13 @@ using UnityEngine;
 
 public class TestUnit : Unit
 {
-    private float smashRange = 5;
+
+    [SerializeField]
+    private RangeScan attackScan;
+    [SerializeField]
+    private RangeScan abilityScan_1;
+
+    private PlayerManager parent;
 
     protected override void Awake()
     {
@@ -13,6 +19,41 @@ public class TestUnit : Unit
         attackDamage = 5;
         attackRange = 3;
         moveRange = 100;
+    }
+
+    protected override void Start()
+    {
+        base.Start();
+        parent = GetComponentInParent<PlayerManager>();
+        parent.RegisterUnit(gameObject);
+    }
+
+    public override bool Attack(GameObject enemy)
+    {
+        if (attackScan.inRange.Contains(enemy))
+        {
+            Debug.Log($"{enemy.name} got Attacked!");
+            return true;
+        }
+        else
+        {
+            Debug.Log($"{enemy.name} not in Range!");
+            return false;
+        }
+    }
+
+    public bool Smash(GameObject enemy)
+    {
+        if (abilityScan_1.inRange.Contains(enemy))
+        {
+            Debug.Log($"{enemy.name} got Smashed!");
+            return true;
+        }
+        else
+        {
+            Debug.Log($"{enemy.name} not in Range!");
+            return false;
+        }
     }
 
     protected override void Init() { }

@@ -189,7 +189,24 @@ public class PlayerManager : MonoBehaviour
     {
 
         yield return new WaitUntil(() => clicked != null);
-        Debug.Log("Ability1!");
+
+        if (clicked.CompareTag("Unit"))// clicked.CompareTag("Opponent")
+        {
+            if (currentUnit != null)
+            {
+                if (currentUnit.GetComponent<TestUnit>().Smash(clicked))
+                {
+                    CmdList.Add($"Smash, {(int)currentUnit.transform.position.x}, {(int)currentUnit.transform.position.y}, {(int)clicked.transform.position.x}, {(int)clicked.transform.position.y}");
+                }
+            }
+        }
+        else
+        {
+            Debug.Log("Click On Hostile to Smash");
+        }
+
+
+        clicked = null;
         inAction = null;
     }
     public void Ability1()
