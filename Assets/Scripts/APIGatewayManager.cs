@@ -321,6 +321,39 @@ public class ApiGatewayManager : MonoBehaviour
         }
     }
 
+    public async void ResetPassword (string confirmationCode)
+    {
+        try
+        {
+            var requestData = new Dictionary<string, string>
+            {
+                { "confirmationCode", confirmationCode },
+                { "new_password", _password}
+            };
+            var json = JsonConvert.SerializeObject(requestData);
+
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            using (var client = new HttpClient())
+            {
+                var response = await client.PostAsync(_apiGatewayUrl + "confirm-forgot-password", content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    Debug.Log("Reset Password successful.");
+                }
+                else
+                {
+                    Debug.LogError("Reset Password failed. Status Code: " + response.StatusCode);
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("Reset Password error: " + e.Message);
+        }
+    }
+
     public async void GetUserInfo()
     {
         try
@@ -361,7 +394,90 @@ public class ApiGatewayManager : MonoBehaviour
             Debug.LogError("Get UserInfo error: " + e.Message);
         }
     }
-    
+
+    public async void MatchRequest()
+    {
+        try
+        {
+            //
+            var requestData = new Dictionary<string, string>
+            {
+                { "token", _jwtToken }
+            };
+            var json = JsonConvert.SerializeObject(requestData);
+
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            //
+            using (var client = new HttpClient())
+            {
+                var response = await client.PostAsync(_apiGatewayUrl + "MatchRequest", content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string jsonResponse = await response.Content.ReadAsStringAsync();
+                    var userInfo = JsonConvert.DeserializeObject<UserInfo>(jsonResponse);
+
+                    //
+                    string userId = userInfo.sub;
+
+                    Debug.Log("Matchmaking Success");
+
+                }
+                else
+                {
+                    Debug.LogError("Matchmaking failed. Status Code: " + response.StatusCode);
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("Matchmaking error: " + e.Message);
+        }
+    }
+
+    public async void DeleteAccount()
+    {
+        try
+        {
+            //
+            var requestData = new Dictionary<string, string>
+            {
+                { "username", _username },
+                { "password", _password}
+            };
+            var json = JsonConvert.SerializeObject(requestData);
+
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            //
+            using (var client = new HttpClient())
+            {
+                var response = await client.PostAsync(_apiGatewayUrl + "delete-account", content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string jsonResponse = await response.Content.ReadAsStringAsync();
+                    var userInfo = JsonConvert.DeserializeObject<UserInfo>(jsonResponse);
+
+                    //
+                    string userId = userInfo.sub;
+
+                    Debug.Log("Account Deleted Successfully. Goob-bye");
+
+                }
+                else
+                {
+                    Debug.LogError("Delete Account failed. Status Code: " + response.StatusCode);
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("Delete Account error: " + e.Message);
+        }
+    }
+
     //yong
     public bool IsLoginsuccess()
     {
