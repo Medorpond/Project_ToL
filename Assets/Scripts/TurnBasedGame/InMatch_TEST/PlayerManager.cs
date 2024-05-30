@@ -127,7 +127,8 @@ public class PlayerManager : MonoBehaviour
                 Vector3 curUnitPos = currentUnit.transform.position;
                 Vector3 clickedPos = clicked.transform.position;
 
-                if (currentUnit.GetComponent<Unit>().MoveTo(clickedPos))
+                if (currentUnit.GetComponent<Unit>().CheckAbilityMove(clickedPos)) currentUnit.GetComponent<Unit>().Ability1();
+                else if (currentUnit.GetComponent<Unit>().MoveTo(clickedPos))
                 {
                     CmdList.Add($"Move, {(int)curUnitPos.x}, {(int)curUnitPos.y}, {(int)clickedPos.x}, {(int)clickedPos.y}");
                 }

@@ -32,6 +32,7 @@ public abstract class Unit : MonoBehaviour
 
     protected Coroutine moveCoroutine;
     protected bool canAttack = true;
+    protected bool canMove = true;
 
     protected virtual void Awake()
     {
@@ -71,6 +72,7 @@ public abstract class Unit : MonoBehaviour
         MapManager.Instance.stage.Occupy(startPos, targetPos, gameObject);
         moveCoroutine = StartCoroutine(MoveOneGrid());
         TriggerMoveAnimation();
+        canMove = false;
         return true;
 
         // Local Method
@@ -169,6 +171,7 @@ public abstract class Unit : MonoBehaviour
     public void StartTurn()
     {
         canAttack = true;
+        canMove = true;
 
         if (skillActive1) AfterAbility1();
         if (skillActive2) AfterAbility2();
@@ -202,5 +205,26 @@ public abstract class Unit : MonoBehaviour
     public void ChangeAttackDamage(float damage)
     {
         attackDamage += damage;
+    }
+
+    public bool CheckAbilityMove(Vector3 direction)
+    {
+        Archer archer = GetComponent<Archer>();
+        Captain captain = GetComponent<Captain>();
+
+        if (skillActive1)
+        {
+            if (archer != null)
+            {
+                archer.skillDirection = direction;
+                return true;
+            }
+            if (captain != null)
+            {
+                captain.skillDirection = direction;
+                return true;
+            }
+        }
+        return false;
     }
 }
