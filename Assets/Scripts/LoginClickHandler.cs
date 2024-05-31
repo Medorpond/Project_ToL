@@ -7,6 +7,7 @@ using TMPro;
 using Amazon.CognitoIdentityProvider.Model;
 using System;
 using UnityEngine.SceneManagement;
+using UnityEditor.PackageManager;
 
 public class LoginClickHandler : MonoBehaviour
 {
@@ -54,7 +55,13 @@ public class LoginClickHandler : MonoBehaviour
     private TMP_InputField[] inputFieldsToClear;
     private TMP_InputField[] registerInputFieldsToClear;
 
-    // panel
+    // for cooldown
+    private int loginAttempts = 0;
+    private bool isCooldown = false;
+    private float cooldownTimer = 0f;
+    private const int MAX_LOGIN_ATTEMPTS = 5;
+    private const float COOLDOWN_DURATION = 30f;
+    
     private void Start()
     {
         LoginButton.onClick.AddListener(Login);
@@ -74,9 +81,20 @@ public class LoginClickHandler : MonoBehaviour
         }
         
     }
+    private void Update()
+    {
+        if(isCooldown)
+        {
+            CountdownCooldown();
+        }
+    }
     
     private void Login()
     {
+        if (isCooldown)
+        {
+            return;
+        }
         LoadingSpinner1.SetActive(true);
         LoadingSpinner2.SetActive(true);
         apiGatewayManager.Login();
@@ -120,6 +138,11 @@ public class LoginClickHandler : MonoBehaviour
         }
         else
         {
+            loginAttempts++;
+            if (loginAttempts >= MAX_LOGIN_ATTEMPTS)
+            {
+                StartCooldown();
+            }
             Errortext.gameObject.SetActive(true);
             LoginFail.gameObject.SetActive(true);
             LoginFail2.gameObject.SetActive(true);
@@ -167,5 +190,26 @@ public class LoginClickHandler : MonoBehaviour
                 }
             }
         }
+    }
+    private void StartCooldown()
+    {   
+        isCooldown = true;
+        cooldownTimer = COOLDOWN_DURATION;
+        StartCoroutine(CountdownCooldown());
+    }
+
+    private IEnumerator CountdownCooldown()
+    {
+        while (cooldownTimer > 0f)
+        {
+            Errortext.text = "Too many login attempts. Please wait for " + cooldownTimer.ToString("F0") + " seconds.";
+            cooldownTimer -= Time.deltaTime;
+            yield return null;
+        }
+
+        isCooldown = false;
+        loginAttempts = 0;
+        Errortext.text = "Invalid username or password";
+        Errortext.gameObject.SetActive(false);
     }
 }
