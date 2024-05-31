@@ -21,6 +21,7 @@ public class Priest : Unit
         moveRange = 4;
         coolTime1 = 3;
         coolTime2 = 5;
+        weaponType = WeaponType.healingMagic;
 
         GetUnitList();
         healAmount = 2.0f;
@@ -63,10 +64,10 @@ public class Priest : Unit
 
     public override bool Attack(GameObject _opponent)
     {
-        //°øÅë ±â´É <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+        //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
         return base.Attack(_opponent);
-        //°øÅë ±â´É <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-        //BattleAudioManager.instance.PlayBSfx(BattleAudioManager.Sfx.lightSwordAtk); <<»ç¿îµå Áßº¹ Ãâ·Â?
+        //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+        //BattleAudioManager.instance.PlayBSfx(BattleAudioManager.Sfx.lightSwordAtk); <<ï¿½ï¿½ï¿½ï¿½ ï¿½ßºï¿½ ï¿½ï¿½ï¿½?
     }
 
     private void GetUnitList()

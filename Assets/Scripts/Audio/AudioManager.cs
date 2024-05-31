@@ -23,6 +23,8 @@ public class UIAudioManager : MonoBehaviour
     public AudioClip[] sfxClips; 
     public AudioClip clickUiSound; 
     public AudioClip mouseOnUiSound; 
+    public AudioClip grabUnitSound;
+    public AudioClip deployUnitSound;
     public float sfxVolume;
     public int channels;
     AudioSource[] sfxPlayers;
@@ -31,7 +33,7 @@ public class UIAudioManager : MonoBehaviour
 
 
 
-    public enum Sfx { sfx_click_ui, sfx_mouse_on_ui, sfx_vitory }
+    public enum Sfx { sfx_click_ui, sfx_mouse_on_ui, sfx_grab_unit, sfx_deploy_unit }
 
 
     void Awake()
@@ -89,15 +91,15 @@ public class UIAudioManager : MonoBehaviour
         }
     }
 
-    public void MousePoint()
-    {
-        PlaySfx(Sfx.sfx_mouse_on_ui);
-    }
+    // public void MousePoint()
+    // {
+    //     PlaySfx(Sfx.sfx_mouse_on_ui);
+    // }
 
-    public void PlayClick()
-    {
-        PlaySfx(Sfx.sfx_click_ui);
-    }
+    // public void PlayClick()
+    // {
+    //     PlaySfx(Sfx.sfx_click_ui);
+    // }
 
     public void PlaySfx(Sfx sfx)
     {
@@ -109,6 +111,12 @@ public class UIAudioManager : MonoBehaviour
                 break;
             case Sfx.sfx_mouse_on_ui:
                 clipToPlay = mouseOnUiSound;
+                break;
+            case Sfx.sfx_grab_unit:
+                clipToPlay = grabUnitSound;
+                break;
+            case Sfx.sfx_deploy_unit:
+                clipToPlay = deployUnitSound;
                 break;
             
         }

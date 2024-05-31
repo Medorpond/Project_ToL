@@ -8,7 +8,7 @@ public abstract class Unit : MonoBehaviour
 {
     public RectTransform hp_bar;
     protected Animator animator;
-    public enum WeaponType { LightSword, Shield, DoubleBlade, ArrowAtk }
+    public enum WeaponType { LightSword, Shield, DoubleBlade, ArrowAtk, healingMagic }
     protected WeaponType weaponType;
 
     [SerializeField]

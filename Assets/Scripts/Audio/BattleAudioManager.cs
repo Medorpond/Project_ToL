@@ -26,7 +26,7 @@ public class BattleAudioManager : MonoBehaviour
 
 
 
-    public enum Sfx { damage, lightSwordAtk, sfx_shieldsUp = 7, victory1, victory2,doubleBladeAtk,arrowAttack = 15}
+    public enum Sfx { damage, lightSwordAtk, sfx_shieldsUp = 7, victory1, victory2, doubleBladeAtk, arrowAttack = 15, healing}
     private Dictionary<Unit.WeaponType, Sfx> weaponToSfxMap;
 
     public void Awake(){
@@ -65,7 +65,8 @@ public class BattleAudioManager : MonoBehaviour
             { Unit.WeaponType.LightSword, Sfx.lightSwordAtk },
             { Unit.WeaponType.Shield, Sfx.sfx_shieldsUp },
             { Unit.WeaponType.DoubleBlade, Sfx.doubleBladeAtk },
-            { Unit.WeaponType.ArrowAtk, Sfx.arrowAttack}
+            { Unit.WeaponType.ArrowAtk, Sfx.arrowAttack},
+            {Unit.WeaponType.healingMagic, Sfx.healing}
         };
     }
 

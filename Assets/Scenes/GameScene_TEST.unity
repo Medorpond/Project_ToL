@@ -438,7 +438,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 21a04c7ee4bc23843963c7c5842c3c37, type: 3}
   - {fileID: 8300000, guid: a556fc7d34610ca4a9fce9a6b167a365, type: 3}
   - {fileID: 8300000, guid: ed715d2397fcf2949a776b8de9567aac, type: 3}
-  - {fileID: 8300000, guid: d6a762c262160ac4ab19ee2dabb38c5a, type: 3}
+  - {fileID: 8300000, guid: a12413dcaa89a2d4ca84de64cd9aef78, type: 3}
+  - {fileID: 8300000, guid: 46bc8082ff8c14e44929a9d79e617d22, type: 3}
   sfxVolume: 0.3
   channels: 16
   ambienceClip: {fileID: 8300000, guid: 23327e09fd7db5741a1d2f7729996abe, type: 3}
@@ -2876,11 +2877,12 @@ MonoBehaviour:
   bgmClip: {fileID: 8300000, guid: a5413ae8b96e43d47a00bc01eeaf7f50, type: 3}
   bgmVolume: 2
   sfxClips:
-  - {fileID: 8300000, guid: 3e4e6c4308c9aa348a851f5e524d6c2e, type: 3}
-  - {fileID: 8300000, guid: 4c698fe487a0f1d438f4afc5bf78d5df, type: 3}
+  - {fileID: 0}
   clickUiSound: {fileID: 8300000, guid: 3e4e6c4308c9aa348a851f5e524d6c2e, type: 3}
   mouseOnUiSound: {fileID: 8300000, guid: 4c698fe487a0f1d438f4afc5bf78d5df, type: 3}
-  sfxVolume: 1
+  grabUnitSound: {fileID: 8300000, guid: 25af14fc263c54c4ebc14768cd8944e7, type: 3}
+  deployUnitSound: {fileID: 8300000, guid: 257240ee45d17754facd0f7707a3aeb8, type: 3}
+  sfxVolume: 0.5
   channels: 16
 --- !u!4 &600866710
 Transform:
@@ -10764,7 +10766,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -10}
+  m_AnchoredPosition: {x: 0, y: -10.0000305}
   m_SizeDelta: {x: 0, y: -300.00003}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2127389627

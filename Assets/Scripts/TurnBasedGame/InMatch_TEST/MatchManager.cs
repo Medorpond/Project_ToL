@@ -237,6 +237,7 @@ public class MatchManager : MonoBehaviour
             Quaternion.identity, player.transform);
 
         onClickDown?.Invoke(unit);
+        UIAudioManager.instance.PlaySfx(UIAudioManager.Sfx.sfx_grab_unit);
 
         DeployPanel.SetActive(false);
 
@@ -245,6 +246,7 @@ public class MatchManager : MonoBehaviour
         IEnumerator DeployCoroutine()
         {
             yield return new WaitUntil(() => currentPhase == Phase.Battle || Input.GetMouseButtonUp(0));
+            UIAudioManager.instance.PlaySfx(UIAudioManager.Sfx.sfx_deploy_unit);
 
             RaycastHit2D hit = RayCast();
             if (hit.collider != null && hit.collider.CompareTag("Tile"))
