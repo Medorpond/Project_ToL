@@ -4,6 +4,38 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
+    private static PlayerManager instance;
+    public static PlayerManager Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                var obj = FindObjectOfType<PlayerManager>();
+                if (obj != null)
+                {
+                    instance = obj;
+                }
+                else
+                {
+                    var newObj = new GameObject().AddComponent<PlayerManager>();
+                    instance = newObj;
+                }
+            }
+            return instance;
+        }
+    }
+    private void SingletoneInit()
+    {
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(this.gameObject);
+        }
+        else { Destroy(this.gameObject); }
+    }
+
+
     public List<GameObject> UnitList;
     public List<string> CmdList;
 
@@ -72,6 +104,17 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
+    public void StartingTurn()
+    {
+        if (UnitList != null)
+        {
+            foreach (GameObject unit in UnitList)
+            {
+                unit.GetComponent<Unit>().StartTurn();
+            }
+        }
+    }
+
     #region IEnumerable Acts
     IEnumerator ReadyMove()
     {
@@ -84,7 +127,8 @@ public class PlayerManager : MonoBehaviour
                 Vector3 curUnitPos = currentUnit.transform.position;
                 Vector3 clickedPos = clicked.transform.position;
 
-                if (currentUnit.GetComponent<Unit>().MoveTo(clickedPos))
+                if (currentUnit.GetComponent<Unit>().CheckAbilityMove(clickedPos)) currentUnit.GetComponent<Unit>().Ability1();
+                else if (currentUnit.GetComponent<Unit>().MoveTo(clickedPos))
                 {
                     CmdList.Add($"Move, {(int)curUnitPos.x}, {(int)curUnitPos.y}, {(int)clickedPos.x}, {(int)clickedPos.y}");
                 }
@@ -145,7 +189,24 @@ public class PlayerManager : MonoBehaviour
     {
 
         yield return new WaitUntil(() => clicked != null);
-        Debug.Log("Ability1!");
+
+        if (clicked.CompareTag("Unit"))// clicked.CompareTag("Opponent")
+        {
+            if (currentUnit != null)
+            {
+                if (currentUnit.GetComponent<TestUnit>().Smash(clicked))
+                {
+                    CmdList.Add($"Smash, {(int)currentUnit.transform.position.x}, {(int)currentUnit.transform.position.y}, {(int)clicked.transform.position.x}, {(int)clicked.transform.position.y}");
+                }
+            }
+        }
+        else
+        {
+            Debug.Log("Click On Hostile to Smash");
+        }
+
+
+        clicked = null;
         inAction = null;
     }
     public void Ability1()
