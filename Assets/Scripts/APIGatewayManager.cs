@@ -358,10 +358,11 @@ public class ApiGatewayManager : MonoBehaviour
     {
         try
         {
-            client.DefaultRequestHeaders.Add("Authorization", _jwtToken);
+            //client.DefaultRequestHeaders.Add("Authorization", _jwtToken);
             //
             using (var client = new HttpClient())
             {
+                client.DefaultRequestHeaders.Add("Authorization", _jwtToken); //Modified by Medorpond
                 var response = await client.GetAsync(_apiGatewayUrl + "get-userinfo");
 
                 if (response.IsSuccessStatusCode)
@@ -391,11 +392,12 @@ public class ApiGatewayManager : MonoBehaviour
     {
         try
         {
-            client.DefaultRequestHeaders.Add("Authorization", _jwtToken);
+            //client.DefaultRequestHeaders.Add("Authorization", _jwtToken);
 
            
             using (var client = new HttpClient())
             {
+                client.DefaultRequestHeaders.Add("Authorization", _jwtToken); //Modified by Medorpond
                 var response = await client.GetAsync(_apiGatewayUrl + "MatchRequest");
 
                 if (response.IsSuccessStatusCode)
