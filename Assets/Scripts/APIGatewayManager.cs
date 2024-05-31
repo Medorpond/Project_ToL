@@ -65,17 +65,24 @@ public class ApiGatewayManager : MonoBehaviour
     private string _email;
     private string _jwtToken;
 
+    //Userdata, Username은 위에 항목사용 (_username)
+    private string _SUB;
+    private string _WIN;
+    private string _LOSE;
 
-    /* for debug
+
+    // for debug
+    /*
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
             Debug.Log("GO");
-            Login();
+            GetUserInfo();
         }
     }
     */
+    
 
     // Call this method to register a new user
     public async void Register()
@@ -358,8 +365,7 @@ public class ApiGatewayManager : MonoBehaviour
     {
         try
         {
-            //client.DefaultRequestHeaders.Add("Authorization", _jwtToken);
-            //
+            
             using (var client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Add("Authorization", _jwtToken); //Modified by Medorpond
@@ -367,14 +373,17 @@ public class ApiGatewayManager : MonoBehaviour
 
                 if (response.IsSuccessStatusCode)
                 {
-                    string jsonResponse = await response.Content.ReadAsStringAsync();
-                    var userInfo = JsonConvert.DeserializeObject<UserInfo>(jsonResponse);
+                    var jsonResponse = await response.Content.ReadAsStringAsync();
+                    var userInfo = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, string>>>(jsonResponse);
 
-                    //
-                    string userId = userInfo.sub;
+                    _SUB = userInfo["SUB"]["S"];
+                    _WIN = userInfo["WIN"]["N"];
+                    _LOSE = userInfo["LOSE"]["N"];
 
                     Debug.Log("Get UserInfo Success");
-                    
+                    Debug.Log(_SUB);
+                    Debug.Log(_WIN);
+                    Debug.Log(_LOSE);
                 }
                 else
                 {
@@ -392,9 +401,7 @@ public class ApiGatewayManager : MonoBehaviour
     {
         try
         {
-            //client.DefaultRequestHeaders.Add("Authorization", _jwtToken);
-
-           
+            
             using (var client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Add("Authorization", _jwtToken); //Modified by Medorpond
@@ -403,10 +410,8 @@ public class ApiGatewayManager : MonoBehaviour
                 if (response.IsSuccessStatusCode)
                 {
                     string jsonResponse = await response.Content.ReadAsStringAsync();
-                    var userInfo = JsonConvert.DeserializeObject<UserInfo>(jsonResponse);
+                    //var userInfo = JsonConvert.DeserializeObject<Dictionary<string, string>>(jsonResponse);
 
-                    //
-                    string userId = userInfo.sub;
 
                     Debug.Log("Matchmaking Success");
 
@@ -446,14 +451,7 @@ public class ApiGatewayManager : MonoBehaviour
 
                 if (response.IsSuccessStatusCode)
                 {
-                    string jsonResponse = await response.Content.ReadAsStringAsync();
-                    var userInfo = JsonConvert.DeserializeObject<UserInfo>(jsonResponse);
-
-                    //
-                    string userId = userInfo.sub;
-
                     Debug.Log("Account Deleted Successfully. Goob-bye");
-
                 }
                 else
                 {
@@ -481,18 +479,4 @@ public class ApiGatewayManager : MonoBehaviour
         return Registersuccess;
     }
     //yong
-}
-
-
-
-[System.Serializable]
-public class UserInfo
-{
-    public string sub;
-    //
-
-    public string GetSub()
-    {
-        return sub;
-    }
 }
