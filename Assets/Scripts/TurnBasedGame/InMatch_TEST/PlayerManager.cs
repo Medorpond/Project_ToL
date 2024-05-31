@@ -4,38 +4,6 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
-    private static PlayerManager instance;
-    public static PlayerManager Instance
-    {
-        get
-        {
-            if (instance == null)
-            {
-                var obj = FindObjectOfType<PlayerManager>();
-                if (obj != null)
-                {
-                    instance = obj;
-                }
-                else
-                {
-                    var newObj = new GameObject().AddComponent<PlayerManager>();
-                    instance = newObj;
-                }
-            }
-            return instance;
-        }
-    }
-    private void SingletoneInit()
-    {
-        if (instance == null)
-        {
-            instance = this;
-            DontDestroyOnLoad(this.gameObject);
-        }
-        else { Destroy(this.gameObject); }
-    }
-
-
     public List<GameObject> UnitList;
     public List<string> CmdList;
 
