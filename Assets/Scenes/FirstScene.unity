@@ -272,6 +272,7 @@ MonoBehaviour:
   LoginFail4: {fileID: 1527952252}
   LoginFail5: {fileID: 900472669}
   LoginFail6: {fileID: 1510595275}
+  LoginPanel: {fileID: 925064122}
   SignUppanel: {fileID: 2042755944}
   EmailConfirmPanel: {fileID: 87274366}
   LoadingSpinner1: {fileID: 2000977886}
@@ -6617,6 +6618,7 @@ GameObject:
   m_Component:
   - component: {fileID: 925064123}
   - component: {fileID: 925064124}
+  - component: {fileID: 925064125}
   m_Layer: 5
   m_Name: LoginPanel
   m_TagString: Untagged
@@ -6660,6 +6662,18 @@ MonoBehaviour:
   - {fileID: 792590810}
   - {fileID: 1878723830}
   - {fileID: 803856394}
+--- !u!114 &925064125
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 925064122}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8498df25dacf9a4b85228cb23eef198, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1036033702
 GameObject:
   m_ObjectHideFlags: 0
@@ -14022,6 +14036,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2042755945}
   - component: {fileID: 2042755946}
+  - component: {fileID: 2042755947}
   m_Layer: 5
   m_Name: Sign_UpPanel
   m_TagString: Untagged
@@ -14067,6 +14082,18 @@ MonoBehaviour:
   - {fileID: 1268585400}
   - {fileID: 1697345883}
   - {fileID: 885948107}
+--- !u!114 &2042755947
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2042755944}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8498df25dacf9a4b85228cb23eef198, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2064606664
 GameObject:
   m_ObjectHideFlags: 0

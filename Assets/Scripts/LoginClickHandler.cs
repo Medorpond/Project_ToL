@@ -38,6 +38,8 @@ public class LoginClickHandler : MonoBehaviour
 
     // panel
     [SerializeField]
+    private GameObject LoginPanel;
+    [SerializeField]
     private GameObject SignUppanel;
     [SerializeField]
     private GameObject EmailConfirmPanel;
@@ -48,6 +50,10 @@ public class LoginClickHandler : MonoBehaviour
     [SerializeField]
     private GameObject LoadingSpinner2;
 
+    // InputField to clear
+    private TMP_InputField[] inputFieldsToClear;
+    private TMP_InputField[] registerInputFieldsToClear;
+
     // panel
     private void Start()
     {
@@ -57,6 +63,16 @@ public class LoginClickHandler : MonoBehaviour
         ResendConfirmButton.onClick.AddListener(Resend);
         LoadingSpinner1.SetActive(false);
         LoadingSpinner2.SetActive(false);
+
+        if (LoginPanel != null)
+        {
+            inputFieldsToClear = LoginPanel.GetComponentsInChildren<TMP_InputField>();
+        }
+        if (SignUppanel != null)
+        {
+            registerInputFieldsToClear = SignUppanel.GetComponentsInChildren<TMP_InputField>();
+        }
+        
     }
     
     private void Login()
@@ -107,6 +123,14 @@ public class LoginClickHandler : MonoBehaviour
             Errortext.gameObject.SetActive(true);
             LoginFail.gameObject.SetActive(true);
             LoginFail2.gameObject.SetActive(true);
+
+            if(inputFieldsToClear != null)
+            {
+                foreach (TMP_InputField inputField in inputFieldsToClear)
+                {
+                    inputField.text = string.Empty;
+                }
+            }
         }
     }
 
@@ -134,6 +158,14 @@ public class LoginClickHandler : MonoBehaviour
             LoginFail4.gameObject.SetActive(true);
             LoginFail5.gameObject.SetActive(true);
             LoginFail6.gameObject.SetActive(true);
+
+            if(registerInputFieldsToClear != null)
+            {
+                foreach (TMP_InputField inputField in registerInputFieldsToClear)
+                {
+                    inputField.text = string.Empty;
+                }
+            }
         }
     }
 }
