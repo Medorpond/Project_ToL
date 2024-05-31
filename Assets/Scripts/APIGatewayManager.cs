@@ -66,9 +66,11 @@ public class ApiGatewayManager : MonoBehaviour
     private string _jwtToken;
 
     //Userdata, Username은 위에 항목사용 (_username)
-    private string _SUB;
-    private string _WIN;
-    private string _LOSE;
+
+    private string __username;
+    private string __SUB;
+    private string __WIN;
+    private string __LOSE;
 
 
     // for debug
@@ -376,14 +378,12 @@ public class ApiGatewayManager : MonoBehaviour
                     var jsonResponse = await response.Content.ReadAsStringAsync();
                     var userInfo = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, string>>>(jsonResponse);
 
-                    _SUB = userInfo["SUB"]["S"];
-                    _WIN = userInfo["WIN"]["N"];
-                    _LOSE = userInfo["LOSE"]["N"];
+                    __SUB = userInfo["SUB"]["S"];
+                    __username = userInfo["username"]["S"];
+                    __WIN = userInfo["WIN"]["N"];
+                    __LOSE = userInfo["LOSE"]["N"];
 
                     Debug.Log("Get UserInfo Success");
-                    Debug.Log(_SUB);
-                    Debug.Log(_WIN);
-                    Debug.Log(_LOSE);
                 }
                 else
                 {
