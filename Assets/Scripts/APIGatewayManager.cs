@@ -85,6 +85,7 @@ public class ApiGatewayManager : MonoBehaviour
     }
     */
     
+    
 
     // Call this method to register a new user
     public async void Register()
@@ -376,14 +377,16 @@ public class ApiGatewayManager : MonoBehaviour
                 if (response.IsSuccessStatusCode)
                 {
                     var jsonResponse = await response.Content.ReadAsStringAsync();
-                    var userInfo = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, string>>>(jsonResponse);
+                    var userInfo = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, Dictionary<string, string>>>>(jsonResponse);
 
-                    __SUB = userInfo["SUB"]["S"];
-                    __username = userInfo["username"]["S"];
-                    __WIN = userInfo["WIN"]["N"];
-                    __LOSE = userInfo["LOSE"]["N"];
+                    var playerData = userInfo["playerData"];
+                    __SUB = playerData["SUB"]["S"];
+                    __username = playerData["username"]["S"];
+                    __WIN = playerData["WIN"]["N"];
+                    __LOSE = playerData["LOSE"]["N"];
 
                     Debug.Log("Get UserInfo Success");
+                    //Debug.Log(jsonResponse);  //for debug
                 }
                 else
                 {
