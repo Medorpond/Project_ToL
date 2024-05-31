@@ -104,11 +104,28 @@ public abstract class Unit : MonoBehaviour
         TriggerAttackAnimation();
         _opponent.GetComponent<Unit>().IsDamaged(attackDamage);
         canAttack = false;
+        StartCoroutine(ResetAttackCooldown());
         //공통 기능 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
         BattleAudioManager.instance.PlayWeaponSfx(weaponType);
         Debug.Log("Attack!");
 
         return true;
+    }
+
+    private IEnumerator ResetAttackCooldown()
+    {
+        AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+        yield return new WaitForSeconds(stateInfo.length);
+
+        canAttack = true;
+    }
+
+    protected void TriggerAttackAnimation()
+    {
+        if (animator != null)
+        {
+            animator.SetTrigger("Attack");
+        }
     }
 
     protected void TriggerMoveAnimation()
@@ -127,13 +144,7 @@ public abstract class Unit : MonoBehaviour
         }
     }
 
-    protected void TriggerAttackAnimation()
-    {
-        if (animator != null)
-        {
-            animator.SetTrigger("Attack");
-        }
-    }
+    
 
     public virtual void IsDamaged(float _damage)
     {
