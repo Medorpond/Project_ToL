@@ -358,19 +358,11 @@ public class ApiGatewayManager : MonoBehaviour
     {
         try
         {
-            //
-            var requestData = new Dictionary<string, string>
-            {
-                { "token", _jwtToken }
-            };
-            var json = JsonConvert.SerializeObject(requestData);
-
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
-
+            client.DefaultRequestHeaders.Add("Authorization", _jwtToken);
             //
             using (var client = new HttpClient())
             {
-                var response = await client.PostAsync(_apiGatewayUrl + "get-userinfo", content);
+                var response = await client.GetAsync(_apiGatewayUrl + "get-userinfo");
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -399,19 +391,12 @@ public class ApiGatewayManager : MonoBehaviour
     {
         try
         {
-            //
-            var requestData = new Dictionary<string, string>
-            {
-                { "token", _jwtToken }
-            };
-            var json = JsonConvert.SerializeObject(requestData);
+            client.DefaultRequestHeaders.Add("Authorization", _jwtToken);
 
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-            //
+           
             using (var client = new HttpClient())
             {
-                var response = await client.PostAsync(_apiGatewayUrl + "MatchRequest", content);
+                var response = await client.GetAsync(_apiGatewayUrl + "MatchRequest");
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -453,6 +438,8 @@ public class ApiGatewayManager : MonoBehaviour
             //
             using (var client = new HttpClient())
             {
+                client.DefaultRequestHeaders.Add("Authorization", _jwtToken);
+
                 var response = await client.PostAsync(_apiGatewayUrl + "delete-account", content);
 
                 if (response.IsSuccessStatusCode)
