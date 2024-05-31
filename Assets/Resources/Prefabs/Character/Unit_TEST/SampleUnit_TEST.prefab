@@ -355,6 +355,7 @@ GameObject:
   - component: {fileID: 1612422277909551345}
   - component: {fileID: 2553573124881869330}
   - component: {fileID: 2887190696844855013}
+  - component: {fileID: 3189452987303615283}
   m_Layer: 0
   m_Name: SampleUnit_TEST
   m_TagString: Unit
@@ -494,6 +495,33 @@ MonoBehaviour:
   moveSpeed: 0.1
   attackScan: {fileID: 8267493666015857986}
   abilityScan_1: {fileID: 9197394655330646949}
+--- !u!50 &3189452987303615283
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7872442566482275019}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 7
 --- !u!1 &8569270176349645520
 GameObject:
   m_ObjectHideFlags: 0

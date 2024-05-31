@@ -331,6 +331,7 @@ GameObject:
   - component: {fileID: 5847229179407271277}
   - component: {fileID: 4444868516852691459}
   - component: {fileID: 4701167002063107560}
+  - component: {fileID: 7329869724170017133}
   m_Layer: 0
   m_Name: Priest
   m_TagString: Unit
@@ -436,6 +437,33 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hp_bar: {fileID: 4269199015631687637}
   moveSpeed: 0.05
+--- !u!50 &7329869724170017133
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8090110064924515552}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 7
 --- !u!1 &9058137969672255130
 GameObject:
   m_ObjectHideFlags: 0
