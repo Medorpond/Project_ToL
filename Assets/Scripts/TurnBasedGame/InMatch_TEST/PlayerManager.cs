@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
-    public List<GameObject> UnitList;
-    public List<string> CmdList;
+    public List<GameObject> UnitList = new List<GameObject>();
+    public List<string> CmdList = new List<string>();
 
     public bool isMyTurn { get; set; }
 
@@ -162,15 +162,15 @@ public class PlayerManager : MonoBehaviour
         {
             if (currentUnit != null)
             {
-                if (currentUnit.GetComponent<TestUnit>().Smash(clicked))
+                if (currentUnit.GetComponent<Unit>().Ability1(clicked))
                 {
-                    CmdList.Add($"Smash, {(int)currentUnit.transform.position.x}, {(int)currentUnit.transform.position.y}, {(int)clicked.transform.position.x}, {(int)clicked.transform.position.y}");
+                    CmdList.Add($"Ability1, {(int)currentUnit.transform.position.x}, {(int)currentUnit.transform.position.y}, {(int)clicked.transform.position.x}, {(int)clicked.transform.position.y}");
                 }
             }
         }
         else
         {
-            Debug.Log("Click On Hostile to Smash");
+            Debug.Log("Click On Hostile to Ability1");
         }
 
 

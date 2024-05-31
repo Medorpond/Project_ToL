@@ -34,6 +34,8 @@ public abstract class Unit : MonoBehaviour
     protected bool canAttack = true;
     protected bool canMove = true;
 
+    public List<Buff> buffList = new List<Buff>();
+
     protected virtual void Awake()
     {
         currentCool1 = 0;
@@ -44,7 +46,7 @@ public abstract class Unit : MonoBehaviour
     }
     protected virtual void Start()
     {
-        // Add this to PlayerManager
+        MatchManager.Instance.onTurnEnd.AddListener(OnTurnEnd);
     }
 
     protected abstract void Init();
@@ -193,21 +195,17 @@ public abstract class Unit : MonoBehaviour
 
     public virtual void Ability1()
     {
-        if (currentCool1 != 0) return;
-        else
-        {
-            currentCool1 = coolTime1;
-            skillActive1 = true;
-        }
+
     }
+
+    public virtual bool Ability1(GameObject opponent) //오버로딩
+    {
+        return false; // 임시
+    }
+
     public virtual void Ability2()
     {
-        if (currentCool2 != 0) return;
-        else
-        {
-            currentCool2 = coolTime2;
-            skillActive2 = true;
-        }
+        
     }
 
     protected abstract void AfterAbility1();
@@ -237,5 +235,26 @@ public abstract class Unit : MonoBehaviour
             }
         }
         return false;
+    }
+
+    protected void OnTurnEnd()
+    {
+        for (int i = buffList.Count - 1; i >= 0; i--)
+        {
+            buffList[i].TurnEnd();
+        }//올바른 참조를 위한 역순참조
+        // Make Boolean for each Action true;
+    }
+
+    protected void OnDestroy()
+    {
+        for (int i = buffList.Count - 1; i >= 0; i--)
+        {
+            buffList[i].Remove();
+        }
+        if (MatchManager.Instance != null)
+        {
+            MatchManager.Instance.onTurnEnd.RemoveListener(OnTurnEnd);
+        }
     }
 }

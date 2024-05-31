@@ -31,8 +31,7 @@ public class RangeScan : MonoBehaviour
     // OnTriggerEnter2D is called when another collider enters the trigger collider
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        //if (collision.CompareTag(subjectTag) && !_inRange.Contains(collision.gameObject))
-        if(true)
+        if (collision.CompareTag(subjectTag) && !_inRange.Contains(collision.gameObject))
         {
             // Add the GameObject to the list if it matches the specified tag
             _inRange.Add(collision.gameObject);

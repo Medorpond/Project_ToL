@@ -20,14 +20,16 @@ public class TestUnit : Unit
         attackRange = 3;
         moveRange = 100;
     }
-
-    protected override void Start()
+    private void Update()
     {
-        base.Start();
-        parent = GetComponentInParent<PlayerManager>();
-        parent.RegisterUnit(gameObject);
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            foreach (GameObject obj in attackScan.inRange)
+            {
+                Debug.Log(obj.name);
+            }
+        }
     }
-
     public override bool Attack(GameObject enemy)
     {
         if (attackScan.inRange.Contains(enemy))

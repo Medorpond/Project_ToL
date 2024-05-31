@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class Priest : Unit
 {
@@ -27,10 +28,20 @@ public class Priest : Unit
         healAmount = 2.0f;
     }
 
-    public override void Ability1()
+    public override bool Ability1(GameObject target)
     {
-        base.Ability1();
-        moveRange += 3;
+        if (!target.CompareTag("Unit")) { return false; }
+
+        Unit unit = target.GetComponent<Unit>();
+
+        Action<Unit> onTurnEnd = (Unit _unit) =>
+        {
+            _unit.IsHealed(1);
+            Debug.Log("constantHeal!");
+        };
+        Buff constantHeal = new Buff(3, null, onTurnEnd, null, unit);
+        constantHeal.Apply();
+        return true;
     }
 
     public override void Ability2()
@@ -64,10 +75,7 @@ public class Priest : Unit
 
     public override bool Attack(GameObject _opponent)
     {
-        //���� ��� <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-        return base.Attack(_opponent);
-        //���� ��� <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-        //BattleAudioManager.instance.PlayBSfx(BattleAudioManager.Sfx.lightSwordAtk); <<���� �ߺ� ���?
+        return base.Attack(_opponent);   
     }
 
     private void GetUnitList()

@@ -11,10 +11,12 @@ public class MatchManager : MonoBehaviour
 {
     #region Event System
     public class ClickEvent: UnityEvent<GameObject> { }
+    public class EndTurnEvent: UnityEvent { }
 
     [Header("Click Event")]
     public ClickEvent onClickRelease = new ClickEvent();
     public ClickEvent onClickDown = new ClickEvent();
+    public EndTurnEvent onTurnEnd = new EndTurnEvent();
     #endregion
 
     #region Serialized parameter
@@ -59,13 +61,13 @@ public class MatchManager : MonoBehaviour
         if (instance == this) { instance = null; }
     }
     #endregion
-
     #region Singletone
     private static MatchManager instance = null;
     public static MatchManager Instance
     {
         get
         {
+            
             if (instance == null)
             {
                 instance = new GameObject("MatchManager").AddComponent<MatchManager>();
@@ -184,6 +186,7 @@ public class MatchManager : MonoBehaviour
         player.CmdList.Clear();
         opponent.CmdList.Clear();
 
+        onTurnEnd.Invoke();
         TimeManager.Instance.StartTimer(battlePhaseTime);
     }
     #endregion
