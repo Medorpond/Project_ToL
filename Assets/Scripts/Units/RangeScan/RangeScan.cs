@@ -25,19 +25,18 @@ public class RangeScan : MonoBehaviour
             }
             return _inRange;
         }
-        set
-        {
-            _inRange = value;
-        }
+        private set { }
     }
 
     // OnTriggerEnter2D is called when another collider enters the trigger collider
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag(subjectTag) && !inRange.Contains(collision.gameObject))
+        //if (collision.CompareTag(subjectTag) && !_inRange.Contains(collision.gameObject))
+        if(true)
         {
             // Add the GameObject to the list if it matches the specified tag
-            inRange.Add(collision.gameObject);
+            _inRange.Add(collision.gameObject);
+            Debug.Log($"Added to inRange: {collision.gameObject.name}");
         }
     }
 
@@ -47,7 +46,8 @@ public class RangeScan : MonoBehaviour
         if (collision.CompareTag(subjectTag))
         {
             // Remove the GameObject from the list when it exits the trigger
-            inRange.Remove(collision.gameObject);
+            _inRange.Remove(collision.gameObject);
+            Debug.Log($"Removed from inRange: {collision.gameObject.name}");
         }
     }
 }

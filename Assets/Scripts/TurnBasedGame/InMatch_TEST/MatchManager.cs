@@ -233,7 +233,7 @@ public class MatchManager : MonoBehaviour
         GameObject prefab = Resources.Load<GameObject>(path);
         if (prefab == null) { Debug.LogError("Failed to load prefab from path: " + path); return; }
         GameObject unit = Instantiate(prefab,
-            new Vector3(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y, -1),
+            new Vector3(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y),
             Quaternion.identity, player.transform);
 
         onClickDown?.Invoke(unit);
