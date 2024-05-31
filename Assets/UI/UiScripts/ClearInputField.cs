@@ -7,6 +7,9 @@ using TMPro;
 public class ClearInputField : MonoBehaviour
 {
     private TMP_InputField[] inputFields;
+    [SerializeField]
+    private GameObject[] ShowError;
+
     private void Awake()
     {
         inputFields = GetComponentsInChildren<TMP_InputField>();   
@@ -22,5 +25,15 @@ public class ClearInputField : MonoBehaviour
                 inputField.text = string.Empty;
             }
         }
+        if (ShowError != null)
+            {
+                foreach (var error in ShowError)
+                {
+                    if (error != null)
+                    {
+                        error.SetActive(false);
+                    }
+                }
+            }
     }
 }
