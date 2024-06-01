@@ -58,6 +58,11 @@ public class MatchManager : MonoBehaviour
     }
     private void OnDestroy()
     {
+        if(player != null || opponent != null)
+        {
+            Destroy(player.gameObject);
+            Destroy(opponent.gameObject);
+        }
         if (instance == this) { instance = null; }
     }
     #endregion
