@@ -8,6 +8,7 @@ public class PlayerManager : MonoBehaviour
     public List<string> CmdList = new List<string>();
 
     public bool isMyTurn { get; set; }
+    public bool isPlayer; // Determine if this is the player character
 
     private Coroutine inAction = null;
 
@@ -18,6 +19,7 @@ public class PlayerManager : MonoBehaviour
     {
         MatchManager.Instance.onClickDown.AddListener(OnClickHold);
         MatchManager.Instance.onClickRelease.AddListener(OnClickRelease);
+        SetupCharacterFacing(); // Method to setup the character's initial facing direction
     }
 
     private void Update()
@@ -214,5 +216,18 @@ public class PlayerManager : MonoBehaviour
     }
 
     #endregion
+
+    // New method to setup characher facing direction
+    private void SetupCharacterFacing()
+    {
+        if(isPlayer)
+        {
+            transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+        }
+        else 
+        {
+            transform.localScale = new Vector3(-Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+        }
+    }
 }
 
