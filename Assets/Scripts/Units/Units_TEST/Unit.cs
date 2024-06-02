@@ -34,6 +34,8 @@ public abstract class Unit : MonoBehaviour
     protected bool canAttack = true;
     protected bool canMove = true;
 
+    public bool isPlayer; // Indicates whether the until belongs to the player
+
     public List<Buff> buffList = new List<Buff>();
 
     protected virtual void Awake()
@@ -146,7 +148,7 @@ public abstract class Unit : MonoBehaviour
         }
     }
 
-    
+
 
     public virtual void IsDamaged(float _damage)
     {
