@@ -43,7 +43,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -134,7 +134,511 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: hammer_hero_1_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 254
+        width: 64
+        height: 66
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0643f4499229c8d4b898cb9db06f23e5
+      internalID: -591755731
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hammer_hero_1_1
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 254
+        width: 64
+        height: 66
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 277d07332baed0d4ca56125bec221aed
+      internalID: -868736022
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hammer_hero_1_2
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 254
+        width: 64
+        height: 66
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 62fffe58c68270e48857203816eb28ab
+      internalID: -797855605
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hammer_hero_1_3
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 254
+        width: 64
+        height: 66
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e5c49d68a50bd924997423dcc65a0280
+      internalID: -484730083
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hammer_hero_1_4
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 254
+        width: 64
+        height: 66
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 150a85c328c556d458ed4aefb20af1f8
+      internalID: -299233355
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hammer_hero_1_5
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 254
+        width: 64
+        height: 66
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2e49534694bd7ef4eb72a6a60ad6e8d8
+      internalID: -254766923
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hammer_hero_1_6
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 188
+        width: 64
+        height: 66
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9316bbbec2c2a874db9abd3d1fb244c7
+      internalID: 1407442457
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hammer_hero_1_7
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 188
+        width: 64
+        height: 66
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2891030ecdcaedd4fb9b195cb8abd207
+      internalID: 723018870
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hammer_hero_1_8
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 188
+        width: 64
+        height: 66
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e9db11e3a4b3e9f4591710a71367df70
+      internalID: -1091393020
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hammer_hero_1_9
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 188
+        width: 64
+        height: 66
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b7dc63e17a975d94ca3f802bd155c726
+      internalID: -948844391
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hammer_hero_1_10
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 188
+        width: 64
+        height: 66
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 621cf32c2cdb01f4fb9daa78ae4b28cd
+      internalID: -953689395
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hammer_hero_1_11
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 188
+        width: 64
+        height: 66
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2b7428796de3cba42aa10ba5bffae6d7
+      internalID: 1665125325
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hammer_hero_1_12
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 122
+        width: 64
+        height: 66
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0a6be41aceb1a014791f39afd762e912
+      internalID: 1974646962
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hammer_hero_1_13
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 122
+        width: 64
+        height: 66
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a274e63b9e3831f4e8938b36d93fccd1
+      internalID: -230950064
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hammer_hero_1_14
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 122
+        width: 64
+        height: 66
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c16f84e3adffe6c438dd01ec7e1b4ca5
+      internalID: -1320765442
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hammer_hero_1_15
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 122
+        width: 64
+        height: 66
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4fcaf11feeca0ce4d9561c69b4779dc9
+      internalID: -1656969000
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hammer_hero_1_16
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 122
+        width: 64
+        height: 66
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f968cf0d641f00a49967cc13c08eaacd
+      internalID: 373733156
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hammer_hero_1_17
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 122
+        width: 64
+        height: 66
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2dd66e71e51fbb449992ca0b065ca4cf
+      internalID: 2146498873
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hammer_hero_1_18
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 56
+        width: 64
+        height: 66
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f1cd949e320e3d14b985fe55d7edbafd
+      internalID: 248740882
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hammer_hero_1_19
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 56
+        width: 64
+        height: 66
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 74998eb99cdbb294ebaf5e63b543a497
+      internalID: 40671327
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hammer_hero_1_20
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 56
+        width: 64
+        height: 66
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1b0b0c854b26f9445b9e5e2fffefe818
+      internalID: 357898495
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hammer_hero_1_21
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 56
+        width: 64
+        height: 66
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d46d5e2b4a1845e4aa29deb497057672
+      internalID: 1448677022
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hammer_hero_1_22
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 56
+        width: 64
+        height: 66
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e1a49c5771195994a804213a4dfb102b
+      internalID: 850006079
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hammer_hero_1_23
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 56
+        width: 64
+        height: 66
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b2d616eb77eca424fa943321319f7aee
+      internalID: 779906552
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -145,7 +649,31 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      hammer_hero_1_0: -591755731
+      hammer_hero_1_1: -868736022
+      hammer_hero_1_10: -953689395
+      hammer_hero_1_11: 1665125325
+      hammer_hero_1_12: 1974646962
+      hammer_hero_1_13: -230950064
+      hammer_hero_1_14: -1320765442
+      hammer_hero_1_15: -1656969000
+      hammer_hero_1_16: 373733156
+      hammer_hero_1_17: 2146498873
+      hammer_hero_1_18: 248740882
+      hammer_hero_1_19: 40671327
+      hammer_hero_1_2: -797855605
+      hammer_hero_1_20: 357898495
+      hammer_hero_1_21: 1448677022
+      hammer_hero_1_22: 850006079
+      hammer_hero_1_23: 779906552
+      hammer_hero_1_3: -484730083
+      hammer_hero_1_4: -299233355
+      hammer_hero_1_5: -254766923
+      hammer_hero_1_6: 1407442457
+      hammer_hero_1_7: 723018870
+      hammer_hero_1_8: -1091393020
+      hammer_hero_1_9: -948844391
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
