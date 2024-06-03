@@ -8,6 +8,7 @@ public class PlayerManager : MonoBehaviour
     public List<string> CmdList = new List<string>();
 
     public bool isMyTurn { get; set; }
+    public bool isPlayer; // Determine if this is the player character
 
     private Coroutine inAction = null;
 
@@ -18,6 +19,11 @@ public class PlayerManager : MonoBehaviour
     {
         MatchManager.Instance.onClickDown.AddListener(OnClickHold);
         MatchManager.Instance.onClickRelease.AddListener(OnClickRelease);
+        
+        foreach(GameObject unit in UnitList)
+        {
+            SetupFacingDirection(unit);
+        }
     }
 
     private void Update()
@@ -32,6 +38,7 @@ public class PlayerManager : MonoBehaviour
     {
         UnitList.Add(_unit);
         Debug.Log($"{_unit.name} Registered under {name}");
+        SetupFacingDirection(_unit); // 
     }
 
     public void RemoveUnit(GameObject _unit)
@@ -84,16 +91,25 @@ public class PlayerManager : MonoBehaviour
     }
 
     #region IEnumerable Acts
+    
+
     IEnumerator ReadyMove()
     {
         yield return new WaitUntil(() => clicked != null);
 
         if (clicked.CompareTag("Tile"))
         {
-            if(currentUnit != null)
+            if (currentUnit != null)
             {
                 Vector3 curUnitPos = currentUnit.transform.position;
                 Vector3 clickedPos = clicked.transform.position;
+
+                // Determine the direction to move
+                Vector3 direction = clickedPos - curUnitPos;
+                bool isFacingRight = direction.x >= 0;
+
+                // Update the facing direction of the unit
+                UpdateFacingDirection(currentUnit, isFacingRight);
 
                 if (currentUnit.GetComponent<Unit>().CheckAbilityMove(clickedPos)) currentUnit.GetComponent<Unit>().Ability1();
                 else if (currentUnit.GetComponent<Unit>().MoveTo(clickedPos))
@@ -110,6 +126,8 @@ public class PlayerManager : MonoBehaviour
         clicked = null;
         inAction = null;
     }
+
+   
     public void Move()
     {
         if (isMyTurn)
@@ -214,5 +232,36 @@ public class PlayerManager : MonoBehaviour
     }
 
     #endregion
+
+    private void UpdateFacingDirection(GameObject unit, bool isFacingRight)
+    {
+        Vector3 newScale = unit.transform.localScale;
+        if (isFacingRight)
+        {
+            newScale.x = Mathf.Abs(newScale.x);
+        }
+        else
+        {
+            newScale.x = -Mathf.Abs(newScale.x);
+        }
+        unit.transform.localScale = newScale;
+    }
+
+    private void SetupFacingDirection(GameObject unit)
+    {
+        if (unit != null)
+        {
+            if (isPlayer)
+            {
+                unit.GetComponent<Unit>().isPlayer = true;
+                unit.transform.localScale = new Vector3(Mathf.Abs(unit.transform.localScale.x), unit.transform.localScale.y, unit.transform.localScale.z);
+            }
+            else
+            {
+                unit.GetComponent<Unit>().isPlayer = false;
+                unit.transform.localScale = new Vector3(-Mathf.Abs(unit.transform.localScale.x), unit.transform.localScale.y, unit.transform.localScale.z);
+            }
+        }
+    }
 }
 

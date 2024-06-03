@@ -5312,6 +5312,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   UnitList: []
   CmdList: []
+  isPlayer: 0
 --- !u!1 &1101800420
 GameObject:
   m_ObjectHideFlags: 0
@@ -7958,6 +7959,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   UnitList: []
   CmdList: []
+  isPlayer: 1
 --- !u!1 &1626703356
 GameObject:
   m_ObjectHideFlags: 0
