@@ -25,22 +25,21 @@ public class Buff
     public void Apply()
     {
         buffHolder.buffList.Add(this);
-        if(onApply != null) { onApply(buffHolder); }
+        //if (onApply != null) { onApply(buffHolder); }
+        onApply?.Invoke(buffHolder);
     }
 
     public void TurnEnd()
     {
-        if(atTurnEnd != null) { atTurnEnd(buffHolder); }
+        //if(atTurnEnd != null) { atTurnEnd(buffHolder); }
+        atTurnEnd?.Invoke(buffHolder);
         persistTurn--;
         if(persistTurn <= 0) { Remove(); }
     }
 
     public void Remove()
     {
-        if (onRemove != null) 
-        { 
-            onRemove(buffHolder);
-        }
+        onRemove?.Invoke(buffHolder);
 
         if(buffHolder != null)
         {

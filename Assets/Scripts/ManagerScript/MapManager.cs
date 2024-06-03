@@ -61,6 +61,13 @@ public class MapManager : MonoBehaviour
         else { Debug.LogError($"No stages found for size: {stageSize}"); }
     }
 
+    public void InitWeather(PlayerManager player, PlayerManager opponent)
+    {
+        Weather weather = weatherList[Random.Range(0, weatherList.Count)];
+        weather.ApplyWeatherEffect(player.UnitList);
+        weather.ApplyWeatherEffect(opponent.UnitList);
+    }
+
     void LoadStage()
     {
         string path = $"Prefabs/Map/{stageSize}/{stageName}";
@@ -75,4 +82,6 @@ public class MapManager : MonoBehaviour
         {"3x3", new List<string> {"Standard", "Dogbone", "GoAround"}},
         // Add other sizes and stage names as needed
     };
+
+    private List<Weather> weatherList = new() { new SampleWeather() };
 }

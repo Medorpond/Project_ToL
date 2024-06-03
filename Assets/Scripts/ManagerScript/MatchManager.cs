@@ -21,9 +21,9 @@ public class MatchManager : MonoBehaviour
 
     #region Serialized parameter
     [SerializeField]
-    private PlayerManager player;
+    public PlayerManager player;
     [SerializeField]
-    private PlayerManager opponent;
+    public PlayerManager opponent;
 
     public Button MainMenuBtn;
     public GameObject DeployPanel;
@@ -35,6 +35,8 @@ public class MatchManager : MonoBehaviour
     public float battlePhaseTime = 60f;
     public int maxTurnCount = 100; // Draw if hit maxTurnCount
     private int currentTurnCount = 1;
+
+    private bool isDeploying = false;
     private Phase currentPhase;
     #endregion
 
@@ -126,7 +128,7 @@ public class MatchManager : MonoBehaviour
 
         DeployCaptain();
 
-        BattlePhase();
+        StartCoroutine(nameof(BattlePhase));
     }
 
     void DeployCaptain()
@@ -154,14 +156,17 @@ public class MatchManager : MonoBehaviour
 
     #region BattlePhase
 
-    void BattlePhase()
+    IEnumerator BattlePhase()
     {
-        Debug.Log("Battle Phase Start");
-        
+        Debug.Log("Battle Phase Start");   
         currentPhase = Phase.Battle;
-
         TimeManager.Instance.onTimerEnd.AddListener(ChangeTurn);
+
+        yield return new WaitUntil(() => isDeploying == false);
+
+        
         TimeManager.Instance.StartTimer(battlePhaseTime);
+        MapManager.Instance.InitWeather(player, opponent);
     }
 
     public void ChangeTurn()
@@ -242,6 +247,9 @@ public class MatchManager : MonoBehaviour
     public void DeployUnit(string path)
     {
         if (currentPhase != Phase.UnitSelect) return;
+
+        isDeploying = true;
+
         GameObject prefab = Resources.Load<GameObject>(path);
         if (prefab == null) { Debug.LogError("Failed to load prefab from path: " + path); return; }
         GameObject unit = Instantiate(prefab,
@@ -297,6 +305,7 @@ public class MatchManager : MonoBehaviour
                     DeployPanel.SetActive(true);
                 }
             }
+            isDeploying = false;
         }
     }
 
