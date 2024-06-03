@@ -55738,6 +55738,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1322651490}
+  - component: {fileID: 1322651491}
   m_Layer: 5
   m_Name: ProfilePanel
   m_TagString: Untagged
@@ -55765,6 +55766,23 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -200, y: -400}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1322651491
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1322651489}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 762a110d792f53847a67c61fc243604b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  userData: {fileID: 11400000, guid: 4f42444d11abe2147a9f0a605095250a, type: 2}
+  usernameText: {fileID: 1077185175}
+  winText: {fileID: 1569248204}
+  loseText: {fileID: 614730133}
+  subText: {fileID: 1719879264}
 --- !u!1 &1323666701
 GameObject:
   m_ObjectHideFlags: 0
@@ -73847,7 +73865,7 @@ GameObject:
   - component: {fileID: 1719879265}
   - component: {fileID: 1719879264}
   m_Layer: 5
-  m_Name: UserLose (1)
+  m_Name: Usersub
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -76687,6 +76705,8 @@ MonoBehaviour:
   - {fileID: 0}
   clickUiSound: {fileID: 8300000, guid: 3e4e6c4308c9aa348a851f5e524d6c2e, type: 3}
   mouseOnUiSound: {fileID: 8300000, guid: 4c698fe487a0f1d438f4afc5bf78d5df, type: 3}
+  grabUnitSound: {fileID: 0}
+  deployUnitSound: {fileID: 0}
   sfxVolume: 0.5
   channels: 16
 --- !u!4 &1792601561

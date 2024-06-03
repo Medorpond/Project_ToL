@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.Events;
+using System.Runtime.CompilerServices;
 
 public class ApiGatewayManager : MonoBehaviour
 {
@@ -65,12 +66,16 @@ public class ApiGatewayManager : MonoBehaviour
     private string _email;
     private string _jwtToken;
 
-    //Userdata, UsernameÀº À§¿¡ Ç×¸ñ»ç¿ë (_username)
+    //Userdata, Usernameï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½×¸ï¿½ï¿½ï¿½ (_username)
 
     private string __username;
     private string __SUB;
     private string __WIN;
     private string __LOSE;
+
+    // yong
+        public UserData userData;
+    // yong
 
 
     // for debug
@@ -236,6 +241,7 @@ public class ApiGatewayManager : MonoBehaviour
                     // yong
                     ProgressIn = true;
                     Loginsuccess = true;
+                    await GetUserInfo();
                 }
                 else
                 {
@@ -364,7 +370,7 @@ public class ApiGatewayManager : MonoBehaviour
         }
     }
 
-    public async void GetUserInfo()
+    public async Task GetUserInfo()
     {
         try
         {

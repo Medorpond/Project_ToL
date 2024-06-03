@@ -309,6 +309,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 4c698fe487a0f1d438f4afc5bf78d5df, type: 3}
   clickUiSound: {fileID: 8300000, guid: 3e4e6c4308c9aa348a851f5e524d6c2e, type: 3}
   mouseOnUiSound: {fileID: 8300000, guid: 4c698fe487a0f1d438f4afc5bf78d5df, type: 3}
+  grabUnitSound: {fileID: 0}
+  deployUnitSound: {fileID: 0}
   sfxVolume: 1
   channels: 16
 --- !u!1 &59789054
@@ -10362,6 +10364,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 4c698fe487a0f1d438f4afc5bf78d5df, type: 3}
   clickUiSound: {fileID: 0}
   mouseOnUiSound: {fileID: 0}
+  grabUnitSound: {fileID: 0}
+  deployUnitSound: {fileID: 0}
   sfxVolume: 1
   channels: 16
 --- !u!4 &1618093351
@@ -12172,6 +12176,7 @@ MonoBehaviour:
   confirmPassWordInputField: {fileID: 1697345883}
   LoginusernameInputField: {fileID: 792590810}
   LoginpasswordInputField: {fileID: 1878723830}
+  userData: {fileID: 11400000, guid: 4f42444d11abe2147a9f0a605095250a, type: 2}
 --- !u!4 &1834262827
 Transform:
   m_ObjectHideFlags: 0
