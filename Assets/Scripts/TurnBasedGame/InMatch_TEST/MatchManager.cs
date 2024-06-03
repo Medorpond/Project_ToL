@@ -221,8 +221,8 @@ public class MatchManager : MonoBehaviour
 
     public void DeployArcher()
     {
-        //DeployUnit("Prefabs/Character/Unit_TEST/Archer");
-        DeployUnit("Prefabs/Character/Unit_TEST/SampleUnit_TEST");
+        DeployUnit("Prefabs/Character/Unit_TEST/Archer");
+        
     }
 
     public void DeployKnight()
@@ -230,6 +230,10 @@ public class MatchManager : MonoBehaviour
         DeployUnit("Prefabs/Character/Unit_TEST/Knight");
     }
 
+    public void DeployAssassin(){
+        DeployUnit("Prefabs/Character/Unit_TEST/SampleUnit_TEST");
+    }
+    
     public void DeployPriest()
     {
         DeployUnit("Prefabs/Character/Unit_TEST/Priest");

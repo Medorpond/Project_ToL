@@ -99,3 +99,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hp_bar: {fileID: 0}
   moveSpeed: 0.01
+  isPlayer: 0

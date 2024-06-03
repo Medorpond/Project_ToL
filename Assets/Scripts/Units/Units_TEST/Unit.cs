@@ -181,7 +181,10 @@ public abstract class Unit : MonoBehaviour
         // Wait Until DeathAnimation Ends
 
         MapManager.Instance.stage.NodeArray[(int)transform.position.x, (int)transform.position.y].isBlocked = false;
-        Destroy(gameObject, 0);
+        BattleAudioManager.instance.PlayBSfx(BattleAudioManager.Sfx.deadSound);
+        
+        Destroy(gameObject, 0.01f);
+
     }
 
     public void StartTurn()
