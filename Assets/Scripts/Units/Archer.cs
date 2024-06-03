@@ -32,12 +32,39 @@ public class Archer : Unit
         base.Ability1();
 
         Vector3 direction = new Vector3(skillDirection.x - transform.position.x, skillDirection.y - transform.position.y, 0);
-        if (CheckDirection(direction))
+        if (CheckDirection())
         {
-            if (CanMove(direction))
+            if (CanMove())
             {
-                AbilityMove();
+                transform.position = Vector3.MoveTowards(transform.position, skillDirection, moveSpeed);
             }
+        }
+
+        bool CheckDirection()
+        {
+            if (direction.x == 0 || direction.y == 0)
+            {
+                if (direction.x == 0 && direction.y == 0) return false;
+                else return true;
+            }
+            return false;
+        }
+
+        bool CanMove()
+        {
+            Node[,] NodeArray = MapManager.Instance.stage.NodeArray;
+
+            int length = (int)Vector3.Magnitude(direction);
+            if (length > skillRange) return false;
+
+            direction = Vector3.Normalize(direction);
+
+            for (int i = 1; i <= length; i++)
+            {
+                if (NodeArray[(int)(transform.position.x + direction.x * i), (int)(transform.position.y + direction.y * i)].isBlocked) return false;
+            }
+
+            return true;
         }
     }
     public override void Ability2()
@@ -53,37 +80,5 @@ public class Archer : Unit
     protected override void AfterAbility2()
     {
         skillActive2 = false;
-    }
-
-    private bool CheckDirection(Vector3 direction)
-    {
-        if (direction.x == 0 || direction.y == 0)
-        {
-            if (direction.x == 0 && direction.y == 0) return false;
-            else return true;
-        }
-        return false;
-    }
-
-    private bool CanMove(Vector3 direction)
-    {
-        Node[,] NodeArray = MapManager.Instance.stage.NodeArray;
-
-        int length = (int)Vector3.Magnitude(direction);
-        if (length > skillRange) return false;
-
-        direction = Vector3.Normalize(direction);
-
-        for (int i = 1; i <= length; i++)
-        {
-            if (NodeArray[(int)(transform.position.x + direction.x * i), (int)(transform.position.y + direction.y * i)].isBlocked) return false;
-        }
-
-        return true;
-    }
-
-    private void AbilityMove()
-    {
-        transform.position = Vector3.MoveTowards(transform.position, skillDirection, moveSpeed);
     }
 }
