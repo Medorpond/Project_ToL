@@ -18,6 +18,7 @@ public class Basic : Unit
         moveRange = 3;
         coolTime1 = 5;
         coolTime2 = 7;
+        weaponType = WeaponType.LightSword;
     }
 
     public override void Ability1()

@@ -8,7 +8,7 @@ public abstract class Unit : MonoBehaviour
 {
     public RectTransform hp_bar;
     protected Animator animator;
-    public enum WeaponType { LightSword, Shield, DoubleBlade, ArrowAtk, healingMagic }
+    public enum WeaponType { LightSword, Shield, DoubleBlade, ArrowAtk, healingMagic, HeavyAttack }
     protected WeaponType weaponType;
 
     [SerializeField]
@@ -135,6 +135,7 @@ public abstract class Unit : MonoBehaviour
         if (animator != null)
         {
             animator.SetBool("Move", true);
+            BattleAudioManager.instance.PlayBSfx(BattleAudioManager.Sfx.movingOnGrass);
         }
     }
 

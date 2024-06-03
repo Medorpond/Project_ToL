@@ -21,6 +21,7 @@ public class AxeGiant : Unit
         moveRange = 3;
         coolTime1 = 6;
         coolTime2 = 8;
+        weaponType = WeaponType.HeavyAttack;
 
         GetUnitList();
     }
