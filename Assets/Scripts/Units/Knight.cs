@@ -28,6 +28,7 @@ public class Knight : Unit
     {
         base.Ability1();
         moveRange += 3;
+        Debug.Log("moveRange +3");
     }
 
     public override void Ability2()
@@ -35,6 +36,7 @@ public class Knight : Unit
         base.Ability2();
         maxHealth += 3;
         currentHealth += 3;
+        Debug.Log("maxHealth +3, currentHealth +3");
     }
     protected override void AfterAbility1()
     {

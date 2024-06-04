@@ -184,6 +184,8 @@ public class PlayerManager : MonoBehaviour
                 {
                     CmdList.Add($"Ability1, {(int)currentUnit.transform.position.x}, {(int)currentUnit.transform.position.y}, {(int)clicked.transform.position.x}, {(int)clicked.transform.position.y}");
                 }
+
+                currentUnit.GetComponent<Unit>().Ability1();
             }
         }
         else
@@ -206,7 +208,17 @@ public class PlayerManager : MonoBehaviour
     IEnumerator ReadyAbility2()
     {
         yield return new WaitUntil(() => clicked != null);
-        Debug.Log("Ability2!");
+
+        if (clicked.CompareTag("Unit"))// clicked.CompareTag("Opponent")
+        {
+            if (currentUnit != null)
+            {
+                currentUnit.GetComponent<Unit>().Ability2();
+            }
+
+        }
+
+        clicked = null;
         inAction = null;
     }
     public void Ability2()
