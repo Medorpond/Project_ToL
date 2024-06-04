@@ -17,6 +17,7 @@ using Amazon.GameLift.Model;
 //using Amazon.GameLift.Realtime.Model;
 
 
+
 public class ApiGatewayManager : MonoBehaviour
 {
     #region Singletone
