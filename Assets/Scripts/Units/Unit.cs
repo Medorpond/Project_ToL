@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using NodeStruct;
 using UnityEngine.UI;
 
 public abstract class Unit : MonoBehaviour
@@ -37,6 +36,7 @@ public abstract class Unit : MonoBehaviour
     public bool isPlayer; // Indicates whether the until belongs to the player
 
     public List<Buff> buffList = new List<Buff>();
+    public List<Node> movableNode = new();
 
     protected virtual void Awake()
     {
@@ -251,6 +251,32 @@ public abstract class Unit : MonoBehaviour
         }//올바른 참조를 위한 역순참조
         // Make Boolean for each Action true;
     }
+
+    protected void ScanMovableNode()
+    {
+        movableNode.Clear();
+        Vector3Int currentPos = Vector3Int.RoundToInt(gameObject.transform.position);
+        int startX = (currentPos.x - moveRange) >= 0 ? (int)(currentPos.x - moveRange) : 0;
+        int endX = (currentPos.x + moveRange) <= MapManager.Instance.stage.restrictTop.x ?
+            (int)(currentPos.x + moveRange) : (int)MapManager.Instance.stage.restrictTop.x;
+
+        int startY = (currentPos.y - moveRange) >= 0 ? (int)(currentPos.y - moveRange) : 0;
+        int endY = (currentPos.y + moveRange) <= MapManager.Instance.stage.restrictTop.y ?
+            (int)(currentPos.y + moveRange) : (int)MapManager.Instance.stage.restrictTop.y;
+
+        for (int x = startX; x <= endX; x++)
+        {
+            for (int y = startY; y <= endY; y++)
+            {
+                if( Mathf.Abs(x - currentPos.x) + Mathf.Abs(y - currentPos.y) > moveRange) { continue; }
+                if (MapManager.Instance.stage.Pathfinding(new Vector2Int(currentPos.x, currentPos.y), new Vector2Int(x, y)).Count != 0)
+                {
+                    movableNode.Add(MapManager.Instance.stage.NodeArray[x, y]);
+                }
+            }
+        }
+    }
+
 
     protected void OnDestroy()
     {

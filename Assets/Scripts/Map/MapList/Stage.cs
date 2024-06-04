@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using NodeStruct;
 using UnityEngine.Rendering;
 
 public abstract class Stage : MonoBehaviour
@@ -12,9 +11,9 @@ public abstract class Stage : MonoBehaviour
     public Vector3 OpponentLeaderPosition;
 
 
-public Node[,] NodeArray; //PreDefine NodeArray for each Stage...
-    protected Vector3 restrictBottom;
-    protected Vector3 restrictTop;
+    public Node[,] NodeArray; //PreDefine NodeArray for each Stage...
+    public Vector3 restrictBottom;
+    public Vector3 restrictTop;
 
     protected virtual void Start()
     {
