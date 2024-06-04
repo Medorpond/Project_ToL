@@ -13,8 +13,9 @@ using System.Runtime.CompilerServices;
 using Amazon;
 using Amazon.GameLift;
 using Amazon.GameLift.Model;
-//using Amazon.GameLift.Realtime;
-//using Amazon.GameLift.Realtime.Model;
+
+using Aws.GameLift.Realtime;
+
 
 
 
