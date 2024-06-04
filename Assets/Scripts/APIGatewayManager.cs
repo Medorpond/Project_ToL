@@ -10,6 +10,7 @@ using TMPro;
 using UnityEngine.Events;
 using System.Runtime.CompilerServices;
 
+
 public class ApiGatewayManager : MonoBehaviour
 {
     #region Singletone

@@ -4,7 +4,6 @@ using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using Amazon.CognitoIdentityProvider.Model;
 using System;
 using UnityEngine.SceneManagement;
 using UnityEditor.PackageManager;
