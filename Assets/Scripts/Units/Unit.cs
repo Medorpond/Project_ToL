@@ -11,14 +11,14 @@ public abstract class Unit : MonoBehaviour
     protected WeaponType weaponType;
 
     [SerializeField]
-    protected float moveSpeed = 0.01f;
+    public float moveSpeed = 0.01f;
 
-    protected float maxHealth;
-    protected float currentHealth;
-    protected float attackDamage;
+    public float maxHealth;
+    public float currentHealth;
+    public float attackDamage;
     public float attackRange;
     public float ability2Range;
-    protected float moveRange;
+    public float moveRange;
 
     protected int coolTime1;
     protected int coolTime2;
