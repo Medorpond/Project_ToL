@@ -16,7 +16,8 @@ public abstract class Unit : MonoBehaviour
     protected float maxHealth;
     protected float currentHealth;
     protected float attackDamage;
-    protected float attackRange;
+    public float attackRange;
+    public float ability2Range;
     protected float moveRange;
 
     protected int coolTime1;
@@ -49,6 +50,7 @@ public abstract class Unit : MonoBehaviour
     protected virtual void Start()
     {
         MatchManager.Instance.onTurnEnd.AddListener(OnTurnEnd);
+        ScanMovableNode();
     }
 
     protected abstract void Init();
@@ -89,6 +91,7 @@ public abstract class Unit : MonoBehaviour
                 { transform.position = Vector3.MoveTowards(transform.position, nextStop, moveSpeed); yield return null; }
                 transform.position = nextStop;
             }
+            ScanMovableNode();
             moveCoroutine = null;
             ResetMoveAnimation();
         }
@@ -256,24 +259,28 @@ public abstract class Unit : MonoBehaviour
     {
         movableNode.Clear();
         Vector3Int currentPos = Vector3Int.RoundToInt(gameObject.transform.position);
-        int startX = (currentPos.x - moveRange) >= 0 ? (int)(currentPos.x - moveRange) : 0;
-        int endX = (currentPos.x + moveRange) <= MapManager.Instance.stage.restrictTop.x ?
-            (int)(currentPos.x + moveRange) : (int)MapManager.Instance.stage.restrictTop.x;
+        int startX = (int)Mathf.Max(currentPos.x - moveRange, 0);
+        int endX = (int)Mathf.Min(currentPos.x + moveRange, MapManager.Instance.stage.restrictTop.x);
 
-        int startY = (currentPos.y - moveRange) >= 0 ? (int)(currentPos.y - moveRange) : 0;
-        int endY = (currentPos.y + moveRange) <= MapManager.Instance.stage.restrictTop.y ?
-            (int)(currentPos.y + moveRange) : (int)MapManager.Instance.stage.restrictTop.y;
+        int startY = (int)Mathf.Max(currentPos.y - moveRange, 0);
+        int endY = (int)Mathf.Min(currentPos.y + moveRange, MapManager.Instance.stage.restrictTop.y);
 
         for (int x = startX; x <= endX; x++)
         {
             for (int y = startY; y <= endY; y++)
             {
                 if( Mathf.Abs(x - currentPos.x) + Mathf.Abs(y - currentPos.y) > moveRange) { continue; }
-                if (MapManager.Instance.stage.Pathfinding(new Vector2Int(currentPos.x, currentPos.y), new Vector2Int(x, y)).Count != 0)
+                int pathLength = MapManager.Instance.stage.Pathfinding(new Vector2Int(currentPos.x, currentPos.y), new Vector2Int(x, y)).Count;
+                if (pathLength > 0 && pathLength <= moveRange)
                 {
                     movableNode.Add(MapManager.Instance.stage.NodeArray[x, y]);
                 }
             }
+        }
+
+        foreach (Node node in movableNode)
+        {
+            Debug.Log($"Movable: ({node.x}, {node.y})");
         }
     }
 

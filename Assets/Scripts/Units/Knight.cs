@@ -19,7 +19,7 @@ public class Knight : Unit
         currentHealth = maxHealth;
         attackDamage = 2;
         attackRange = 1;
-        moveRange = 10;
+        moveRange = 3;
         coolTime1 = 3;
         coolTime2 = 7;
         weaponType = WeaponType.LightSword;
