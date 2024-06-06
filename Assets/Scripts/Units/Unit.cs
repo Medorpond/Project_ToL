@@ -74,7 +74,7 @@ public abstract class Unit : MonoBehaviour
             return false;
         }
 
-        MapManager.Instance.stage.Occupy(startPos, targetPos, gameObject);
+        MapManager.Instance.stage.Occupy(startPos, targetPos, this);
         moveCoroutine = StartCoroutine(MoveOneGrid());
         TriggerMoveAnimation();
         canMove = false;

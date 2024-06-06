@@ -38,7 +38,7 @@ public class PlayerManager : MonoBehaviour
     {
         UnitList.Add(_unit);
         Debug.Log($"{_unit.name} Registered under {name}");
-        SetupFacingDirection(_unit); // 
+        SetupFacingDirection(_unit);
     }
 
     public void RemoveUnit(GameObject _unit)
@@ -226,20 +226,6 @@ public class PlayerManager : MonoBehaviour
         if (isMyTurn)
         {
             if (inAction == null) { inAction = StartCoroutine(ReadyAbility2()); }
-        }
-    }
-
-    IEnumerator ReadyAbility3()
-    {
-        yield return new WaitUntil(() => clicked != null);
-        Debug.Log("Ability3!");
-        inAction = null;
-    }
-    public void Ability3()
-    {
-        if (isMyTurn)
-        {
-            if (inAction == null) { inAction = StartCoroutine(ReadyAbility3()); }
         }
     }
 

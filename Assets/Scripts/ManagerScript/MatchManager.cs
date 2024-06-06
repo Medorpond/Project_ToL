@@ -67,6 +67,7 @@ public class MatchManager : MonoBehaviour
         if (instance == this) { instance = null; }
     }
     #endregion
+
     #region Singletone
     private static MatchManager instance = null;
     public static MatchManager Instance
@@ -141,13 +142,13 @@ public class MatchManager : MonoBehaviour
 
         GameObject MyCaptain = Instantiate(prefab, MyCaptainPos, Quaternion.identity, player.transform);
         MapManager.Instance.stage.NodeArray[(int)MyCaptainPos.x, (int)MyCaptainPos.y].isBlocked = true;
-        MapManager.Instance.stage.NodeArray[(int)MyCaptainPos.x, (int)MyCaptainPos.y].unitOn = MyCaptain;
+        MapManager.Instance.stage.NodeArray[(int)MyCaptainPos.x, (int)MyCaptainPos.y].unitOn = MyCaptain.GetComponent<Unit>();
         MyCaptain.GetComponent<BoxCollider2D>().enabled = true;
         player.RegisterUnit(MyCaptain);
 
         GameObject OpponentCaptain = Instantiate(prefab, OpponentCaptainPos, Quaternion.identity, opponent.transform);
         MapManager.Instance.stage.NodeArray[(int)OpponentCaptainPos.x, (int)OpponentCaptainPos.y].isBlocked = true;
-        MapManager.Instance.stage.NodeArray[(int)OpponentCaptainPos.x, (int)OpponentCaptainPos.y].unitOn = OpponentCaptain;
+        MapManager.Instance.stage.NodeArray[(int)OpponentCaptainPos.x, (int)OpponentCaptainPos.y].unitOn = OpponentCaptain.GetComponent<Unit>();
         OpponentCaptain.GetComponent<BoxCollider2D>().enabled = true;
         opponent.RegisterUnit(OpponentCaptain);
     }
@@ -279,7 +280,7 @@ public class MatchManager : MonoBehaviour
                 {
                     unit.transform.position = new Vector3(posX, posY);
                     MapManager.Instance.stage.NodeArray[posX, posY].isBlocked = true;
-                    MapManager.Instance.stage.NodeArray[posX, posY].unitOn = unit;
+                    MapManager.Instance.stage.NodeArray[posX, posY].unitOn = unit.GetComponent<Unit>();
                     unit.GetComponent<BoxCollider2D>().enabled = true;
                     player.RegisterUnit(unit);
                     if (currentPhase == Phase.UnitSelect)

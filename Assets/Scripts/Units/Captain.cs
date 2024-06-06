@@ -46,7 +46,7 @@ public class Captain : Unit
 
         if (CheckDirection())
         {
-            MapManager.Instance.stage.Occupy(startPos, targetPos, gameObject);
+            MapManager.Instance.stage.Occupy(startPos, targetPos, this);
             transform.position = Vector3.MoveTowards(transform.position, new Vector3(targetPos.x, targetPos.y, 0), moveSpeed);
             return true;
         }

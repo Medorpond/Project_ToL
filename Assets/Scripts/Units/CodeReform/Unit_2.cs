@@ -12,6 +12,7 @@ public abstract class Unit_2 : MonoBehaviour
 
     #region Common Parameter
     public float moveSpeed = 0.01f;
+    public (int weight, string command) mostValuedAction = (0, "");
     protected WeaponType weaponType;
     #endregion
 
@@ -32,6 +33,8 @@ public abstract class Unit_2 : MonoBehaviour
     protected int skill_2_Cooldown;
     protected int skill_1_currentCool = 0;
     protected int skill_2_currentCool = 0;
+
+    protected bool inAction = false;
     #endregion
 
     #region List
@@ -97,7 +100,9 @@ public abstract class Unit_2 : MonoBehaviour
 
         //Actual Move Starts
         moveLeft--;
-        MapManager.Instance.stage.Occupy(startPos, targetPos, gameObject);
+        inAction = true;
+        //MapManager.Instance.stage.Occupy(startPos, targetPos, this);
+        Debug.Log("주!석!처!리!");
         StartCoroutine(MoveOneGrid());
         TriggerMoveAnimation();
         return true;
@@ -113,6 +118,7 @@ public abstract class Unit_2 : MonoBehaviour
                 transform.position = nextStop;
             }
             ResetMoveAnimation();
+            inAction = false;
             ScanMovableNode();
         }
     }
@@ -127,10 +133,12 @@ public abstract class Unit_2 : MonoBehaviour
             return false;
         }
         attackLeft--;
+        inAction = true;
         TriggerAttackAnimation();
         //BattleAudioManager.instance.PlayWeaponSfx(weaponType);
         _opponent.IsDamaged(attackDamage);
-        
+        inAction = false;
+
         return true;
     }
 
@@ -247,4 +255,5 @@ public abstract class Unit_2 : MonoBehaviour
     }
 
     #endregion
+
 }
