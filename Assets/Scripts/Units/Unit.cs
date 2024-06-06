@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public abstract class Unit : MonoBehaviour
 {
@@ -34,7 +33,7 @@ public abstract class Unit : MonoBehaviour
     protected bool canAttack = true;
     protected bool canMove = true;
 
-    public bool isPlayer; // Indicates whether the until belongs to the player
+    public bool isPlayer; // Indicates whether the unit belongs to the player
 
     public List<Buff> buffList = new List<Buff>();
     public List<Node> movableNode = new();
@@ -152,8 +151,6 @@ public abstract class Unit : MonoBehaviour
         }
     }
 
-
-
     public virtual void IsDamaged(float _damage)
     {
         currentHealth = currentHealth - _damage > 0 ? currentHealth - _damage : 0;
@@ -187,7 +184,6 @@ public abstract class Unit : MonoBehaviour
         BattleAudioManager.instance.PlayBSfx(BattleAudioManager.Sfx.deadSound);
         
         Destroy(gameObject, 0.01f);
-
     }
 
     public void StartTurn()
