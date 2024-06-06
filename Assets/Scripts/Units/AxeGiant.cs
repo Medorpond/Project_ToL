@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class AxeGiant : Unit
 {
-    private List<GameObject> myUnits;
-
     protected override void Awake()
     {
         base.Awake();
@@ -21,29 +19,32 @@ public class AxeGiant : Unit
         coolTime1 = 6;
         coolTime2 = 8;
         weaponType = WeaponType.HeavyAttack;
-
-        GetUnitList();
     }
-    public override void Ability1()
+    public override bool Ability1()
     {
         base.Ability1();
         moveRange += 2;
+        return true;
     }
 
-    public override void Ability2()
+    public override bool Ability2()
     {
         base.Ability2();
-        GetUnitList();
 
         Collider[] colliders = Physics.OverlapSphere(transform.position, moveRange);
+        
+        if (colliders == null) return false;
+
         foreach (Collider collider in colliders)
         {
             Unit unit = collider.GetComponent<Unit>();
             if (unit != null)
             {
-                if (!CheckTeam(unit)) unit.IsDamaged(2.5f);
+                unit.IsDamaged(2.5f);
             }
         }
+
+        return true;
     }
     protected override void AfterAbility1()
     {
@@ -53,19 +54,5 @@ public class AxeGiant : Unit
     protected override void AfterAbility2()
     {
         skillActive2 = false;
-    }
-
-    private bool CheckTeam(Unit unit)
-    {
-        foreach (GameObject myUnit in myUnits)
-        {
-            if (myUnit == unit) return true;
-        }
-        return false;
-    }
-
-    private void GetUnitList()
-    {
-        myUnits = GetComponentInParent<PlayerManager>().UnitList;
     }
 }

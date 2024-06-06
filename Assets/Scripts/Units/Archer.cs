@@ -25,18 +25,21 @@ public class Archer : Unit
         skillRange = (int)(moveRange * 1.5f);
     }
 
-    public override void Ability1()
+    public override bool Ability1()
     {
         base.Ability1();
 
-        Vector3 direction = new Vector3(skillDirection.x - transform.position.x, skillDirection.y - transform.position.y, 0);
+        Vector2Int startPos = new Vector2Int((int)transform.position.x, (int)transform.position.y);
+        Vector2Int targetPos = new Vector2Int((int)skillDirection.x, (int)skillDirection.y);
+        Vector2Int direction = targetPos - startPos;
+
         if (CheckDirection())
         {
-            if (CanMove())
-            {
-                transform.position = Vector3.MoveTowards(transform.position, skillDirection, moveSpeed);
-            }
+            MapManager.Instance.stage.Occupy(startPos, targetPos, gameObject);
+            transform.position = Vector3.MoveTowards(transform.position, new Vector3(targetPos.x, targetPos.y, 0), moveSpeed);
+            return true;
         }
+        return false;
 
         bool CheckDirection()
         {
@@ -47,7 +50,7 @@ public class Archer : Unit
             }
             return false;
         }
-
+        /*
         bool CanMove()
         {
             Node[,] NodeArray = MapManager.Instance.stage.NodeArray;
@@ -64,12 +67,14 @@ public class Archer : Unit
 
             return true;
         }
+        */
     }
-    public override void Ability2()
+    public override bool Ability2()
     {
         base.Ability2();
         canAttack = true;
         canMove = true;
+        return true;
     }
     protected override void AfterAbility1()
     {
@@ -78,5 +83,15 @@ public class Archer : Unit
     protected override void AfterAbility2()
     {
         skillActive2 = false;
+    }
+
+    public override bool CheckAbilityMove(Vector3 direction)
+    {
+        if (skillActive1)
+        {
+            skillDirection = direction;
+            return true;
+        }
+        return base.CheckAbilityMove(direction);
     }
 }
