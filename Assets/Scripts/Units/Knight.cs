@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.Remoting.Messaging;
 using UnityEngine;
 
 public class Knight : Unit
@@ -24,19 +25,19 @@ public class Knight : Unit
         coolTime2 = 7;
         weaponType = WeaponType.LightSword;
     }
-    public override void Ability1()
+    public override bool Ability1()
     {
         base.Ability1();
         moveRange += 3;
-        Debug.Log("moveRange +3");
+        return true;
     }
 
-    public override void Ability2()
+    public override bool Ability2()
     {
         base.Ability2();
         maxHealth += 3;
         currentHealth += 3;
-        Debug.Log("maxHealth +3, currentHealth +3");
+        return true;
     }
     protected override void AfterAbility1()
     {

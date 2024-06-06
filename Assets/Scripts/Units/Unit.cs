@@ -186,7 +186,7 @@ public abstract class Unit : MonoBehaviour
         Destroy(gameObject, 0.01f);
     }
 
-    public void StartTurn()
+    public void EndTurn()
     {
         canAttack = true;
         canMove = true;
@@ -196,11 +196,13 @@ public abstract class Unit : MonoBehaviour
 
         if (currentCool1 > 0) currentCool1--;
         if (currentCool2 > 0) currentCool2--;
+
+        OnTurnEnd();
     }
 
-    public virtual void Ability1()
+    public virtual bool Ability1()
     {
-
+        return false;
     }
 
     public virtual bool Ability1(GameObject opponent) //오버로딩
@@ -208,9 +210,9 @@ public abstract class Unit : MonoBehaviour
         return false; // 임시
     }
 
-    public virtual void Ability2()
+    public virtual bool Ability2()
     {
-        
+        return false;
     }
 
     protected abstract void AfterAbility1();
@@ -221,24 +223,13 @@ public abstract class Unit : MonoBehaviour
         attackDamage += damage;
     }
 
-    public bool CheckAbilityMove(Vector3 direction)
+    protected List<GameObject> GetUnitList()
     {
-        Archer archer = GetComponent<Archer>();
-        Captain captain = GetComponent<Captain>();
+        return GetComponentInParent<PlayerManager>().UnitList;
+    }
 
-        if (skillActive1)
-        {
-            if (archer != null)
-            {
-                archer.skillDirection = direction;
-                return true;
-            }
-            if (captain != null)
-            {
-                captain.skillDirection = direction;
-                return true;
-            }
-        }
+    public virtual bool CheckAbilityMove(Vector3 direction)
+    {
         return false;
     }
 

@@ -24,7 +24,7 @@ public class Priest : Unit
         coolTime2 = 5;
         weaponType = WeaponType.healingMagic;
 
-        GetUnitList();
+        myUnits = GetUnitList();
         healAmount = 2.0f;
     }
 
@@ -44,10 +44,10 @@ public class Priest : Unit
         return true;
     }
 
-    public override void Ability2()
+    public override bool Ability2()
     {
         base.Ability2();
-        GetUnitList();
+        myUnits = GetUnitList();
 
         if (myUnits != null)
         {
@@ -55,7 +55,9 @@ public class Priest : Unit
             {
                 unit.GetComponent<Unit>().IsHealed(healAmount);
             }
+            return true;
         }
+        return false;
     }
     protected override void AfterAbility1()
     {
@@ -76,10 +78,5 @@ public class Priest : Unit
     public override bool Attack(GameObject _opponent)
     {
         return base.Attack(_opponent);   
-    }
-
-    private void GetUnitList()
-    {
-        myUnits = GetComponentInParent<PlayerManager>().UnitList;
     }
 }

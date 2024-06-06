@@ -79,13 +79,13 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
-    public void StartingTurn()
+    public void EndingTurn()
     {
         if (UnitList != null)
         {
             foreach (GameObject unit in UnitList)
             {
-                unit.GetComponent<Unit>().StartTurn();
+                unit.GetComponent<Unit>().EndTurn();
             }
         }
     }

@@ -179,6 +179,7 @@ public class MatchManager : MonoBehaviour
             return;
         }
 
+        player.EndingTurn();
         player.isMyTurn = !player.isMyTurn;
         opponent.isMyTurn = !opponent.isMyTurn;
 

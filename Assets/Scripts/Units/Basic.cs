@@ -21,15 +21,17 @@ public class Basic : Unit
         weaponType = WeaponType.LightSword;
     }
 
-    public override void Ability1()
+    public override bool Ability1()
     {
         base.Ability1();
         moveRange += 2;
+        return true;
     }
-    public override void Ability2()
+    public override bool Ability2()
     {
         base.Ability2();
         attackRange += 1;
+        return true;
     }
 
     protected override void AfterAbility1()
