@@ -25,6 +25,9 @@ public class Captain : Unit
         coolTime2 = 5;
         weaponType = WeaponType.LightSword;
 
+        originalAttackRange = attackRange;
+        originalMoveRange = moveRange;
+
         myUnits = GetUnitList();
         increaseAttack = 1.0f;
         skillRange = (int)(moveRange * 1.5f);

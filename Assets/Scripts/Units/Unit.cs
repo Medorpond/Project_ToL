@@ -19,6 +19,9 @@ public abstract class Unit : MonoBehaviour
     public float ability2Range;
     public float moveRange;
 
+    public float originalAttackRange;
+    public float originalMoveRange;
+
     protected int coolTime1;
     protected int coolTime2;
     protected int currentCool1;

@@ -19,6 +19,9 @@ public class Basic : Unit
         coolTime1 = 5;
         coolTime2 = 7;
         weaponType = WeaponType.LightSword;
+
+        originalAttackRange = attackRange;
+        originalMoveRange = moveRange;
     }
 
     public override bool Ability1()

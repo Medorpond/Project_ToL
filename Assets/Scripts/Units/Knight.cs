@@ -24,6 +24,9 @@ public class Knight : Unit
         coolTime1 = 3;
         coolTime2 = 7;
         weaponType = WeaponType.LightSword;
+
+        originalAttackRange = attackRange;
+        originalMoveRange = moveRange;
     }
     public override bool Ability1()
     {

@@ -19,6 +19,9 @@ public class AxeGiant : Unit
         coolTime1 = 6;
         coolTime2 = 8;
         weaponType = WeaponType.HeavyAttack;
+
+        originalAttackRange = attackRange;
+        originalMoveRange = moveRange;
     }
     public override bool Ability1()
     {

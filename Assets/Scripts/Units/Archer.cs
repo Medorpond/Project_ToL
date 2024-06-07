@@ -23,6 +23,9 @@ public class Archer : Unit
         coolTime2 = 3;
         weaponType = WeaponType.ArrowAtk;
         skillRange = (int)(moveRange * 1.5f);
+
+        originalAttackRange = attackRange;
+        originalMoveRange = moveRange;
     }
 
     public override bool Ability1()

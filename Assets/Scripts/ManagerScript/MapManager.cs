@@ -82,5 +82,5 @@ public class MapManager : MonoBehaviour
         // Add other sizes and stage names as needed
     };
 
-    private List<Weather> weatherList = new() { new SampleWeather() };
+    private List<Weather> weatherList = new() { new SampleWeather() };  // sunny, foggy, rainy
 }

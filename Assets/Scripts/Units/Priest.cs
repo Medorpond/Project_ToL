@@ -24,6 +24,9 @@ public class Priest : Unit
         coolTime2 = 5;
         weaponType = WeaponType.healingMagic;
 
+        originalAttackRange = attackRange;
+        originalMoveRange = moveRange;
+
         myUnits = GetUnitList();
         healAmount = 2.0f;
     }
