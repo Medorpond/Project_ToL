@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing.Text;
 using UnityEngine;
 
 public class OpponentManager : MonoBehaviour
@@ -46,18 +47,17 @@ public class OpponentManager : MonoBehaviour
                 //}
                 Debug.Log("林!籍!贸!府!");
             }
-            DepackCommand(action.command);
+            StartCoroutine(DepackCommand(action.command));
         }
-        //Check If all actions are finished. or Delay for several seconds.
-        MatchManager.Instance.ChangeTurn();
     }
 
     #region Command Handler
-    private void DepackCommand(string commandString)
+    IEnumerator DepackCommand(string commandString)
     {
         //Each command is: "Command/ objectCoordinate/ subjectCoordinate@Command..."
-        string[] commands = commandString.Split('@');
+        Coroutine actionCoroutine = null;
 
+        string[] commands = commandString.Split('@');
         foreach (string command in commands)
         {
             string[] parts = command.Split('/');
@@ -72,9 +72,13 @@ public class OpponentManager : MonoBehaviour
             Vector3 objectLocation = DepackLocation(parts[1]);
             Vector3 subjectLocation = DepackLocation(parts[2]);
 
-            ExecuteCommand(commandType, objectLocation, subjectLocation);
-        }
+            yield return new WaitUntil(() => actionCoroutine == null);
 
+            actionCoroutine = StartCoroutine(ExecuteCommand(commandType, objectLocation, subjectLocation));
+        }
+        MatchManager.Instance.ChangeTurn();
+
+        // Inner Methods and Coroutines
         Vector3 DepackLocation(string coordinate)
         {
             string[] coords = coordinate.Trim('(', ')').Split(' ');
@@ -88,54 +92,61 @@ public class OpponentManager : MonoBehaviour
             return new Vector3(x, y);
         }
 
-    }
-
-    void ExecuteCommand(string command, Vector3 objLocation, Vector3 subjectLocation)
-    {
-        Unit obj = MapManager.Instance.stage.NodeArray[(int)objLocation.x, (int)objLocation.y].unitOn;
-        Unit target = MapManager.Instance.stage.NodeArray[(int)subjectLocation.x, (int)subjectLocation.y].unitOn;
-
-        if (obj == null) return;
-        if (obj == target)
+        IEnumerator ExecuteCommand(string command, Vector3 objLocation, Vector3 subjectLocation)
         {
-            switch (command)
+            Unit obj = MapManager.Instance.stage.NodeArray[(int)objLocation.x, (int)objLocation.y].unitOn;
+            Unit target = MapManager.Instance.stage.NodeArray[(int)subjectLocation.x, (int)subjectLocation.y].unitOn;
+
+            if (obj == null)
             {
-                case "Ability1":
-                    obj.Ability1();
-                    break;
-                case "Ability2":
-                    obj.Ability2();
-                    break;
-                default:
-                    Debug.Log("Wrong Command: " + command);
-                    break;
+                actionCoroutine = null;
+                yield break;
             }
-        }
-        else
-        {
-            switch (command)
+            if (obj == target)
             {
-                case "Move":
-                    obj.MoveTo(subjectLocation);
-                    break;
-                case "Attack":
-                    //obj.Attack(target);
-                    Debug.Log("林!籍!贸!府!");
-                    break;
-                case "Ability1":
-                    //obj.Ability1(target);
-                    Debug.Log("林!籍!贸!府!");
-                    break;
-                case "Ability2":
-                    //obj.Ability2(target);
-                    Debug.Log("林!籍!贸!府!");
-                    break;
-                default:
-                    Debug.Log("Wrong Command: " + command);
-                    break;
+                switch (command)
+                {
+                    case "Ability1":
+                        obj.Ability1();
+                        break;
+                    case "Ability2":
+                        obj.Ability2();
+                        break;
+                    case "Idle":
+                        break;
+                    default:
+                        Debug.Log("Wrong Command: " + command);
+                        break;
+                }
             }
+            else
+            {
+                switch (command)
+                {
+                    case "Move":
+                        obj.MoveTo(subjectLocation);
+                        break;
+                    case "Attack":
+                        //obj.Attack(target);
+                        Debug.Log("林!籍!贸!府!");
+                        break;
+                    case "Ability1":
+                        //obj.Ability1(target);
+                        Debug.Log("林!籍!贸!府!");
+                        break;
+                    case "Ability2":
+                        //obj.Ability2(target);
+                        Debug.Log("林!籍!贸!府!");
+                        break;
+                    default:
+                        Debug.Log("Wrong Command: " + command);
+                        break;
+                }
+            }
+
+            actionCoroutine = null;
         }
-        
+
     }
     #endregion
 }
