@@ -221,7 +221,7 @@ public class MatchManager : MonoBehaviour
         else if (loser.CompareTag("Player"))
         {
             //ResultPanel.SetText("Lose");
-            //BattleAudioManager.instance.PlayBSfx(BattleAudioManager.Sfx.lose1);
+            BattleAudioManager.instance.PlayBSfx(BattleAudioManager.Sfx.lose);
             //BattleAudioManager.instance.PlayBSfx(BattleAudioManager.Sfx.lose2);
         }
         else
