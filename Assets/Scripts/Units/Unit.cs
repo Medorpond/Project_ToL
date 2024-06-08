@@ -144,8 +144,10 @@ public abstract class Unit : MonoBehaviour
 
     public virtual bool Ability1() { return false; }
     public virtual bool Ability1(Unit unit) { return false; }
+    public virtual bool Ability1(GameObject target) { return false; }
     public virtual bool Ability2() { return false; }
     public virtual bool Ability2(Unit unit) { return false; }
+    public virtual bool Ability2(GameObject target) { return false; }
 
 
     #endregion

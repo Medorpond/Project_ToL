@@ -98,9 +98,7 @@ public class PlayerManager : MonoBehaviour
 
     IEnumerator ReadyMove()
     {
-        Debug.Log("Start RM");
         yield return new WaitUntil(() => clicked != null);
-        Debug.Log("Target Set");
         if (clicked.CompareTag("Tile"))
         {
             if (currentUnit != null)
@@ -185,7 +183,7 @@ public class PlayerManager : MonoBehaviour
         {
             if (currentUnit != null)
             {
-                if (currentUnit.Ability1())
+                if (currentUnit.Ability1(clicked))
                 {
                     CmdList.Add($"@Ability1/({(int)currentUnit.transform.position.x},{(int)currentUnit.transform.position.y})/({(int)clicked.transform.position.x},{(int)clicked.transform.position.y})");
                 }

@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Archer : Unit
 {
-    public Vector3 skillDirection;
 
     protected override void Init()
     {
@@ -18,19 +17,35 @@ public class Archer : Unit
         weaponType = WeaponType.ArrowAtk;
     }
 
-    public override bool Ability1()
+    public override bool Ability1(GameObject destObj)
     {
-        base.Ability1();
-
+        if (inAction == true) return false;
+        
         Vector2Int startPos = new Vector2Int((int)transform.position.x, (int)transform.position.y);
-        Vector2Int targetPos = new Vector2Int((int)skillDirection.x, (int)skillDirection.y);
+        Vector3 targetPos_3 = destObj.transform.position;
+        Vector2Int targetPos = 
+            new Vector2Int((int)destObj.transform.position.x, (int)destObj.transform.position.y);
         Vector2Int direction = targetPos - startPos;
 
         if (CheckDirection())
         {
+            inAction = true;
             MapManager.Instance.stage.Occupy(startPos, targetPos, this);
-            transform.position = Vector3.MoveTowards(transform.position, new Vector3(targetPos.x, targetPos.y, 0), moveSpeed);
+            
+            TriggerMoveAnimation();
+            StartCoroutine(MoveCoroutine());
             return true;
+        }
+        else { Debug.Log("WrongDirection"); }
+
+        IEnumerator MoveCoroutine()
+        {
+            while (Vector3.Distance(transform.position, targetPos_3) > 0.01f)
+            { transform.position = Vector3.MoveTowards(transform.position, targetPos_3, moveSpeed); yield return null;}
+            transform.position = targetPos_3;
+            ResetMoveAnimation();
+            inAction = false;
+            ScanMovableNode();
         }
         return false;
 
@@ -49,16 +64,5 @@ public class Archer : Unit
         moveLeft++;
         attackLeft++;
         return true;
-    }
-    
-
-    public bool CheckAbilityMove(Vector3 direction)
-    {
-        if (skill_1_currentCool <= 0)
-        {
-            skillDirection = direction;
-            return true;
-        }
-        else return false;
     }
 }
