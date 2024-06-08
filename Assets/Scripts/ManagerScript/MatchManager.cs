@@ -256,6 +256,22 @@ public class MatchManager : MonoBehaviour
         DeployUnit("Prefabs/Character/Unit_TEST/Priest");
     }
 
+    public void DeployMagician()
+    {
+        DeployUnit("Prefabs/Character/Unit_TEST/Magician");
+    }
+
+    public void DeployAxeGiant()
+    {
+        DeployUnit("Prefabs/Character/Unit_TEST/AxeGiant");
+    }
+
+    public void DeployShield()
+    {
+        DeployUnit("Prefabs/Character/Unit_TEST/Shield");
+    }
+
+
     public void DeployUnit(string path)
     {
         if (currentPhase != Phase.UnitSelect) return;

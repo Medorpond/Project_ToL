@@ -16,6 +16,7 @@ public class Magician : Unit
         skill_1_Cooldown = 7;
         skill_2_Cooldown = 4;
         base.Init();
+        weaponType = WeaponType.MagicAttack;
     }
 
     public override bool Ability1(Unit unit)
