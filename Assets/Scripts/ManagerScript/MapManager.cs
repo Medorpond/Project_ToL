@@ -60,12 +60,12 @@ public class MapManager : MonoBehaviour
         else { Debug.LogError($"No stages found for size: {stageSize}"); }
     }
 
-    public void InitWeather(PlayerManager player, PlayerManager opponent)
+    public void InitWeather(PlayerManager player, OpponentManager opponent)
     {
         Weather weather = new Rainy(); //weatherList[Random.Range(0, weatherList.Count)];
         
         weather.ApplyWeatherEffect(player.UnitList);
-        weather.ApplyWeatherEffect(opponent.UnitList);
+        weather.ApplyWeatherEffect(opponent.EnemyList);
     }
 
     void LoadStage()

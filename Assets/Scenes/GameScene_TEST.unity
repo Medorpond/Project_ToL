@@ -6717,12 +6717,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1074396746}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3961e1b20032a1742a741795f7efb233, type: 3}
+  m_Script: {fileID: 11500000, guid: 36a785fab1cf6344980051ce2c41e05e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UnitList: []
-  CmdList: []
-  isPlayer: 0
+  EnemyList: []
+  isMyTurn: 0
 --- !u!1 &1091040243
 GameObject:
   m_ObjectHideFlags: 0
@@ -11669,7 +11668,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1074396748}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: PlayerManager, Assembly-CSharp
         m_MethodName: Ability1
         m_Mode: 1
@@ -12601,7 +12600,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1074396748}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: PlayerManager, Assembly-CSharp
         m_MethodName: Move
         m_Mode: 1
@@ -13524,7 +13523,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1074396748}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: PlayerManager, Assembly-CSharp
         m_MethodName: Attack
         m_Mode: 1

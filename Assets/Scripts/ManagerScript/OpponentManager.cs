@@ -37,7 +37,7 @@ public class OpponentManager : MonoBehaviour
     {
         if(EnemyList != null && isMyTurn)
         {
-            (int weight, string command) action = (0, "");
+            //(int weight, string command) action = (0, "");
             foreach (Unit unit in EnemyList)
             {
                 //unit.OnTurnStart();
@@ -47,7 +47,11 @@ public class OpponentManager : MonoBehaviour
                 //}
                 Debug.Log("林!籍!贸!府!");
             }
-            StartCoroutine(DepackCommand(action.command));
+
+            //StartCoroutine(DepackCommand(action.command)); << Actual code
+            //PsudoCommand:
+            string psudoCommand = "@Move/(24,5)/(23,5)@Move/(23,5)/(23,4)@Move/(23,4)/(24,4)@Move/(24,4)/(24,5)";
+            StartCoroutine(DepackCommand(psudoCommand));
         }
     }
 
@@ -127,16 +131,13 @@ public class OpponentManager : MonoBehaviour
                         obj.MoveTo(subjectLocation);
                         break;
                     case "Attack":
-                        //obj.Attack(target);
-                        Debug.Log("林!籍!贸!府!");
+                        obj.Attack(target);
                         break;
                     case "Ability1":
-                        //obj.Ability1(target);
-                        Debug.Log("林!籍!贸!府!");
+                        obj.Ability1(target);
                         break;
                     case "Ability2":
-                        //obj.Ability2(target);
-                        Debug.Log("林!籍!贸!府!");
+                        obj.Ability2(target);
                         break;
                     default:
                         Debug.Log("Wrong Command: " + command);

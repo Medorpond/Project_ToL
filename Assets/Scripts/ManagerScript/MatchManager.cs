@@ -22,7 +22,7 @@ public class MatchManager : MonoBehaviour
     [SerializeField]
     public PlayerManager player;
     [SerializeField]
-    public PlayerManager opponent;
+    public OpponentManager opponent;
 
     public Button MainMenuBtn;
     public GameObject DeployPanel;
@@ -194,7 +194,6 @@ public class MatchManager : MonoBehaviour
         // Send player CmdList via Network HERE.
 
         player.CmdList.Clear();
-        opponent.CmdList.Clear();
 
         onTurnEnd.Invoke();
         TimeManager.Instance.StartTimer(battlePhaseTime);
