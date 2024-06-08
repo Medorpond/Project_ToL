@@ -18,6 +18,9 @@ public class Captain : Unit
         attackDamage = 1;
         attackRange = 1;
         moveRange = 30;
+
+        maxMoveCount = 99;
+
         skill_1_Cooldown = 4;
         skill_2_Cooldown= 5;
         base.Init();

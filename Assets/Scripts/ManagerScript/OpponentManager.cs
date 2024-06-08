@@ -98,6 +98,10 @@ public class OpponentManager : MonoBehaviour
 
         IEnumerator ExecuteCommand(string command, Vector3 objLocation, Vector3 subjectLocation)
         {
+            Debug.Log(command);
+            Debug.Log(objLocation);
+            Debug.Log(subjectLocation);
+
             Unit obj = MapManager.Instance.stage.NodeArray[(int)objLocation.x, (int)objLocation.y].unitOn;
             Unit target = MapManager.Instance.stage.NodeArray[(int)subjectLocation.x, (int)subjectLocation.y].unitOn;
 
@@ -128,7 +132,7 @@ public class OpponentManager : MonoBehaviour
                 switch (command)
                 {
                     case "Move":
-                        obj.MoveTo(subjectLocation);
+                        Debug.Log(obj.MoveTo(subjectLocation));
                         break;
                     case "Attack":
                         obj.Attack(target);
@@ -145,6 +149,7 @@ public class OpponentManager : MonoBehaviour
                 }
             }
 
+            yield return new WaitUntil(() => obj.IsinAction() == false);
             actionCoroutine = null;
         }
 

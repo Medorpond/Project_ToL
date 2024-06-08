@@ -35,6 +35,11 @@ public abstract class Unit : MonoBehaviour
     protected int skill_2_currentCool = 0;
 
     protected bool inAction = false;
+
+    public bool IsinAction()
+    {
+        return inAction;
+    }
     #endregion
 
     #region List
@@ -80,8 +85,11 @@ public abstract class Unit : MonoBehaviour
     #region Actions
     public bool MoveTo(Vector3 direction)
     {
-        if (moveLeft <= 0 || inAction == true) return false; // Make sure one can't move while moving
-
+        if (moveLeft <= 0 || inAction == true)
+        {
+            Debug.Log($"inAction: {inAction}, moveLeft: {moveLeft}");
+            return false;
+        }// Make sure one can't move while moving
         Vector2Int startPos = new Vector2Int((int)transform.position.x, (int)transform.position.y);
         Vector2Int targetPos = new Vector2Int((int)direction.x, (int)direction.y);
 
@@ -223,11 +231,6 @@ public abstract class Unit : MonoBehaviour
                     movableNode.Add(MapManager.Instance.stage.NodeArray[x, y]);
                 }
             }
-        }
-
-        foreach (Node node in movableNode)
-        {
-            Debug.Log($"Movable: ({node.x}, {node.y})");
         }
     }
 
