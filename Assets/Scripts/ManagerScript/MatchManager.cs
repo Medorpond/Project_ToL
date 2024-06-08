@@ -239,7 +239,6 @@ public class MatchManager : MonoBehaviour
     public void DeployArcher()
     {
         DeployUnit("Prefabs/Character/Unit_TEST/Archer");
-        
     }
 
     public void DeployKnight()
