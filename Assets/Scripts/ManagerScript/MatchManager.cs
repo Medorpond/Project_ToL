@@ -201,7 +201,7 @@ public class MatchManager : MonoBehaviour
     #endregion
 
     #region EndPhase
-    public void GameOver(GameObject loser)
+    public void GameOver(GameObject loser = null)
     {
         BattleAudioManager.instance.PlayAmbience(false);
         UIAudioManager.instance.PlayBgm(false);
@@ -223,6 +223,10 @@ public class MatchManager : MonoBehaviour
             //ResultPanel.SetText("Lose");
             //BattleAudioManager.instance.PlayBSfx(BattleAudioManager.Sfx.lose1);
             //BattleAudioManager.instance.PlayBSfx(BattleAudioManager.Sfx.lose2);
+        }
+        else
+        {
+            //Draw
         }
         ResultPanel.SetActive(true);
 
