@@ -81,7 +81,7 @@ public class OpponentManager : MonoBehaviour
         // Inner Methods and Coroutines
         Vector3 DepackLocation(string coordinate)
         {
-            string[] coords = coordinate.Trim('(', ')').Split(' ');
+            string[] coords = coordinate.Trim('(', ')').Split(',');
             if (coords.Length != 2)
             {
                 Debug.LogError("Wrong Coordinate: " + coordinate);

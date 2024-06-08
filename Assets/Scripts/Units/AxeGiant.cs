@@ -4,24 +4,17 @@ using UnityEngine;
 
 public class AxeGiant : Unit
 {
-    protected override void Awake()
-    {
-        base.Awake();
-        Init();
-    }
     protected override void Init()
     {
         maxHealth = 6;
-        currentHealth = maxHealth;
         attackDamage = 4;
         attackRange = 1;
         moveRange = 3;
-        coolTime1 = 6;
-        coolTime2 = 8;
-        weaponType = WeaponType.HeavyAttack;
+        skill_1_Cooldown= 6;
+        skill_2_Cooldown= 8;
 
-        originalAttackRange = attackRange;
-        originalMoveRange = moveRange;
+        base.Init();
+        weaponType = WeaponType.HeavyAttack;
     }
     public override bool Ability1()
     {
@@ -32,15 +25,21 @@ public class AxeGiant : Unit
 
     public override bool Ability2()
     {
-        base.Ability2();
-
-        Collider[] colliders = Physics.OverlapSphere(transform.position, moveRange);
-        
+        Collider[] colliders = Physics.OverlapSphere(transform.position, moveRange * 2);
         if (colliders == null) return false;
 
+        List<Unit> units = new List<Unit>();
         foreach (Collider collider in colliders)
         {
             Unit unit = collider.GetComponent<Unit>();
+            if (unit != null)
+            {
+                units.Add(unit); // Unit 컴포넌트를 가진 객체만 리스트에 추가
+            }
+        }
+
+        foreach (Unit unit in units)
+        {
             if (unit != null)
             {
                 unit.IsDamaged(2.5f);
@@ -48,14 +47,5 @@ public class AxeGiant : Unit
         }
 
         return true;
-    }
-    protected override void AfterAbility1()
-    {
-        moveRange -= 2;
-        skillActive1 = false;
-    }
-    protected override void AfterAbility2()
-    {
-        skillActive2 = false;
     }
 }

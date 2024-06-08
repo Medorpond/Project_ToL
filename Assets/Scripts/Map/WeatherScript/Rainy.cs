@@ -6,6 +6,7 @@ public class Rainy : Weather
 {
     protected override void OnApply(Unit unit)
     {
+        float baseRange = unit.attackRange;
         unit.moveRange += 2;
         unit.attackRange = unit.attackRange - 2 > 1 ? unit.attackRange - 2 : 1;
 
@@ -19,8 +20,8 @@ public class Rainy : Weather
 
     protected override void OnRemove(Unit unit)
     {
-        unit.moveRange = unit.originalMoveRange;
-        unit.attackRange = unit.originalAttackRange;
+        unit.moveRange -= 2;
+        //unit.attackRange = unit.originalAttackRange; << this Overrides Every Existing buff's effect
 
         Debug.Log($"Rainy Weather removed from {unit.name}!");
     }

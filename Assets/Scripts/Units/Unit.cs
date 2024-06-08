@@ -4,62 +4,83 @@ using UnityEngine;
 
 public abstract class Unit : MonoBehaviour
 {
-    public RectTransform hp_bar;
-    protected Animator animator;
+    #region enum
     public enum WeaponType { LightSword, Shield, DoubleBlade, ArrowAtk, healingMagic, HeavyAttack }
-    protected WeaponType weaponType;
+    #endregion
 
-    [SerializeField]
+    #region Parameter
+
+    #region Common Parameter
     public float moveSpeed = 0.01f;
+    public (int weight, string command) mostValuedAction = (0, "");
+    protected WeaponType weaponType;
+    #endregion
 
+    #region Stat
     public float maxHealth;
     public float currentHealth;
     public float attackDamage;
     public float attackRange;
-    public float ability2Range;
     public float moveRange;
+    #endregion
 
-    public float originalAttackRange;
-    public float originalMoveRange;
+    #region Action
+    protected int maxAttackCount = 1;
+    protected int maxMoveCount = 1;
+    protected int attackLeft;
+    protected int moveLeft;
+    protected int skill_1_Cooldown;
+    protected int skill_2_Cooldown;
+    protected int skill_1_currentCool = 0;
+    protected int skill_2_currentCool = 0;
 
-    protected int coolTime1;
-    protected int coolTime2;
-    protected int currentCool1;
-    protected int currentCool2;
-    protected bool skillActive1;
-    protected bool skillActive2;
-    // protected bool isSword;
-    // protected bool isDoubleBlade;
-    // private AudioClip attackSoundClip;
+    protected bool inAction = false;
+    #endregion
 
-    protected Coroutine moveCoroutine;
-    protected bool canAttack = true;
-    protected bool canMove = true;
-
-    public bool isPlayer; // Indicates whether the unit belongs to the player
-
-    public List<Buff> buffList = new List<Buff>();
+    #region List
+    public List<Buff> buffList = new();
     public List<Node> movableNode = new();
+    #endregion
 
-    protected virtual void Awake()
+    #region Graphics and Sound
+    [Header("Components")]
+    [SerializeField]
+    protected RectTransform hp_bar;
+    [SerializeField]
+    protected Animator animator;
+    #endregion
+
+    protected virtual void Init()
     {
-        currentCool1 = 0;
-        currentCool2 = 0;
-        skillActive1 = false;
-        skillActive2 = false;
-        animator = GetComponent<Animator>();    
+        currentHealth = maxHealth;
+        attackLeft = maxAttackCount;
+        moveLeft = maxMoveCount;
     }
+
+    #endregion
+
+    #region Unity Monobehaviour LifeCycle Method
+    protected virtual void Awake() { Init(); }
     protected virtual void Start()
     {
-        MatchManager.Instance.onTurnEnd.AddListener(OnTurnEnd);
         ScanMovableNode();
     }
 
-    protected abstract void Init();
+    protected void OnDestroy()
+    {
+        for (int i = buffList.Count - 1; i >= 0; i--)
+        {
+            buffList[i].Remove();
+        }
+    }
+    #endregion
 
+    #region Methods
+
+    #region Actions
     public bool MoveTo(Vector3 direction)
     {
-        if (moveCoroutine != null) return false; // Make sure one can't move while moving
+        if (moveLeft <= 0 || inAction == true) return false; // Make sure one can't move while moving
 
         Vector2Int startPos = new Vector2Int((int)transform.position.x, (int)transform.position.y);
         Vector2Int targetPos = new Vector2Int((int)direction.x, (int)direction.y);
@@ -77,10 +98,12 @@ public abstract class Unit : MonoBehaviour
             return false;
         }
 
+        //Actual Move Starts
+        moveLeft--;
+        inAction = true;
         MapManager.Instance.stage.Occupy(startPos, targetPos, this);
-        moveCoroutine = StartCoroutine(MoveOneGrid());
+        StartCoroutine(MoveOneGrid());
         TriggerMoveAnimation();
-        canMove = false;
         return true;
 
         // Local Method
@@ -93,80 +116,52 @@ public abstract class Unit : MonoBehaviour
                 { transform.position = Vector3.MoveTowards(transform.position, nextStop, moveSpeed); yield return null; }
                 transform.position = nextStop;
             }
-            ScanMovableNode();
-            moveCoroutine = null;
             ResetMoveAnimation();
+            inAction = false;
+            ScanMovableNode();
         }
     }
 
-    public virtual bool Attack(GameObject _opponent)
+    public virtual bool Attack(Unit _opponent)
     {
-        if(!canAttack) return false;
+        if (attackLeft <= 0) return false;
 
-        //공통 기능 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
         if (Vector2.Distance(transform.position, _opponent.transform.position) > attackRange)
         {
             Debug.Log("Out of Range");
             return false;
         }
-        Debug.Log($"{name} attacked {_opponent.name}");
+        attackLeft--;
+        inAction = true;
         TriggerAttackAnimation();
-        _opponent.GetComponent<Unit>().IsDamaged(attackDamage);
-        canAttack = false;
-        StartCoroutine(ResetAttackCooldown());
-        //공통 기능 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
         BattleAudioManager.instance.PlayWeaponSfx(weaponType);
-        Debug.Log("Attack!");
+        _opponent.IsDamaged(attackDamage);
+        inAction = false;
 
         return true;
     }
 
-    private IEnumerator ResetAttackCooldown()
-    {
-        AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
-        yield return new WaitForSeconds(stateInfo.length);
 
-        canAttack = true;
-    }
+    public virtual bool Ability1() { return false; }
+    public virtual bool Ability1(Unit unit) { return false; }
+    public virtual bool Ability2() { return false; }
+    public virtual bool Ability2(Unit unit) { return false; }
 
-    protected void TriggerAttackAnimation()
-    {
-        if (animator != null)
-        {
-            animator.SetTrigger("Attack");
-        }
-    }
 
-    protected void TriggerMoveAnimation()
-    {
-        if (animator != null)
-        {
-            animator.SetBool("Move", true);
-            BattleAudioManager.instance.PlayBSfx(BattleAudioManager.Sfx.movingOnGrass);
-        }
-    }
+    #endregion
 
-    protected void ResetMoveAnimation()
+    #region ReAction
+    public virtual void IsDamaged(float damage)
     {
-        if (animator != null)
-        {
-            animator.SetBool("Move", false);
-        }
-    }
-
-    public virtual void IsDamaged(float _damage)
-    {
-        currentHealth = currentHealth - _damage > 0 ? currentHealth - _damage : 0;
-        HP_BarUpdate();
+        currentHealth = (currentHealth - damage > 0) ? currentHealth - damage : 0;
         BattleAudioManager.instance.PlayBSfx(BattleAudioManager.Sfx.damage);
+        HP_BarUpdate();
         if (currentHealth <= 0) IsDead();
         // Invoke Event to Trigger Animation, Update UI.
     }
-
     public virtual void IsHealed(float _heal)
     {
-        currentHealth = currentHealth + _heal < maxHealth ?
-            currentHealth + _heal : maxHealth;
+        currentHealth = currentHealth + _heal < maxHealth ? currentHealth + _heal : maxHealth;
         HP_BarUpdate();
         // Invoke Event to Trigger Animation, Update UI.
     }
@@ -185,70 +180,30 @@ public abstract class Unit : MonoBehaviour
 
         MapManager.Instance.stage.NodeArray[(int)transform.position.x, (int)transform.position.y].isBlocked = false;
         BattleAudioManager.instance.PlayBSfx(BattleAudioManager.Sfx.deadSound);
-        
+
         Destroy(gameObject, 0.01f);
     }
 
-    public void EndTurn()
+    #endregion
+
+    #region Others
+    public void OnTurnStart()
     {
-        canAttack = true;
-        canMove = true;
+        moveLeft = maxMoveCount;
+        attackLeft = maxAttackCount;
+        if (skill_1_currentCool > 0) skill_1_currentCool--;
+        if (skill_2_currentCool > 0) skill_2_currentCool--;
 
-        if (skillActive1) AfterAbility1();
-        if (skillActive2) AfterAbility2();
-
-        if (currentCool1 > 0) currentCool1--;
-        if (currentCool2 > 0) currentCool2--;
-
-        OnTurnEnd();
-    }
-
-    public virtual bool Ability1()
-    {
-        return false;
-    }
-
-    public virtual bool Ability1(GameObject opponent) //오버로딩
-    {
-        return false; // 임시
-    }
-
-    public virtual bool Ability2()
-    {
-        return false;
-    }
-
-    protected abstract void AfterAbility1();
-    protected abstract void AfterAbility2();
-
-    public void ChangeAttackDamage(float damage)
-    {
-        attackDamage += damage;
-    }
-
-    protected List<GameObject> GetUnitList()
-    {
-        return GetComponentInParent<PlayerManager>().UnitList;
-    }
-
-    public virtual bool CheckAbilityMove(Vector3 direction)
-    {
-        return false;
-    }
-
-    protected void OnTurnEnd()
-    {
         for (int i = buffList.Count - 1; i >= 0; i--)
         {
             buffList[i].TurnEnd();
-        }//올바른 참조를 위한 역순참조
-        // Make Boolean for each Action true;
+        }
     }
 
     protected void ScanMovableNode()
     {
         movableNode.Clear();
-        Vector3Int currentPos = Vector3Int.RoundToInt(gameObject.transform.position);
+        Vector3Int currentPos = Vector3Int.RoundToInt(transform.position);
         int startX = (int)Mathf.Max(currentPos.x - moveRange, 0);
         int endX = (int)Mathf.Min(currentPos.x + moveRange, MapManager.Instance.stage.restrictTop.x);
 
@@ -259,7 +214,7 @@ public abstract class Unit : MonoBehaviour
         {
             for (int y = startY; y <= endY; y++)
             {
-                if( Mathf.Abs(x - currentPos.x) + Mathf.Abs(y - currentPos.y) > moveRange) { continue; }
+                if (Mathf.Abs(x - currentPos.x) + Mathf.Abs(y - currentPos.y) > moveRange) { continue; }
                 int pathLength = MapManager.Instance.stage.Pathfinding(new Vector2Int(currentPos.x, currentPos.y), new Vector2Int(x, y)).Count;
                 if (pathLength > 0 && pathLength <= moveRange)
                 {
@@ -274,16 +229,34 @@ public abstract class Unit : MonoBehaviour
         }
     }
 
+    #endregion
 
-    protected void OnDestroy()
+    #endregion
+
+    #region Animations
+
+    protected void TriggerMoveAnimation()
     {
-        for (int i = buffList.Count - 1; i >= 0; i--)
+        if (animator != null)
         {
-            buffList[i].Remove();
-        }
-        if (MatchManager.Instance != null)
-        {
-            MatchManager.Instance.onTurnEnd.RemoveListener(OnTurnEnd);
+            animator.SetBool("Move", true);
+            BattleAudioManager.instance.PlayBSfx(BattleAudioManager.Sfx.movingOnGrass);
         }
     }
+
+    protected void ResetMoveAnimation()
+    {
+        if (animator != null)
+        {
+            animator.SetBool("Move", false);
+        }
+    }
+
+    protected void TriggerAttackAnimation()
+    {
+        if (animator != null) animator.SetTrigger("Attack");
+    }
+
+    #endregion
+
 }

@@ -5,27 +5,17 @@ using UnityEngine;
 public class Archer : Unit
 {
     public Vector3 skillDirection;
-    private int skillRange;
 
-    protected override void Awake()
-    {
-        base.Awake();
-        Init();
-    }
     protected override void Init()
     {
         maxHealth = 3;
-        currentHealth = maxHealth;
         attackDamage = 2;
         attackRange = 5;
         moveRange = 10;
-        coolTime1 = 3;
-        coolTime2 = 3;
+        skill_1_Cooldown= 3;
+        skill_2_Cooldown = 3;
+        base.Init();
         weaponType = WeaponType.ArrowAtk;
-        skillRange = (int)(moveRange * 1.5f);
-
-        originalAttackRange = attackRange;
-        originalMoveRange = moveRange;
     }
 
     public override bool Ability1()
@@ -53,48 +43,22 @@ public class Archer : Unit
             }
             return false;
         }
-        /*
-        bool CanMove()
-        {
-            Node[,] NodeArray = MapManager.Instance.stage.NodeArray;
-
-            int length = (int)Vector3.Magnitude(direction);
-            if (length > skillRange) return false;
-
-            direction = Vector3.Normalize(direction);
-
-            for (int i = 1; i <= length; i++)
-            {
-                if (NodeArray[(int)(transform.position.x + direction.x * i), (int)(transform.position.y + direction.y * i)].isBlocked) return false;
-            }
-
-            return true;
-        }
-        */
     }
     public override bool Ability2()
     {
-        base.Ability2();
-        canAttack = true;
-        canMove = true;
+        moveLeft++;
+        attackLeft++;
         return true;
     }
-    protected override void AfterAbility1()
-    {
-        skillActive1 = false;
-    }
-    protected override void AfterAbility2()
-    {
-        skillActive2 = false;
-    }
+    
 
-    public override bool CheckAbilityMove(Vector3 direction)
+    public bool CheckAbilityMove(Vector3 direction)
     {
-        if (skillActive1)
+        if (skill_1_currentCool <= 0)
         {
             skillDirection = direction;
             return true;
         }
-        return base.CheckAbilityMove(direction);
+        else return false;
     }
 }

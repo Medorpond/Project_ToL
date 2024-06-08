@@ -19,7 +19,7 @@ public class Foggy : Weather
 
     protected override void OnRemove(Unit unit)
     {
-        unit.moveRange = unit.originalMoveRange;
+        //unit.moveRange = unit.originalMoveRange; << this Overrides Every Existing Buff
         unit.attackDamage -= 1;
 
         Debug.Log($"Foggy Weather removed from {unit.name}!");

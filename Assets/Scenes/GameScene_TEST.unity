@@ -2670,7 +2670,7 @@ MonoBehaviour:
   MainMenuBtn: {fileID: 315983499}
   DeployPanel: {fileID: 383419111}
   ResultPanel: {fileID: 2127389625}
-  unitSelectPhaseTime: 10
+  unitSelectPhaseTime: 5
   battlePhaseTime: 60
   maxTurnCount: 100
 --- !u!4 &407919657
@@ -13796,7 +13796,6 @@ GameObject:
   - component: {fileID: 2127389627}
   - component: {fileID: 2127389631}
   - component: {fileID: 2127389630}
-  - component: {fileID: 2127389629}
   m_Layer: 5
   m_Name: ResultPanel
   m_TagString: Untagged
@@ -13866,18 +13865,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2127389625}
   m_CullTransparentMesh: 1
---- !u!114 &2127389629
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2127389625}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9ed0a41c5bd1744408c066124e84dbf3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!82 &2127389630
 AudioSource:
   m_ObjectHideFlags: 0

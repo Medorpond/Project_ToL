@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
-    public List<GameObject> UnitList = new List<GameObject>();
-    public List<string> CmdList = new List<string>();
+    public List<Unit> UnitList = new();
+    public List<string> CmdList = new();
 
     public bool isMyTurn { get; set; }
     public bool isPlayer; // Determine if this is the player character
 
     private Coroutine inAction = null;
 
-    private GameObject currentUnit;
+    private Unit currentUnit;
     private GameObject clicked = null;
 
     private void Start()
@@ -20,7 +20,7 @@ public class PlayerManager : MonoBehaviour
         MatchManager.Instance.onClickDown.AddListener(OnClickHold);
         MatchManager.Instance.onClickRelease.AddListener(OnClickRelease);
         
-        foreach(GameObject unit in UnitList)
+        foreach(Unit unit in UnitList)
         {
             SetupFacingDirection(unit);
         }
@@ -34,14 +34,14 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
-    public void RegisterUnit(GameObject _unit)
+    public void RegisterUnit(Unit _unit)
     {
         UnitList.Add(_unit);
         Debug.Log($"{_unit.name} Registered under {name}");
         SetupFacingDirection(_unit);
     }
 
-    public void RemoveUnit(GameObject _unit)
+    public void RemoveUnit(Unit _unit)
     {
         UnitList.Remove(_unit);
         Debug.Log($"{_unit.name} got Removed from {name}");
@@ -50,12 +50,16 @@ public class PlayerManager : MonoBehaviour
     void OnClickRelease(GameObject _clicked)
     {
         if (inAction != null) { clicked = _clicked;}
-        else if (UnitList.Contains(_clicked) && isMyTurn)
+        else
         {
-            if(currentUnit != null) { currentUnit.transform.Find("ArrowPointDown").gameObject.SetActive(false); }
-            currentUnit = _clicked; Debug.Log($"CurUnit: {_clicked}");
-            currentUnit.transform.Find("ArrowPointDown").gameObject.SetActive(true);
-        }
+            Unit _currentUnit = _clicked.GetComponent<Unit>();
+            if (UnitList.Contains(_currentUnit) && isMyTurn)
+            {
+                if (currentUnit != null) { currentUnit.transform.Find("ArrowPointDown").gameObject.SetActive(false); }
+                currentUnit = _currentUnit; Debug.Log($"CurUnit: {_clicked}");
+                currentUnit.transform.Find("ArrowPointDown").gameObject.SetActive(true);
+            }
+        } 
     }
 
     void OnClickHold(GameObject _clicked)
@@ -73,7 +77,6 @@ public class PlayerManager : MonoBehaviour
                 Vector3 position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 position.z = -1;
                 _clicked.transform.position = position;
-                //Debug.Log($"{_clicked.transform.position}");
                 yield return new WaitForSeconds(0.001f);
             }
         }
@@ -83,9 +86,9 @@ public class PlayerManager : MonoBehaviour
     {
         if (UnitList != null)
         {
-            foreach (GameObject unit in UnitList)
+            foreach (Unit unit in UnitList)
             {
-                unit.GetComponent<Unit>().EndTurn();
+                unit.OnTurnStart();
             }
         }
     }
@@ -95,8 +98,9 @@ public class PlayerManager : MonoBehaviour
 
     IEnumerator ReadyMove()
     {
+        Debug.Log("Start RM");
         yield return new WaitUntil(() => clicked != null);
-
+        Debug.Log("Target Set");
         if (clicked.CompareTag("Tile"))
         {
             if (currentUnit != null)
@@ -111,12 +115,13 @@ public class PlayerManager : MonoBehaviour
                 // Update the facing direction of the unit
                 UpdateFacingDirection(currentUnit, isFacingRight);
 
-                if (currentUnit.GetComponent<Unit>().CheckAbilityMove(clickedPos)) currentUnit.GetComponent<Unit>().Ability1();
-                else if (currentUnit.GetComponent<Unit>().MoveTo(clickedPos))
+                if (currentUnit.MoveTo(clickedPos))
                 {
-                    CmdList.Add($"Move, {(int)curUnitPos.x}, {(int)curUnitPos.y}, {(int)clickedPos.x}, {(int)clickedPos.y}");
+                    CmdList.Add($"@Move/({(int)curUnitPos.x},{(int)curUnitPos.y})/({(int)clickedPos.x},{(int)clickedPos.y})");
                 }
+                else { Debug.Log("Cannot Move"); }
             }
+            else Debug.Log("CurrentUnit is Null");
         }
         else
         {
@@ -139,14 +144,14 @@ public class PlayerManager : MonoBehaviour
     IEnumerator ReadyAttack()
     {
         yield return new WaitUntil(() => clicked != null);
-
-        if (!UnitList.Contains(clicked) && clicked.CompareTag("Unit"))// clicked.CompareTag("Opponent")
+        Unit target = clicked.GetComponent<Unit>();
+        if (!UnitList.Contains(target) && clicked.CompareTag("Unit"))// OpponentManager.EnemyList.Contains(clicked)
         {
             if(currentUnit != null)
             {                
-                if (currentUnit.GetComponent<Unit>().Attack(clicked))
+                if (currentUnit.Attack(target))
                 {
-                    CmdList.Add($"Attack, {(int)currentUnit.transform.position.x}, {(int)currentUnit.transform.position.y}, {(int)clicked.transform.position.x}, {(int)clicked.transform.position.y}");
+                    CmdList.Add($"@Attack/({(int)currentUnit.transform.position.x},{(int)currentUnit.transform.position.y})/({(int)target.transform.position.x},{(int)target.transform.position.y})");
                 }
             }   
         }
@@ -176,21 +181,21 @@ public class PlayerManager : MonoBehaviour
 
         yield return new WaitUntil(() => clicked != null);
 
-        if (clicked.CompareTag("Unit"))// clicked.CompareTag("Opponent")
+        if (clicked.CompareTag("Tile"))
         {
             if (currentUnit != null)
             {
-                if (currentUnit.GetComponent<Unit>().Ability1(clicked))
+                if (currentUnit.Ability1())
                 {
-                    CmdList.Add($"Ability1, {(int)currentUnit.transform.position.x}, {(int)currentUnit.transform.position.y}, {(int)clicked.transform.position.x}, {(int)clicked.transform.position.y}");
+                    CmdList.Add($"@Ability1/({(int)currentUnit.transform.position.x},{(int)currentUnit.transform.position.y})/({(int)clicked.transform.position.x},{(int)clicked.transform.position.y})");
                 }
 
-                currentUnit.GetComponent<Unit>().Ability1();
+                currentUnit.Ability1();
             }
         }
         else
         {
-            Debug.Log("Click On Hostile to Ability1");
+            Debug.Log("Click On Hostile to Use Ability1");
         }
 
 
@@ -213,7 +218,7 @@ public class PlayerManager : MonoBehaviour
         {
             if (currentUnit != null)
             {
-                currentUnit.GetComponent<Unit>().Ability2();
+                currentUnit.Ability2();
             }
 
         }
@@ -231,7 +236,7 @@ public class PlayerManager : MonoBehaviour
 
     #endregion
 
-    private void UpdateFacingDirection(GameObject unit, bool isFacingRight)
+    private void UpdateFacingDirection(Unit unit, bool isFacingRight)
     {
         Vector3 newScale = unit.transform.localScale;
         if (isFacingRight)
@@ -245,19 +250,13 @@ public class PlayerManager : MonoBehaviour
         unit.transform.localScale = newScale;
     }
 
-    private void SetupFacingDirection(GameObject unit)
+    private void SetupFacingDirection(Unit unit)
     {
         if (unit != null)
         {
-            if (isPlayer)
+            if (UnitList.Contains(unit))
             {
-                unit.GetComponent<Unit>().isPlayer = true;
                 unit.transform.localScale = new Vector3(Mathf.Abs(unit.transform.localScale.x), unit.transform.localScale.y, unit.transform.localScale.z);
-            }
-            else
-            {
-                unit.GetComponent<Unit>().isPlayer = false;
-                unit.transform.localScale = new Vector3(-Mathf.Abs(unit.transform.localScale.x), unit.transform.localScale.y, unit.transform.localScale.z);
             }
         }
     }

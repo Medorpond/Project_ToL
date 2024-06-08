@@ -6,79 +6,42 @@ using UnityEngine;
 
 public class Magician : Unit
 {
-    private List<GameObject> myUnits;
 
-    protected override void Awake()
-    {
-        base.Awake();
-        Init();
-    }
     protected override void Init()
     {
         maxHealth = 3;
-        currentHealth = maxHealth;
         attackDamage = 2;
         attackRange = 1;
         moveRange = 3;
-        coolTime1 = 7;
-        coolTime2 = 4;
-
-        myUnits = GetUnitList();
+        skill_1_Cooldown = 7;
+        skill_2_Cooldown = 4;
+        base.Init();
     }
 
-    public override bool Ability1()
+    public override bool Ability1(Unit unit)
     {
-        base.Ability1();
 
-        myUnits = GetUnitList();
-
-        myUnits.Remove(gameObject);
+        //myUnits.Remove(gameObject); << ??
 
         Node[,] NodeArray = MapManager.Instance.stage.NodeArray;
 
-        while (myUnits != null)
+        int x = (int)unit.transform.position.x;
+        int y = (int)unit.transform.position.y;
+
+        return Transform(x, y);
+
+
+        // Local Method
+        bool Transform(int x, int y)
         {
-            GameObject RandomUnit = myUnits[Random.Range(0, myUnits.Count)];
-
-            int x = (int)RandomUnit.transform.position.x;
-            int y = (int)RandomUnit.transform.position.y;
-
-            if (CheckNode(x, y + 1)) return true;
-            if (CheckNode(x, y - 1)) return true;
-            if (CheckNode(x + 1, y)) return true;
-            if (CheckNode(x - 1, y)) return true;
-            else myUnits.Remove(RandomUnit);
-        }
-
-        if (myUnits == null) return false;
-
-        return false;
-
-        bool CheckNode(int x, int y)
-        {
-            if (!NodeArray[x, y].isBlocked && NodeArray[x, y].isDeployable)
-            {
-                transform.position = new Vector3(NodeArray[x, y].x, NodeArray[x, y].y, transform.position.z);
-
-                return true;
-            }
+            Vector3 targetPos = new();
+            if (!NodeArray[x, y - 1].isBlocked) targetPos = new Vector3(x, y - 1);
+            else if (!NodeArray[x, y + 1].isBlocked) targetPos = new Vector3(x, y + 1);
+            else if (!NodeArray[x - 1, y].isBlocked) targetPos = new Vector3(x - 1, y);
+            else if (!NodeArray[x + 1, y].isBlocked) targetPos = new Vector3(x + 1, y);
             else return false;
+            transform.position = targetPos;
+            return true;
         }
-    }
-
-    public override bool Ability2()
-    {
-        base.Ability2();
-        attackRange = float.MaxValue;
-        return true;
-    }
-    protected override void AfterAbility1()
-    {
-        skillActive1 = false;
-    }
-    protected override void AfterAbility2()
-    {
-        attackRange = 1;
-        skillActive2 = false;
     }
 }

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.Remoting.Messaging;
 using UnityEngine;
+using System;
 
 public class Knight : Unit
 {
@@ -21,39 +22,41 @@ public class Knight : Unit
         attackDamage = 2;
         attackRange = 1;
         moveRange = 3;
-        coolTime1 = 3;
-        coolTime2 = 7;
+        skill_1_Cooldown= 3;
+        skill_2_Cooldown = 7;
         weaponType = WeaponType.LightSword;
-
-        originalAttackRange = attackRange;
-        originalMoveRange = moveRange;
     }
+
     public override bool Ability1()
     {
-        base.Ability1();
-        moveRange += 3;
+        Action<Unit> onApply = (Unit _unit) =>
+        {
+            _unit.moveRange += 3;
+        };
+
+        Action<Unit> onRemove = (Unit _unit) =>
+        {
+            _unit.moveRange -= 3;
+        };
+
+        Buff moveFar = new Buff(1, onApply, null, onRemove, this);
+        moveFar.Apply();
         return true;
     }
 
     public override bool Ability2()
     {
-        base.Ability2();
-        maxHealth += 3;
-        currentHealth += 3;
-        return true;
-    }
-    protected override void AfterAbility1()
-    {
-        moveRange -= 3;
-        skillActive1 = false;
-    }
-    protected override void AfterAbility2()
-    {
-        if (currentCool2 == 4)
+        Action<Unit> onApply = (Unit _unit) =>
         {
-            maxHealth -= 3;
-            currentHealth -= 3;
-            skillActive2 = false;
-        }
+            _unit.maxHealth += 3;
+            _unit.currentHealth += 3;
+        };
+        Action<Unit> onRemove = (Unit _unit) =>
+        {
+            _unit.maxHealth -= 3;
+        };
+        Buff IncreaseHealth = new Buff(3, onApply, null, onRemove, this);
+        IncreaseHealth.Apply();
+        return true;
     }
 }

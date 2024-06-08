@@ -4,10 +4,8 @@ using UnityEngine;
 
 public class Captain : Unit
 {
-    private List<GameObject> myUnits;
-    private float increaseAttack;
+    private List<Unit> myUnits = new();
     public Vector3 skillDirection;
-    private int skillRange;
 
     protected override void Awake()
     {
@@ -17,26 +15,19 @@ public class Captain : Unit
     protected override void Init()
     {
         maxHealth = 9;
-        currentHealth = maxHealth;
         attackDamage = 1;
         attackRange = 1;
         moveRange = 30;
-        coolTime1 = 4;
-        coolTime2 = 5;
+        skill_1_Cooldown = 4;
+        skill_2_Cooldown= 5;
+        base.Init();
         weaponType = WeaponType.LightSword;
-
-        originalAttackRange = attackRange;
-        originalMoveRange = moveRange;
-
-        myUnits = GetUnitList();
-        increaseAttack = 1.0f;
-        skillRange = (int)(moveRange * 1.5f);
     }
 
     public override void IsDead()
     {
-        // Trigger Death Animation
-        MatchManager.Instance.GameOver();
+        BattleAudioManager.instance.PlayBSfx(BattleAudioManager.Sfx.deadSound);
+        MatchManager.Instance.GameOver(transform.parent.gameObject);
     }
 
     public override bool Ability1()
@@ -65,76 +56,27 @@ public class Captain : Unit
             }
             return false;
         }
-        /*
-        bool CanMove()
-        {
-            Node[,] NodeArray = MapManager.Instance.stage.NodeArray;
-
-            int length = (int)Vector3.Magnitude(direction);
-            if (length > skillRange) return false;
-
-            direction = Vector3.Normalize(direction);
-            if (direction.x != 0 || direction.y != 0) direction = new Vector3(1, 1, 0);
-
-            for (int i = 1; i <= length; i++)
-            {
-                if (NodeArray[(int)(transform.position.x + direction.x * i), (int)(transform.position.y + direction.y * i)].isBlocked) return false;
-            }
-
-            return true;
-        }
-        */
     }
 
     public override bool Ability2()
     {
-        base.Ability2();
-        myUnits = GetUnitList();
+        myUnits = GetComponentInParent<PlayerManager>().UnitList;
 
         if (myUnits != null)
         {
-            foreach (GameObject unit in myUnits)
+            foreach (Unit unit in myUnits)
             {
-                unit.GetComponent<Unit>().ChangeAttackDamage(increaseAttack);
+                //Increase Damage via Buff
             }
             return true;
         }
         return false;
     }
-    protected override void AfterAbility1()
-    {
-        skillActive1 = false;
-    }
-    protected override void AfterAbility2()
-    {
-        if (currentCool2 == 3)
-        {
-            myUnits = GetUnitList();
-            if (myUnits != null)
-            {
-                foreach (GameObject unit in myUnits)
-                {
-                    unit.GetComponent<Unit>().ChangeAttackDamage(-increaseAttack);
-                }
-            }
-            skillActive2 = false;
-        }
-    }
-
-    public void Passive()
+    
+    public void Rage()
     {
         currentHealth = maxHealth;
         moveRange += 7;
         attackDamage += 4;
-    }
-
-    public override bool CheckAbilityMove(Vector3 direction)
-    {
-        if (skillActive1)
-        {
-            skillDirection = direction;
-            return true;
-        }
-        return base.CheckAbilityMove(direction);
     }
 }
