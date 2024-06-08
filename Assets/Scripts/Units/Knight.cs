@@ -9,12 +9,6 @@ public class Knight : Unit
     private float increaseAttack;
     
 
-    protected override void Awake()
-    {
-        base.Awake();
-        Init();    
-    }
-
     protected override void Init()
     {
         maxHealth = 7;
@@ -24,6 +18,7 @@ public class Knight : Unit
         moveRange = 3;
         skill_1_Cooldown= 3;
         skill_2_Cooldown = 7;
+        base.Init();
         weaponType = WeaponType.LightSword;
     }
 
