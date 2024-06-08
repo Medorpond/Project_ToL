@@ -22,6 +22,8 @@ public abstract class Unit : MonoBehaviour
     public float attackDamage;
     public float attackRange;
     public float moveRange;
+
+    public bool isPlayer; // Indicates whether the unit belongs to the player
     #endregion
 
     #region Action
@@ -65,10 +67,9 @@ public abstract class Unit : MonoBehaviour
     #endregion
 
     #region Unity Monobehaviour LifeCycle Method
-    protected virtual void Awake() { Init(); }
+    protected virtual void Awake() { animator = GetComponent<Animator>(); Init(); }
     protected virtual void Start()
     {
-        animator = GetComponent<Animator>();
         ScanMovableNode();
     }
 
@@ -195,6 +196,34 @@ public abstract class Unit : MonoBehaviour
         Destroy(gameObject, 0.01f);
     }
 
+    #endregion
+
+    #region Highlight
+    public void ShowMovableTiles()
+    {
+        foreach (Node node in movableNode)
+        {
+            GameObject tileObject = GameObject.Find($"Tile({node.x}, {node.y})");
+            if (tileObject != null)
+            {
+                Tile tile = tileObject.GetComponent<Tile>();
+                tile.ActivateHighlight();
+            }
+        }
+    }
+
+    public void HideMovableTiles()
+    {
+        foreach (Node node in movableNode)
+        {
+            GameObject tileObject = GameObject.Find($"Tile({node.x}, {node.y})");
+            if (tileObject != null)
+            {
+                Tile tile = tileObject.GetComponent<Tile>();
+                tile.DeactivateHighlight();
+            }
+        }
+    }
     #endregion
 
     #region Others

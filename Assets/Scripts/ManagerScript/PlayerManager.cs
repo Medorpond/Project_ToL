@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -15,10 +16,14 @@ public class PlayerManager : MonoBehaviour
     private Unit currentUnit;
     private GameObject clicked = null;
 
+    public Button moveButton;
+
     private void Start()
     {
         MatchManager.Instance.onClickDown.AddListener(OnClickHold);
         MatchManager.Instance.onClickRelease.AddListener(OnClickRelease);
+
+        moveButton.onClick.AddListener(Move);
         
         foreach(Unit unit in UnitList)
         {
@@ -89,6 +94,8 @@ public class PlayerManager : MonoBehaviour
             foreach (Unit unit in UnitList)
             {
                 unit.OnTurnStart();
+
+                // should add line code
             }
         }
     }
@@ -118,6 +125,8 @@ public class PlayerManager : MonoBehaviour
                     CmdList.Add($"@Move/({(int)curUnitPos.x},{(int)curUnitPos.y})/({(int)clickedPos.x},{(int)clickedPos.y})");
                 }
                 else { Debug.Log("Cannot Move"); }
+
+                UnhighlightMovableTiles(currentUnit);
             }
             else Debug.Log("CurrentUnit is Null");
         }
@@ -135,7 +144,9 @@ public class PlayerManager : MonoBehaviour
     {
         if (isMyTurn)
         {
-            if(inAction == null) { inAction = StartCoroutine(ReadyMove()); }
+            if (currentUnit != null) { HighlightMovableTiles(currentUnit);  }
+
+            if (inAction == null) { inAction = StartCoroutine(ReadyMove()) ; }
         }
     }
 
@@ -146,7 +157,14 @@ public class PlayerManager : MonoBehaviour
         if (!UnitList.Contains(target) && clicked.CompareTag("Unit"))// OpponentManager.EnemyList.Contains(clicked)
         {
             if(currentUnit != null)
-            {                
+            {
+                // Determine the direction to face
+                Vector3 direction = clicked.transform.position - currentUnit.transform.position;
+                bool isFacingRight = direction.x >= 0;
+
+                // Update the facing direction of the unit
+                UpdateFacingDirection(currentUnit, isFacingRight);
+
                 if (currentUnit.Attack(target))
                 {
                     CmdList.Add($"@Attack/({(int)currentUnit.transform.position.x},{(int)currentUnit.transform.position.y})/({(int)target.transform.position.x},{(int)target.transform.position.y})");
@@ -252,11 +270,90 @@ public class PlayerManager : MonoBehaviour
     {
         if (unit != null)
         {
-            if (UnitList.Contains(unit))
+            if (isPlayer)
             {
+                unit.GetComponent<Unit>().isPlayer = true;
                 unit.transform.localScale = new Vector3(Mathf.Abs(unit.transform.localScale.x), unit.transform.localScale.y, unit.transform.localScale.z);
+            }
+            else
+            {
+                unit.GetComponent<Unit>().isPlayer = false;
+                unit.transform.localScale = new Vector3(-Mathf.Abs(unit.transform.localScale.x), unit.transform.localScale.y, unit.transform.localScale.z);
             }
         }
     }
+
+
+    private void HighlightMovableTiles(Unit unit)
+    {
+        Debug.Log("Highlighting movable tiles");
+        Unit unitComponent = unit.GetComponent<Unit>();
+        int moveRange = (int)unitComponent.moveRange; // Ensure moveRange is int
+
+        Vector3 unitPosition = unit.transform.position;
+
+        for (int x = -moveRange; x <= moveRange; x++)
+        {
+            for (int y = -moveRange; y <= moveRange; y++)
+            {
+                if (Mathf.Abs(x) + Mathf.Abs(y) <= moveRange)
+                {
+                    Vector3 tilePosition = new Vector3(unitPosition.x + x, unitPosition.y + y, unitPosition.z);
+                    int tilePosX = Mathf.RoundToInt(tilePosition.x);
+                    int tilePosY = Mathf.RoundToInt(tilePosition.y);
+                    GameObject tileObject = GameObject.Find($"Tile({tilePosX}, {tilePosY})");
+                    if (tileObject != null && !IsTileOccupiedByOtherCharacter(tilePosition))
+                    {
+                        Tile tile = tileObject.GetComponent<Tile>();
+                        tile.ActivateHighlight();
+                    }
+                }
+            }
+        }
+    }
+
+    // Helper method to check if a tile is occupied by another character
+    private bool IsTileOccupiedByOtherCharacter(Vector3 tilePosition)
+    {
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(tilePosition, 0.1f); // Adjust the radius according to your character size
+        foreach (Collider2D collider in colliders)
+        {
+            if (collider.gameObject.CompareTag("Unit") && collider.gameObject != currentUnit)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void UnhighlightMovableTiles(Unit unit)
+    {
+        Debug.Log("Unhighlighting movable tiles");
+        Unit unitComponent = unit.GetComponent<Unit>();
+        int moveRange = (int)unitComponent.moveRange; // Ensure moveRange is int
+
+        Vector3 unitPosition = unit.transform.position;
+
+        for (int x = -moveRange; x <= moveRange; x++)
+        {
+            for (int y = -moveRange; y <= moveRange; y++)
+            {
+                if (Mathf.Abs(x) + Mathf.Abs(y) <= moveRange)
+                {
+                    Vector3 tilePosition = new Vector3(unitPosition.x + x, unitPosition.y + y, unitPosition.z);
+                    int tilePosX = Mathf.RoundToInt(tilePosition.x); // Convert float to int
+                    int tilePosY = Mathf.RoundToInt(tilePosition.y); // Convert float to int
+                    GameObject tileObject = GameObject.Find($"Tile({tilePosX}, {tilePosY})");
+                    if (tileObject != null)
+                    {
+                        Tile tile = tileObject.GetComponent<Tile>();
+                        tile.DeactivateHighlight();
+
+                    }
+                }
+            }
+        }
+    }
+
 }
 

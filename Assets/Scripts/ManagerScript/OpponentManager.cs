@@ -1,3 +1,4 @@
+using Amazon.GameLift.Model;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing.Text;
@@ -7,9 +8,16 @@ public class OpponentManager : MonoBehaviour
 {
     #region EnemyList
 
+    public bool isEnemy;
+
     public List<Unit> EnemyList = new();
 
-    public void RegisterUnit(Unit unit) => EnemyList.Add(unit);
+    public void RegisterUnit(Unit unit)
+    {
+        EnemyList.Add(unit);
+        SetupFacingDirection(unit);
+
+    }
 
     public void RemoveUnit(Unit unit) => EnemyList.Remove(unit);
     
@@ -21,6 +29,42 @@ public class OpponentManager : MonoBehaviour
     private void Start()
     {
         MatchManager.Instance.onTurnEnd.AddListener(OnTurnStart);
+
+        foreach (Unit unit in EnemyList)
+        {
+            SetupFacingDirection(unit);
+        }
+    }
+
+    private void UpdateFacingDirection(Unit unit, bool isFacingRight)
+    {
+        Vector3 newScale = unit.transform.localScale;
+        if (isFacingRight)
+        {
+            newScale.x = Mathf.Abs(newScale.x);
+        }
+        else
+        {
+            newScale.x = -Mathf.Abs(newScale.x);
+        }
+        unit.transform.localScale = newScale;
+    }
+
+    private void SetupFacingDirection(Unit unit)
+    {
+        if (unit != null)
+        {
+            if (isEnemy)
+            {
+                unit.GetComponent<Unit>().isPlayer = true;
+                unit.transform.localScale = new Vector3(Mathf.Abs(unit.transform.localScale.x), unit.transform.localScale.y, unit.transform.localScale.z);
+            }
+            else
+            {
+                unit.GetComponent<Unit>().isPlayer = false;
+                unit.transform.localScale = new Vector3(-Mathf.Abs(unit.transform.localScale.x), unit.transform.localScale.y, unit.transform.localScale.z);
+            }
+        }
     }
 
     private void OnDestroy()
