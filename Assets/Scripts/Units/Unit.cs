@@ -5,7 +5,7 @@ using UnityEngine;
 public abstract class Unit : MonoBehaviour
 {
     #region enum
-    public enum WeaponType { LightSword, Shield, DoubleBlade, ArrowAtk, healingMagic, HeavyAttack }
+    public enum WeaponType { LightSword, Shield, DoubleBlade, ArrowAtk, healingMagic, HeavyAttack, MagicAttack }
     #endregion
 
     #region Parameter
