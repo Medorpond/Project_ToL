@@ -68,6 +68,7 @@ public abstract class Unit : MonoBehaviour
     protected virtual void Awake() { Init(); }
     protected virtual void Start()
     {
+        animator = GetComponent<Animator>();
         ScanMovableNode();
     }
 

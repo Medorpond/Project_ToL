@@ -212,11 +212,21 @@ public class MatchManager : MonoBehaviour
         TimeManager.Instance?.ResetTimer();
         TimeManager.Instance?.EndMatchTime();
         //trigger Result UI with LoserData. if null, it's a draw
-        
+        if (loser.CompareTag("Opponent"))
+        {
+            //ResultPanel.SetText("Win");
+            BattleAudioManager.instance.PlayBSfx(BattleAudioManager.Sfx.victory1);
+            BattleAudioManager.instance.PlayBSfx(BattleAudioManager.Sfx.victory2);
+        }
+        else if (loser.CompareTag("Player"))
+        {
+            //ResultPanel.SetText("Lose");
+            //BattleAudioManager.instance.PlayBSfx(BattleAudioManager.Sfx.lose1);
+            //BattleAudioManager.instance.PlayBSfx(BattleAudioManager.Sfx.lose2);
+        }
         ResultPanel.SetActive(true);
 
-        BattleAudioManager.instance.PlayBSfx(BattleAudioManager.Sfx.victory1);
-        BattleAudioManager.instance.PlayBSfx(BattleAudioManager.Sfx.victory2);
+        
     }
     #endregion
 
