@@ -15,7 +15,7 @@ public class Rainy : Weather
 
     protected override void OnTurnEnd(Unit unit)
     {
-        Debug.Log($"Rainy Weather effected {unit.name} on turn End!");
+        //Debug.Log($"Rainy Weather effected {unit.name} on turn End!");
     }
 
     protected override void OnRemove(Unit unit)

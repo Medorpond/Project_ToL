@@ -62,7 +62,8 @@ public class MapManager : MonoBehaviour
 
     public void InitWeather(PlayerManager player, PlayerManager opponent)
     {
-        Weather weather = weatherList[Random.Range(0, weatherList.Count)];
+        Weather weather = new Rainy(); //weatherList[Random.Range(0, weatherList.Count)];
+        
         weather.ApplyWeatherEffect(player.UnitList);
         weather.ApplyWeatherEffect(opponent.UnitList);
     }
@@ -82,5 +83,5 @@ public class MapManager : MonoBehaviour
         // Add other sizes and stage names as needed
     };
 
-    private List<Weather> weatherList = new() { new SampleWeather() };  // sunny, foggy, rainy
+    private List<Weather> weatherList = new() { new SampleWeather(), new Rainy(), new Foggy(), new Sunny() };  
 }
