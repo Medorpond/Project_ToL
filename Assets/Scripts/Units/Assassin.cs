@@ -59,7 +59,7 @@ public class Assassin : Unit
             Unit unit = collider.GetComponent<Unit>();
             if (unit != null)
             {
-                Buff Intoxication = new Buff(3, null, onTurnEnd, null, unit);
+                Buff Intoxication = new Buff(2, null, onTurnEnd, null, unit);
                 Intoxication.Apply();
             }
         }
