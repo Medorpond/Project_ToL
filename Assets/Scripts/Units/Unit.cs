@@ -1,62 +1,97 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public abstract class Unit : MonoBehaviour
 {
-    public RectTransform hp_bar;
-    protected Animator animator;
-    public enum WeaponType { LightSword, Shield, DoubleBlade, ArrowAtk, healingMagic, HeavyAttack }
+    #region enum
+    public enum WeaponType { LightSword, Shield, DoubleBlade, ArrowAtk, healingMagic, HeavyAttack, MagicAttack }
+    #endregion
+
+    #region Parameter
+
+    #region Common Parameter
+    public float moveSpeed = 0.01f;
+    public (int weight, string command) mostValuedAction = (0, "");
     protected WeaponType weaponType;
+    #endregion
 
-    [SerializeField]
-    protected float moveSpeed = 0.01f;
+    #region Stat
+    public float maxHealth;
+    public float currentHealth;
+    public float attackDamage;
+    public float attackRange;
+    public float moveRange;
 
-    protected float maxHealth;
-    protected float currentHealth;
-    protected float attackDamage;
-    protected float attackRange;
-    protected float moveRange;
+    public bool isPlayer; // Indicates whether the unit belongs to the player
+    #endregion
 
-    protected int coolTime1;
-    protected int coolTime2;
-    protected int currentCool1;
-    protected int currentCool2;
-    protected bool skillActive1;
-    protected bool skillActive2;
-    // protected bool isSword;
-    // protected bool isDoubleBlade;
-    // private AudioClip attackSoundClip;
+    #region Action
+    protected int maxAttackCount = 1;
+    protected int maxMoveCount = 1;
+    protected int attackLeft;
+    protected int moveLeft;
+    protected int skill_1_Cooldown;
+    protected int skill_2_Cooldown;
+    protected int skill_1_currentCool = 0;
+    protected int skill_2_currentCool = 0;
 
-    protected Coroutine moveCoroutine;
-    protected bool canAttack = true;
-    protected bool canMove = true;
+    protected bool inAction = false;
 
-    public bool isPlayer; // Indicates whether the until belongs to the player
-
-    public List<Buff> buffList = new List<Buff>();
-    public List<Node> movableNode = new();
-
-    protected virtual void Awake()
+    public bool IsinAction()
     {
-        currentCool1 = 0;
-        currentCool2 = 0;
-        skillActive1 = false;
-        skillActive2 = false;
-        animator = GetComponent<Animator>();    
+        return inAction;
     }
+    #endregion
+
+    #region List
+    public List<Buff> buffList = new();
+    public List<Node> movableNode = new();
+    #endregion
+
+    #region Graphics and Sound
+    [Header("Components")]
+    [SerializeField]
+    protected RectTransform hp_bar;
+    [SerializeField]
+    protected Animator animator;
+    #endregion
+
+    protected virtual void Init()
+    {
+        currentHealth = maxHealth;
+        attackLeft = maxAttackCount;
+        moveLeft = maxMoveCount;
+    }
+
+    #endregion
+
+    #region Unity Monobehaviour LifeCycle Method
+    protected virtual void Awake() { animator = GetComponent<Animator>(); Init(); }
     protected virtual void Start()
     {
-        MatchManager.Instance.onTurnEnd.AddListener(OnTurnEnd);
+        ScanMovableNode();
     }
 
-    protected abstract void Init();
+    protected void OnDestroy()
+    {
+        for (int i = buffList.Count - 1; i >= 0; i--)
+        {
+            buffList[i].Remove();
+        }
+    }
+    #endregion
 
+    #region Methods
+
+    #region Actions
     public bool MoveTo(Vector3 direction)
     {
-        if (moveCoroutine != null) return false; // Make sure one can't move while moving
-
+        if (moveLeft <= 0 || inAction == true)
+        {
+            Debug.Log($"inAction: {inAction}, moveLeft: {moveLeft}");
+            return false;
+        }// Make sure one can't move while moving
         Vector2Int startPos = new Vector2Int((int)transform.position.x, (int)transform.position.y);
         Vector2Int targetPos = new Vector2Int((int)direction.x, (int)direction.y);
 
@@ -73,10 +108,12 @@ public abstract class Unit : MonoBehaviour
             return false;
         }
 
-        MapManager.Instance.stage.Occupy(startPos, targetPos, gameObject);
-        moveCoroutine = StartCoroutine(MoveOneGrid());
+        //Actual Move Starts
+        moveLeft--;
+        inAction = true;
+        MapManager.Instance.stage.Occupy(startPos, targetPos, this);
+        StartCoroutine(MoveOneGrid());
         TriggerMoveAnimation();
-        canMove = false;
         return true;
 
         // Local Method
@@ -89,81 +126,54 @@ public abstract class Unit : MonoBehaviour
                 { transform.position = Vector3.MoveTowards(transform.position, nextStop, moveSpeed); yield return null; }
                 transform.position = nextStop;
             }
-            moveCoroutine = null;
             ResetMoveAnimation();
+            inAction = false;
+            ScanMovableNode();
         }
     }
 
-    public virtual bool Attack(GameObject _opponent)
+    public virtual bool Attack(Unit _opponent)
     {
-        if(!canAttack) return false;
+        if (attackLeft <= 0) return false;
 
-        //공통 기능 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
         if (Vector2.Distance(transform.position, _opponent.transform.position) > attackRange)
         {
             Debug.Log("Out of Range");
             return false;
         }
-        Debug.Log($"{name} attacked {_opponent.name}");
+        attackLeft--;
+        inAction = true;
         TriggerAttackAnimation();
-        _opponent.GetComponent<Unit>().IsDamaged(attackDamage);
-        canAttack = false;
-        StartCoroutine(ResetAttackCooldown());
-        //공통 기능 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
         BattleAudioManager.instance.PlayWeaponSfx(weaponType);
-        Debug.Log("Attack!");
+        _opponent.IsDamaged(attackDamage);
+        inAction = false;
 
         return true;
     }
 
-    private IEnumerator ResetAttackCooldown()
+
+    public virtual bool Ability1() { return false; }
+    public virtual bool Ability1(Unit unit) { return false; }
+    public virtual bool Ability1(GameObject target) { return false; }
+    public virtual bool Ability2() { return false; }
+    public virtual bool Ability2(Unit unit) { return false; }
+    public virtual bool Ability2(GameObject target) { return false; }
+
+
+    #endregion
+
+    #region ReAction
+    public virtual void IsDamaged(float damage)
     {
-        AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
-        yield return new WaitForSeconds(stateInfo.length);
-
-        canAttack = true;
-    }
-
-    protected void TriggerAttackAnimation()
-    {
-        if (animator != null)
-        {
-            animator.SetTrigger("Attack");
-        }
-    }
-
-    protected void TriggerMoveAnimation()
-    {
-        if (animator != null)
-        {
-            animator.SetBool("Move", true);
-            BattleAudioManager.instance.PlayBSfx(BattleAudioManager.Sfx.movingOnGrass);
-        }
-    }
-
-    protected void ResetMoveAnimation()
-    {
-        if (animator != null)
-        {
-            animator.SetBool("Move", false);
-        }
-    }
-
-
-
-    public virtual void IsDamaged(float _damage)
-    {
-        currentHealth = currentHealth - _damage > 0 ? currentHealth - _damage : 0;
-        HP_BarUpdate();
+        currentHealth = (currentHealth - damage > 0) ? currentHealth - damage : 0;
         BattleAudioManager.instance.PlayBSfx(BattleAudioManager.Sfx.damage);
+        HP_BarUpdate();
         if (currentHealth <= 0) IsDead();
         // Invoke Event to Trigger Animation, Update UI.
     }
-
     public virtual void IsHealed(float _heal)
     {
-        currentHealth = currentHealth + _heal < maxHealth ?
-            currentHealth + _heal : maxHealth;
+        currentHealth = currentHealth + _heal < maxHealth ? currentHealth + _heal : maxHealth;
         HP_BarUpdate();
         // Invoke Event to Trigger Animation, Update UI.
     }
@@ -182,94 +192,71 @@ public abstract class Unit : MonoBehaviour
 
         MapManager.Instance.stage.NodeArray[(int)transform.position.x, (int)transform.position.y].isBlocked = false;
         BattleAudioManager.instance.PlayBSfx(BattleAudioManager.Sfx.deadSound);
-        
+
         Destroy(gameObject, 0.01f);
-
     }
 
-    public void StartTurn()
+    #endregion
+
+    #region Highlight
+    public void ShowMovableTiles()
     {
-        canAttack = true;
-        canMove = true;
-
-        if (skillActive1) AfterAbility1();
-        if (skillActive2) AfterAbility2();
-
-        if (currentCool1 > 0) currentCool1--;
-        if (currentCool2 > 0) currentCool2--;
-    }
-
-    public virtual void Ability1()
-    {
-
-    }
-
-    public virtual bool Ability1(GameObject opponent) //오버로딩
-    {
-        return false; // 임시
-    }
-
-    public virtual void Ability2()
-    {
-        
-    }
-
-    protected abstract void AfterAbility1();
-    protected abstract void AfterAbility2();
-
-    public void ChangeAttackDamage(float damage)
-    {
-        attackDamage += damage;
-    }
-
-    public bool CheckAbilityMove(Vector3 direction)
-    {
-        Archer archer = GetComponent<Archer>();
-        Captain captain = GetComponent<Captain>();
-
-        if (skillActive1)
+        foreach (Node node in movableNode)
         {
-            if (archer != null)
+            GameObject tileObject = GameObject.Find($"Tile({node.x}, {node.y})");
+            if (tileObject != null)
             {
-                archer.skillDirection = direction;
-                return true;
-            }
-            if (captain != null)
-            {
-                captain.skillDirection = direction;
-                return true;
+                Tile tile = tileObject.GetComponent<Tile>();
+                tile.ActivateHighlight();
             }
         }
-        return false;
     }
 
-    protected void OnTurnEnd()
+    public void HideMovableTiles()
     {
+        foreach (Node node in movableNode)
+        {
+            GameObject tileObject = GameObject.Find($"Tile({node.x}, {node.y})");
+            if (tileObject != null)
+            {
+                Tile tile = tileObject.GetComponent<Tile>();
+                tile.DeactivateHighlight();
+            }
+        }
+    }
+    #endregion
+
+    #region Others
+    public void OnTurnStart()
+    {
+        moveLeft = maxMoveCount;
+        attackLeft = maxAttackCount;
+        if (skill_1_currentCool > 0) skill_1_currentCool--;
+        if (skill_2_currentCool > 0) skill_2_currentCool--;
+
         for (int i = buffList.Count - 1; i >= 0; i--)
         {
             buffList[i].TurnEnd();
-        }//올바른 참조를 위한 역순참조
-        // Make Boolean for each Action true;
+        }
     }
 
     protected void ScanMovableNode()
     {
         movableNode.Clear();
-        Vector3Int currentPos = Vector3Int.RoundToInt(gameObject.transform.position);
-        int startX = (currentPos.x - moveRange) >= 0 ? (int)(currentPos.x - moveRange) : 0;
-        int endX = (currentPos.x + moveRange) <= MapManager.Instance.stage.restrictTop.x ?
-            (int)(currentPos.x + moveRange) : (int)MapManager.Instance.stage.restrictTop.x;
+        Vector3Int currentPos = Vector3Int.RoundToInt(transform.position);
+        int startX = (int)Mathf.Max(currentPos.x - moveRange, 0);
+        int endX = (int)Mathf.Min(currentPos.x + moveRange, MapManager.Instance.stage.restrictTop.x);
 
-        int startY = (currentPos.y - moveRange) >= 0 ? (int)(currentPos.y - moveRange) : 0;
-        int endY = (currentPos.y + moveRange) <= MapManager.Instance.stage.restrictTop.y ?
-            (int)(currentPos.y + moveRange) : (int)MapManager.Instance.stage.restrictTop.y;
+        int startY = (int)Mathf.Max(currentPos.y - moveRange, 0);
+        int endY = (int)Mathf.Min(currentPos.y + moveRange, MapManager.Instance.stage.restrictTop.y);
 
         for (int x = startX; x <= endX; x++)
         {
             for (int y = startY; y <= endY; y++)
             {
-                if( Mathf.Abs(x - currentPos.x) + Mathf.Abs(y - currentPos.y) > moveRange) { continue; }
-                if (MapManager.Instance.stage.Pathfinding(new Vector2Int(currentPos.x, currentPos.y), new Vector2Int(x, y)).Count != 0)
+                if (Mathf.Abs(x - currentPos.x) + Mathf.Abs(y - currentPos.y) > moveRange) { continue; }
+                int pathLength = MapManager.Instance.stage.Pathfinding(new Vector2Int(currentPos.x, currentPos.y), new Vector2Int(x, y)).Count;
+                if (pathLength > 0 && pathLength <= moveRange)
                 {
                     movableNode.Add(MapManager.Instance.stage.NodeArray[x, y]);
                 }
@@ -277,16 +264,34 @@ public abstract class Unit : MonoBehaviour
         }
     }
 
+    #endregion
 
-    protected void OnDestroy()
+    #endregion
+
+    #region Animations
+
+    protected void TriggerMoveAnimation()
     {
-        for (int i = buffList.Count - 1; i >= 0; i--)
+        if (animator != null)
         {
-            buffList[i].Remove();
-        }
-        if (MatchManager.Instance != null)
-        {
-            MatchManager.Instance.onTurnEnd.RemoveListener(OnTurnEnd);
+            animator.SetBool("Move", true);
+            BattleAudioManager.instance.PlayBSfx(BattleAudioManager.Sfx.movingOnGrass);
         }
     }
+
+    protected void ResetMoveAnimation()
+    {
+        if (animator != null)
+        {
+            animator.SetBool("Move", false);
+        }
+    }
+
+    protected void TriggerAttackAnimation()
+    {
+        if (animator != null) animator.SetTrigger("Attack");
+    }
+
+    #endregion
+
 }

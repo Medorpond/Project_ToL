@@ -1,45 +1,55 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class Basic : Unit
 {
-    protected override void Awake()
-    {
-        base.Awake();
-        Init();
-    }
     protected override void Init()
     {
         maxHealth = 6;
-        currentHealth = maxHealth;
         attackDamage = 3;
         attackRange = 3;
         moveRange = 3;
-        coolTime1 = 5;
-        coolTime2 = 7;
+        skill_1_Cooldown= 5;
+        skill_2_Cooldown= 7;
+        base.Init();
         weaponType = WeaponType.LightSword;
+
     }
 
-    public override void Ability1()
+    public override bool Ability1()
     {
-        base.Ability1();
-        moveRange += 2;
-    }
-    public override void Ability2()
-    {
-        base.Ability2();
-        attackRange += 1;
-    }
+        if (skill_1_currentCool > 0) return false;
+        Action<Unit> onApply = (Unit _unit) =>
+        {
+            _unit.moveRange += 2;
+        };
 
-    protected override void AfterAbility1()
-    {
-        moveRange -= 2;
-        skillActive1 = false;
+        Action<Unit> onRemove = (Unit _unit) =>
+        {
+            _unit.moveRange -= 2;
+        };
+
+        Buff moveFar = new Buff(1, onApply, null, onRemove, this);
+        moveFar.Apply();
+        return true;
     }
-    protected override void AfterAbility2()
+    public override bool Ability2()
     {
-        attackRange -= 1;
-        skillActive2 = false;
+        if (skill_1_currentCool > 0) return false;
+        Action<Unit> onApply = (Unit _unit) =>
+        {
+            _unit.attackRange += 1;
+        };
+
+        Action<Unit> onRemove = (Unit _unit) =>
+        {
+            _unit.attackRange -= 1;
+        };
+
+        Buff attackFar = new Buff(1, onApply, null, onRemove, this);
+        attackFar.Apply();
+        return true;
     }
 }

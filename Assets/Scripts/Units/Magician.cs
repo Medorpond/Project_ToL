@@ -1,43 +1,48 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using UnityEditor;
 using UnityEngine;
 
 public class Magician : Unit
 {
-    protected override void Awake()
-    {
-        base.Awake();
-        Init();
-    }
+
     protected override void Init()
     {
         maxHealth = 3;
-        currentHealth = maxHealth;
         attackDamage = 2;
         attackRange = 1;
         moveRange = 3;
-        coolTime1 = 7;
-        coolTime2 = 4;
+        skill_1_Cooldown = 7;
+        skill_2_Cooldown = 4;
+        base.Init();
+        weaponType = WeaponType.MagicAttack;
     }
 
-    public override void Ability1()
+    public override bool Ability1(Unit unit)
     {
-        base.Ability1();
-    }
 
-    public override void Ability2()
-    {
-        base.Ability2();
-        attackRange = float.MaxValue;
-    }
-    protected override void AfterAbility1()
-    {
-        
-    }
-    protected override void AfterAbility2()
-    {
-        attackRange = 1;
-        skillActive2 = false;
+        //myUnits.Remove(gameObject); << ??
+
+        Node[,] NodeArray = MapManager.Instance.stage.NodeArray;
+
+        int x = (int)unit.transform.position.x;
+        int y = (int)unit.transform.position.y;
+
+        return Transform(x, y);
+
+
+        // Local Method
+        bool Transform(int x, int y)
+        {
+            Vector3 targetPos = new();
+            if (!NodeArray[x, y - 1].isBlocked) targetPos = new Vector3(x, y - 1);
+            else if (!NodeArray[x, y + 1].isBlocked) targetPos = new Vector3(x, y + 1);
+            else if (!NodeArray[x - 1, y].isBlocked) targetPos = new Vector3(x - 1, y);
+            else if (!NodeArray[x + 1, y].isBlocked) targetPos = new Vector3(x + 1, y);
+            else return false;
+            transform.position = targetPos;
+            return true;
+        }
     }
 }

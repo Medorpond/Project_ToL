@@ -4,68 +4,48 @@ using UnityEngine;
 
 public class AxeGiant : Unit
 {
-    private List<GameObject> myUnits;
-
-    protected override void Awake()
-    {
-        base.Awake();
-        Init();
-    }
     protected override void Init()
     {
         maxHealth = 6;
-        currentHealth = maxHealth;
         attackDamage = 4;
         attackRange = 1;
         moveRange = 3;
-        coolTime1 = 6;
-        coolTime2 = 8;
-        weaponType = WeaponType.HeavyAttack;
+        skill_1_Cooldown= 6;
+        skill_2_Cooldown= 8;
 
-        GetUnitList();
+        base.Init();
+        weaponType = WeaponType.HeavyAttack;
     }
-    public override void Ability1()
+    public override bool Ability1()
     {
         base.Ability1();
         moveRange += 2;
+        return true;
     }
 
-    public override void Ability2()
+    public override bool Ability2()
     {
-        base.Ability2();
-        GetUnitList();
+        Collider[] colliders = Physics.OverlapSphere(transform.position, moveRange * 2);
+        if (colliders == null) return false;
 
-        Collider[] colliders = Physics.OverlapSphere(transform.position, moveRange);
+        List<Unit> units = new List<Unit>();
         foreach (Collider collider in colliders)
         {
             Unit unit = collider.GetComponent<Unit>();
             if (unit != null)
             {
-                if (!CheckTeam(unit)) unit.IsDamaged(2.5f);
+                units.Add(unit); // Unit 컴포넌트를 가진 객체만 리스트에 추가
             }
         }
-    }
-    protected override void AfterAbility1()
-    {
-        moveRange -= 2;
-        skillActive1 = false;
-    }
-    protected override void AfterAbility2()
-    {
-        skillActive2 = false;
-    }
 
-    private bool CheckTeam(Unit unit)
-    {
-        foreach (GameObject myUnit in myUnits)
+        foreach (Unit unit in units)
         {
-            if (myUnit == unit) return true;
+            if (unit != null)
+            {
+                unit.IsDamaged(2.5f);
+            }
         }
-        return false;
-    }
 
-    private void GetUnitList()
-    {
-        myUnits = GetComponentInParent<PlayerManager>().UnitList;
+        return true;
     }
 }

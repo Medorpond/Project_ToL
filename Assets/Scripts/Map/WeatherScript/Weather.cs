@@ -5,14 +5,13 @@ using UnityEngine;
 
 public abstract class Weather
 {
-    public void ApplyWeatherEffect(List<GameObject> unitList)
+    public void ApplyWeatherEffect(List<Unit> unitList)
     {
-        foreach (GameObject unit in unitList)
+        foreach (Unit unit in unitList)
         {
-            Unit unitScript = unit.GetComponent<Unit>();
-            if (unitScript != null)
+            if (unit != null)
             {
-                Buff buff = new Buff(99, OnApply, OnTurnEnd, OnRemove, unitScript);
+                Buff buff = new Buff(99, OnApply, OnTurnEnd, OnRemove, unit);
                 buff.Apply();
             }
         }

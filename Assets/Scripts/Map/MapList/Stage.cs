@@ -103,7 +103,7 @@ public abstract class Stage : MonoBehaviour
     }
 
 
-    public void Occupy(Vector2Int startPos, Vector2Int targetPos, GameObject _thisUnit)
+    public void Occupy(Vector2Int startPos, Vector2Int targetPos, Unit _thisUnit)
     {
         NodeArray[startPos.x, startPos.y].isBlocked = false;
         NodeArray[startPos.x, startPos.y].unitOn = null;

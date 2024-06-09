@@ -9,7 +9,7 @@ public class Node
     // D for distance(from Origin), H for Heuristic value, W for total Weigh(D + H)
     public bool isBlocked;
     public bool isDeployable;
-    public GameObject unitOn = null;
+    public Unit unitOn = null;
 
     public Node ParentNode;
     public int x, y, D, H;

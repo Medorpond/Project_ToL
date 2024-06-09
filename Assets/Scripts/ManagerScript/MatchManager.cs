@@ -22,7 +22,7 @@ public class MatchManager : MonoBehaviour
     [SerializeField]
     public PlayerManager player;
     [SerializeField]
-    public PlayerManager opponent;
+    public OpponentManager opponent;
 
     public Button MainMenuBtn;
     public GameObject DeployPanel;
@@ -67,6 +67,7 @@ public class MatchManager : MonoBehaviour
         if (instance == this) { instance = null; }
     }
     #endregion
+
     #region Singletone
     private static MatchManager instance = null;
     public static MatchManager Instance
@@ -109,10 +110,9 @@ public class MatchManager : MonoBehaviour
     {
         //int turn = Random.Range(0, 2); // Return 0 or 1, Player go First if 0.
         int turn = 0;
-        if (turn == 0) { player.isMyTurn = true; opponent.isMyTurn = false; }
-        else { player.isMyTurn = false; opponent.isMyTurn = true; }
+        if (turn == 0) { player.isMyTurn = true; opponent.isMyTurn = false; Debug.Log($"{player} Starts First."); }
+        else { player.isMyTurn = false; opponent.isMyTurn = true; Debug.Log($"{opponent} Starts First."); }
 
-        Debug.Log($"{turn} Starts First.");
         // Need to have unified value over players, so should be done via server afterward
     }
 
@@ -141,15 +141,15 @@ public class MatchManager : MonoBehaviour
 
         GameObject MyCaptain = Instantiate(prefab, MyCaptainPos, Quaternion.identity, player.transform);
         MapManager.Instance.stage.NodeArray[(int)MyCaptainPos.x, (int)MyCaptainPos.y].isBlocked = true;
-        MapManager.Instance.stage.NodeArray[(int)MyCaptainPos.x, (int)MyCaptainPos.y].unitOn = MyCaptain;
+        MapManager.Instance.stage.NodeArray[(int)MyCaptainPos.x, (int)MyCaptainPos.y].unitOn = MyCaptain.GetComponent<Unit>();
         MyCaptain.GetComponent<BoxCollider2D>().enabled = true;
-        player.RegisterUnit(MyCaptain);
+        player.RegisterUnit(MyCaptain.GetComponent<Unit>());
 
         GameObject OpponentCaptain = Instantiate(prefab, OpponentCaptainPos, Quaternion.identity, opponent.transform);
         MapManager.Instance.stage.NodeArray[(int)OpponentCaptainPos.x, (int)OpponentCaptainPos.y].isBlocked = true;
-        MapManager.Instance.stage.NodeArray[(int)OpponentCaptainPos.x, (int)OpponentCaptainPos.y].unitOn = OpponentCaptain;
+        MapManager.Instance.stage.NodeArray[(int)OpponentCaptainPos.x, (int)OpponentCaptainPos.y].unitOn = OpponentCaptain.GetComponent<Unit>();
         OpponentCaptain.GetComponent<BoxCollider2D>().enabled = true;
-        opponent.RegisterUnit(OpponentCaptain);
+        opponent.RegisterUnit(OpponentCaptain.GetComponent<Unit>());
     }
     #endregion
 
@@ -175,10 +175,11 @@ public class MatchManager : MonoBehaviour
         currentTurnCount++;
         if (currentTurnCount > maxTurnCount)
         {
-            GameOver();
+            GameOver(null);
             return;
         }
 
+        player.EndingTurn();
         player.isMyTurn = !player.isMyTurn;
         opponent.isMyTurn = !opponent.isMyTurn;
 
@@ -193,7 +194,6 @@ public class MatchManager : MonoBehaviour
         // Send player CmdList via Network HERE.
 
         player.CmdList.Clear();
-        opponent.CmdList.Clear();
 
         onTurnEnd.Invoke();
         TimeManager.Instance.StartTimer(battlePhaseTime);
@@ -201,7 +201,7 @@ public class MatchManager : MonoBehaviour
     #endregion
 
     #region EndPhase
-    public void GameOver()
+    public void GameOver(GameObject loser = null)
     {
         BattleAudioManager.instance.PlayAmbience(false);
         UIAudioManager.instance.PlayBgm(false);
@@ -211,13 +211,26 @@ public class MatchManager : MonoBehaviour
         TimeManager.Instance.onTimerEnd?.RemoveListener(ChangeTurn);
         TimeManager.Instance?.ResetTimer();
         TimeManager.Instance?.EndMatchTime();
-        Debug.Log("Game Over!");
-        //trigger Result UI
-        
+        //trigger Result UI with LoserData. if null, it's a draw
+        if (loser.CompareTag("Opponent"))
+        {
+            //ResultPanel.SetText("Win");
+            BattleAudioManager.instance.PlayBSfx(BattleAudioManager.Sfx.victory1);
+            BattleAudioManager.instance.PlayBSfx(BattleAudioManager.Sfx.victory2);
+        }
+        else if (loser.CompareTag("Player"))
+        {
+            //ResultPanel.SetText("Lose");
+            BattleAudioManager.instance.PlayBSfx(BattleAudioManager.Sfx.lose);
+            //BattleAudioManager.instance.PlayBSfx(BattleAudioManager.Sfx.lose2);
+        }
+        else
+        {
+            //Draw
+        }
         ResultPanel.SetActive(true);
 
-        // BattleAudioManager.instance.PlayBSfx(BattleAudioManager.Sfx.victory1);
-        // BattleAudioManager.instance.PlayBSfx(BattleAudioManager.Sfx.victory2);
+        
     }
     #endregion
 
@@ -226,7 +239,6 @@ public class MatchManager : MonoBehaviour
     public void DeployArcher()
     {
         DeployUnit("Prefabs/Character/Unit_TEST/Archer");
-        
     }
 
     public void DeployKnight()
@@ -235,13 +247,29 @@ public class MatchManager : MonoBehaviour
     }
 
     public void DeployAssassin(){
-        DeployUnit("Prefabs/Character/Unit_TEST/SampleUnit_TEST");
+        DeployUnit("Prefabs/Character/Unit_TEST/Priest");
     }
     
     public void DeployPriest()
     {
         DeployUnit("Prefabs/Character/Unit_TEST/Priest");
     }
+
+    public void DeployMagician()
+    {
+        DeployUnit("Prefabs/Character/Unit_TEST/Magician");
+    }
+
+    public void DeployAxeGiant()
+    {
+        DeployUnit("Prefabs/Character/Unit_TEST/AxeGiant");
+    }
+
+    public void DeployShield()
+    {
+        DeployUnit("Prefabs/Character/Unit_TEST/Shield");
+    }
+
 
     public void DeployUnit(string path)
     {
@@ -278,9 +306,9 @@ public class MatchManager : MonoBehaviour
                 {
                     unit.transform.position = new Vector3(posX, posY);
                     MapManager.Instance.stage.NodeArray[posX, posY].isBlocked = true;
-                    MapManager.Instance.stage.NodeArray[posX, posY].unitOn = unit;
+                    MapManager.Instance.stage.NodeArray[posX, posY].unitOn = unit.GetComponent<Unit>();
                     unit.GetComponent<BoxCollider2D>().enabled = true;
-                    player.RegisterUnit(unit);
+                    player.RegisterUnit(unit.GetComponent<Unit>());
                     if (currentPhase == Phase.UnitSelect)
                     {
                         DeployPanel.SetActive(true);
