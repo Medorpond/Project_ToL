@@ -25,6 +25,10 @@ public class GameSceneProfile : MonoBehaviour
             Playername.text = apiManager.__username;
             Result_Playername.text = apiManager.__username;
         }
-         
+    }
+
+    public void Surrender()
+    {
+        LoadingSceneController.LoadScene("MainScene");
     }
 }
