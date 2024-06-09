@@ -414,7 +414,7 @@ public class ApiGatewayManager : MonoBehaviour
         {
             var requestData = new Dictionary<string, string>
             {
-                { "ticketId", _ticketId}
+                { "ticketId", "a461374f-c2e3-4020-a7d9-8c3082264601"}
             };
             var json = JsonConvert.SerializeObject(requestData);
 
@@ -422,7 +422,7 @@ public class ApiGatewayManager : MonoBehaviour
 
             using (var client = new HttpClient())
             {
-                client.DefaultRequestHeaders.Add("Authorization", _jwtToken); //Modified by Medorpond
+                client.DefaultRequestHeaders.Add("Authorization", "eyJraWQiOiJIM28yYUp4dkNNdzhpd0VxSTZwTVc2SjJmXC9nM21VSDJKYmpNT1wvWTVzUHc9IiwiYWxnIjoiUlMyNTYifQ.eyJzdWIiOiJmNGY4NGRlYy0wMDcxLTcwYjMtZDJjMS1mMjVjY2Q4MGU1N2QiLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiaXNzIjoiaHR0cHM6XC9cL2NvZ25pdG8taWRwLmFwLW5vcnRoZWFzdC0yLmFtYXpvbmF3cy5jb21cL2FwLW5vcnRoZWFzdC0yX1RxOXdZREhNdiIsImNvZ25pdG86dXNlcm5hbWUiOiJsankwMTIzIiwib3JpZ2luX2p0aSI6ImY5NWZkODYwLThlZTQtNDY1Ny1iZGRiLTY0Y2NlZThmZTk4MiIsImF1ZCI6IjQyaHE1bmYwaHZyZmpuaTF1Zmx0YjFiYW1kIiwiZXZlbnRfaWQiOiI5ZGEzYWRiMC1jYzU2LTRhODQtYTVkMy03NmQ1ZDlhZmVkZTAiLCJ0b2tlbl91c2UiOiJpZCIsImF1dGhfdGltZSI6MTcxNzkzNjE2NSwiZXhwIjoxNzE3OTM5NzY1LCJpYXQiOjE3MTc5MzYxNjUsImp0aSI6IjE2MDAzZjdiLWI5ZjktNDA1Mi05ZjNjLWQ3N2VmNDU4NTNiYiIsImVtYWlsIjoiY3FiMDcwOUBnbWFpbC5jb20ifQ.0u1zcFhCs63qqUOqfI0l96I-q_HUZ5vgoFzn1ukzHpjOeEz5HsrSqO2cHdazQOXMwXahHiX0jteiu0qBJxWWnEjrZS2UXILA-fitXBGSc-iHKMohZdEWh6TDwGQqgvxb2TnMzieHh2EprBEJW60c-LiHRFlB-VMDbCcknN5shFopktv0MYY-ZuUTmx8pDB5MK3Aqz4FKbl3al1B6Vl-AU_Gn4imvJRZ6oJLq99WucvztT6bzMxSUaaVFkAP4tgKp9CxsGXy8eh7bzS0L_0IoeskBJUg9aE0hErBqSZZMD1Bziy_eKw2SzM4G2sis-zdCsoMS7_2SHQPZ6IT4CbditA"); //Modified by Medorpond
                 var response = await client.PostAsync(_apiGatewayUrl + "PollMatchmaking", content);
 
                 if (response.IsSuccessStatusCode)
