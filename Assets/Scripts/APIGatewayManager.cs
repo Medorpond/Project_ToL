@@ -58,6 +58,10 @@ public class ApiGatewayManager : MonoBehaviour
 
     public TMP_InputField LoginusernameInputField;
     public TMP_InputField LoginpasswordInputField;
+    public TMP_InputField FindPass_UsernameInputField;
+
+    public TMP_InputField NewPassInputField;
+    public TMP_InputField NewPassReEnterInputField;
 
     private bool Loginsuccess = false;
     private bool ProgressIn = false;
@@ -308,6 +312,10 @@ public class ApiGatewayManager : MonoBehaviour
     {
         try
         {
+            // yong
+            _username = FindPass_UsernameInputField.text;
+            // yong
+
             // Prepare the confirmation request payload
             var requestData = new Dictionary<string, string>
             {
@@ -343,6 +351,9 @@ public class ApiGatewayManager : MonoBehaviour
     {
         try
         {
+            //yong
+            _password = NewPassInputField.text;
+            //yong
             var requestData = new Dictionary<string, string>
             {
                 { "confirmationCode", confirmationCode },
