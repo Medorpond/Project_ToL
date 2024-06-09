@@ -9,6 +9,7 @@ public abstract class Stage : MonoBehaviour
     protected int stageSize; // Num Of Units can placed
     public Vector3 PlayerLeaderPosition;
     public Vector3 OpponentLeaderPosition;
+    protected int spawnRange;
 
 
     public Node[,] NodeArray; //PreDefine NodeArray for each Stage...
@@ -109,5 +110,12 @@ public abstract class Stage : MonoBehaviour
         NodeArray[startPos.x, startPos.y].unitOn = null;
         NodeArray[targetPos.x, targetPos.y].isBlocked = true;
         NodeArray[targetPos.x, targetPos.y].unitOn = _thisUnit;
+    }
+
+    protected bool IsSpawnPosition(int x, int y)
+    {
+        if (x > PlayerLeaderPosition.x - spawnRange && x < PlayerLeaderPosition.x + spawnRange &&
+            y > PlayerLeaderPosition.y - spawnRange && y < PlayerLeaderPosition.y + spawnRange) return true;
+        else return false;
     }
 }

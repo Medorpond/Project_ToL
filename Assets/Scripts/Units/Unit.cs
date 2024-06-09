@@ -22,7 +22,7 @@ public abstract class Unit : MonoBehaviour
     public float attackDamage;
     public float attackRange;
     public float moveRange;
-
+    
     public bool isPlayer; // Indicates whether the unit belongs to the player
     #endregion
 
@@ -35,6 +35,7 @@ public abstract class Unit : MonoBehaviour
     protected int skill_2_Cooldown;
     protected int skill_1_currentCool = 0;
     protected int skill_2_currentCool = 0;
+    public float defenseRate = 1;
 
     protected bool inAction = false;
 
@@ -158,6 +159,12 @@ public abstract class Unit : MonoBehaviour
     public virtual bool Ability2() { return false; }
     public virtual bool Ability2(Unit unit) { return false; }
     public virtual bool Ability2(GameObject target) { return false; }
+    public bool UseDefense()
+    {
+        Defense defenseBuff = new Defense(1, this);
+        defenseBuff.Apply();
+        return false;
+    }
 
 
     #endregion
@@ -165,6 +172,7 @@ public abstract class Unit : MonoBehaviour
     #region ReAction
     public virtual void IsDamaged(float damage)
     {
+        damage = damage * defenseRate;
         currentHealth = (currentHealth - damage > 0) ? currentHealth - damage : 0;
         BattleAudioManager.instance.PlayBSfx(BattleAudioManager.Sfx.damage);
         HP_BarUpdate();
@@ -227,10 +235,11 @@ public abstract class Unit : MonoBehaviour
     #endregion
 
     #region Others
-    public void OnTurnStart()
+    public void OnTurnEnd()
     {
         moveLeft = maxMoveCount;
         attackLeft = maxAttackCount;
+
         if (skill_1_currentCool > 0) skill_1_currentCool--;
         if (skill_2_currentCool > 0) skill_2_currentCool--;
 

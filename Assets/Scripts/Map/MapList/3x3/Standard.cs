@@ -13,6 +13,7 @@ public class Standard : Stage
         NodeArray = new Node[27, 11]; // Dedicated NodeArray
         PlayerLeaderPosition = new Vector3(2, 5);
         OpponentLeaderPosition = new Vector3(24, 5);
+        spawnRange = 7;
         NodeInit();
     }
     protected override void Start()
@@ -29,6 +30,7 @@ public class Standard : Stage
             { 
                 if (x == 0 || x == 26) isBlocked = true; else isBlocked = false;
                 if ((x >= 0 && x <= 6) || (x <= 26 && x >= 21)) isDeployable = true; else isDeployable = false;
+                if (IsSpawnPosition(x, y)) isDeployable = true;
                 NodeArray[x, y] = new Node(isDeployable, isBlocked, x, y);
             }
         }

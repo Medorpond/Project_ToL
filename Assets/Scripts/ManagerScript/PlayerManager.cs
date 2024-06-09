@@ -107,7 +107,7 @@ public class PlayerManager : MonoBehaviour
         {
             foreach (Unit unit in UnitList)
             {
-                unit.OnTurnStart();
+                unit.OnTurnEnd();
 
                 // should add line code
             }
