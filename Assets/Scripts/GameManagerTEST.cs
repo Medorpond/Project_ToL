@@ -28,14 +28,19 @@ public class GameManagerTEST : MonoBehaviour
     private bool _gameOver = false;
 
     
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Debug.Log("GO");
-            OnFindMatchPressed();
-        }
-    }
+    //private void Update()
+    //{
+    //    if (Input.GetKeyDown(KeyCode.Space))
+    //    {
+    //        Debug.Log("GO");
+    //        OnFindMatchPressed();
+    //    }
+    //    if (Input.GetKeyDown(KeyCode.LeftArrow))
+    //    {
+    //        Debug.Log("Disconnect");
+    //        _realTimeClient.Disconnect();
+    //    }
+    //}
     
 
     private List<GamePlayed> cardsPlayed = new List<GamePlayed>();
@@ -70,13 +75,13 @@ public class GameManagerTEST : MonoBehaviour
             var playerSessionId = (string)playerData["PlayerSessionId"]["S"];
 
             // Debug logs for verification
-            Debug.Log("Matchmaking Info:");
-            Debug.Log("TTL: " + ttl);
-            Debug.Log("IP Address: " + ipAddress);
-            Debug.Log("Port: " + port);
-            Debug.Log("Ticket ID: " + ticketId);
-            Debug.Log("PlayerId: " + playerId);
-            Debug.Log("PlayerSessionId: " + playerSessionId);
+            //Debug.Log("Matchmaking Info:");
+            //Debug.Log("TTL: " + ttl);
+            //Debug.Log("IP Address: " + ipAddress);
+            //Debug.Log("Port: " + port);
+            //Debug.Log("Ticket ID: " + ticketId);
+            //Debug.Log("PlayerId: " + playerId);
+            //Debug.Log("PlayerSessionId: " + playerSessionId);
 
             _playerId = playerId;
 
@@ -196,33 +201,33 @@ public class GameManagerTEST : MonoBehaviour
     }
 
     // Update is called once per frame
-    //void Update()
-    //{
-    //    if (_realTimeClient != null && _realTimeClient.GameStarted)
-    //    {
-    //        //_playCardButton.gameObject.SetActive(true);
-    //        _realTimeClient.GameStarted = false;
-    //    }
-    //    if (_updateRemotePlayerId)
-    //    {
-    //        _updateRemotePlayerId = false;
-    //        //remoteClientPlayerName.text = _remotePlayerId;
-    //    }
-    //    if (_processGamePlay)
-    //    {
-    //        _processGamePlay = false;
+    void Update()
+    {
+        if (_realTimeClient != null && _realTimeClient.GameStarted)
+        {
+            //_playCardButton.gameObject.SetActive(true);
+            _realTimeClient.GameStarted = false;
+        }
+        if (_updateRemotePlayerId)
+        {
+            _updateRemotePlayerId = false;
+            //remoteClientPlayerName.text = _remotePlayerId;
+        }
+        if (_processGamePlay)
+        {
+            _processGamePlay = false;
 
-    //        ProcessGamePlay();
-    //    }
+            ProcessGamePlay();
+        }
 
-    //    // determine match results once game is over
-    //    if (this._gameOver == true)
-    //    {
-    //        this._gameOver = false;
-    //        DisplayMatchResults();
-    //    }
+        // determine match results once game is over
+        if (this._gameOver == true)
+        {
+            this._gameOver = false;
+            DisplayMatchResults();
+        }
 
-    //}
+    }
 
     private void ProcessGamePlay()
     {
