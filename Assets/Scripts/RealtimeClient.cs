@@ -14,14 +14,9 @@ using static RealtimeClient;
 
 
 
-public class RealtimeClient //: MonoBehaviour
+public class RealtimeClient
 {
 
-    public const int OP_CODE_PLAYER_ACCEPTED = 113;
-    public const int GAME_READY_OP = 200;
-    public const int GAME_START_OP = 201;
-    public const int GAMEOVER_OP = 209;
-    public const int PLAYER_ACTION = 300;
 
     public Aws.GameLift.Realtime.Client Client { get; private set; }
 
@@ -64,7 +59,7 @@ public class RealtimeClient //: MonoBehaviour
         // handle message based on OpCode
         switch (e.OpCode)
         {
-            case OP_CODE_PLAYER_ACCEPTED:
+            case GameManagerTEST.OP_CODE_PLAYER_ACCEPTED:
                 // This tells our client that the player has been accepted into the Game Session as a new player session.
                 Debug.Log("Player accepted into game session!");
 
@@ -75,7 +70,7 @@ public class RealtimeClient //: MonoBehaviour
 
                 break;
 
-            case GAME_START_OP:
+            case GameManagerTEST.GAME_START_OP:
                 // The game start op tells our game clients that all players have joined and the game should start
                 Debug.Log("Start game op received...");
 
@@ -91,7 +86,7 @@ public class RealtimeClient //: MonoBehaviour
 
                 break;
 
-            case PLAYER_ACTION:
+            case GameManagerTEST.PLAYER_ACTION:
                 // A player has drawn a card.  To be received as an acknowledgement that a card was played,
                 // regardless of who played it, and update the UI accordingly.
                 Debug.Log("Player draw card ack...");
@@ -107,7 +102,7 @@ public class RealtimeClient //: MonoBehaviour
                     
                 break;
 
-            case GAMEOVER_OP:
+            case GameManagerTEST.GAMEOVER_OP:
                 // gives us the match results
                 Debug.Log("Game over op...");
 
@@ -216,20 +211,26 @@ public class RealtimeClient //: MonoBehaviour
 
 public class GamePlayedEventArgs : EventArgs
 {
+    public string PlayerId { get; set; }
+    public string Unit { get; set; }
     public string CMD { get; set; }
     public int ObjLocX { get; set; }
     public int ObjLocY { get; set; }
     public int TargetLocX { get; set; }
     public int TargetLocY { get; set; }
+    
 
 
     public GamePlayedEventArgs(GamePlayed GamePlayed)
     {
+        this.PlayerId = GamePlayed.PlayerId;
+        this.Unit = GamePlayed.Unit;
         this.CMD = GamePlayed.CMD;
         this.ObjLocX = GamePlayed.ObjLocX;
         this.ObjLocY = GamePlayed.ObjLocY;
         this.TargetLocX = GamePlayed.TargetLocX;
         this.TargetLocY = GamePlayed.TargetLocY;
+        
     }
 }
 
@@ -247,6 +248,8 @@ public class RemotePlayerIdEventArgs : EventArgs
 [System.Serializable]
 public class GamePlayed
 {
+    public string PlayerId;
+    public string Unit;
     public string CMD;
     public int ObjLocX;
     public int ObjLocY;
@@ -254,8 +257,10 @@ public class GamePlayed
     public int TargetLocY;
 
     public GamePlayed() { }
-    public GamePlayed(string CMDIn, int ObjLocXIn, int ObjLocYIn, int TargetLocXIn, int TargetLocYIn)
+    public GamePlayed(string PlayerIdin,string UnitIn, string CMDIn, int ObjLocXIn, int ObjLocYIn, int TargetLocXIn, int TargetLocYIn)
     {
+        this.PlayerId = PlayerIdin;
+        this.Unit = UnitIn;
         this.CMD = CMDIn;
         this.ObjLocX = ObjLocXIn;
         this.ObjLocY = ObjLocYIn;

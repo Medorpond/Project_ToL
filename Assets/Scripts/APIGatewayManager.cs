@@ -66,6 +66,7 @@ public class ApiGatewayManager : MonoBehaviour
     private string _password;
     private string _email;
     private string _jwtToken;
+    private string _ticketId;
 
     //Userdata, Username�� ���� �׸��� (_username)
 
@@ -73,6 +74,8 @@ public class ApiGatewayManager : MonoBehaviour
     private string __SUB;
     private string __WIN;
     private string __LOSE;
+
+    public string polldata;
 
     // yong
     public UserData userData;
@@ -407,24 +410,31 @@ public class ApiGatewayManager : MonoBehaviour
         }
     }
 
-    public async void MatchRequest()
+    public async Task<string> PollMatch(string _ticketId)
     {
         try
         {
-            
+            var requestData = new Dictionary<string, string>
+            {
+                { "ticketId", _ticketId}
+            };
+            var json = JsonConvert.SerializeObject(requestData);
+
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
             using (var client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Add("Authorization", _jwtToken); //Modified by Medorpond
-                var response = await client.GetAsync(_apiGatewayUrl + "MatchRequest");
+                var response = await client.PostAsync(_apiGatewayUrl + "pollmatch", content);
 
                 if (response.IsSuccessStatusCode)
                 {
                     string jsonResponse = await response.Content.ReadAsStringAsync();
                     //var userInfo = JsonConvert.DeserializeObject<Dictionary<string, string>>(jsonResponse);
-
+                    polldata = jsonResponse;
 
                     Debug.Log("Matchmaking Success");
-
+                    return jsonResponse;
                 }
                 else
                 {
@@ -436,6 +446,7 @@ public class ApiGatewayManager : MonoBehaviour
         {
             Debug.LogError("Matchmaking error: " + e.Message);
         }
+        return null;
     }
 
     public async void DeleteAccount()
@@ -489,4 +500,9 @@ public class ApiGatewayManager : MonoBehaviour
         return Registersuccess;
     }
     //yong
+
+    public string GetPollData() 
+    {
+        return polldata;
+    }
 }
