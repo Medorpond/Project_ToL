@@ -22,6 +22,8 @@ public class ApiGatewayManager : MonoBehaviour
             if (instance == null)
             {
                 instance = new GameObject("ApiGatewayManager").AddComponent<ApiGatewayManager>();
+                //YONG
+                DontDestroyOnLoad(instance.gameObject);
             }
             return instance;
         }
@@ -32,6 +34,7 @@ public class ApiGatewayManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
+            DontDestroyOnLoad(this.gameObject);
         }
         else { Destroy(this.gameObject); }
     }
@@ -69,14 +72,11 @@ public class ApiGatewayManager : MonoBehaviour
 
     //Userdata, Username�� ���� �׸��� (_username)
 
-    private string __username;
-    private string __SUB;
-    private string __WIN;
-    private string __LOSE;
+    public string __username {get; private set;}
+    public string __SUB {get; private set;}
+    public string __WIN {get; private set;}
+    public string __LOSE {get; private set;}
 
-    // yong
-    public UserData userData;
-    // yong
 
 
     // for debug
