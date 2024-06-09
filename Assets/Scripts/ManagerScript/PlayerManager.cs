@@ -37,6 +37,20 @@ public class PlayerManager : MonoBehaviour
         {
             currentUnit.transform.Find("ArrowPointDown").gameObject.SetActive(false);
         }
+
+        //yong
+        // click m : move, click a : Attack
+        // color change yet
+        if (isMyTurn && currentUnit != null && Input.GetKeyDown(KeyCode.M))
+        {
+            Move();
+        }
+
+        if (isMyTurn && currentUnit != null && Input.GetKeyDown(KeyCode.A))
+        {
+            Attack();
+        }
+        //yong
     }
 
     public void RegisterUnit(Unit _unit)
