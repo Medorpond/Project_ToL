@@ -185,22 +185,22 @@ public class RealtimeClient
         }
     }
 
-    [System.Serializable]
-    public class MatchResults
-    {
-        public string playerOneId;
-        public string playerTwoId;
+    //[System.Serializable]
+    //public class MatchResults
+    //{
+    //    public string playerOneId;
+    //    public string playerTwoId;
 
-        public string winnerId;
+    //    public string winnerId;
 
-        public MatchResults() { }
-        public MatchResults(string playerOneIdIn, string playerTwoIdIn, string winnerIdIn)
-        {
-            this.playerOneId = playerOneIdIn;
-            this.playerTwoId = playerTwoIdIn;
-            this.winnerId = winnerIdIn;
-        }
-    }
+    //    public MatchResults() { }
+    //    public MatchResults(string playerOneIdIn, string playerTwoIdIn, string winnerIdIn)
+    //    {
+    //        this.playerOneId = playerOneIdIn;
+    //        this.playerTwoId = playerTwoIdIn;
+    //        this.winnerId = winnerIdIn;
+    //    }
+    //}
 }
 
 public class GamePlayedEventArgs : EventArgs

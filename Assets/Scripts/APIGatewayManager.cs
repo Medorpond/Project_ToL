@@ -70,7 +70,6 @@ public class ApiGatewayManager : MonoBehaviour
     private string _email;
     private string _jwtToken;
     private string _ticketId;
-    private string polldata;
 
     //Userdata, Username�� ���� �׸��� (_username)
 
@@ -424,15 +423,13 @@ public class ApiGatewayManager : MonoBehaviour
             using (var client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Add("Authorization", _jwtToken); //Modified by Medorpond
-                var response = await client.PostAsync(_apiGatewayUrl + "pollmatch", content);
+                var response = await client.PostAsync(_apiGatewayUrl + "PollMatchmaking", content);
 
                 if (response.IsSuccessStatusCode)
                 {
                     string jsonResponse = await response.Content.ReadAsStringAsync();
                     //var userInfo = JsonConvert.DeserializeObject<Dictionary<string, string>>(jsonResponse);
-                    polldata = jsonResponse;
-
-                    Debug.Log("Matchmaking Success");
+                    
                     return jsonResponse;
                 }
                 else
@@ -500,8 +497,5 @@ public class ApiGatewayManager : MonoBehaviour
     }
     //yong
 
-    public string GetPollData() 
-    {
-        return polldata;
-    }
+    
 }
