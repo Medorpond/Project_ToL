@@ -2395,6 +2395,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Playername: {fileID: 1847967207}
+  Result_Playername: {fileID: 2026705420}
 --- !u!1 &315983497
 GameObject:
   m_ObjectHideFlags: 0
@@ -3201,6 +3202,7 @@ MonoBehaviour:
   MainMenuBtn: {fileID: 315983499}
   DeployPanel: {fileID: 383419111}
   ResultPanel: {fileID: 2127389625}
+  winnerText: {fileID: 721376711}
   unitSelectPhaseTime: 10
   battlePhaseTime: 60
   maxTurnCount: 100

@@ -8,6 +8,8 @@ public class GameSceneProfile : MonoBehaviour
     
     [SerializeField]
     private TextMeshProUGUI Playername;
+    [SerializeField]
+    private TextMeshProUGUI Result_Playername;
 
     void Start()
     {
@@ -21,6 +23,7 @@ public class GameSceneProfile : MonoBehaviour
         if (apiManager != null)
         {
             Playername.text = apiManager.__username;
+            Result_Playername.text = apiManager.__username;
         }
          
     }
