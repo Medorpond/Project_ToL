@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -27,6 +28,11 @@ public class MatchManager : MonoBehaviour
     public Button MainMenuBtn;
     public GameObject DeployPanel;
     public GameObject ResultPanel;
+
+    //yong
+    [SerializeField]
+    private TextMeshProUGUI winnerText;
+    //yong
     #endregion
 
     #region Parameter
@@ -214,13 +220,13 @@ public class MatchManager : MonoBehaviour
         //trigger Result UI with LoserData. if null, it's a draw
         if (loser.CompareTag("Opponent"))
         {
-            //ResultPanel.SetText("Win");
+            winnerText.text = "You Win!!!";
             BattleAudioManager.instance.PlayBSfx(BattleAudioManager.Sfx.victory1);
             BattleAudioManager.instance.PlayBSfx(BattleAudioManager.Sfx.victory2);
         }
         else if (loser.CompareTag("Player"))
         {
-            //ResultPanel.SetText("Lose");
+            winnerText.text = "You Lose...";
             BattleAudioManager.instance.PlayBSfx(BattleAudioManager.Sfx.lose);
             //BattleAudioManager.instance.PlayBSfx(BattleAudioManager.Sfx.lose2);
         }

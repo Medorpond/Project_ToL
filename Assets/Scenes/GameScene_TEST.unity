@@ -2264,6 +2264,7 @@ GameObject:
   - component: {fileID: 283081559}
   - component: {fileID: 283081563}
   - component: {fileID: 283081565}
+  - component: {fileID: 283081566}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -2381,6 +2382,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9e6b1d42654b794eb7eef57c610e388, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &283081566
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 283081554}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4dcb1acd1ca81c344b3586a61252defe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Playername: {fileID: 1847967207}
+  Result_Playername: {fileID: 2026705420}
 --- !u!1 &315983497
 GameObject:
   m_ObjectHideFlags: 0
@@ -3187,6 +3202,7 @@ MonoBehaviour:
   MainMenuBtn: {fileID: 315983499}
   DeployPanel: {fileID: 383419111}
   ResultPanel: {fileID: 2127389625}
+  winnerText: {fileID: 721376711}
   unitSelectPhaseTime: 10
   battlePhaseTime: 60
   maxTurnCount: 100
@@ -7522,6 +7538,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36a785fab1cf6344980051ce2c41e05e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isEnemy: 0
   EnemyList: []
   isMyTurn: 0
 --- !u!1 &1091040243
@@ -11277,6 +11294,7 @@ MonoBehaviour:
   UnitList: []
   CmdList: []
   isPlayer: 1
+  moveButton: {fileID: 0}
 --- !u!1 &1626703356
 GameObject:
   m_ObjectHideFlags: 0

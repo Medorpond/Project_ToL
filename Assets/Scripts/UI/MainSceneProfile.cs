@@ -5,26 +5,39 @@ using UnityEngine;
 
 public class MainSceneProfile : MonoBehaviour
 {
-    public UserData userData;
     [SerializeField]
-    private TMP_Text usernameText;
+    private TextMeshProUGUI MainusernameText;
+     [SerializeField]
+    private TextMeshProUGUI MainwinText;
+     [SerializeField]
+    private TextMeshProUGUI MainloseText;
     [SerializeField]
-    private TMP_Text winText;
+    private TextMeshProUGUI usernameText;
     [SerializeField]
-    private TMP_Text loseText;
+    private TextMeshProUGUI winText;
     [SerializeField]
-    private TMP_Text subText;
+    private TextMeshProUGUI loseText;
+    [SerializeField]
+    private TextMeshProUGUI subText;
 
-    void Start()
+    void Update()
     {
-        UpdateUI();
+        UpdateUserInfo();
     }
 
-    void UpdateUI()
+    private void UpdateUserInfo()
     {
-        usernameText.text = userData.username;
-        winText.text = userData.WIN;
-        loseText.text = userData.LOSE;
-        subText.text = userData.SUB + "%";
+        ApiGatewayManager apiManager = ApiGatewayManager.Instance;
+
+        if (apiManager != null)
+        {
+            MainusernameText.text = apiManager.__username;
+            MainwinText.text = apiManager.__WIN;
+            MainloseText.text = apiManager.__LOSE;
+            usernameText.text = apiManager.__username;
+            subText.text = apiManager.__SUB;
+            winText.text = apiManager.__WIN;
+            loseText.text = apiManager.__LOSE;
+        }
     }
 }
