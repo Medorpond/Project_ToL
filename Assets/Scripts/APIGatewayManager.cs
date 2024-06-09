@@ -10,14 +10,6 @@ using TMPro;
 using UnityEngine.Events;
 using System.Runtime.CompilerServices;
 
-using Amazon;
-using Amazon.GameLift;
-using Amazon.GameLift.Model;
-
-using Aws.GameLift.Realtime;
-
-
-
 
 public class ApiGatewayManager : MonoBehaviour
 {
@@ -83,7 +75,7 @@ public class ApiGatewayManager : MonoBehaviour
     private string __LOSE;
 
     // yong
-        public UserData userData;
+    public UserData userData;
     // yong
 
 
