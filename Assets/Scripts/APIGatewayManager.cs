@@ -70,6 +70,7 @@ public class ApiGatewayManager : MonoBehaviour
     private string _email;
     private string _jwtToken;
     private string _ticketId;
+    private string polldata;
 
     //Userdata, Username�� ���� �׸��� (_username)
 

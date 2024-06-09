@@ -1,13 +1,9 @@
 using Aws.GameLift.Realtime.Types;
-using System.Collections;
 using System.Collections.Generic;
 using System.Net.Sockets;
 using System.Net;
 using UnityEngine;
-using static RealtimeClient;
 using Newtonsoft.Json;
-using System;
-using System.Threading.Tasks;
 
 public class GameManagerTEST : MonoBehaviour
 {
@@ -72,7 +68,7 @@ public class GameManagerTEST : MonoBehaviour
             Debug.Log("PlayerSessionId: " + playerSessionId);
 
             // Once connected, the Realtime service moves the Player session from Reserved to Active, which means we're ready to connect.
-            EstablishConnectionToRealtimeServer(ipAddress, port, );
+            EstablishConnectionToRealtimeServer(ipAddress, int.Parse(port), playerSessionId);
         }
             else
             {

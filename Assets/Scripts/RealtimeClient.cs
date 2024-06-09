@@ -1,16 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using Amazon;
-using Amazon.GameLift;
-using Amazon.GameLift.Model;
 using Aws.GameLift.Realtime;
 using System;
 using Aws.GameLift.Realtime.Event;
 using Aws.GameLift.Realtime.Types;
 using Newtonsoft.Json;
 using System.Text;
-using static RealtimeClient;
 
 
 
