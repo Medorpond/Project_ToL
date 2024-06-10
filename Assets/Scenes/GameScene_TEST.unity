@@ -3353,7 +3353,7 @@ MonoBehaviour:
   DeployPanel: {fileID: 383419111}
   ResultPanel: {fileID: 2127389625}
   winnerText: {fileID: 721376711}
-  unitSelectPhaseTime: 10
+  unitSelectPhaseTime: 50
   battlePhaseTime: 60
   maxTurnCount: 100
 --- !u!4 &407919657

@@ -512,7 +512,7 @@ GameObject:
   - component: {fileID: 5858806671675090926}
   m_Layer: 0
   m_Name: Magician
-  m_TagString: Untagged
+  m_TagString: Unit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -620,6 +620,7 @@ MonoBehaviour:
   attackRange: 0
   moveRange: 0
   isPlayer: 0
+  defenseRate: 1
   hp_bar: {fileID: 5919388171139965465}
   animator: {fileID: 0}
 --- !u!50 &5858806671675090926

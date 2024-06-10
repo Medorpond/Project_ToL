@@ -99,7 +99,7 @@ GameObject:
   - component: {fileID: 3550275203204803996}
   m_Layer: 0
   m_Name: Shield
-  m_TagString: Untagged
+  m_TagString: Unit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -207,6 +207,7 @@ MonoBehaviour:
   attackRange: 0
   moveRange: 0
   isPlayer: 0
+  defenseRate: 1
   hp_bar: {fileID: 3349835219753969329}
   animator: {fileID: 0}
 --- !u!50 &3550275203204803996

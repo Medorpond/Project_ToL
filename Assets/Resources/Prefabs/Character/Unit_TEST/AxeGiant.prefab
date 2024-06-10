@@ -192,7 +192,7 @@ GameObject:
   - component: {fileID: 221819165847494356}
   m_Layer: 0
   m_Name: AxeGiant
-  m_TagString: Untagged
+  m_TagString: Unit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -300,6 +300,7 @@ MonoBehaviour:
   attackRange: 0
   moveRange: 0
   isPlayer: 0
+  defenseRate: 1
   hp_bar: {fileID: 4628623397491815476}
   animator: {fileID: 0}
 --- !u!50 &221819165847494356
