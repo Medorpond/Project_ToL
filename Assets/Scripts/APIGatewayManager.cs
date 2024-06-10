@@ -357,7 +357,8 @@ public class ApiGatewayManager : MonoBehaviour
             var requestData = new Dictionary<string, string>
             {
                 { "confirmationCode", confirmationCode },
-                { "new_password", _password}
+                { "NewPassword", _password},
+                { "username", _username}
             };
             var json = JsonConvert.SerializeObject(requestData);
 
