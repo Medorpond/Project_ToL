@@ -235,7 +235,7 @@ public abstract class Unit : MonoBehaviour
     #endregion
 
     #region Others
-    public void OnTurnEnd()
+    public void OnTurnStart()
     {
         moveLeft = maxMoveCount;
         attackLeft = maxAttackCount;

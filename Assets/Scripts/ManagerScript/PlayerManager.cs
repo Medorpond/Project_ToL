@@ -23,7 +23,7 @@ public class PlayerManager : MonoBehaviour
         MatchManager.Instance.onClickDown.AddListener(OnClickHold);
         MatchManager.Instance.onClickRelease.AddListener(OnClickRelease);
 
-        moveButton.onClick.AddListener(Move);
+        //moveButton.onClick.AddListener(Move);
         
         foreach(Unit unit in UnitList)
         {
@@ -107,7 +107,7 @@ public class PlayerManager : MonoBehaviour
         {
             foreach (Unit unit in UnitList)
             {
-                unit.OnTurnEnd();
+                unit.OnTurnStart();
 
                 // should add line code
             }
