@@ -23,7 +23,6 @@ public class PlayerManager : MonoBehaviour
         MatchManager.Instance.onClickDown.AddListener(OnClickHold);
         MatchManager.Instance.onClickRelease.AddListener(OnClickRelease);
 
-        //moveButton.onClick.AddListener(Move);
         
         foreach(Unit unit in UnitList)
         {
