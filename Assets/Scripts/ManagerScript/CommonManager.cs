@@ -32,7 +32,7 @@ public class CommonManager : MonoBehaviour
         }
     }
 
-    public void EndingTurn()
+    public virtual void OnTurnStart()
     {
         if (UnitList != null)
         {

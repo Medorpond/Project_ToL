@@ -52,9 +52,9 @@ public class PlayerManager : CommonManager
     {
         MatchManager.Instance.onClickDown.AddListener(OnClickHold);
         MatchManager.Instance.onClickRelease.AddListener(OnClickRelease);
+        MatchManager.Instance.onTurnEnd.AddListener(OnTurnStart);
 
-        
-        foreach(Unit unit in UnitList)
+        foreach (Unit unit in UnitList)
         {
             SetupFacingDirection(unit);
         }

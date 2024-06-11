@@ -79,7 +79,7 @@ public class OpponentManager : CommonManager
 
     #endregion
 
-    public void OnTurnStart()
+    public override void OnTurnStart()
     {
         if(isMyTurn)
         {
