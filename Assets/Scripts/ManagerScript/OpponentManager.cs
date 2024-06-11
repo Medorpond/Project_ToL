@@ -24,8 +24,41 @@ public class OpponentManager : MonoBehaviour
     #endregion
 
     public bool isMyTurn;
+    #region Singletone
+    private static OpponentManager instance = null;
+    public static OpponentManager Instance
+    {
+        get
+        {
+
+            if (instance == null)
+            {
+                instance = new GameObject("OpponentManager").AddComponent<OpponentManager>();
+            }
+            return instance;
+        }
+    }
+
+    private void SingletoneInit()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else { Destroy(this.gameObject); }
+    }
+
+    #endregion
+
+
+
 
     #region Unity Monobehaviour LifeCycle
+
+    private void Awake()
+    {
+        SingletoneInit();
+    }
     private void Start()
     {
         MatchManager.Instance.onTurnEnd.AddListener(OnTurnStart);

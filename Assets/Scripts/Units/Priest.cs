@@ -8,11 +8,6 @@ public class Priest : Unit
     private List<Unit> myUnits;
     private float healAmount;
 
-    protected override void Awake()
-    {
-        base.Awake();
-        Init();
-    }
     protected override void Init()
     {
         maxHealth = 4;
@@ -66,5 +61,10 @@ public class Priest : Unit
         target.IsHealed(healAmount);
 
         return true;
+    }
+
+    private void AnalizeAction()
+    {
+        
     }
 }

@@ -11,6 +11,9 @@ public abstract class Unit : MonoBehaviour
     #region Parameter
 
     #region Common Parameter
+    protected PlayerManager player = PlayerManager.Instance;
+    protected OpponentManager opponent = OpponentManager.Instance;
+
     public float moveSpeed = 0.01f;
     public (int weight, string command) mostValuedAction = (0, "");
     protected WeaponType weaponType;
@@ -242,6 +245,8 @@ public abstract class Unit : MonoBehaviour
 
         if (skill_1_currentCool > 0) skill_1_currentCool--;
         if (skill_2_currentCool > 0) skill_2_currentCool--;
+
+        mostValuedAction = (0, "");
 
         for (int i = buffList.Count - 1; i >= 0; i--)
         {

@@ -18,6 +18,37 @@ public class PlayerManager : MonoBehaviour
 
     public Button moveButton;
 
+
+    #region Singletone
+    private static PlayerManager instance = null;
+    public static PlayerManager Instance
+    {
+        get
+        {
+
+            if (instance == null)
+            {
+                instance = new GameObject("PlayerManager").AddComponent<PlayerManager>();
+            }
+            return instance;
+        }
+    }
+
+    private void SingletoneInit()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else { Destroy(this.gameObject); }
+    }
+
+    #endregion
+
+    private void Awake()
+    {
+        SingletoneInit();
+    }
     private void Start()
     {
         MatchManager.Instance.onClickDown.AddListener(OnClickHold);
