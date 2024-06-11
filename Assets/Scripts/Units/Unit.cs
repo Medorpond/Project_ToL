@@ -11,8 +11,10 @@ public abstract class Unit : MonoBehaviour
     #region Parameter
 
     #region Common Parameter
-    protected PlayerManager player = PlayerManager.Instance;
-    protected OpponentManager opponent = OpponentManager.Instance;
+    protected PlayerManager player;
+    protected OpponentManager opponent;
+    protected CommonManager parent;
+    
 
     public float moveSpeed = 0.01f;
     public (int weight, string command) mostValuedAction = (0, "");
@@ -40,7 +42,6 @@ public abstract class Unit : MonoBehaviour
     protected int skill_2_Cooldown;
     protected int skill_1_currentCool = 0;
     protected int skill_2_currentCool = 0;
-    public float defenseRate = 1;
 
     protected bool inAction = false;
 
@@ -73,7 +74,14 @@ public abstract class Unit : MonoBehaviour
     #endregion
 
     #region Unity Monobehaviour LifeCycle Method
-    protected virtual void Awake() { animator = GetComponent<Animator>(); Init(); }
+    protected virtual void Awake() 
+    {
+        player = PlayerManager.Instance;
+        opponent = OpponentManager.Instance;
+        parent = GetComponentInParent<CommonManager>();
+        animator = GetComponent<Animator>(); 
+        Init(); 
+    }
     protected virtual void Start()
     {
         ScanMovableNode();
@@ -164,6 +172,7 @@ public abstract class Unit : MonoBehaviour
     public virtual bool Ability2() { return false; }
     public virtual bool Ability2(Unit unit) { return false; }
     public virtual bool Ability2(GameObject target) { return false; }
+
     public bool UseDefense()
     {
         Defense defenseBuff = new Defense(1, this);
@@ -177,16 +186,14 @@ public abstract class Unit : MonoBehaviour
     #region ReAction
     public virtual void IsDamaged(float damage)
     {
-        damage = damage * defenseRate;
+        //damage = damage * defenseRate;
         currentHealth = (currentHealth - damage > 0) ? currentHealth - damage : 0;
         BattleAudioManager.instance.PlayBSfx(BattleAudioManager.Sfx.damage);
         HP_BarUpdate();
         if (currentHealth <= 0) IsDead();
-        // Invoke Event to Trigger Animation, Update UI.
     }
     public virtual void IsHealed(float _heal)
     {
-        Debug.Log("Healing");
         currentHealth = currentHealth + _heal < maxHealth ? currentHealth + _heal : maxHealth;
         HP_BarUpdate();
         // Invoke Event to Trigger Animation, Update UI.
