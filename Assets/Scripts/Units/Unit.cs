@@ -42,6 +42,7 @@ public abstract class Unit : MonoBehaviour
     protected int skill_2_Cooldown;
     protected int skill_1_currentCool = 0;
     protected int skill_2_currentCool = 0;
+    private float defenseRate = 1.0f;
 
     protected bool inAction = false;
 
@@ -176,8 +177,19 @@ public abstract class Unit : MonoBehaviour
 
     public bool UseDefense()
     {
-        Debug.Log("Defense");
-        return false;
+        Buff defenseBuff = new Buff(2, ActiveDefense, null, DeactiveDefense, this);
+        defenseBuff.Apply();
+        return true;
+    }
+
+    public void ActiveDefense(Unit unit)
+    {
+        this.defenseRate = 0.5f;
+    }
+
+    public void DeactiveDefense(Unit unit)
+    {
+        this.defenseRate = 1.0f;
     }
 
 
@@ -186,7 +198,7 @@ public abstract class Unit : MonoBehaviour
     #region ReAction
     public virtual void IsDamaged(float damage)
     {
-        //damage = damage * defenseRate;
+        damage = damage * defenseRate;
         currentHealth = (currentHealth - damage > 0) ? currentHealth - damage : 0;
         BattleAudioManager.instance.PlayBSfx(BattleAudioManager.Sfx.damage);
         HP_BarUpdate();

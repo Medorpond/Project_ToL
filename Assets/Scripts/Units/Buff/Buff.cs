@@ -53,6 +53,4 @@ public class Buff
         buffHolder = null;
     }
 
-    protected virtual void ApplyEffect(Unit unit) { }
-    protected virtual void RemoveEffect(Unit unit) { }
 }
