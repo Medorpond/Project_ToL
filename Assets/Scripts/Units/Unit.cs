@@ -176,8 +176,7 @@ public abstract class Unit : MonoBehaviour
 
     public bool UseDefense()
     {
-        Defense defenseBuff = new Defense(1, this);
-        defenseBuff.Apply();
+        Debug.Log("Defense");
         return false;
     }
 

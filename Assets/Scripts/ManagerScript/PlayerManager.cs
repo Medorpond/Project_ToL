@@ -271,6 +271,30 @@ public class PlayerManager : CommonManager
         }
     }
 
+    IEnumerator ReadyDefense()
+    {
+        yield return new WaitUntil(() => clicked != null);
+
+        if (clicked.CompareTag("Unit"))
+        {
+            if (currentUnit != null)
+            {
+                currentUnit.UseDefense();
+            }
+
+        }
+
+        clicked = null;
+        inAction = null;
+    }
+    public void Defense()
+    {
+        if (isMyTurn)
+        {
+            if (inAction == null) { inAction = StartCoroutine(ReadyDefense()); }
+        }
+    }
+
     #endregion
 
     private void UpdateFacingDirection(Unit unit, bool isFacingRight)
