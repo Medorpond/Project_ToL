@@ -73,7 +73,7 @@ public abstract class Unit : MonoBehaviour
         currentHealth = maxHealth;
         attackLeft = maxAttackCount;
         moveLeft = maxMoveCount;
-        defense_Cooldown = 4;
+        defense_Cooldown = 6;
     }
 
     #endregion
@@ -182,13 +182,16 @@ public abstract class Unit : MonoBehaviour
     public bool UseDefense()
     {
         if (defense_currentCool > 0) return false;
+        defense_currentCool = defense_Cooldown;
         Action<Unit> onApply = (Unit _unit) =>
         {
-            _unit.defenseRate = 0.5f;
+            this.defenseRate = 0.5f;
+            Debug.Log($"A defenseRate : {defenseRate}");
         };
         Action<Unit> onRemove = (Unit _unit) =>
         {
-            _unit.moveRange = 1.0f;
+            this.defenseRate = 1.0f;
+            Debug.Log($"D defenseRate : {defenseRate}");
         };
         Buff defenseBuff = new Buff(2, onApply, null, onRemove, this);
         defenseBuff.Apply();
