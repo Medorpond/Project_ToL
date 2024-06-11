@@ -111,8 +111,6 @@ public class MatchManager : MonoBehaviour
     #region Unit Select Phase
     void UnitSelectPhase()
     {
-        Debug.Log("Unit Select Phase Start");
-
         currentPhase = Phase.UnitSelect;
         TimeManager.Instance.onTimerEnd.AddListener(FinishDeploy);
         TimeManager.Instance.StartTimer(unitSelectPhaseTime);
@@ -138,7 +136,6 @@ public class MatchManager : MonoBehaviour
         player.StopAllCoroutines();
         opponent.StopAllCoroutines();
         DeployPanel.SetActive(false);
-        Debug.Log("Unit Select Phase End");
 
         StartCoroutine(nameof(BattlePhase));
     }

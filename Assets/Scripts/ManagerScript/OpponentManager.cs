@@ -7,17 +7,6 @@ using UnityEngine;
 public class OpponentManager : CommonManager
 {
     #region UnitList
-
-    public bool isEnemy;
-
-    public void RegisterUnit(Unit unit)
-    {
-        UnitList.Add(unit);
-        SetupFacingDirection(unit);
-
-    }
-
-    public void RemoveUnit(Unit unit) => UnitList.Remove(unit);
     
     #endregion
 
@@ -78,23 +67,6 @@ public class OpponentManager : CommonManager
             newScale.x = -Mathf.Abs(newScale.x);
         }
         unit.transform.localScale = newScale;
-    }
-
-    private void SetupFacingDirection(Unit unit)
-    {
-        if (unit != null)
-        {
-            if (isEnemy)
-            {
-                unit.GetComponent<Unit>().isPlayer = true;
-                unit.transform.localScale = new Vector3(Mathf.Abs(unit.transform.localScale.x), unit.transform.localScale.y, unit.transform.localScale.z);
-            }
-            else
-            {
-                unit.GetComponent<Unit>().isPlayer = false;
-                unit.transform.localScale = new Vector3(-Mathf.Abs(unit.transform.localScale.x), unit.transform.localScale.y, unit.transform.localScale.z);
-            }
-        }
     }
 
     private void OnDestroy()

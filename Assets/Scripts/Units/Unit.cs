@@ -11,9 +11,9 @@ public abstract class Unit : MonoBehaviour
     #region Parameter
 
     #region Common Parameter
-    protected PlayerManager player;
-    protected OpponentManager opponent;
-    protected CommonManager parent;
+    protected CommonManager player;
+    protected CommonManager opponent;
+    
     
 
     public float moveSpeed = 0.01f;
@@ -76,9 +76,10 @@ public abstract class Unit : MonoBehaviour
     #region Unity Monobehaviour LifeCycle Method
     protected virtual void Awake() 
     {
-        player = PlayerManager.Instance;
-        opponent = OpponentManager.Instance;
-        parent = GetComponentInParent<CommonManager>();
+        player = GetComponentInParent<CommonManager>() == PlayerManager.Instance 
+            ? PlayerManager.Instance : OpponentManager.Instance;
+        opponent = PlayerManager.Instance == player 
+            ? OpponentManager.Instance : PlayerManager.Instance;
         animator = GetComponent<Animator>(); 
         Init(); 
     }
