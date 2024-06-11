@@ -176,6 +176,7 @@ public class RealtimeClient
 
         Client.SendMessage(Client.NewMessage(opcode)
             .WithDeliveryIntent(DeliveryIntent.Reliable)
+            .WithTargetGroup(-1)
             .WithPayload(StringToBytes(payload)));
     }
 
