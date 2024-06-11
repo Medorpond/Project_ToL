@@ -71,4 +71,10 @@ public class Archer : Unit
         Debug.Log("Damage: " + damage);
         base.IsDamaged(damage);
     }
+
+    protected override void AnalizeAction()
+    {
+        mostValuedAction = (1, "");
+        Vector2 myPos = new Vector2(transform.position.x, transform.position.y);
+    }
 }

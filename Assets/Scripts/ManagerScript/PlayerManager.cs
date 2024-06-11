@@ -8,7 +8,7 @@ public class PlayerManager : CommonManager
     public List<string> CmdList = new();
 
     public bool isMyTurn { get; set; }
-    public bool isPlayer; // Determine if this is the player character
+    
 
     private Coroutine inAction = null;
 
@@ -52,9 +52,9 @@ public class PlayerManager : CommonManager
     {
         MatchManager.Instance.onClickDown.AddListener(OnClickHold);
         MatchManager.Instance.onClickRelease.AddListener(OnClickRelease);
+        MatchManager.Instance.onTurnEnd.AddListener(OnTurnStart);
 
-        
-        foreach(Unit unit in UnitList)
+        foreach (Unit unit in UnitList)
         {
             SetupFacingDirection(unit);
         }
@@ -82,17 +82,7 @@ public class PlayerManager : CommonManager
         //yong
     }
 
-    public void RegisterUnit(Unit _unit)
-    {
-        UnitList.Add(_unit);
-        SetupFacingDirection(_unit);
-    }
-
-    public void RemoveUnit(Unit _unit)
-    {
-        UnitList.Remove(_unit);
-        Debug.Log($"{_unit.name} got Removed from {name}");
-    }
+    
 
     void OnClickRelease(GameObject _clicked)
     {
@@ -129,18 +119,7 @@ public class PlayerManager : CommonManager
         }
     }
 
-    public void EndingTurn()
-    {
-        if (UnitList != null)
-        {
-            foreach (Unit unit in UnitList)
-            {
-                unit.OnTurnStart();
-
-                // should add line code
-            }
-        }
-    }
+    
 
     #region IEnumerable Acts
     
@@ -292,6 +271,30 @@ public class PlayerManager : CommonManager
         }
     }
 
+    IEnumerator ReadyDefense()
+    {
+        yield return new WaitUntil(() => clicked != null);
+
+        if (clicked.CompareTag("Unit"))
+        {
+            if (currentUnit != null)
+            {
+                currentUnit.UseDefense();
+            }
+
+        }
+
+        clicked = null;
+        inAction = null;
+    }
+    public void Defense()
+    {
+        if (isMyTurn)
+        {
+            if (inAction == null) { inAction = StartCoroutine(ReadyDefense()); }
+        }
+    }
+
     #endregion
 
     private void UpdateFacingDirection(Unit unit, bool isFacingRight)
@@ -308,22 +311,7 @@ public class PlayerManager : CommonManager
         unit.transform.localScale = newScale;
     }
 
-    private void SetupFacingDirection(Unit unit)
-    {
-        if (unit != null)
-        {
-            if (isPlayer)
-            {
-                unit.GetComponent<Unit>().isPlayer = true;
-                unit.transform.localScale = new Vector3(Mathf.Abs(unit.transform.localScale.x), unit.transform.localScale.y, unit.transform.localScale.z);
-            }
-            else
-            {
-                unit.GetComponent<Unit>().isPlayer = false;
-                unit.transform.localScale = new Vector3(-Mathf.Abs(unit.transform.localScale.x), unit.transform.localScale.y, unit.transform.localScale.z);
-            }
-        }
-    }
+    
 
 
     private void HighlightMovableTiles(Unit unit)
