@@ -66,15 +66,30 @@ public class Archer : Unit
         return true;
     }
 
-    public override void IsDamaged(float damage)
-    {
-        Debug.Log("Damage: " + damage);
-        base.IsDamaged(damage);
-    }
-
     protected override void AnalizeAction()
     {
         mostValuedAction = (1, "");
         Vector2 myPos = new Vector2(transform.position.x, transform.position.y);
+        List<Unit> targetList = new();
+        Unit closestUnit;
+        float closestDist = Mathf.Infinity;
+
+        foreach (Unit unit in opponent.UnitList)
+        {
+            float dist = Vector2.Distance(unit.transform.position, myPos);
+            if (dist <= attackRange)
+            {
+                targetList.Add(unit);
+            }
+            else if (targetList.Count == 0)
+            {
+                closestDist = dist;
+                closestUnit = unit;
+            }
+            else continue;
+        }
+
+
+
     }
 }
