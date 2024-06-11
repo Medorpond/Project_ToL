@@ -115,9 +115,14 @@ public class RealtimeClient
         }
     }
 
+    public static byte[] StringToBytes(string str)
+    {
+        return Encoding.UTF8.GetBytes(str);
+    }
+
     private string BytesToString(byte[] bytes)
     {
-        return Encoding.Default.GetString(bytes);
+        return Encoding.UTF8.GetString(bytes);
     }
 
     protected virtual void OnGamePlayed(GamePlayed GamePlayed)
@@ -161,6 +166,18 @@ public class RealtimeClient
         }
     }
 
+    public void SendMessage(int opcode, RealtimePayload realtimePayload)
+    {
+        // You can also pass in the DeliveryIntent depending on your message delivery requirements
+        // https://docs.aws.amazon.com/gamelift/latest/developerguide/realtime-sdk-csharp-ref-datatypes.html#realtime-sdk-csharp-ref-datatypes-rtmessage
+
+        string payload = JsonUtility.ToJson(realtimePayload);
+        // Debug.Log(payload);
+
+        Client.SendMessage(Client.NewMessage(opcode)
+            .WithDeliveryIntent(DeliveryIntent.Reliable)
+            .WithPayload(StringToBytes(payload)));
+    }
 
 
 
@@ -183,6 +200,11 @@ public class RealtimeClient
         {
             Client.Disconnect();
         }
+    }
+
+    public bool IsConnected()
+    {
+        return Client.Connected;
     }
 
     //[System.Serializable]
