@@ -41,7 +41,7 @@ public class Priest : Unit
     {
         if (skill_2_currentCool > 0) return false;
 
-        foreach (Unit unit in player.UnitList)
+        foreach (Unit unit in parent.UnitList)
         {
             unit.IsHealed(attackDamage);
         }
@@ -67,7 +67,7 @@ public class Priest : Unit
         bool isMDUHealed = false;
         Vector2 myPos = new Vector2(transform.position.x, transform.position.y);
 
-        foreach (Unit unit in opponent.EnemyList)
+        foreach (Unit unit in parent.UnitList)
         {
             if (unit.currentHealth < unit.maxHealth)
             {
@@ -79,7 +79,7 @@ public class Priest : Unit
             }
         }
 
-        if (skill_2_currentCool == 0 && damagedUnits.Count >= opponent.EnemyList.Count/2)
+        if (skill_2_currentCool == 0 && damagedUnits.Count >= parent.UnitList.Count/2)
         {
             mostValuedAction.weight = 15;
             mostValuedAction.command += $"@Ability2/({myPos.x},{myPos.y})/({myPos.x},{myPos.y})";
@@ -111,7 +111,7 @@ public class Priest : Unit
             }
         }
         
-        if(mostDamagedUnit != null && !isMDUHealed && moveLeft > 0)
+        if(mostDamagedUnit != null && !isMDUHealed && moveLeft > 0 && mostDamagedUnit.type != "Captain")
         {
             float closestDistance = Mathf.Infinity;
             Node closestNode = null;

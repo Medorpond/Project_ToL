@@ -66,11 +66,18 @@ public class MatchManager : MonoBehaviour
     }
     private void OnDestroy()
     {
-        if(player != null || opponent != null)
+        if (player != null)
         {
             Destroy(player.gameObject);
-            Destroy(opponent.gameObject);
+            player = null;
         }
+
+        if (opponent != null)
+        {
+            Destroy(opponent.gameObject);
+            opponent = null;
+        }
+
         if (instance == this) { instance = null; }
     }
     #endregion
@@ -218,7 +225,11 @@ public class MatchManager : MonoBehaviour
         TimeManager.Instance?.ResetTimer();
         TimeManager.Instance?.EndMatchTime();
         //trigger Result UI with LoserData. if null, it's a draw
-        if (loser.CompareTag("Opponent"))
+        if (loser == null)
+        {
+            //Draw
+        }
+        else if (loser.CompareTag("Opponent"))
         {
             winnerText.text = "You Win!!!";
             BattleAudioManager.instance.PlayBSfx(BattleAudioManager.Sfx.victory1);
@@ -230,10 +241,7 @@ public class MatchManager : MonoBehaviour
             BattleAudioManager.instance.PlayBSfx(BattleAudioManager.Sfx.lose);
             //BattleAudioManager.instance.PlayBSfx(BattleAudioManager.Sfx.lose2);
         }
-        else
-        {
-            //Draw
-        }
+
         ResultPanel.SetActive(true);
 
         

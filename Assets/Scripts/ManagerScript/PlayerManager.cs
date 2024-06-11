@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerManager : MonoBehaviour
+public class PlayerManager : CommonManager
 {
-    public List<Unit> UnitList = new();
     public List<string> CmdList = new();
 
     public bool isMyTurn { get; set; }

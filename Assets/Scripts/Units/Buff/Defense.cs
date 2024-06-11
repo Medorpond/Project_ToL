@@ -13,11 +13,11 @@ public class Defense : Buff
 
     protected override void ApplyEffect(Unit unit)
     {
-        unit.defenseRate = 0.5f;
+        //unit.defenseRate = 0.5f;
     }
 
     protected override void RemoveEffect(Unit unit)
     {
-        unit.defenseRate = 1.0f;
+        //unit.defenseRate = 1.0f;
     }
 }

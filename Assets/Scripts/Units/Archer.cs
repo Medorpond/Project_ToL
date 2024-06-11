@@ -10,7 +10,7 @@ public class Archer : Unit
         maxHealth = 3;
         attackDamage = 2;
         attackRange = 5;
-        moveRange = 10;
+        moveRange = 4;
         skill_1_Cooldown= 3;
         skill_2_Cooldown = 3;
         base.Init();
@@ -64,5 +64,11 @@ public class Archer : Unit
         moveLeft++;
         attackLeft++;
         return true;
+    }
+
+    public override void IsDamaged(float damage)
+    {
+        Debug.Log("Damage: " + damage);
+        base.IsDamaged(damage);
     }
 }

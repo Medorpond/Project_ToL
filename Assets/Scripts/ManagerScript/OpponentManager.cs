@@ -4,22 +4,20 @@ using System.Collections.Generic;
 using System.Drawing.Text;
 using UnityEngine;
 
-public class OpponentManager : MonoBehaviour
+public class OpponentManager : CommonManager
 {
-    #region EnemyList
+    #region UnitList
 
     public bool isEnemy;
 
-    public List<Unit> EnemyList = new();
-
     public void RegisterUnit(Unit unit)
     {
-        EnemyList.Add(unit);
+        UnitList.Add(unit);
         SetupFacingDirection(unit);
 
     }
 
-    public void RemoveUnit(Unit unit) => EnemyList.Remove(unit);
+    public void RemoveUnit(Unit unit) => UnitList.Remove(unit);
     
     #endregion
 
@@ -62,7 +60,7 @@ public class OpponentManager : MonoBehaviour
     {
         MatchManager.Instance.onTurnEnd.AddListener(OnTurnStart);
 
-        foreach (Unit unit in EnemyList)
+        foreach (Unit unit in UnitList)
         {
             SetupFacingDirection(unit);
         }
@@ -101,9 +99,9 @@ public class OpponentManager : MonoBehaviour
 
     private void OnDestroy()
     {
-        for (int i = EnemyList.Count - 1; i >= 0; i--)
+        for (int i = UnitList.Count - 1; i >= 0; i--)
         {
-            Destroy(EnemyList[i]);
+            Destroy(UnitList[i]);
         }
     }
 
@@ -114,7 +112,7 @@ public class OpponentManager : MonoBehaviour
         if(isMyTurn)
         {
             (int weight, string command) action = (-1, "");
-            foreach (Unit unit in EnemyList)
+            foreach (Unit unit in UnitList)
             {
                 unit.OnTurnStart();
                 if (action.weight <= unit.mostValuedAction.weight)
@@ -206,7 +204,6 @@ public class OpponentManager : MonoBehaviour
             }
             else
             {
-                Debug.Log("Obj != Target: " + command);
                 switch (command)
                 {
                     case "Move":
@@ -240,7 +237,7 @@ public class OpponentManager : MonoBehaviour
         // Captain on (24, 5)
         string path = $"Prefabs/Character/Unit_TEST/";
         Deploy("Priest", new Vector3(24, 3));
-        Deploy("Knight", new Vector3(22, 5));
+        Deploy("Knight", new Vector3(12, 5));
         Deploy("Archer", new Vector3(24, 7));
 
 

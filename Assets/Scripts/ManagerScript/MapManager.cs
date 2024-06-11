@@ -65,7 +65,7 @@ public class MapManager : MonoBehaviour
         Weather weather = new SampleWeather(); //weatherList[Random.Range(0, weatherList.Count)];
         
         weather.ApplyWeatherEffect(player.UnitList);
-        weather.ApplyWeatherEffect(opponent.EnemyList);
+        weather.ApplyWeatherEffect(opponent.UnitList);
     }
 
     void LoadStage()
