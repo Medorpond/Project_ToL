@@ -10,14 +10,6 @@ using TMPro;
 using UnityEngine.Events;
 using System.Runtime.CompilerServices;
 
-using Amazon;
-using Amazon.GameLift;
-using Amazon.GameLift.Model;
-
-using Aws.GameLift.Realtime;
-
-
-
 
 public class ApiGatewayManager : MonoBehaviour
 {
@@ -30,6 +22,8 @@ public class ApiGatewayManager : MonoBehaviour
             if (instance == null)
             {
                 instance = new GameObject("ApiGatewayManager").AddComponent<ApiGatewayManager>();
+                //YONG
+                DontDestroyOnLoad(instance.gameObject);
             }
             return instance;
         }
@@ -40,6 +34,7 @@ public class ApiGatewayManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
+            DontDestroyOnLoad(this.gameObject);
         }
         else { Destroy(this.gameObject); }
     }
@@ -63,6 +58,10 @@ public class ApiGatewayManager : MonoBehaviour
 
     public TMP_InputField LoginusernameInputField;
     public TMP_InputField LoginpasswordInputField;
+    public TMP_InputField FindPass_UsernameInputField;
+
+    public TMP_InputField NewPassInputField;
+    public TMP_InputField NewPassReEnterInputField;
 
     private bool Loginsuccess = false;
     private bool ProgressIn = false;
@@ -74,17 +73,15 @@ public class ApiGatewayManager : MonoBehaviour
     private string _password;
     private string _email;
     private string _jwtToken;
+    private string _ticketId;
 
     //Userdata, Username�� ���� �׸��� (_username)
 
-    private string __username;
-    private string __SUB;
-    private string __WIN;
-    private string __LOSE;
+    public string __username {get; private set;}
+    public string __SUB {get; private set;}
+    public string __WIN {get; private set;}
+    public string __LOSE {get; private set;}
 
-    // yong
-        public UserData userData;
-    // yong
 
 
     // for debug
@@ -315,6 +312,10 @@ public class ApiGatewayManager : MonoBehaviour
     {
         try
         {
+            // yong
+            _username = FindPass_UsernameInputField.text;
+            // yong
+
             // Prepare the confirmation request payload
             var requestData = new Dictionary<string, string>
             {
@@ -350,10 +351,14 @@ public class ApiGatewayManager : MonoBehaviour
     {
         try
         {
+            //yong
+            _password = NewPassInputField.text;
+            //yong
             var requestData = new Dictionary<string, string>
             {
                 { "confirmationCode", confirmationCode },
-                { "new_password", _password}
+                { "NewPassword", _password},
+                { "username", _username}
             };
             var json = JsonConvert.SerializeObject(requestData);
 
@@ -415,24 +420,29 @@ public class ApiGatewayManager : MonoBehaviour
         }
     }
 
-    public async void MatchRequest()
+    public async Task<string> PollMatch(string _ticketId)
     {
         try
         {
-            
+            var requestData = new Dictionary<string, string>
+            {
+                { "ticketId", _ticketId}
+            };
+            var json = JsonConvert.SerializeObject(requestData);
+
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
             using (var client = new HttpClient())
             {
-                client.DefaultRequestHeaders.Add("Authorization", _jwtToken); //Modified by Medorpond
-                var response = await client.GetAsync(_apiGatewayUrl + "MatchRequest");
+                client.DefaultRequestHeaders.Add("Authorization", _jwtToken);
+                var response = await client.PostAsync(_apiGatewayUrl + "PollMatchmaking", content);
 
                 if (response.IsSuccessStatusCode)
                 {
                     string jsonResponse = await response.Content.ReadAsStringAsync();
                     //var userInfo = JsonConvert.DeserializeObject<Dictionary<string, string>>(jsonResponse);
-
-
-                    Debug.Log("Matchmaking Success");
-
+                    
+                    return jsonResponse;
                 }
                 else
                 {
@@ -444,6 +454,7 @@ public class ApiGatewayManager : MonoBehaviour
         {
             Debug.LogError("Matchmaking error: " + e.Message);
         }
+        return null;
     }
 
     public async void DeleteAccount()
@@ -497,4 +508,6 @@ public class ApiGatewayManager : MonoBehaviour
         return Registersuccess;
     }
     //yong
+
+    
 }

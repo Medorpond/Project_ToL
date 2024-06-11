@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 104170463596042710}
   m_Layer: 0
   m_Name: Basic
-  m_TagString: Untagged
+  m_TagString: Unit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -97,5 +97,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36302be44a24bac47a151bc0be0b7da7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp_bar: {fileID: 0}
   moveSpeed: 0.01
+  maxHealth: 0
+  currentHealth: 0
+  attackDamage: 0
+  attackRange: 0
+  moveRange: 0
+  isPlayer: 0
+  defenseRate: 1
+  hp_bar: {fileID: 0}
+  animator: {fileID: 0}

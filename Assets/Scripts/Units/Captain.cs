@@ -7,17 +7,13 @@ public class Captain : Unit
     private List<Unit> myUnits = new();
     public Vector3 skillDirection;
 
-    protected override void Awake()
-    {
-        base.Awake();
-        Init();
-    }
     protected override void Init()
     {
         maxHealth = 9;
         attackDamage = 1;
         attackRange = 1;
         moveRange = 30;
+        type = "Captain";
 
         maxMoveCount = 99;
 

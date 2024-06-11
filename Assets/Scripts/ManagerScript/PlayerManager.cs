@@ -18,12 +18,42 @@ public class PlayerManager : MonoBehaviour
 
     public Button moveButton;
 
+
+    #region Singletone
+    private static PlayerManager instance = null;
+    public static PlayerManager Instance
+    {
+        get
+        {
+
+            if (instance == null)
+            {
+                instance = new GameObject("PlayerManager").AddComponent<PlayerManager>();
+            }
+            return instance;
+        }
+    }
+
+    private void SingletoneInit()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else { Destroy(this.gameObject); }
+    }
+
+    #endregion
+
+    private void Awake()
+    {
+        SingletoneInit();
+    }
     private void Start()
     {
         MatchManager.Instance.onClickDown.AddListener(OnClickHold);
         MatchManager.Instance.onClickRelease.AddListener(OnClickRelease);
 
-        moveButton.onClick.AddListener(Move);
         
         foreach(Unit unit in UnitList)
         {
@@ -37,12 +67,25 @@ public class PlayerManager : MonoBehaviour
         {
             currentUnit.transform.Find("ArrowPointDown").gameObject.SetActive(false);
         }
+
+        //yong
+        // click m : move, click a : Attack
+        // color change yet
+        if (isMyTurn && currentUnit != null && Input.GetKeyDown(KeyCode.M))
+        {
+            Move();
+        }
+
+        if (isMyTurn && currentUnit != null && Input.GetKeyDown(KeyCode.A))
+        {
+            Attack();
+        }
+        //yong
     }
 
     public void RegisterUnit(Unit _unit)
     {
         UnitList.Add(_unit);
-        Debug.Log($"{_unit.name} Registered under {name}");
         SetupFacingDirection(_unit);
     }
 

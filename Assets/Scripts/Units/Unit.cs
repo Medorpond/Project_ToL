@@ -11,9 +11,14 @@ public abstract class Unit : MonoBehaviour
     #region Parameter
 
     #region Common Parameter
+    protected PlayerManager player = PlayerManager.Instance;
+    protected OpponentManager opponent = OpponentManager.Instance;
+
     public float moveSpeed = 0.01f;
     public (int weight, string command) mostValuedAction = (0, "");
+
     protected WeaponType weaponType;
+    public string type;
     #endregion
 
     #region Stat
@@ -22,7 +27,7 @@ public abstract class Unit : MonoBehaviour
     public float attackDamage;
     public float attackRange;
     public float moveRange;
-
+    
     public bool isPlayer; // Indicates whether the unit belongs to the player
     #endregion
 
@@ -35,6 +40,7 @@ public abstract class Unit : MonoBehaviour
     protected int skill_2_Cooldown;
     protected int skill_1_currentCool = 0;
     protected int skill_2_currentCool = 0;
+    public float defenseRate = 1;
 
     protected bool inAction = false;
 
@@ -158,6 +164,12 @@ public abstract class Unit : MonoBehaviour
     public virtual bool Ability2() { return false; }
     public virtual bool Ability2(Unit unit) { return false; }
     public virtual bool Ability2(GameObject target) { return false; }
+    public bool UseDefense()
+    {
+        Defense defenseBuff = new Defense(1, this);
+        defenseBuff.Apply();
+        return false;
+    }
 
 
     #endregion
@@ -165,6 +177,7 @@ public abstract class Unit : MonoBehaviour
     #region ReAction
     public virtual void IsDamaged(float damage)
     {
+        damage = damage * defenseRate;
         currentHealth = (currentHealth - damage > 0) ? currentHealth - damage : 0;
         BattleAudioManager.instance.PlayBSfx(BattleAudioManager.Sfx.damage);
         HP_BarUpdate();
@@ -173,6 +186,7 @@ public abstract class Unit : MonoBehaviour
     }
     public virtual void IsHealed(float _heal)
     {
+        Debug.Log("Healing");
         currentHealth = currentHealth + _heal < maxHealth ? currentHealth + _heal : maxHealth;
         HP_BarUpdate();
         // Invoke Event to Trigger Animation, Update UI.
@@ -187,12 +201,12 @@ public abstract class Unit : MonoBehaviour
 
     public virtual void IsDead()
     {
-        // Remove this from PlayerManager's List<Character>;
-        // Wait Until DeathAnimation Ends
-
+        player.RemoveUnit(this);
+        
+        //Play Unit Death Animation HERE.
         MapManager.Instance.stage.NodeArray[(int)transform.position.x, (int)transform.position.y].isBlocked = false;
         BattleAudioManager.instance.PlayBSfx(BattleAudioManager.Sfx.deadSound);
-
+        // Wait Until DeathAnimation Ends
         Destroy(gameObject, 0.01f);
     }
 
@@ -231,13 +245,18 @@ public abstract class Unit : MonoBehaviour
     {
         moveLeft = maxMoveCount;
         attackLeft = maxAttackCount;
+
         if (skill_1_currentCool > 0) skill_1_currentCool--;
         if (skill_2_currentCool > 0) skill_2_currentCool--;
+
+        mostValuedAction = (0, "");
 
         for (int i = buffList.Count - 1; i >= 0; i--)
         {
             buffList[i].TurnEnd();
         }
+
+        AnalizeAction();
     }
 
     protected void ScanMovableNode()
@@ -294,4 +313,6 @@ public abstract class Unit : MonoBehaviour
 
     #endregion
 
+
+    protected virtual void AnalizeAction() { }
 }

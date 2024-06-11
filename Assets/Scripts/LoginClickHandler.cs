@@ -16,6 +16,10 @@ public class LoginClickHandler : MonoBehaviour
     public Button ResendConfirmButton;
     public ApiGatewayManager apiGatewayManager;
     public TMP_InputField ConfirmCodeInputField;
+    public TMP_InputField NewPassConfirmInputField;
+    public Button ForgotButton;
+
+    public Button ResetButton;
     
     //error
 
@@ -43,6 +47,10 @@ public class LoginClickHandler : MonoBehaviour
     private GameObject SignUppanel;
     [SerializeField]
     private GameObject EmailConfirmPanel;
+    [SerializeField]
+    private GameObject Return_PassPanel;
+    [SerializeField]
+    private GameObject InputNewPassPanel;
 
     // Spinner
     [SerializeField]
@@ -67,6 +75,8 @@ public class LoginClickHandler : MonoBehaviour
         RegisterButton.onClick.AddListener(Register);
         ConfirmRegisterationButton.onClick.AddListener(Confirm);
         ResendConfirmButton.onClick.AddListener(Resend);
+        ForgotButton.onClick.AddListener(Forgot);
+        ResetButton.onClick.AddListener(Reset);
         LoadingSpinner1.SetActive(false);
         LoadingSpinner2.SetActive(false);
 
@@ -117,6 +127,20 @@ public class LoginClickHandler : MonoBehaviour
     private void Resend()
     {
         apiGatewayManager.ResendConfirmation();
+    }
+
+    private void Forgot()
+    {
+        apiGatewayManager.ForgotPassword();
+        Return_PassPanel.SetActive(false);
+        InputNewPassPanel.SetActive(true);
+    }
+    
+    private void Reset()
+    {
+        String ConfirmCode = NewPassConfirmInputField.text;
+        apiGatewayManager.ResetPassword(ConfirmCode);
+        InputNewPassPanel.SetActive(false);
     }
     
     private IEnumerator WaitLoginStatus()
