@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -42,6 +43,8 @@ public abstract class Unit : MonoBehaviour
     protected int skill_2_Cooldown;
     protected int skill_1_currentCool = 0;
     protected int skill_2_currentCool = 0;
+    private int defense_Cooldown;
+    private int defense_currentCool = 0;
     private float defenseRate = 1.0f;
 
     protected bool inAction = false;
@@ -70,6 +73,7 @@ public abstract class Unit : MonoBehaviour
         currentHealth = maxHealth;
         attackLeft = maxAttackCount;
         moveLeft = maxMoveCount;
+        defense_Cooldown = 4;
     }
 
     #endregion
@@ -177,21 +181,19 @@ public abstract class Unit : MonoBehaviour
 
     public bool UseDefense()
     {
-        Buff defenseBuff = new Buff(2, ActiveDefense, null, DeactiveDefense, this);
+        if (defense_currentCool > 0) return false;
+        Action<Unit> onApply = (Unit _unit) =>
+        {
+            _unit.defenseRate = 0.5f;
+        };
+        Action<Unit> onRemove = (Unit _unit) =>
+        {
+            _unit.moveRange = 1.0f;
+        };
+        Buff defenseBuff = new Buff(2, onApply, null, onRemove, this);
         defenseBuff.Apply();
         return true;
     }
-
-    public void ActiveDefense(Unit unit)
-    {
-        this.defenseRate = 0.5f;
-    }
-
-    public void DeactiveDefense(Unit unit)
-    {
-        this.defenseRate = 1.0f;
-    }
-
 
     #endregion
 
@@ -265,6 +267,7 @@ public abstract class Unit : MonoBehaviour
         moveLeft = maxMoveCount;
         attackLeft = maxAttackCount;
 
+        if (defense_currentCool > 0) defense_currentCool--;
         if (skill_1_currentCool > 0) skill_1_currentCool--;
         if (skill_2_currentCool > 0) skill_2_currentCool--;
 
