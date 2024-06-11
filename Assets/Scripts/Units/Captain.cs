@@ -13,6 +13,7 @@ public class Captain : Unit
         attackDamage = 1;
         attackRange = 1;
         moveRange = 30;
+        type = "Captain";
 
         maxMoveCount = 99;
 

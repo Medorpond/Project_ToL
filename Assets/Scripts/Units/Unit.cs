@@ -16,7 +16,9 @@ public abstract class Unit : MonoBehaviour
 
     public float moveSpeed = 0.01f;
     public (int weight, string command) mostValuedAction = (0, "");
+
     protected WeaponType weaponType;
+    public string type;
     #endregion
 
     #region Stat
@@ -184,6 +186,7 @@ public abstract class Unit : MonoBehaviour
     }
     public virtual void IsHealed(float _heal)
     {
+        Debug.Log("Healing");
         currentHealth = currentHealth + _heal < maxHealth ? currentHealth + _heal : maxHealth;
         HP_BarUpdate();
         // Invoke Event to Trigger Animation, Update UI.
@@ -198,12 +201,12 @@ public abstract class Unit : MonoBehaviour
 
     public virtual void IsDead()
     {
-        // Remove this from PlayerManager's List<Character>;
-        // Wait Until DeathAnimation Ends
-
+        player.RemoveUnit(this);
+        
+        //Play Unit Death Animation HERE.
         MapManager.Instance.stage.NodeArray[(int)transform.position.x, (int)transform.position.y].isBlocked = false;
         BattleAudioManager.instance.PlayBSfx(BattleAudioManager.Sfx.deadSound);
-
+        // Wait Until DeathAnimation Ends
         Destroy(gameObject, 0.01f);
     }
 
@@ -252,6 +255,8 @@ public abstract class Unit : MonoBehaviour
         {
             buffList[i].TurnEnd();
         }
+
+        AnalizeAction();
     }
 
     protected void ScanMovableNode()
@@ -308,4 +313,6 @@ public abstract class Unit : MonoBehaviour
 
     #endregion
 
+
+    protected virtual void AnalizeAction() { }
 }

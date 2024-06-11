@@ -3347,13 +3347,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 985352d35e2a1f84b988d077d2bbbc7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1620080287}
-  opponent: {fileID: 1074396748}
   MainMenuBtn: {fileID: 315983499}
   DeployPanel: {fileID: 383419111}
   ResultPanel: {fileID: 2127389625}
   winnerText: {fileID: 721376711}
-  unitSelectPhaseTime: 50
+  unitSelectPhaseTime: 3
   battlePhaseTime: 60
   maxTurnCount: 100
 --- !u!4 &407919657

@@ -20,10 +20,6 @@ public class MatchManager : MonoBehaviour
     #endregion
 
     #region Serialized parameter
-    [SerializeField]
-    public PlayerManager player;
-    [SerializeField]
-    public OpponentManager opponent;
 
     public Button MainMenuBtn;
     public GameObject DeployPanel;
@@ -43,6 +39,9 @@ public class MatchManager : MonoBehaviour
 
     private bool isDeploying = false;
     private Phase currentPhase;
+
+    private PlayerManager player;
+    private OpponentManager opponent;
     #endregion
 
     #region Unity Object LifeCycle
@@ -54,6 +53,8 @@ public class MatchManager : MonoBehaviour
     }
     private void Start()
     {
+        player = PlayerManager.Instance;
+        opponent = OpponentManager.Instance;
         UIAudioManager.instance.PlayBgm(true);
         TimeManager.Instance.StartMatchTime();
         UnitSelectPhase();
@@ -108,7 +109,6 @@ public class MatchManager : MonoBehaviour
         currentPhase = Phase.UnitSelect;
         TimeManager.Instance.onTimerEnd.AddListener(FinishDeploy);
         TimeManager.Instance.StartTimer(unitSelectPhaseTime);
-
         SetTurn();
     }
 
@@ -124,14 +124,14 @@ public class MatchManager : MonoBehaviour
 
     void FinishDeploy()
     {
+        DeployCaptain();
+        opponent.CreateSampleSet();
         TimeManager.Instance.onTimerEnd?.RemoveListener(FinishDeploy);
         TimeManager.Instance.ResetTimer();
         player.StopAllCoroutines();
         opponent.StopAllCoroutines();
         DeployPanel.SetActive(false);
         Debug.Log("Unit Select Phase End");
-
-        DeployCaptain();
 
         StartCoroutine(nameof(BattlePhase));
     }
@@ -171,7 +171,7 @@ public class MatchManager : MonoBehaviour
 
         
         TimeManager.Instance.StartTimer(battlePhaseTime);
-        MapManager.Instance.InitWeather(player, opponent);
+        //MapManager.Instance.InitWeather(player, opponent);
     }
 
     public void ChangeTurn()
@@ -195,7 +195,7 @@ public class MatchManager : MonoBehaviour
 
         foreach (string elem in player.CmdList)
         {
-            Debug.Log($"{elem}");
+            //Debug.Log($"{elem}");
         }
         // Send player CmdList via Network HERE.
 

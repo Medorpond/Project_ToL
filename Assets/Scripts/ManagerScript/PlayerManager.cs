@@ -86,7 +86,6 @@ public class PlayerManager : MonoBehaviour
     public void RegisterUnit(Unit _unit)
     {
         UnitList.Add(_unit);
-        Debug.Log($"{_unit.name} Registered under {name}");
         SetupFacingDirection(_unit);
     }
 
