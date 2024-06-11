@@ -7846,9 +7846,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'ProjectToL
-
-'
+  m_text: Crusade Tactics
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f6ed564f5be8d094c857e2f03eec6f95, type: 2}
   m_sharedMaterial: {fileID: 1111281066065110633, guid: f6ed564f5be8d094c857e2f03eec6f95, type: 2}
