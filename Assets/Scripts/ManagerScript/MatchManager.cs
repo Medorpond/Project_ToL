@@ -146,6 +146,7 @@ public class MatchManager : MonoBehaviour
         foreach (Unit unit in player.UnitList)
         {
             string originalName = unit.name.Replace(" (Clone)", "");
+            if (originalName == "Captain") continue;
             string command = $"@Deploy/({unit.transform.position.x},{unit.transform.position.y})/{originalName}";
             GameManager.Instance.OnPlayerCommand(command);
         }
