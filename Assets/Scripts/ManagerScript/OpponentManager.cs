@@ -2,6 +2,7 @@ using Amazon.GameLift.Model;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing.Text;
+using System.IO;
 using UnityEngine;
 
 public class OpponentManager : CommonManager
@@ -115,11 +116,24 @@ public class OpponentManager : CommonManager
 
             string commandType = parts[0];
             Vector3 objectLocation = DepackLocation(parts[1]);
-            Vector3 subjectLocation = DepackLocation(parts[2]);
+            
+            if (commandType == "Deploy")
+            {
+                string deployType = parts[2];
+                yield return new WaitUntil(() => actionCoroutine == null);
 
-            yield return new WaitUntil(() => actionCoroutine == null);
+                actionCoroutine = StartCoroutine(DeployCommand(objectLocation, deployType));
+            }
+            else
+            {
+                Vector3 subjectLocation = DepackLocation(parts[2]);
+                yield return new WaitUntil(() => actionCoroutine == null);
 
-            actionCoroutine = StartCoroutine(ExecuteCommand(commandType, objectLocation, subjectLocation));
+                actionCoroutine = StartCoroutine(ExecuteCommand(commandType, objectLocation, subjectLocation));
+            }
+            
+
+            
         }
 
         // Inner Methods and Coroutines
@@ -199,29 +213,35 @@ public class OpponentManager : CommonManager
             actionCoroutine = null;
         }
 
+
+        IEnumerator DeployCommand(Vector3 objLocation, string deployType)
+        {
+            Deploy(deployType, objLocation);
+            actionCoroutine = null;
+            yield return null;
+        }
+
     }
     #endregion
+
 
     public void CreateSampleSet()
     {
         // Captain on (24, 5)
-        string path = $"Prefabs/Character/Unit_TEST/";
         Deploy("Priest", new Vector3(24, 3));
         Deploy("Knight", new Vector3(12, 5));
         Deploy("Archer", new Vector3(24, 7));
+    }
+    void Deploy(string unitType, Vector3 Location)
+    {
+        string path = $"Prefabs/Character/Unit_TEST/";
+        GameObject prefab = Resources.Load<GameObject>(path + unitType);
+        if (prefab == null) { Debug.LogError("Failed to load prefab from path: " + path); return; }
 
-
-
-        void Deploy(string unitType, Vector3 Location)
-        {
-            GameObject prefab = Resources.Load<GameObject>(path + unitType);
-            if (prefab == null) { Debug.LogError("Failed to load prefab from path: " + path); return; }
-
-            GameObject unit= Instantiate(prefab, Location, Quaternion.identity, this.transform);
-            MapManager.Instance.stage.NodeArray[(int)Location.x, (int)Location.y].isBlocked = true;
-            MapManager.Instance.stage.NodeArray[(int)Location.x, (int)Location.y].unitOn = unit.GetComponent<Unit>();
-            unit.GetComponent<BoxCollider2D>().enabled = true;
-            RegisterUnit(unit.GetComponent<Unit>());
-        }
+        GameObject unit = Instantiate(prefab, Location, Quaternion.identity, this.transform);
+        MapManager.Instance.stage.NodeArray[(int)Location.x, (int)Location.y].isBlocked = true;
+        MapManager.Instance.stage.NodeArray[(int)Location.x, (int)Location.y].unitOn = unit.GetComponent<Unit>();
+        unit.GetComponent<BoxCollider2D>().enabled = true;
+        RegisterUnit(unit.GetComponent<Unit>());
     }
 }

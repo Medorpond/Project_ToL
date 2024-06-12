@@ -220,23 +220,26 @@ public class PlayerManager : CommonManager
 
         yield return new WaitUntil(() => clicked != null);
 
-        if (clicked.CompareTag("Tile"))
+        if (currentUnit != null)
         {
-            if (currentUnit != null)
+            if (currentUnit == clicked)
+            {
+                if (currentUnit.Ability1())
+                {
+                    string command = $"@Ability1/({(int)currentUnit.transform.position.x},{(int)currentUnit.transform.position.y})/({(int)currentUnit.transform.position.x},{(int)currentUnit.transform.position.y})";
+                    GameManager.Instance.OnPlayerCommand(command);
+                }
+            }
+            else
             {
                 if (currentUnit.Ability1(clicked))
                 {
                     string command = $"@Ability1/({(int)currentUnit.transform.position.x},{(int)currentUnit.transform.position.y})/({(int)clicked.transform.position.x},{(int)clicked.transform.position.y})";
                     GameManager.Instance.OnPlayerCommand(command);
                 }
-
-                currentUnit.Ability1();
             }
         }
-        else
-        {
-            Debug.Log("Click On Hostile to Use Ability1");
-        }
+        
 
 
         clicked = null;
@@ -254,19 +257,25 @@ public class PlayerManager : CommonManager
     {
         yield return new WaitUntil(() => clicked != null);
 
-        if (clicked.CompareTag("Unit"))// clicked.CompareTag("Opponent")
+        if (currentUnit != null)
         {
-            if (currentUnit != null)
+            if (currentUnit == clicked)
             {
                 if (currentUnit.Ability2())
                 {
-                    string command = "";
+                    string command = $"@Ability2/({currentUnit.transform.position.x},{currentUnit.transform.position.y})/({currentUnit.transform.position.x},{currentUnit.transform.position.y})";
                     GameManager.Instance.OnPlayerCommand(command);
                 }
             }
-
+            else
+            {
+                if (currentUnit.Ability2(clicked))
+                {
+                    string command = $"@Ability2/({currentUnit.transform.position.x},{currentUnit.transform.position.y})/({clicked.transform.position.x},{clicked.transform.position.y})";
+                    GameManager.Instance.OnPlayerCommand(command);
+                }
+            }
         }
-
         clicked = null;
         inAction = null;
     }

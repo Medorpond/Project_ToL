@@ -130,7 +130,8 @@ public class MatchManager : MonoBehaviour
     void FinishDeploy()
     {
         DeployCaptain();
-        opponent.CreateSampleSet();
+        SendMyDeploy();
+        //opponent.CreateSampleSet();
         TimeManager.Instance.onTimerEnd?.RemoveListener(FinishDeploy);
         TimeManager.Instance.ResetTimer();
         player.StopAllCoroutines();
@@ -138,6 +139,16 @@ public class MatchManager : MonoBehaviour
         DeployPanel.SetActive(false);
 
         StartCoroutine(nameof(BattlePhase));
+    }
+
+    void SendMyDeploy()
+    {
+        foreach (Unit unit in player.UnitList)
+        {
+            string originalName = unit.name.Replace(" (Clone)", "");
+            string command = $"@Deploy/({unit.transform.position.x},{unit.transform.position.y})/{originalName}";
+            GameManager.Instance.OnPlayerCommand(command);
+        }
     }
 
     void DeployCaptain()
