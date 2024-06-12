@@ -8,6 +8,7 @@ using UnityEngine.SceneManagement;
 using System.Net.Sockets;
 using Aws.GameLift.Realtime.Event;
 using System;
+using Newtonsoft.Json.Linq;
 
 public class GameManager : MonoBehaviour
 {
@@ -62,54 +63,60 @@ public class GameManager : MonoBehaviour
     public async void OnFindMatchPressed()
     {
         Debug.Log("Find match pressed");
-        
+
 
 
         string PollMatchResponse = await apiGatewayManager.PollMatch();
 
         if (PollMatchResponse != null)
         {
-            _findingMatch = true;
             // The response was for a found game session which also contains info for created player session
             Debug.Log("Game session found!");
-            // Debug.Log(gameSessionPlacementInfo.GameSessionId);
-
-            var matchmakingInfo = JsonConvert.DeserializeObject<dynamic>(PollMatchResponse);
+            var matchmakingInfo = JsonConvert.DeserializeObject<JObject>(PollMatchResponse);
 
             var ticket = matchmakingInfo["ticket"];
-            var ttl = (string)ticket["ttl"]["N"];
-            var ticketId = (string)ticket["Id"]["S"];
-            var ipAddress = (string)ticket["GameSessionInfo"]["M"]["IpAddress"]["S"];
-            var port = (int)ticket["GameSessionInfo"]["M"]["Port"]["N"];
-
-            var players = ticket["Players"]["L"];
-            var playerData = players[0]["M"];
-            var playerId = (string)playerData["PlayerId"]["S"];
-            var playerSessionId = (string)playerData["PlayerSessionId"]["S"];
-
-            //Debug logs for verification
-            Debug.Log("Matchmaking Info:");
-            Debug.Log("TTL: " + ttl);
-            Debug.Log("IP Address: " + ipAddress);
-            Debug.Log("Port: " + port);
-            Debug.Log("Ticket ID: " + ticketId);
-            Debug.Log("PlayerId: " + playerId);
-            Debug.Log("PlayerSessionId: " + playerSessionId);
-
-            _playerId = playerId;
-
-            // Once connected, the Realtime service moves the Player session from Reserved to Active, which means we're ready to connect.
-            if (_realTimeClient == null)
+            if (ticket != null)
             {
-                EstablishConnectionToRealtimeServer(ipAddress, port, playerSessionId);
-                Debug.Log("Connecting...");
-            }
-        }
-        else
-        {
-            Debug.Log("Game session response not valid...");
-        }
+                var ttlToken = ticket["ttl"]?["N"];
+                var ttl = ttlToken != null ? (string)ttlToken : string.Empty;
+                var ticketId = (string)ticket["Id"]?["S"];
+                var ipAddress = (string)ticket["GameSessionInfo"]?["M"]?["IpAddress"]?["S"];
+                var portToken = ticket["GameSessionInfo"]?["M"]?["Port"]?["N"];
+                var port = portToken != null ? int.Parse((string)portToken) : 0;
 
+                var players = ticket["Players"]?["L"];
+                if (players != null && players.HasValues)
+                {
+                    var playerData = players[0]["M"];
+                    var playerId = (string)playerData?["PlayerId"]?["S"];
+                    var playerSessionId = (string)playerData?["PlayerSessionId"]?["S"];
+
+                    // Debug logs for verification
+                    Debug.Log("Matchmaking Info:");
+                    Debug.Log("TTL: " + ttl);
+                    Debug.Log("IP Address: " + ipAddress);
+                    Debug.Log("Port: " + port);
+                    Debug.Log("Ticket ID: " + ticketId);
+                    Debug.Log("PlayerId: " + playerId);
+                    Debug.Log("PlayerSessionId: " + playerSessionId);
+
+                    _playerId = playerId;
+
+                    // Once connected, the Realtime service moves the Player session from Reserved to Active, which means we're ready to connect.
+                    if (_realTimeClient == null)
+                    {
+                        EstablishConnectionToRealtimeServer(ipAddress, port, playerSessionId);
+                        Debug.Log("Connecting...");
+                        _findingMatch = true;
+                    }
+                }
+            }
+            else
+            {
+                Debug.Log("Game session response not valid...");
+            }
+
+        }
     }
 
     //Server¿Í Connection ¸ÎÀ½
@@ -252,8 +259,11 @@ public class GameManager : MonoBehaviour
             _updateRemotePlayerId = false;
             //remoteClientPlayerName.text = _remotePlayerId;
         }
-        
 
+        //if (Input.GetKeyDown(KeyCode.UpArrow))
+        //{
+        //    OnFindMatchPressed();
+        //}
         // determine match results once game is over
         //if (this._gameOver == true)
         //{

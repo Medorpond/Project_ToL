@@ -60,6 +60,7 @@ public class RealtimeClient
                 // This only works because game play is asynchronous and doesn't care if both players are active at the same time.
                 //GameStarted = true;
 
+
                 break;
 
             case GameManager.GAME_START_OP:
