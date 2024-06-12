@@ -432,6 +432,48 @@ public class ApiGatewayManager : MonoBehaviour
         }
     }
 
+    public async Task<string> StartMatch()
+    {
+        try
+        {
+            var requestData = new Dictionary<string, Dictionary<string, int>>
+            {
+                { "latencyMap", new Dictionary<string, int> { { "ap-northeast-2", 60 } } }
+            };
+            var json = JsonConvert.SerializeObject(requestData);
+
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            using (var client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Add("Authorization", _IdToken);
+                var response = await client.PostAsync(_apiGatewayUrl + "PollMatchmaking", content);
+
+                if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                {
+                    Login();
+                    return await PollMatch(_ticketId);
+                }
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string jsonResponse = await response.Content.ReadAsStringAsync();
+
+                    return jsonResponse;
+                }
+                else
+                {
+                    Debug.LogError("No Matchmaking Data. Status Code: " + response.StatusCode);
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("Matchmaking error: " + e.Message);
+        }
+        return null;
+    }
+
     public async Task<string> PollMatch(string _ticketId)
     {
         try
@@ -463,7 +505,6 @@ public class ApiGatewayManager : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("No Matchmaking Data. Status Code: " + response.StatusCode);
                 }
             }
         }
