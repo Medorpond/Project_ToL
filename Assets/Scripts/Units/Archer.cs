@@ -13,6 +13,7 @@ public class Archer : Unit
         moveRange = 4;
         skill_1_Cooldown= 3;
         skill_2_Cooldown = 3;
+        type = "Dealer";
         base.Init();
         weaponType = WeaponType.ArrowAtk;
     }
@@ -70,26 +71,147 @@ public class Archer : Unit
     {
         mostValuedAction = (1, "");
         Vector2 myPos = new Vector2(transform.position.x, transform.position.y);
-        List<Unit> targetList = new();
-        Unit closestUnit;
+        Vector2 movePos = myPos;
+        Unit TargetUnit = null;
         float closestDist = Mathf.Infinity;
+        float distantDist = 0;
+        bool inRange = false;
 
-        foreach (Unit unit in opponent.UnitList)
+        foreach (Node node in movableNode)
         {
-            float dist = Vector2.Distance(unit.transform.position, myPos);
-            if (dist <= attackRange)
+            Vector2 psudoPos = new Vector2(node.x, node.y);
+            foreach (Unit unit in opponent.UnitList)
             {
-                targetList.Add(unit);
+                float dist = Vector2.Distance(unit.transform.position, psudoPos);
+                if (dist <= attackRange)
+                {
+                    inRange = true;
+                    if (TargetUnit == null)
+                    {
+                        TargetUnit = unit;
+                        distantDist = dist;
+                        movePos = psudoPos;
+                        break;
+                    }
+                    else if (TargetUnit == unit)
+                    {
+                        if (distantDist < dist)
+                        {
+                            distantDist = dist;
+                            movePos = psudoPos;
+                        }
+                        break;
+                    }
+                    else if (unit.currentHealth <= attackDamage)
+                    {
+                        if (TargetUnit.currentHealth > attackDamage)
+                        {
+                            TargetUnit = unit;
+                            distantDist = dist;
+                            movePos = psudoPos;
+                            break;
+                        }
+                        else
+                        {
+                            if (TargetUnit.type == "Captain")
+                            {
+                                break;
+                            }
+                            else if (unit.type == "Captain")
+                            {
+                                TargetUnit = unit;
+                                distantDist = dist;
+                                movePos = psudoPos;
+                                break;
+                            }
+                            else if (TargetUnit.type == unit.type)
+                            {
+                                if (TargetUnit.currentHealth < unit.currentHealth)
+                                {
+                                    TargetUnit = unit;
+                                    distantDist = dist;
+                                    movePos = psudoPos;
+                                }
+                                break;
+                            }
+                            else
+                            {
+                                if (unit.type == "Healer")
+                                {
+                                    TargetUnit = unit;
+                                    distantDist = dist;
+                                    movePos = psudoPos;
+                                    break;
+                                }
+                                else if (unit.type == "Dealer" && TargetUnit.type != "Healer")
+                                {
+                                    TargetUnit = unit;
+                                    distantDist = dist;
+                                    movePos = psudoPos;
+                                    break;
+                                }
+                                else break;
+                            }
+                        }
+
+
+                    }
+                    else
+                    {
+                        if (dist < closestDist)
+                        {
+                            closestDist = dist;
+                            TargetUnit = unit;
+                        }
+                    }
+                }
+                else
+                {
+                    if (dist < closestDist && !inRange)
+                    {
+                        movePos = psudoPos;
+                        closestDist = dist;
+                    }
+                }
             }
-            else if (targetList.Count == 0)
-            {
-                closestDist = dist;
-                closestUnit = unit;
-            }
-            else continue;
         }
 
+        int weight;
+        string command = "";
+        
+        
 
+        if (myPos != movePos) command += $"@Move/({myPos.x},{myPos.y})/({movePos.x},{movePos.y})";
+        if (TargetUnit != null)
+        {
+            switch (TargetUnit.type)
+            {
+                case "Captain":
+                    weight = 20;
+                    break;
+                case "Healer":
+                    weight = 15;
+                    break;
+                case "Dealer":
+                    weight = 12;
+                    break;
+                case "Tanker":
+                    weight = 10;
+                    break;
+                default:
+                    weight = 1;
+                    break;
+            }
+            if (inRange)
+            {
+                weight += 5;
+                command += $"@Attack/({movePos.x},{movePos.y})/({TargetUnit.transform.position.x},{TargetUnit.transform.position.y})";
+            }
+        }
+        else weight = 1;
 
+        command += $"@Idle/({movePos.x},{movePos.y})/({movePos.x},{movePos.y})";
+
+        mostValuedAction = (weight, command);
     }
 }

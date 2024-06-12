@@ -18,6 +18,7 @@ public class Knight : Unit
         moveRange = 3;
         skill_1_Cooldown= 3;
         skill_2_Cooldown = 7;
+        type = "Tanker";
         base.Init();
         weaponType = WeaponType.LightSword;
     }

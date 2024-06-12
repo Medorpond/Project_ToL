@@ -16,6 +16,7 @@ public class Priest : Unit
         moveRange = 3;
         skill_1_Cooldown = 3;
         skill_2_Cooldown = 5;
+        type = "Healer";
 
         base.Init();
         weaponType = WeaponType.healingMagic;
