@@ -483,7 +483,6 @@ public class ApiGatewayManager : MonoBehaviour
                 { "ticketId", _ticketId}
             };
             var json = JsonConvert.SerializeObject(requestData);
-
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
             using (var client = new HttpClient())
@@ -500,11 +499,12 @@ public class ApiGatewayManager : MonoBehaviour
                 if (response.IsSuccessStatusCode)
                 {
                     string jsonResponse = await response.Content.ReadAsStringAsync();
-                    
+
                     return jsonResponse;
                 }
                 else
                 {
+                    Debug.Log("No Matchmaking Data. Status Code: " + response.StatusCode);
                 }
             }
         }
