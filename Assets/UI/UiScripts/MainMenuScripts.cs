@@ -19,12 +19,12 @@ public class MainMenuScripts : MonoBehaviour
         {
             while (true)
             {
-                GameManager.Instance.OnFindMatchPressed();
-                if (GameManager.Instance._realTimeClient != null && GameManager.Instance._realTimeClient.GameStarted)
+                if (GameManager.Instance._findingMatch == true)
                 {
                     LoadingSceneController.LoadScene("GameScene_TEST");
                     break;
                 }
+                GameManager.Instance.OnFindMatchPressed();
                 yield return new WaitForSeconds(3f);
             }
         }

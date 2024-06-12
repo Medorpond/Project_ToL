@@ -541,7 +541,7 @@ public class ApiGatewayManager : MonoBehaviour
                 if (response.IsSuccessStatusCode)
                 {
                     string jsonResponse = await response.Content.ReadAsStringAsync();
-
+                    Debug.Log("I'm HERE!!!");
                     return jsonResponse;
                 }
                 else

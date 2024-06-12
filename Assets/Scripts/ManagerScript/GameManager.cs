@@ -53,7 +53,7 @@ public class GameManager : MonoBehaviour
     public string _remotePlayerId { get; private set; }
     //private bool _processGamePlay = false;
     private bool _updateRemotePlayerId = false;
-    private bool _findingMatch = false;
+    public bool _findingMatch = false;
     private bool _gameOver = false;
     private MatchResults matchResults = new();
 
@@ -62,14 +62,14 @@ public class GameManager : MonoBehaviour
     public async void OnFindMatchPressed()
     {
         Debug.Log("Find match pressed");
-        _findingMatch = true;
+        
 
 
         string PollMatchResponse = await apiGatewayManager.PollMatch();
-        if (PollMatchResponse != null) return;
 
         if (PollMatchResponse != null)
         {
+            _findingMatch = true;
             // The response was for a found game session which also contains info for created player session
             Debug.Log("Game session found!");
             // Debug.Log(gameSessionPlacementInfo.GameSessionId);
@@ -88,13 +88,13 @@ public class GameManager : MonoBehaviour
             var playerSessionId = (string)playerData["PlayerSessionId"]["S"];
 
             //Debug logs for verification
-            //Debug.Log("Matchmaking Info:");
-            //Debug.Log("TTL: " + ttl);
-            //Debug.Log("IP Address: " + ipAddress);
-            //Debug.Log("Port: " + port);
-            //Debug.Log("Ticket ID: " + ticketId);
-            //Debug.Log("PlayerId: " + playerId);
-            //Debug.Log("PlayerSessionId: " + playerSessionId);
+            Debug.Log("Matchmaking Info:");
+            Debug.Log("TTL: " + ttl);
+            Debug.Log("IP Address: " + ipAddress);
+            Debug.Log("Port: " + port);
+            Debug.Log("Ticket ID: " + ticketId);
+            Debug.Log("PlayerId: " + playerId);
+            Debug.Log("PlayerSessionId: " + playerSessionId);
 
             _playerId = playerId;
 
