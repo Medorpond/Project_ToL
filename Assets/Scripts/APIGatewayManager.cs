@@ -449,19 +449,20 @@ public class ApiGatewayManager : MonoBehaviour
             Debug.Log("!!!!!!!");
             using (var client = new HttpClient())
             {
-                client.DefaultRequestHeaders.Add("Authorization", "eyJraWQiOiJIM28yYUp4dkNNdzhpd0VxSTZwTVc2SjJmXC9nM21VSDJKYmpNT1wvWTVzUHc9IiwiYWxnIjoiUlMyNTYifQ.eyJzdWIiOiJmNGY4NGRlYy0wMDcxLTcwYjMtZDJjMS1mMjVjY2Q4MGU1N2QiLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiaXNzIjoiaHR0cHM6XC9cL2NvZ25pdG8taWRwLmFwLW5vcnRoZWFzdC0yLmFtYXpvbmF3cy5jb21cL2FwLW5vcnRoZWFzdC0yX1RxOXdZREhNdiIsImNvZ25pdG86dXNlcm5hbWUiOiJsankwMTIzIiwib3JpZ2luX2p0aSI6IjkzYTQ0Mjk1LTllZjYtNDU1NC1hMjdiLTE4ZjI1ZDdkN2U2NiIsImF1ZCI6IjQyaHE1bmYwaHZyZmpuaTF1Zmx0YjFiYW1kIiwiZXZlbnRfaWQiOiI4YmQzNDMxMy03NjViLTQwM2YtOWY5Mi1jMjgwMDZjNjFhMWIiLCJ0b2tlbl91c2UiOiJpZCIsImF1dGhfdGltZSI6MTcxODE5MDMwNywiZXhwIjoxNzE4MTkzOTA3LCJpYXQiOjE3MTgxOTAzMDcsImp0aSI6Ijk3OTVkMTc5LWVmZjItNGMwZC04Y2E2LTRmZjEwZjU5YTYxOSIsImVtYWlsIjoiY3FiMDcwOUBnbWFpbC5jb20ifQ.T0McaqFYgOoV1gg16FrR9ZYlqSXwGlFTNBEs4kH5B8vlObEnt6eodz8JQIXWW-4shRnkfiuGcKUJU_76KK8i2lOOPpxxOCIaT6GedmZvrq2nu5_9coaqb_osbA2L_EVtB8wmBExDxnbMgLhj171qSrVeacjrp8cz_jXy6I2mdD4m7J9Obl9YHOVd4CFJfOivitaFpT348a0otm1isrIKL7JlVnCKfENyaZfeGnYup5YfLoeCeKqV2PoteTHNkBxdBeh318_qca5WiTisCIJvLb3ODw9GGHt2qgTLI0RHxNaMJRnnMFoJeb86Xj5GSpBl8kIHZfC-yHWTlJvn3Fh59g");
+                client.DefaultRequestHeaders.Add("Authorization", _IdToken);
                 var response = await client.PostAsync(_apiGatewayUrl + "StartMatchmaking", content);
 
-                //if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
-                //{
-                //    Login();
-                //    return await StartMatch();
-                //}
+                if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                {
+                    Login();
+                    return await StartMatch();
+                }
 
                 if (response.IsSuccessStatusCode)
                 {
                     string jsonResponse = await response.Content.ReadAsStringAsync();
                     var ticketInfo = JsonConvert.DeserializeObject<dynamic>(jsonResponse);
+                    _ticketId = ticketInfo["ticketId"];
                     return ticketInfo["ticketId"];
                 }
                 else
@@ -473,6 +474,46 @@ public class ApiGatewayManager : MonoBehaviour
         catch (Exception e)
         {
             Debug.LogError("Matchmaking error: " + e.Message);
+        }
+        return null;
+    }
+
+    public async Task<string> StopMatch()
+    {
+        try
+        {
+            var requestData = new Dictionary<string, string>
+            {
+                { "ticketId", _ticketId}
+            };
+            var json = JsonConvert.SerializeObject(requestData);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            Debug.Log("!!!!!!!");
+            using (var client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Add("Authorization", _IdToken);
+                var response = await client.PostAsync(_apiGatewayUrl + "StopMatchmaking", content);
+
+                if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                {
+                    Login();
+                    return await StartMatch();
+                }
+
+                if (response.IsSuccessStatusCode)
+                {
+                    Debug.Log("Stopped Match Successfully");
+                }
+                else
+                {
+                    Debug.LogError("Cannot Stop Match. Status Code: " + response.StatusCode);
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("Stop Matchmaking error: " + e.Message);
         }
         return null;
     }
