@@ -50,7 +50,7 @@ public class GameManager : MonoBehaviour
     public string _playerId { get; private set; }
     private string _command;
     public string _remotePlayerId { get; private set; }
-    private string _ticketId;
+    public string _ticketId;
     //private bool _processGamePlay = false;
     private bool _updateRemotePlayerId = false;
     private bool _findingMatch = false;
