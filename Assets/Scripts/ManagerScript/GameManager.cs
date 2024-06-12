@@ -98,8 +98,11 @@ public class GameManager : MonoBehaviour
             _playerId = playerId;
 
             // Once connected, the Realtime service moves the Player session from Reserved to Active, which means we're ready to connect.
-            EstablishConnectionToRealtimeServer(ipAddress, port, playerSessionId);
-            Debug.Log("Connecting...");
+            if (_realTimeClient == null)
+            {
+                EstablishConnectionToRealtimeServer(ipAddress, port, playerSessionId);
+                Debug.Log("Connecting...");
+            }
         }
         else
         {
