@@ -72,7 +72,9 @@ public class ApiGatewayManager : MonoBehaviour
     private string _username;
     private string _password;
     private string _email;
-    private string _jwtToken;
+    private string _IdToken;
+    private string _AccToken;
+    private string _refreshToken;
     private string _ticketId;
 
     //Userdata, Username�� ���� �׸��� (_username)
@@ -239,8 +241,10 @@ public class ApiGatewayManager : MonoBehaviour
                     Debug.Log("Login successful. Response: " + responseContent);
 
                     // Extract JWT token from response and store it
-                    var responseData = JsonConvert.DeserializeObject<Dictionary<string, string>>(responseContent);
-                    _jwtToken = responseData["token"];
+                    var responseData = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, string>>>(responseContent);
+                    _IdToken = responseData["token"]["IdToken"];
+                    _AccToken = responseData["token"]["AccessToken"];
+                    _refreshToken = responseData["token"]["RefreshToken"];
                     onLoginSuccess.Invoke();
                     // Handle the response as needed
 
@@ -384,17 +388,22 @@ public class ApiGatewayManager : MonoBehaviour
         }
     }
 
-    public async Task GetUserInfo()
+    public async Task<bool> GetUserInfo()
     {
         try
         {
             
             using (var client = new HttpClient())
             {
-                client.DefaultRequestHeaders.Add("Authorization", _jwtToken); //Modified by Medorpond
+                client.DefaultRequestHeaders.Add("Authorization", _IdToken);
                 var response = await client.GetAsync(_apiGatewayUrl + "get-userinfo");
 
-                if (response.IsSuccessStatusCode)
+                if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized) {
+                    Login();
+                    return await GetUserInfo();
+                }
+
+                    if (response.IsSuccessStatusCode)
                 {
                     var jsonResponse = await response.Content.ReadAsStringAsync();
                     var userInfo = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, Dictionary<string, string>>>>(jsonResponse);
@@ -407,16 +416,19 @@ public class ApiGatewayManager : MonoBehaviour
 
                     Debug.Log("Get UserInfo Success");
                     //Debug.Log(jsonResponse);  //for debug
+                    return true;
                 }
                 else
                 {
                     Debug.LogError("Get UserInfo failed. Status Code: " + response.StatusCode);
+                    return false;
                 }
             }
         }
         catch (Exception e)
         {
             Debug.LogError("Get UserInfo error: " + e.Message);
+            return false;
         }
     }
 
@@ -434,19 +446,24 @@ public class ApiGatewayManager : MonoBehaviour
 
             using (var client = new HttpClient())
             {
-                client.DefaultRequestHeaders.Add("Authorization", _jwtToken);
+                client.DefaultRequestHeaders.Add("Authorization", _IdToken);
                 var response = await client.PostAsync(_apiGatewayUrl + "PollMatchmaking", content);
+
+                if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                {
+                    Login();
+                    return await PollMatch(_ticketId);
+                }
 
                 if (response.IsSuccessStatusCode)
                 {
                     string jsonResponse = await response.Content.ReadAsStringAsync();
-                    //var userInfo = JsonConvert.DeserializeObject<Dictionary<string, string>>(jsonResponse);
                     
                     return jsonResponse;
                 }
                 else
                 {
-                    Debug.LogError("Matchmaking failed. Status Code: " + response.StatusCode);
+                    Debug.LogError("No Matchmaking Data. Status Code: " + response.StatusCode);
                 }
             }
         }
@@ -474,9 +491,15 @@ public class ApiGatewayManager : MonoBehaviour
             //
             using (var client = new HttpClient())
             {
-                client.DefaultRequestHeaders.Add("Authorization", _jwtToken);
-
+                client.DefaultRequestHeaders.Add("Authorization", _IdToken);
                 var response = await client.PostAsync(_apiGatewayUrl + "delete-account", content);
+
+                if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                {
+                    Login();
+                    DeleteAccount();
+                    return;
+                }
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -491,6 +514,48 @@ public class ApiGatewayManager : MonoBehaviour
         catch (Exception e)
         {
             Debug.LogError("Delete Account error: " + e.Message);
+        }
+    }
+
+    public async void Logout()
+    {
+        try
+        {
+            //
+            var requestData = new Dictionary<string, string>
+            {
+                { "AccessToken", _AccToken }
+            };
+            var json = JsonConvert.SerializeObject(requestData);
+
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            //
+            using (var client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Add("Authorization", _IdToken);
+                var response = await client.PostAsync(_apiGatewayUrl + "sign-out", content);
+
+                if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                {
+                    Login();
+                    Logout();
+                    return;
+                }
+
+                if (response.IsSuccessStatusCode)
+                {
+                    Debug.Log("Log Out Successfully");
+                }
+                else
+                {
+                    Debug.LogError("Log Out failed. Status Code: " + response.StatusCode);
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("Log Out error: " + e.Message);
         }
     }
 

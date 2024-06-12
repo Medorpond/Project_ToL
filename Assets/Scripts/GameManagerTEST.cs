@@ -294,12 +294,28 @@ public class MatchStats
 [System.Serializable]
 public class RealtimePayload
 {
-    public string playerId;
+    private string PlayerId;
+    private string Unit;
+    private string CMD;
+    private int ObjLocX;
+    private int ObjLocY;
+    private int TargetLocX;
+    private int TargetLocY;
+
     // Other fields you wish to pass as payload to the realtime server
     public RealtimePayload() { }
     public RealtimePayload(string playerIdIn)
     {
-        this.playerId = playerIdIn;
+        this.PlayerId = playerIdIn;
+    }
+    public RealtimePayload(string PlayerIdin, string UnitIn, string CMDIn, int ObjLocXIn, int ObjLocYIn, int TargetLocXIn, int TargetLocYIn) {
+        this.PlayerId = PlayerIdin;
+        this.Unit = UnitIn;
+        this.CMD = CMDIn;
+        this.ObjLocX = ObjLocXIn;
+        this.ObjLocY = ObjLocYIn;
+        this.TargetLocX = TargetLocXIn;
+        this.TargetLocY = TargetLocYIn;
     }
 }
 

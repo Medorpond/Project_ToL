@@ -83,7 +83,7 @@ public class RealtimeClient
             case GameManagerTEST.PLAYER_ACTION:
                 // A player has drawn a card.  To be received as an acknowledgement that a card was played,
                 // regardless of who played it, and update the UI accordingly.
-                Debug.Log("Player draw card ack...");
+                Debug.Log("Player Action Detected");
 
                 string data = BytesToString(e.Data);
                 // Debug.Log(data);
@@ -168,8 +168,6 @@ public class RealtimeClient
 
     public void SendMessage(int opcode, RealtimePayload realtimePayload)
     {
-        // You can also pass in the DeliveryIntent depending on your message delivery requirements
-        // https://docs.aws.amazon.com/gamelift/latest/developerguide/realtime-sdk-csharp-ref-datatypes.html#realtime-sdk-csharp-ref-datatypes-rtmessage
 
         string payload = JsonUtility.ToJson(realtimePayload);
         // Debug.Log(payload);
