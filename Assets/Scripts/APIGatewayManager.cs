@@ -76,7 +76,7 @@ public class ApiGatewayManager : MonoBehaviour
     private string _IdToken;
     private string _AccToken;
     private string _refreshToken;
-    public string _ticketId;
+    private string _ticketId;
 
     //Userdata, Username�� ���� �׸��� (_username)
 
@@ -93,7 +93,7 @@ public class ApiGatewayManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            Debug.Log(StopMatch());
+            StopMatch();
         }
     }
     
@@ -516,7 +516,7 @@ public class ApiGatewayManager : MonoBehaviour
         return null;
     }
 
-    public async Task<string> PollMatch(string _ticketId)
+    public async Task<string> PollMatch()
     {
         try
         {
@@ -535,7 +535,7 @@ public class ApiGatewayManager : MonoBehaviour
                 if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
                 {
                     Login();
-                    return await PollMatch(_ticketId);
+                    return await PollMatch();
                 }
 
                 if (response.IsSuccessStatusCode)

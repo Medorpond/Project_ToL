@@ -65,7 +65,7 @@ public class GameManager : MonoBehaviour
         _findingMatch = true;
 
 
-        string PollMatchResponse = await apiGatewayManager.PollMatch(apiGatewayManager._ticketId);
+        string PollMatchResponse = await apiGatewayManager.PollMatch();
         if (PollMatchResponse != null) return;
 
         if (PollMatchResponse != null)
