@@ -10,8 +10,6 @@ using System.Text;
 
 public class RealtimeClient
 {
-
-
     public Aws.GameLift.Realtime.Client Client { get; private set; }
 
     public bool OnCloseReceived { get; private set; }
@@ -68,7 +66,7 @@ public class RealtimeClient
                 // The game start op tells our game clients that all players have joined and the game should start
                 Debug.Log("Start game op received...");
 
-                string startGameData = Encoding.Default.GetString(e.Data);
+                string startGameData = BytesToString(e.Data);
                 // Debug.Log(startGameData);
 
                 // Sets the opponent's id, in production should use their public username, not id.

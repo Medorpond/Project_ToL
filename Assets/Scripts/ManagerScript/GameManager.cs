@@ -51,7 +51,7 @@ public class GameManager : MonoBehaviour
     private string _command;
     public string _remotePlayerId { get; private set; }
     private string _ticketId;
-    private bool _processGamePlay = false;
+    //private bool _processGamePlay = false;
     private bool _updateRemotePlayerId = false;
     private bool _findingMatch = false;
     private bool _gameOver = false;
@@ -120,6 +120,8 @@ public class GameManager : MonoBehaviour
         _realTimeClient.GamePlayedEventHandler += OnGamePlayedEvent;
         _realTimeClient.RemotePlayerIdEventHandler += OnRemotePlayerIdEvent;
         _realTimeClient.GameOverEventHandler += OnGameOverEvent;
+
+        OnREADYCommand();
     }
 
 
@@ -133,19 +135,18 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log($"Unit played: {GamePlayedEventArgs.Command}");
 
-        if (GamePlayedEventArgs.PlayerId == _playerId)
-        {
-            Debug.Log("local Unit played");
-            //_matchStats.localPlayerCardsPlayed.Add(GamePlayedEventArgs.Unit.ToString());
+        //if (GamePlayedEventArgs.PlayerId == _playerId)
+        //{
+        //    Debug.Log("local Unit played");
+        //    //_matchStats.localPlayerCardsPlayed.Add(GamePlayedEventArgs.Unit.ToString());
 
-        }
-        else
-        {
-            Debug.Log("remote card played");
-            //_matchStats.remotePlayerCardsPlayed.Add(GamePlayedEventArgs.Unit.ToString());
-        }
-
-        _processGamePlay = true;
+        //}
+        //else
+        //{
+        //    Debug.Log("remote card played");
+        //    //_matchStats.remotePlayerCardsPlayed.Add(GamePlayedEventArgs.Unit.ToString());
+        //}
+        //_processGamePlay = true;
     }
 
 
@@ -166,6 +167,16 @@ public class GameManager : MonoBehaviour
         Debug.Log($"Game over event received with winner: {gameOverEventArgs.matchResults.winnerId}.");
         //this._matchResults = gameOverEventArgs.matchResults;
         this._gameOver = true;
+    }
+
+    public void OnREADYCommand()
+    {
+        Debug.Log("READY Command Sent");
+
+        RealtimePayload realtimePayload = new RealtimePayload(_playerId);
+
+        // Use the Realtime client's SendMessage function to pass data to the server
+        _realTimeClient.SendMessage(PLAYER_ACTION, realtimePayload);
     }
 
     public void OnPlayerCommand(string command)
@@ -221,6 +232,28 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         ApiGatewayManager.Instance.onLoginSuccess.AddListener(OnLoginSuccess);
+    }
+
+    private void Update()
+    {
+        if (_realTimeClient != null && _realTimeClient.GameStarted)
+        {
+            //_playCardButton.gameObject.SetActive(true);
+            _realTimeClient.GameStarted = false;
+        }
+        if (_updateRemotePlayerId)
+        {
+            _updateRemotePlayerId = false;
+            //remoteClientPlayerName.text = _remotePlayerId;
+        }
+        
+
+        // determine match results once game is over
+        //if (this._gameOver == true)
+        //{
+        //    this._gameOver = false;
+        //    DisplayMatchResults();
+        //}
     }
 
     void OnLoginSuccess() 
