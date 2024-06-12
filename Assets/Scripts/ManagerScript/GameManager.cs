@@ -45,7 +45,7 @@ public class GameManager : MonoBehaviour
 
 
     private static readonly IPEndPoint DefaultLoopbackEndpoint = new IPEndPoint(IPAddress.Loopback, port: 0);
-    private RealtimeClient _realTimeClient;
+    public RealtimeClient _realTimeClient;
 
     public string _playerId { get; private set; }
     private string _command;
@@ -176,7 +176,7 @@ public class GameManager : MonoBehaviour
         RealtimePayload realtimePayload = new RealtimePayload(_playerId);
 
         // Use the Realtime client's SendMessage function to pass data to the server
-        _realTimeClient.SendMessage(PLAYER_ACTION, realtimePayload);
+        _realTimeClient.SendMessage(GAME_READY_OP, realtimePayload);
     }
 
     public void OnPlayerCommand(string command)
@@ -240,6 +240,7 @@ public class GameManager : MonoBehaviour
         {
             //_playCardButton.gameObject.SetActive(true);
             _realTimeClient.GameStarted = false;
+
         }
         if (_updateRemotePlayerId)
         {
