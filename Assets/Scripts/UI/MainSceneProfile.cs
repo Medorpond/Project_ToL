@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.WSA;
 
 public class MainSceneProfile : MonoBehaviour
 {
@@ -41,11 +42,26 @@ public class MainSceneProfile : MonoBehaviour
             winText.text = apiManager.__WIN;
             loseText.text = apiManager.__LOSE;
 
-            int wins = int.Parse(apiManager.__WIN);
-            int losses = int.Parse(apiManager.__LOSE);
-            float winRate = (float) wins / (wins + losses);
-
-            RateText.text = (winRate * 100).ToString("F2") + "%";
+            if(int.TryParse(apiManager.__WIN, out int wins) && int.TryParse(apiManager.__LOSE, out int losses))
+            {
+                if (wins + losses > 0)
+                {
+                    float winRate = (float) wins / (wins + losses);
+                    RateText.text = (winRate * 100).ToString("F2") + "%";
+                }
+                else
+                {
+                    RateText.text = "0.00%";
+                }
+            }
+            else
+            {
+                RateText.text = "N/A";
+            }
+        }
+        else
+        {
+            Debug.LogError("no APIGatewayManager");
         }
     }
 }
