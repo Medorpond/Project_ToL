@@ -143,7 +143,8 @@ public class PlayerManager : CommonManager
 
                 if (currentUnit.MoveTo(clickedPos))
                 {
-                    CmdList.Add($"@Move/({(int)curUnitPos.x},{(int)curUnitPos.y})/({(int)clickedPos.x},{(int)clickedPos.y})");
+                    string command = $"@Move/({(int)curUnitPos.x},{(int)curUnitPos.y})/({(int)clickedPos.x},{(int)clickedPos.y})";
+                    GameManager.Instance.OnPlayerCommand(command);
                 }
                 else { Debug.Log("Cannot Move"); }
 
@@ -188,7 +189,8 @@ public class PlayerManager : CommonManager
 
                 if (currentUnit.Attack(target))
                 {
-                    CmdList.Add($"@Attack/({(int)currentUnit.transform.position.x},{(int)currentUnit.transform.position.y})/({(int)target.transform.position.x},{(int)target.transform.position.y})");
+                    string command = $"@Attack/({(int)currentUnit.transform.position.x},{(int)currentUnit.transform.position.y})/({(int)target.transform.position.x},{(int)target.transform.position.y})";
+                    GameManager.Instance.OnPlayerCommand(command);
                 }
             }   
         }
@@ -224,7 +226,8 @@ public class PlayerManager : CommonManager
             {
                 if (currentUnit.Ability1(clicked))
                 {
-                    CmdList.Add($"@Ability1/({(int)currentUnit.transform.position.x},{(int)currentUnit.transform.position.y})/({(int)clicked.transform.position.x},{(int)clicked.transform.position.y})");
+                    string command = $"@Ability1/({(int)currentUnit.transform.position.x},{(int)currentUnit.transform.position.y})/({(int)clicked.transform.position.x},{(int)clicked.transform.position.y})";
+                    GameManager.Instance.OnPlayerCommand(command);
                 }
 
                 currentUnit.Ability1();
@@ -255,7 +258,11 @@ public class PlayerManager : CommonManager
         {
             if (currentUnit != null)
             {
-                currentUnit.Ability2();
+                if (currentUnit.Ability2())
+                {
+                    string command = "";
+                    GameManager.Instance.OnPlayerCommand(command);
+                }
             }
 
         }

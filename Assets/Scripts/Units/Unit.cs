@@ -79,17 +79,26 @@ public abstract class Unit : MonoBehaviour
     #endregion
 
     #region Unity Monobehaviour LifeCycle Method
-    protected virtual void Awake() 
-    {
-        player = GetComponentInParent<CommonManager>() == PlayerManager.Instance 
-            ? PlayerManager.Instance : OpponentManager.Instance;
-        opponent = PlayerManager.Instance == player 
-            ? OpponentManager.Instance : PlayerManager.Instance;
+    protected virtual void Awake()
+    { 
         animator = GetComponent<Animator>(); 
         Init(); 
     }
     protected virtual void Start()
     {
+        if (this.GetComponentInParent<CommonManager>().CompareTag("AI"))
+        {
+            player = GetComponentInParent<CommonManager>();
+            opponent = GameObject.Find(this.GetComponentInParent<Transform>().name == "Player" ? "Opponent" : "Player").GetComponent<CommonManager>();
+
+        }
+        else
+        {
+            player = GetComponentInParent<CommonManager>() == PlayerManager.Instance
+            ? PlayerManager.Instance : OpponentManager.Instance;
+            opponent = PlayerManager.Instance == player
+                ? OpponentManager.Instance : PlayerManager.Instance;
+        }
         ScanMovableNode();
     }
 

@@ -214,6 +214,20 @@ public class MatchManager : MonoBehaviour
     #region EndPhase
     public void GameOver(GameObject loser = null)
     {
+        if (loser == null)
+        {
+            
+        }
+        else if (loser.CompareTag("Opponent"))
+        {
+            //보낸다 playerID
+        }
+        else if (loser.CompareTag("Player"))
+        { 
+            //보낸다 RemotePlayerID
+        }
+
+
         BattleAudioManager.instance.PlayAmbience(false);
         UIAudioManager.instance.PlayBgm(false);
         currentPhase = Phase.End;
@@ -230,12 +244,14 @@ public class MatchManager : MonoBehaviour
         else if (loser.CompareTag("Opponent"))
         {
             winnerText.text = "You Win!!!";
+            //보낸다 playerID
             BattleAudioManager.instance.PlayBSfx(BattleAudioManager.Sfx.victory1);
             BattleAudioManager.instance.PlayBSfx(BattleAudioManager.Sfx.victory2);
         }
         else if (loser.CompareTag("Player"))
         {
             winnerText.text = "You Lose...";
+            //보낸다 RemotePlayerID
             BattleAudioManager.instance.PlayBSfx(BattleAudioManager.Sfx.lose);
             //BattleAudioManager.instance.PlayBSfx(BattleAudioManager.Sfx.lose2);
         }
@@ -402,5 +418,24 @@ public class MatchManager : MonoBehaviour
         int layerMask = ~LayerMask.GetMask("Ignore Raycast");
         Vector3 ray = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         return Physics2D.Raycast(ray, Vector2.zero);
+    }
+}
+
+
+
+public class MatchResults
+{
+    public string playerOneid;
+    public string playerTwoid;
+
+    public string winnerId;
+
+    public MatchResults() { }
+
+    public MatchResults(string _playerOneidIn, string _playerTwoidIn, string _winnerIdIn)
+    {
+        playerOneid = _playerOneidIn;
+        playerTwoid = _playerTwoidIn;
+        winnerId = _winnerIdIn;
     }
 }

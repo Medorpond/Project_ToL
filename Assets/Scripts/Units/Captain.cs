@@ -84,6 +84,7 @@ public class Captain : Unit
         mostValuedAction = (0, "");
         Unit closestUnit = null;
         Vector3 myPos = this.transform.position;
+        Vector3 movePos = myPos;
         foreach (Unit unit in opponent.UnitList)
         {
             if (closestUnit == null || Vector3.Distance(closestUnit.transform.position, myPos) 
@@ -110,7 +111,10 @@ public class Captain : Unit
             {
                 mostValuedAction.weight = 30;
                 mostValuedAction.command += $"@Move/({myPos.x},{myPos.y})/({distantNode.x},{distantNode.y})";
+                movePos = new Vector3(distantNode.x, distantNode.y);
             }
         }
+
+        mostValuedAction.command += $"@Idle/({movePos.x},{movePos.y})/({movePos.x},{movePos.y})";
     }
 }

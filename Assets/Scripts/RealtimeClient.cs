@@ -53,7 +53,7 @@ public class RealtimeClient
         // handle message based on OpCode
         switch (e.OpCode)
         {
-            case GameManagerTEST.OP_CODE_PLAYER_ACCEPTED:
+            case GameManager.OP_CODE_PLAYER_ACCEPTED:
                 // This tells our client that the player has been accepted into the Game Session as a new player session.
                 Debug.Log("Player accepted into game session!");
 
@@ -64,7 +64,7 @@ public class RealtimeClient
 
                 break;
 
-            case GameManagerTEST.GAME_START_OP:
+            case GameManager.GAME_START_OP:
                 // The game start op tells our game clients that all players have joined and the game should start
                 Debug.Log("Start game op received...");
 
@@ -80,7 +80,7 @@ public class RealtimeClient
 
                 break;
 
-            case GameManagerTEST.PLAYER_ACTION:
+            case GameManager.PLAYER_ACTION:
                 // A player has drawn a card.  To be received as an acknowledgement that a card was played,
                 // regardless of who played it, and update the UI accordingly.
                 Debug.Log("Player Action Detected");
@@ -96,7 +96,7 @@ public class RealtimeClient
                     
                 break;
 
-            case GameManagerTEST.GAMEOVER_OP:
+            case GameManager.GAMEOVER_OP:
                 // gives us the match results
                 Debug.Log("Game over op...");
 
@@ -157,6 +157,7 @@ public class RealtimeClient
     {
         Debug.Log("OnGameOver");
 
+        
         GameOverEventArgs gameOverEventArgs = new GameOverEventArgs(matchResults);
 
         EventHandler<GameOverEventArgs> handler = GameOverEventHandler;
@@ -227,25 +228,15 @@ public class RealtimeClient
 public class GamePlayedEventArgs : EventArgs
 {
     public string PlayerId { get; set; }
-    public string Unit { get; set; }
-    public string CMD { get; set; }
-    public int ObjLocX { get; set; }
-    public int ObjLocY { get; set; }
-    public int TargetLocX { get; set; }
-    public int TargetLocY { get; set; }
-    
+    public string Command { get; set; }
+
 
 
     public GamePlayedEventArgs(GamePlayed GamePlayed)
     {
         this.PlayerId = GamePlayed.PlayerId;
-        this.Unit = GamePlayed.Unit;
-        this.CMD = GamePlayed.CMD;
-        this.ObjLocX = GamePlayed.ObjLocX;
-        this.ObjLocY = GamePlayed.ObjLocY;
-        this.TargetLocX = GamePlayed.TargetLocX;
-        this.TargetLocY = GamePlayed.TargetLocY;
-        
+        this.Command = GamePlayed.Command;
+
     }
 }
 
@@ -264,23 +255,13 @@ public class RemotePlayerIdEventArgs : EventArgs
 public class GamePlayed
 {
     public string PlayerId;
-    public string Unit;
-    public string CMD;
-    public int ObjLocX;
-    public int ObjLocY;
-    public int TargetLocX;
-    public int TargetLocY;
+    public string Command;
 
     public GamePlayed() { }
-    public GamePlayed(string PlayerIdin,string UnitIn, string CMDIn, int ObjLocXIn, int ObjLocYIn, int TargetLocXIn, int TargetLocYIn)
+    public GamePlayed(string PlayerIdin, string CommandIn)
     {
         this.PlayerId = PlayerIdin;
-        this.Unit = UnitIn;
-        this.CMD = CMDIn;
-        this.ObjLocX = ObjLocXIn;
-        this.ObjLocY = ObjLocYIn;
-        this.TargetLocX = TargetLocXIn;
-        this.TargetLocY = TargetLocYIn;
+        this.Command = CommandIn;
     }
 }
 

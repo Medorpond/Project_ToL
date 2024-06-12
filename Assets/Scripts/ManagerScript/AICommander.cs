@@ -1,47 +1,14 @@
-using Amazon.GameLift.Model;
 using System.Collections;
 using System.Collections.Generic;
-using System.Drawing.Text;
 using UnityEngine;
 
-public class OpponentManager : CommonManager
+public class AICommander : CommonManager
 {
 
     public bool isMyTurn;
-    #region Singletone
-    private static OpponentManager instance = null;
-    public static OpponentManager Instance
-    {
-        get
-        {
-            if (instance == null)
-            {
-                instance = new GameObject("OpponentManager").AddComponent<OpponentManager>();
-            }
-            return instance;
-        }
-    }
-
-    private void SingletoneInit()
-    {
-        if (instance == null)
-        {
-            instance = this;
-        }
-        else { Destroy(this.gameObject); }
-    }
-
-    #endregion
-
-
-
 
     #region Unity Monobehaviour LifeCycle
 
-    private void Awake()
-    {
-        SingletoneInit();
-    }
     private void Start()
     {
         MatchManager.Instance.onTurnEnd.AddListener(OnTurnStart);
@@ -78,7 +45,7 @@ public class OpponentManager : CommonManager
 
     public override void OnTurnStart()
     {
-        if(isMyTurn)
+        if (isMyTurn)
         {
             (int weight, string command) action = (-1, "");
             foreach (Unit unit in UnitList)
@@ -206,9 +173,19 @@ public class OpponentManager : CommonManager
     {
         // Captain on (24, 5)
         string path = $"Prefabs/Character/Unit_TEST/";
-        Deploy("Priest", new Vector3(24, 3));
-        Deploy("Knight", new Vector3(12, 5));
-        Deploy("Archer", new Vector3(24, 7));
+
+        if (name == "Opponent")
+        {
+            Deploy("Priest", new Vector3(24, 3));
+            Deploy("Knight", new Vector3(12, 5));
+            Deploy("Archer", new Vector3(24, 7));
+        }
+        else if (name == "Player")
+        {
+            Deploy("Priest", new Vector3(2, 3));
+            Deploy("Knight", new Vector3(7, 5));
+            Deploy("Archer", new Vector3(2, 7));
+        }
 
 
 
@@ -217,7 +194,7 @@ public class OpponentManager : CommonManager
             GameObject prefab = Resources.Load<GameObject>(path + unitType);
             if (prefab == null) { Debug.LogError("Failed to load prefab from path: " + path); return; }
 
-            GameObject unit= Instantiate(prefab, Location, Quaternion.identity, this.transform);
+            GameObject unit = Instantiate(prefab, Location, Quaternion.identity, this.transform);
             MapManager.Instance.stage.NodeArray[(int)Location.x, (int)Location.y].isBlocked = true;
             MapManager.Instance.stage.NodeArray[(int)Location.x, (int)Location.y].unitOn = unit.GetComponent<Unit>();
             unit.GetComponent<BoxCollider2D>().enabled = true;
