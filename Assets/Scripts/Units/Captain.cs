@@ -78,4 +78,39 @@ public class Captain : Unit
         moveRange += 7;
         attackDamage += 4;
     }
+
+    protected override void AnalizeAction() 
+    {
+        mostValuedAction = (0, "");
+        Unit closestUnit = null;
+        Vector3 myPos = this.transform.position;
+        foreach (Unit unit in opponent.UnitList)
+        {
+            if (closestUnit == null || Vector3.Distance(closestUnit.transform.position, myPos) 
+                > Vector3.Distance(unit.transform.position, myPos))
+            {
+                closestUnit = unit;
+            }
+        }
+
+        if (Vector3.Distance(closestUnit.transform.position, myPos) <= closestUnit.attackRange)
+        {
+            float distance = 0;
+            Node distantNode = null;
+            foreach (Node node in movableNode)
+            {
+                float curDis = Vector3.Distance(new Vector2(node.x, node.y), closestUnit.transform.position);
+                if ( curDis > closestUnit.attackRange && curDis > distance)
+                {
+                    distance = curDis;
+                    distantNode = node;
+                }
+            }
+            if (distantNode != null)
+            {
+                mostValuedAction.weight = 30;
+                mostValuedAction.command += $"@Move/({myPos.x},{myPos.y})/({distantNode.x},{distantNode.y})";
+            }
+        }
+    }
 }

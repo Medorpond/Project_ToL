@@ -6,7 +6,7 @@ using UnityEngine;
 public class CommonManager : MonoBehaviour
 {
     public List<Unit> UnitList = new();
-
+    public Unit Captain;
     public void RegisterUnit(Unit _unit)
     {
         UnitList.Add(_unit);

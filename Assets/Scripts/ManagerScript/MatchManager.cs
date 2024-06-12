@@ -154,12 +154,14 @@ public class MatchManager : MonoBehaviour
         MapManager.Instance.stage.NodeArray[(int)MyCaptainPos.x, (int)MyCaptainPos.y].unitOn = MyCaptain.GetComponent<Unit>();
         MyCaptain.GetComponent<BoxCollider2D>().enabled = true;
         player.RegisterUnit(MyCaptain.GetComponent<Unit>());
+        player.Captain = MyCaptain.GetComponent<Unit>();
 
         GameObject OpponentCaptain = Instantiate(prefab, OpponentCaptainPos, Quaternion.identity, opponent.transform);
         MapManager.Instance.stage.NodeArray[(int)OpponentCaptainPos.x, (int)OpponentCaptainPos.y].isBlocked = true;
         MapManager.Instance.stage.NodeArray[(int)OpponentCaptainPos.x, (int)OpponentCaptainPos.y].unitOn = OpponentCaptain.GetComponent<Unit>();
         OpponentCaptain.GetComponent<BoxCollider2D>().enabled = true;
         opponent.RegisterUnit(OpponentCaptain.GetComponent<Unit>());
+        opponent.Captain = OpponentCaptain.GetComponent<Unit>();
     }
     #endregion
 

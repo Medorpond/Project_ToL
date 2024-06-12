@@ -148,6 +148,7 @@ public class OpponentManager : CommonManager
             if (obj == null)
             {
                 Debug.Log("Wrong Action Object");
+                Debug.Log(command);
                 actionCoroutine = null;
                 MatchManager.Instance.ChangeTurn();
                 yield break;

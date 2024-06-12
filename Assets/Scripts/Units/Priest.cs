@@ -62,7 +62,7 @@ public class Priest : Unit
 
     protected override void AnalizeAction()
     {
-        mostValuedAction = (1, "");
+        mostValuedAction = (0, "");
         List<Unit> damagedUnits = new();
         Unit mostDamagedUnit = null;
         bool isMDUHealed = false;
@@ -82,7 +82,7 @@ public class Priest : Unit
 
         if (skill_2_currentCool == 0 && damagedUnits.Count >= player.UnitList.Count/2)
         {
-            mostValuedAction.weight = 15;
+            mostValuedAction.weight = 22;
             mostValuedAction.command += $"@Ability2/({myPos.x},{myPos.y})/({myPos.x},{myPos.y})";
         }//If more than half is damaged, use A2
         else if (attackLeft > 0)
@@ -91,21 +91,22 @@ public class Priest : Unit
             {
                 if (Vector2.Distance(mostDamagedUnit.transform.position, myPos) <= attackRange)
                 {
-                    mostValuedAction.weight += 10;
+                    mostValuedAction.weight += 18;
                     mostValuedAction.command += $"@Attack/({myPos.x},{myPos.y})/({mostDamagedUnit.transform.position.x},{mostDamagedUnit.transform.position.y})";
                     isMDUHealed = true;
                 }
             }//If MDU is seriously damaged and In range, heal MDU
             else if (this.currentHealth < maxHealth / 4f)
             {
-                mostValuedAction.weight += 10;
+                mostValuedAction.weight += 16;
+                isMDUHealed = true;
                 mostValuedAction.command += $"@Attack/({myPos.x},{myPos.y})/({myPos.x},{myPos.y})";
             }//If itself is seriously damaged, heal itself.
             else if (mostDamagedUnit != null)
             {
                 if (Vector2.Distance(new Vector2(mostDamagedUnit.transform.position.x, mostDamagedUnit.transform.position.y), this.transform.position) <= attackRange)
                 {
-                    mostValuedAction.weight += 10;
+                    mostValuedAction.weight += 11;
                     mostValuedAction.command += $"@Attack/({myPos.x},{myPos.y})/({mostDamagedUnit.transform.position.x},{mostDamagedUnit.transform.position.y})";
                     isMDUHealed = true;
                 }
@@ -145,7 +146,7 @@ public class Priest : Unit
 
             if (closestDistance <= attackRange && attackLeft > 0)
             {
-                mostValuedAction.weight += 10;
+                mostValuedAction.weight += 5;
                 mostValuedAction.command += $"@Attack/({myPos.x},{myPos.y})/({mostDamagedUnit.transform.position.x},{mostDamagedUnit.transform.position.y})";
                 isMDUHealed = true;
             }

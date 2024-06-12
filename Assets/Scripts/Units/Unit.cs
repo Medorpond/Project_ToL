@@ -274,13 +274,11 @@ public abstract class Unit : MonoBehaviour
         if (skill_1_currentCool > 0) skill_1_currentCool--;
         if (skill_2_currentCool > 0) skill_2_currentCool--;
 
-        mostValuedAction = (0, "");
-
         for (int i = buffList.Count - 1; i >= 0; i--)
         {
             buffList[i].TurnEnd();
         }
-
+        ScanMovableNode();
         AnalizeAction();
     }
 

@@ -3351,7 +3351,7 @@ MonoBehaviour:
   DeployPanel: {fileID: 383419111}
   ResultPanel: {fileID: 2127389625}
   winnerText: {fileID: 721376711}
-  unitSelectPhaseTime: 3
+  unitSelectPhaseTime: 5
   battlePhaseTime: 60
   maxTurnCount: 100
 --- !u!4 &407919657
@@ -8060,6 +8060,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UnitList: []
+  Captain: {fileID: 0}
   isMyTurn: 0
 --- !u!1 &1091040243
 GameObject:
@@ -12278,6 +12279,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UnitList: []
+  Captain: {fileID: 0}
   CmdList: []
   moveButton: {fileID: 0}
 --- !u!1 &1626703356
