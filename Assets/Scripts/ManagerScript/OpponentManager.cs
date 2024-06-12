@@ -77,25 +77,37 @@ public class OpponentManager : CommonManager
 
     #endregion
 
-    public override void OnTurnStart()
+    //public override void OnTurnStart()
+    //{
+    //    if(isMyTurn)
+    //    {
+    //        (int weight, string command) action = (-1, "");
+    //        foreach (Unit unit in UnitList)
+    //        {
+    //            unit.OnTurnStart();
+    //            if (action.weight <= unit.mostValuedAction.weight)
+    //            {
+    //                action = unit.mostValuedAction;
+    //            }
+    //        }
+    //        if (action.command != "")
+    //        {
+    //            StartCoroutine(DepackCommand(action.command));
+    //        }
+    //    }
+    //}
+
+    public void OnMessageRecieved(string command)
     {
-        if(isMyTurn)
+        if (isMyTurn)
         {
-            (int weight, string command) action = (-1, "");
-            foreach (Unit unit in UnitList)
+            if (command != "")
             {
-                unit.OnTurnStart();
-                if (action.weight <= unit.mostValuedAction.weight)
-                {
-                    action = unit.mostValuedAction;
-                }
-            }
-            if (action.command != "")
-            {
-                StartCoroutine(DepackCommand(action.command));
+                StartCoroutine(DepackCommand(command));
             }
         }
     }
+
 
     #region Command Handler
     IEnumerator DepackCommand(string commandString)
