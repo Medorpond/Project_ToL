@@ -19,6 +19,8 @@ public class MainSceneProfile : MonoBehaviour
     private TextMeshProUGUI loseText;
     [SerializeField]
     private TextMeshProUGUI subText;
+    [SerializeField]
+    private TextMeshProUGUI RateText;
 
     void Update()
     {
@@ -38,6 +40,12 @@ public class MainSceneProfile : MonoBehaviour
             subText.text = apiManager.__SUB;
             winText.text = apiManager.__WIN;
             loseText.text = apiManager.__LOSE;
+
+            int wins = int.Parse(apiManager.__WIN);
+            int losses = int.Parse(apiManager.__LOSE);
+            float winRate = (float) wins / (wins + losses);
+
+            RateText.text = (winRate * 100).ToString("F2") + "%";
         }
     }
 }
