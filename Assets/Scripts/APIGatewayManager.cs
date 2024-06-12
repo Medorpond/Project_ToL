@@ -249,6 +249,8 @@ public class ApiGatewayManager : MonoBehaviour
                     onLoginSuccess.Invoke();
                     // Handle the response as needed
 
+                    //Debug.Log("Idtoken: " + _IdToken);
+
                     // yong
                     ProgressIn = true;
                     Loginsuccess = true;
@@ -442,7 +444,6 @@ public class ApiGatewayManager : MonoBehaviour
                 { "latencyMap", new Dictionary<string, int> { { "ap-northeast-2", 60 } } }
             };
             var json = JsonConvert.SerializeObject(requestData);
-
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
             using (var client = new HttpClient())
