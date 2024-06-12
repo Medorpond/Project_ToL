@@ -11,7 +11,11 @@ public class MainMenuScripts : MonoBehaviour
     }
     // CLick button method
     public void OnClickComponent(){
-        LoadingSceneController.LoadScene("GameScene_TEST");
+        GameManager.Instance.OnFindMatchPressed();
+        if (GameManager.Instance._realTimeClient.GameStarted)
+        {
+            LoadingSceneController.LoadScene("GameScene_TEST");
+        }
     }
     public void OnClickSingle(){
         LoadingSceneController.LoadScene("GameScene_TEST");
