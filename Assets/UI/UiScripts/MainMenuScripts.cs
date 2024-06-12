@@ -10,20 +10,20 @@ public class MainMenuScripts : MonoBehaviour
         UIAudioManager.instance.PlayBgm(true);
     }
     // CLick button method
-    public void OnClickComponent(){
-
+    public async void OnClickComponent(){
+        ApiGatewayManager apiGatewayManager = new ApiGatewayManager();
+        string MatchTicket = await apiGatewayManager.StartMatch();
         StartCoroutine(MatchFinding());
         IEnumerator MatchFinding()
         {
             while (true)
             {
+                GameManager.Instance.OnFindMatchPressed();
                 if (GameManager.Instance._realTimeClient.GameStarted)
                 {
                     LoadingSceneController.LoadScene("GameScene_TEST");
                     break;
                 }
-                GameManager.Instance.OnFindMatchPressed();
-
                 yield return new WaitForSeconds(3f);
             }
         }

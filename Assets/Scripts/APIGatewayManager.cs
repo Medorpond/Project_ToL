@@ -9,6 +9,7 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.Events;
 using System.Runtime.CompilerServices;
+using System.Collections;
 
 
 public class ApiGatewayManager : MonoBehaviour
@@ -447,18 +448,17 @@ public class ApiGatewayManager : MonoBehaviour
             using (var client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Add("Authorization", _IdToken);
-                var response = await client.PostAsync(_apiGatewayUrl + "PollMatchmaking", content);
+                var response = await client.PostAsync(_apiGatewayUrl + "StartMatchmaking", content);
 
                 if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
                 {
                     Login();
-                    return await PollMatch(_ticketId);
+                    return await StartMatch();
                 }
 
                 if (response.IsSuccessStatusCode)
                 {
                     string jsonResponse = await response.Content.ReadAsStringAsync();
-
                     return jsonResponse;
                 }
                 else
