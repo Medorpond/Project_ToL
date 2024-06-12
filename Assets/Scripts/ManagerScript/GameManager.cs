@@ -92,13 +92,13 @@ public class GameManager : MonoBehaviour
                     var playerSessionId = (string)playerData?["PlayerSessionId"]?["S"];
 
                     // Debug logs for verification
-                    Debug.Log("Matchmaking Info:");
-                    Debug.Log("TTL: " + ttl);
-                    Debug.Log("IP Address: " + ipAddress);
-                    Debug.Log("Port: " + port);
-                    Debug.Log("Ticket ID: " + ticketId);
-                    Debug.Log("PlayerId: " + playerId);
-                    Debug.Log("PlayerSessionId: " + playerSessionId);
+                    //Debug.Log("Matchmaking Info:");
+                    //Debug.Log("TTL: " + ttl);
+                    //Debug.Log("IP Address: " + ipAddress);
+                    //Debug.Log("Port: " + port);
+                    //Debug.Log("Ticket ID: " + ticketId);
+                    //Debug.Log("PlayerId: " + playerId);
+                    //Debug.Log("PlayerSessionId: " + playerSessionId);
 
                     _playerId = playerId;
 

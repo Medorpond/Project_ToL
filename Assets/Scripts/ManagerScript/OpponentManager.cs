@@ -99,12 +99,10 @@ public class OpponentManager : CommonManager
 
     public void OnMessageRecieved(string command)
     {
-        if (isMyTurn)
+        Debug.Log("Command IN RECV");
+        if (command != "")
         {
-            if (command != "")
-            {
-                StartCoroutine(DepackCommand(command));
-            }
+            StartCoroutine(DepackCommand(command));
         }
     }
 
