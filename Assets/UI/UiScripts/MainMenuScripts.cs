@@ -11,10 +11,21 @@ public class MainMenuScripts : MonoBehaviour
     }
     // CLick button method
     public void OnClickComponent(){
-        GameManager.Instance.OnFindMatchPressed();
-        if (GameManager.Instance._realTimeClient.GameStarted)
+
+        StartCoroutine(MatchFinding());
+        IEnumerator MatchFinding()
         {
-            LoadingSceneController.LoadScene("GameScene_TEST");
+            while (true)
+            {
+                if (GameManager.Instance._realTimeClient.GameStarted)
+                {
+                    LoadingSceneController.LoadScene("GameScene_TEST");
+                    break;
+                }
+                GameManager.Instance.OnFindMatchPressed();
+
+                yield return new WaitForSeconds(3f);
+            }
         }
     }
     public void OnClickSingle(){

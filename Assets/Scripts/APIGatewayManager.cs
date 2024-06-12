@@ -463,7 +463,7 @@ public class ApiGatewayManager : MonoBehaviour
                 }
                 else
                 {
-                    Debug.LogError("No Matchmaking Data. Status Code: " + response.StatusCode);
+                    Debug.Log("No Matchmaking Data. Status Code: " + response.StatusCode);
                 }
             }
         }
