@@ -6,12 +6,13 @@ using UnityEngine.UI;
 
 public class MainMenuScripts : MonoBehaviour
 {
+    private ApiGatewayManager apiGatewayManager;
     void Start(){
         UIAudioManager.instance.PlayBgm(true);
+        apiGatewayManager = ApiGatewayManager.Instance;
     }
     // CLick button method
     public async void OnClickComponent(){
-        ApiGatewayManager apiGatewayManager = new ApiGatewayManager();
         GameManager.Instance._ticketId = await apiGatewayManager.StartMatch();
         StartCoroutine(MatchFinding());
         IEnumerator MatchFinding()

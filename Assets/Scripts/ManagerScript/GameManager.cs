@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Net.Sockets;
 using Aws.GameLift.Realtime.Event;
+using System;
 
 public class GameManager : MonoBehaviour
 {
@@ -57,14 +58,16 @@ public class GameManager : MonoBehaviour
     private bool _gameOver = false;
     private MatchResults matchResults = new();
 
+    private ApiGatewayManager apiGatewayManager;
+
     public async void OnFindMatchPressed()
     {
         Debug.Log("Find match pressed");
         _findingMatch = true;
 
-        ApiGatewayManager apiGatewayManager = new ApiGatewayManager();
 
         string PollMatchResponse = await apiGatewayManager.PollMatch(_ticketId);
+        if (PollMatchResponse != null) return;
 
         if (PollMatchResponse != null)
         {
@@ -75,7 +78,6 @@ public class GameManager : MonoBehaviour
             var matchmakingInfo = JsonConvert.DeserializeObject<dynamic>(PollMatchResponse);
 
             var ticket = matchmakingInfo["ticket"];
-
             var ttl = (string)ticket["ttl"]["N"];
             var ticketId = (string)ticket["Id"]["S"];
             var ipAddress = (string)ticket["GameSessionInfo"]["M"]["IpAddress"]["S"];
@@ -86,7 +88,7 @@ public class GameManager : MonoBehaviour
             var playerId = (string)playerData["PlayerId"]["S"];
             var playerSessionId = (string)playerData["PlayerSessionId"]["S"];
 
-            // Debug logs for verification
+            //Debug logs for verification
             //Debug.Log("Matchmaking Info:");
             //Debug.Log("TTL: " + ttl);
             //Debug.Log("IP Address: " + ipAddress);
@@ -234,7 +236,8 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        ApiGatewayManager.Instance.onLoginSuccess.AddListener(OnLoginSuccess);
+        apiGatewayManager = ApiGatewayManager.Instance;
+        apiGatewayManager.onLoginSuccess.AddListener(OnLoginSuccess);
     }
 
     private void Update()
