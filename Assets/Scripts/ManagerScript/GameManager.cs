@@ -51,7 +51,6 @@ public class GameManager : MonoBehaviour
     public string _playerId { get; private set; }
     private string _command;
     public string _remotePlayerId { get; private set; }
-    public string _ticketId;
     //private bool _processGamePlay = false;
     private bool _updateRemotePlayerId = false;
     private bool _findingMatch = false;
@@ -66,7 +65,7 @@ public class GameManager : MonoBehaviour
         _findingMatch = true;
 
 
-        string PollMatchResponse = await apiGatewayManager.PollMatch(_ticketId);
+        string PollMatchResponse = await apiGatewayManager.PollMatch(apiGatewayManager._ticketId);
         if (PollMatchResponse != null) return;
 
         if (PollMatchResponse != null)

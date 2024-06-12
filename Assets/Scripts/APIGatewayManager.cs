@@ -76,7 +76,7 @@ public class ApiGatewayManager : MonoBehaviour
     private string _IdToken;
     private string _AccToken;
     private string _refreshToken;
-    private string _ticketId;
+    public string _ticketId;
 
     //Userdata, Username�� ���� �׸��� (_username)
 
@@ -93,8 +93,7 @@ public class ApiGatewayManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            Debug.Log(StartMatch());
-            
+            Debug.Log(StopMatch());
         }
     }
     
@@ -446,7 +445,7 @@ public class ApiGatewayManager : MonoBehaviour
             var json = JsonConvert.SerializeObject(requestData);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            Debug.Log("!!!!!!!");
+            Debug.Log("Start Matching...");
             using (var client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Add("Authorization", _IdToken);
@@ -463,7 +462,6 @@ public class ApiGatewayManager : MonoBehaviour
                     string jsonResponse = await response.Content.ReadAsStringAsync();
                     var ticketInfo = JsonConvert.DeserializeObject<dynamic>(jsonResponse);
                     _ticketId = ticketInfo["ticketId"];
-                    return ticketInfo["ticketId"];
                 }
                 else
                 {
