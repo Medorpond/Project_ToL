@@ -12,7 +12,7 @@ public class MainMenuScripts : MonoBehaviour
     // CLick button method
     public async void OnClickComponent(){
         ApiGatewayManager apiGatewayManager = new ApiGatewayManager();
-        string MatchTicket = await apiGatewayManager.StartMatch();
+        GameManager.Instance._ticketId = await apiGatewayManager.StartMatch();
         StartCoroutine(MatchFinding());
         IEnumerator MatchFinding()
         {

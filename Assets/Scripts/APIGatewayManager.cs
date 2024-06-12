@@ -460,7 +460,8 @@ public class ApiGatewayManager : MonoBehaviour
                 if (response.IsSuccessStatusCode)
                 {
                     string jsonResponse = await response.Content.ReadAsStringAsync();
-                    return jsonResponse;
+                    var ticketInfo = JsonConvert.DeserializeObject<Dictionary<string, string>>(jsonResponse);
+                    return ticketInfo["ticketId"];
                 }
                 else
                 {
