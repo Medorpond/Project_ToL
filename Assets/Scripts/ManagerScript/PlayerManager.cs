@@ -222,9 +222,9 @@ public class PlayerManager : CommonManager
 
         if (currentUnit != null)
         {
-            if (currentUnit == clicked)
+            if (currentUnit.skill_1_currentCool == 0)
             {
-                if (currentUnit.skill_1_currentCool == 0)
+                if (currentUnit == clicked)
                 {
                     if (currentUnit.Ability1())
                     {
@@ -232,14 +232,13 @@ public class PlayerManager : CommonManager
                         GameManager.Instance.OnPlayerCommand(command);
                     }
                 }
-                else Debug.Log("Ability1 is on Cool");
-            }
-            else
-            {
-                if (currentUnit.Ability1(clicked))
+                else
                 {
-                    string command = $"@Ability1/({(int)currentUnit.transform.position.x},{(int)currentUnit.transform.position.y})/({(int)clicked.transform.position.x},{(int)clicked.transform.position.y})";
-                    GameManager.Instance.OnPlayerCommand(command);
+                    if (currentUnit.Ability1(clicked))
+                    {
+                        string command = $"@Ability1/({(int)currentUnit.transform.position.x},{(int)currentUnit.transform.position.y})/({(int)clicked.transform.position.x},{(int)clicked.transform.position.y})";
+                        GameManager.Instance.OnPlayerCommand(command);
+                    }
                 }
             }
         }
@@ -263,9 +262,9 @@ public class PlayerManager : CommonManager
 
         if (currentUnit != null)
         {
-            if (currentUnit == clicked)
+            if (currentUnit.skill_2_currentCool == 0)
             {
-                if (currentUnit.skill_2_currentCool == 0)
+                if (currentUnit == clicked)
                 {
                     if (currentUnit.Ability2())
                     {
@@ -273,17 +272,15 @@ public class PlayerManager : CommonManager
                         GameManager.Instance.OnPlayerCommand(command);
                     }
                 }
-                else Debug.Log("Ability2 is on Cool");
-            }
-            else
-            {
-                if (currentUnit.Ability2(clicked))
+                else
                 {
-                    string command = $"@Ability2/({currentUnit.transform.position.x},{currentUnit.transform.position.y})/({clicked.transform.position.x},{clicked.transform.position.y})";
-                    GameManager.Instance.OnPlayerCommand(command);
+                    if (currentUnit.Ability2(clicked))
+                    {
+                        string command = $"@Ability2/({currentUnit.transform.position.x},{currentUnit.transform.position.y})/({clicked.transform.position.x},{clicked.transform.position.y})";
+                        GameManager.Instance.OnPlayerCommand(command);
+                    }
                 }
             }
-           
         }
         clicked = null;
         inAction = null;
