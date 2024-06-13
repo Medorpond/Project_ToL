@@ -20,6 +20,7 @@ public class Archer : Unit
 
     public override bool Ability1(GameObject destObj)
     {
+        if (skill_1_currentCool > 0) return false;
         if (inAction == true) return false;
         
         Vector2Int startPos = new Vector2Int((int)transform.position.x, (int)transform.position.y);
@@ -63,6 +64,7 @@ public class Archer : Unit
     }
     public override bool Ability2()
     {
+        if (skill_2_currentCool > 0) return false;
         moveLeft++;
         attackLeft++;
         skill_2_currentCool = skill_2_Cooldown;

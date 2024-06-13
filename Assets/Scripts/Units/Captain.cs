@@ -32,6 +32,7 @@ public class Captain : Unit
 
     public override bool Ability1()
     {
+        if (skill_1_currentCool > 0) return false;
         Vector2Int startPos = new Vector2Int((int)transform.position.x, (int)transform.position.y);
         Vector2Int targetPos = new Vector2Int((int)skillDirection.x, (int)skillDirection.y);
         Vector2Int direction = targetPos - startPos;
@@ -59,6 +60,7 @@ public class Captain : Unit
 
     public override bool Ability2()
     {
+        if (skill_2_currentCool > 0) return false;
         myUnits = GetComponentInParent<PlayerManager>().UnitList;
 
         if (myUnits != null)

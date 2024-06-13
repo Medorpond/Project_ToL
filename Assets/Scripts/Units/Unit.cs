@@ -41,10 +41,10 @@ public abstract class Unit : MonoBehaviour
     protected int moveLeft;
     protected int skill_1_Cooldown;
     protected int skill_2_Cooldown;
-    public int skill_1_currentCool = 0;
-    public int skill_2_currentCool = 0;
-    private int defense_Cooldown;
-    public int defense_currentCool = 0;
+    protected int skill_1_currentCool = 0;
+    protected int skill_2_currentCool = 0;
+    protected int defense_Cooldown;
+    protected int defense_currentCool = 0;
     private float defenseRate = 1.0f;
 
     protected bool inAction = false;
@@ -190,6 +190,7 @@ public abstract class Unit : MonoBehaviour
 
     public bool UseDefense()
     {
+        if (defense_Cooldown > 0) return false;
         Action<Unit> onApply = (Unit _unit) =>
         {
             this.defenseRate = 0.5f;

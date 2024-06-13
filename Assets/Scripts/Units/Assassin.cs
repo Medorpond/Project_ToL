@@ -17,6 +17,7 @@ public class Assassin : Unit
     }
     public override bool Ability1()
     {
+        if (skill_1_currentCool > 0) return false;
         if (attackLeft > 0) return false;
         else
         {
@@ -28,6 +29,7 @@ public class Assassin : Unit
 
     public override bool Ability2()
     {
+        if (skill_2_currentCool > 0) return false;
         ToxicDamage();
         skill_2_currentCool = skill_2_Cooldown;
         return true;

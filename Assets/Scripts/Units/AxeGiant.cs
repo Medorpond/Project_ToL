@@ -19,6 +19,7 @@ public class AxeGiant : Unit
     }
     public override bool Ability1()
     {
+        if (skill_1_currentCool > 0) return false;
         Action<Unit> onApply = (Unit _unit) =>
         {
             _unit.moveRange += 2;
@@ -37,6 +38,7 @@ public class AxeGiant : Unit
 
     public override bool Ability2()
     {
+        if (skill_2_currentCool > 0) return false;
         Collider[] colliders = Physics.OverlapSphere(transform.position, moveRange * 2);
         if (colliders == null) return false;
 

@@ -222,23 +222,20 @@ public class PlayerManager : CommonManager
 
         if (currentUnit != null)
         {
-            if (currentUnit.skill_1_currentCool == 0)
+            if (currentUnit == clicked)
             {
-                if (currentUnit == clicked)
+                if (currentUnit.Ability1())
                 {
-                    if (currentUnit.Ability1())
-                    {
-                        string command = $"@Ability1/({(int)currentUnit.transform.position.x},{(int)currentUnit.transform.position.y})/({(int)currentUnit.transform.position.x},{(int)currentUnit.transform.position.y})";
-                        GameManager.Instance.OnPlayerCommand(command);
-                    }
+                    string command = $"@Ability1/({(int)currentUnit.transform.position.x},{(int)currentUnit.transform.position.y})/({(int)currentUnit.transform.position.x},{(int)currentUnit.transform.position.y})";
+                    GameManager.Instance.OnPlayerCommand(command);
                 }
-                else
+            }
+            else
+            {
+                if (currentUnit.Ability1(clicked))
                 {
-                    if (currentUnit.Ability1(clicked))
-                    {
-                        string command = $"@Ability1/({(int)currentUnit.transform.position.x},{(int)currentUnit.transform.position.y})/({(int)clicked.transform.position.x},{(int)clicked.transform.position.y})";
-                        GameManager.Instance.OnPlayerCommand(command);
-                    }
+                    string command = $"@Ability1/({(int)currentUnit.transform.position.x},{(int)currentUnit.transform.position.y})/({(int)clicked.transform.position.x},{(int)clicked.transform.position.y})";
+                    GameManager.Instance.OnPlayerCommand(command);
                 }
             }
         }
@@ -262,23 +259,20 @@ public class PlayerManager : CommonManager
 
         if (currentUnit != null)
         {
-            if (currentUnit.skill_2_currentCool == 0)
+            if (currentUnit == clicked)
             {
-                if (currentUnit == clicked)
+                if (currentUnit.Ability2())
                 {
-                    if (currentUnit.Ability2())
-                    {
-                        string command = $"@Ability2/({currentUnit.transform.position.x},{currentUnit.transform.position.y})/({currentUnit.transform.position.x},{currentUnit.transform.position.y})";
-                        GameManager.Instance.OnPlayerCommand(command);
-                    }
+                    string command = $"@Ability2/({currentUnit.transform.position.x},{currentUnit.transform.position.y})/({currentUnit.transform.position.x},{currentUnit.transform.position.y})";
+                    GameManager.Instance.OnPlayerCommand(command);
                 }
-                else
+            }
+            else
+            {
+                if (currentUnit.Ability2(clicked))
                 {
-                    if (currentUnit.Ability2(clicked))
-                    {
-                        string command = $"@Ability2/({currentUnit.transform.position.x},{currentUnit.transform.position.y})/({clicked.transform.position.x},{clicked.transform.position.y})";
-                        GameManager.Instance.OnPlayerCommand(command);
-                    }
+                    string command = $"@Ability2/({currentUnit.transform.position.x},{currentUnit.transform.position.y})/({clicked.transform.position.x},{clicked.transform.position.y})";
+                    GameManager.Instance.OnPlayerCommand(command);
                 }
             }
         }
@@ -301,7 +295,7 @@ public class PlayerManager : CommonManager
         {
             if (currentUnit != null)
             {
-                if (currentUnit.defense_currentCool == 0) currentUnit.UseDefense();
+                currentUnit.UseDefense();
             }
 
         }
