@@ -44,7 +44,7 @@ public abstract class Unit : MonoBehaviour
     public int skill_1_currentCool = 0;
     public int skill_2_currentCool = 0;
     private int defense_Cooldown;
-    private int defense_currentCool = 0;
+    public int defense_currentCool = 0;
     private float defenseRate = 1.0f;
 
     protected bool inAction = false;
@@ -190,7 +190,6 @@ public abstract class Unit : MonoBehaviour
 
     public bool UseDefense()
     {
-        if (defense_currentCool > 0) return false;
         Action<Unit> onApply = (Unit _unit) =>
         {
             this.defenseRate = 0.5f;

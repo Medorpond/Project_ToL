@@ -301,7 +301,7 @@ public class PlayerManager : CommonManager
         {
             if (currentUnit != null)
             {
-                currentUnit.UseDefense();
+                if (currentUnit.defense_currentCool == 0) currentUnit.UseDefense();
             }
 
         }
