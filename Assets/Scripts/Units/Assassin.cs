@@ -17,11 +17,11 @@ public class Assassin : Unit
     }
     public override bool Ability1()
     {
-
         if (attackLeft > 0) return false;
         else
         {
             moveLeft ++;
+            skill_1_currentCool = skill_1_Cooldown;
             return true;
         }
     }
@@ -29,6 +29,7 @@ public class Assassin : Unit
     public override bool Ability2()
     {
         ToxicDamage();
+        skill_2_currentCool = skill_2_Cooldown;
         return true;
     }
 

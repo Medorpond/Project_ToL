@@ -41,8 +41,8 @@ public abstract class Unit : MonoBehaviour
     protected int moveLeft;
     protected int skill_1_Cooldown;
     protected int skill_2_Cooldown;
-    protected int skill_1_currentCool = 0;
-    protected int skill_2_currentCool = 0;
+    public int skill_1_currentCool = 0;
+    public int skill_2_currentCool = 0;
     private int defense_Cooldown;
     private int defense_currentCool = 0;
     private float defenseRate = 1.0f;
@@ -191,19 +191,17 @@ public abstract class Unit : MonoBehaviour
     public bool UseDefense()
     {
         if (defense_currentCool > 0) return false;
-        defense_currentCool = defense_Cooldown;
         Action<Unit> onApply = (Unit _unit) =>
         {
             this.defenseRate = 0.5f;
-            Debug.Log($"A defenseRate : {defenseRate}");
         };
         Action<Unit> onRemove = (Unit _unit) =>
         {
             this.defenseRate = 1.0f;
-            Debug.Log($"D defenseRate : {defenseRate}");
         };
         Buff defenseBuff = new Buff(2, onApply, null, onRemove, this);
         defenseBuff.Apply();
+        defense_currentCool = defense_Cooldown;
         return true;
     }
 

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,8 +19,19 @@ public class AxeGiant : Unit
     }
     public override bool Ability1()
     {
-        base.Ability1();
-        moveRange += 2;
+        Action<Unit> onApply = (Unit _unit) =>
+        {
+            _unit.moveRange += 2;
+        };
+
+        Action<Unit> onRemove = (Unit _unit) =>
+        {
+            _unit.moveRange -= 2;
+        };
+
+        Buff moveFar = new Buff(1, onApply, null, onRemove, this);
+        moveFar.Apply();
+        skill_1_currentCool = skill_1_Cooldown;
         return true;
     }
 
@@ -45,7 +57,7 @@ public class AxeGiant : Unit
                 unit.IsDamaged(2.5f);
             }
         }
-
+        skill_2_currentCool = skill_2_Cooldown;
         return true;
     }
 }

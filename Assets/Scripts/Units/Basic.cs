@@ -20,7 +20,6 @@ public class Basic : Unit
 
     public override bool Ability1()
     {
-        if (skill_1_currentCool > 0) return false;
         Action<Unit> onApply = (Unit _unit) =>
         {
             _unit.moveRange += 2;
@@ -33,11 +32,11 @@ public class Basic : Unit
 
         Buff moveFar = new Buff(1, onApply, null, onRemove, this);
         moveFar.Apply();
+        skill_1_currentCool = skill_1_Cooldown;
         return true;
     }
     public override bool Ability2()
     {
-        if (skill_1_currentCool > 0) return false;
         Action<Unit> onApply = (Unit _unit) =>
         {
             _unit.attackRange += 1;
@@ -50,6 +49,7 @@ public class Basic : Unit
 
         Buff attackFar = new Buff(1, onApply, null, onRemove, this);
         attackFar.Apply();
+        skill_2_currentCool = skill_2_Cooldown;
         return true;
     }
 }

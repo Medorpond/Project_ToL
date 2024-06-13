@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -21,7 +22,6 @@ public class Magician : Unit
 
     public override bool Ability1(Unit unit)
     {
-
         //myUnits.Remove(gameObject); << ??
 
         Node[,] NodeArray = MapManager.Instance.stage.NodeArray;
@@ -42,7 +42,26 @@ public class Magician : Unit
             else if (!NodeArray[x + 1, y].isBlocked) targetPos = new Vector3(x + 1, y);
             else return false;
             transform.position = targetPos;
+            skill_1_currentCool = skill_1_Cooldown;
             return true;
         }
+    }
+
+    public override bool Ability2()
+    {
+        Action<Unit> onApply = (Unit _unit) =>
+        {
+            _unit.attackRange = float.MaxValue;
+        };
+
+        Action<Unit> onRemove = (Unit _unit) =>
+        {
+            _unit.attackRange = 1;
+        };
+
+        Buff attackFar = new Buff(1, onApply, null, onRemove, this);
+        attackFar.Apply();
+        skill_2_currentCool = skill_2_Cooldown;
+        return true;
     }
 }

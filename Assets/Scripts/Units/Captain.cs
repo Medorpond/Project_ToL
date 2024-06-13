@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -31,8 +32,6 @@ public class Captain : Unit
 
     public override bool Ability1()
     {
-        base.Ability1();
-
         Vector2Int startPos = new Vector2Int((int)transform.position.x, (int)transform.position.y);
         Vector2Int targetPos = new Vector2Int((int)skillDirection.x, (int)skillDirection.y);
         Vector2Int direction = targetPos - startPos;
@@ -41,6 +40,7 @@ public class Captain : Unit
         {
             MapManager.Instance.stage.Occupy(startPos, targetPos, this);
             transform.position = Vector3.MoveTowards(transform.position, new Vector3(targetPos.x, targetPos.y, 0), moveSpeed);
+            skill_1_currentCool = skill_1_Cooldown;
             return true;
         }
         return false;
@@ -66,7 +66,20 @@ public class Captain : Unit
             foreach (Unit unit in myUnits)
             {
                 //Increase Damage via Buff
+                Action<Unit> onApply = (Unit _unit) =>
+                {
+                    _unit.attackDamage += 1;
+                };
+
+                Action<Unit> onRemove = (Unit _unit) =>
+                {
+                    _unit.attackDamage -= 1;
+                };
+
+                Buff increaseAttack = new Buff(3, onApply, null, onRemove, unit);
+                increaseAttack.Apply();
             }
+            skill_2_currentCool = skill_2_Cooldown;
             return true;
         }
         return false;

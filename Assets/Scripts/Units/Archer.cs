@@ -35,6 +35,7 @@ public class Archer : Unit
             
             TriggerMoveAnimation();
             StartCoroutine(MoveCoroutine());
+            skill_1_currentCool = skill_1_Cooldown;
             return true;
         }
         else { Debug.Log("WrongDirection"); }
@@ -64,6 +65,7 @@ public class Archer : Unit
     {
         moveLeft++;
         attackLeft++;
+        skill_2_currentCool = skill_2_Cooldown;
         return true;
     }
 

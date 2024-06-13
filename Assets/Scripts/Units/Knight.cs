@@ -6,9 +6,6 @@ using System;
 
 public class Knight : Unit
 {
-    private float increaseAttack;
-    
-
     protected override void Init()
     {
         maxHealth = 7;
@@ -37,6 +34,7 @@ public class Knight : Unit
 
         Buff moveFar = new Buff(1, onApply, null, onRemove, this);
         moveFar.Apply();
+        skill_1_currentCool = skill_1_Cooldown;
         return true;
     }
 
@@ -50,9 +48,11 @@ public class Knight : Unit
         Action<Unit> onRemove = (Unit _unit) =>
         {
             _unit.maxHealth -= 3;
+            if (_unit.currentHealth > _unit.maxHealth) _unit.currentHealth = _unit.maxHealth;
         };
         Buff IncreaseHealth = new Buff(3, onApply, null, onRemove, this);
         IncreaseHealth.Apply();
+        skill_2_currentCool = skill_2_Cooldown;
         return true;
     }
 
