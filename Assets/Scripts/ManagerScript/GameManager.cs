@@ -197,7 +197,7 @@ public class GameManager : MonoBehaviour
         RealtimePayload realtimePayload = new RealtimePayload(_playerId, command);
 
         // Use the Realtime client's SendMessage function to pass data to the server
-        _realTimeClient.SendMessage(PLAYER_ACTION, realtimePayload);
+        //_realTimeClient.SendMessage(PLAYER_ACTION, realtimePayload);
     }
 
 
