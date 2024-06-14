@@ -130,8 +130,8 @@ public class MatchManager : MonoBehaviour
     void FinishDeploy()
     {
         DeployCaptain();
-        SendMyDeploy();
-        //opponent.CreateSampleSet();
+        //SendMyDeploy();
+        opponent.CreateSampleSet();
         TimeManager.Instance.onTimerEnd?.RemoveListener(FinishDeploy);
         TimeManager.Instance.ResetTimer();
         player.StopAllCoroutines();
