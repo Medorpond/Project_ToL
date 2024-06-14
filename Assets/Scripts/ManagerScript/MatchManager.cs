@@ -232,11 +232,11 @@ public class MatchManager : MonoBehaviour
         }
         else if (loser.CompareTag("Opponent"))
         {
-            //º¸³½´Ù playerID
+            //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ playerID
         }
         else if (loser.CompareTag("Player"))
         { 
-            //º¸³½´Ù RemotePlayerID
+            //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ RemotePlayerID
         }
 
 
@@ -256,14 +256,14 @@ public class MatchManager : MonoBehaviour
         else if (loser.CompareTag("Opponent"))
         {
             winnerText.text = "You Win!!!";
-            //º¸³½´Ù playerID
+            //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ playerID
             BattleAudioManager.instance.PlayBSfx(BattleAudioManager.Sfx.victory1);
             BattleAudioManager.instance.PlayBSfx(BattleAudioManager.Sfx.victory2);
         }
         else if (loser.CompareTag("Player"))
         {
             winnerText.text = "You Lose...";
-            //º¸³½´Ù RemotePlayerID
+            //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ RemotePlayerID
             BattleAudioManager.instance.PlayBSfx(BattleAudioManager.Sfx.lose);
             //BattleAudioManager.instance.PlayBSfx(BattleAudioManager.Sfx.lose2);
         }
@@ -287,7 +287,7 @@ public class MatchManager : MonoBehaviour
     }
 
     public void DeployAssassin(){
-        DeployUnit("Prefabs/Character/Unit_TEST/Priest");
+        DeployUnit("Prefabs/Character/Unit_TEST/Assassin");
     }
     
     public void DeployPriest()
