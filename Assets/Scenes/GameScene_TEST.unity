@@ -23606,6 +23606,7 @@ GameObject:
   - component: {fileID: 2127389627}
   - component: {fileID: 2127389631}
   - component: {fileID: 2127389630}
+  - component: {fileID: 2127389632}
   m_Layer: 5
   m_Name: ResultPanel
   m_TagString: Untagged
@@ -23867,6 +23868,36 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &2127389632
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2127389625}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 972908e774df3ef4c956f6c5a007eacc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerMg: {fileID: 1620080287}
+  opponentMg: {fileID: 1074396748}
+  Player_Knight_text: {fileID: 1655044720}
+  Player_Archer_text: {fileID: 1508369138}
+  Player_AxeGiant_text: {fileID: 610842429}
+  Player_Priest_text: {fileID: 1502083146}
+  Player_Assassin_text: {fileID: 1756813318}
+  Player_Magician_text: {fileID: 933704631}
+  Player_Shield_text: {fileID: 209300420}
+  Enemy_Knight_text: {fileID: 195193256}
+  Enemy_Archer_text: {fileID: 798715368}
+  Enemy_AxeGiant_text: {fileID: 2050852131}
+  Enemy_Priest_text: {fileID: 315660737}
+  Enemy_Assassin_text: {fileID: 1922574702}
+  Enemy_Magician_text: {fileID: 760140112}
+  Enemy_Shield_text: {fileID: 997871083}
+  Player_Total_text: {fileID: 251273918}
+  Enemy_Total_text: {fileID: 996233529}
 --- !u!1 &2140110699
 GameObject:
   m_ObjectHideFlags: 0
