@@ -344,15 +344,18 @@ public class MatchManager : MonoBehaviour
 
                 if (!node.isBlocked && node.isDeployable)
                 {
+                    Unit unitScript = unit.GetComponent<Unit>();
                     unit.transform.position = new Vector3(posX, posY);
                     MapManager.Instance.stage.NodeArray[posX, posY].isBlocked = true;
-                    MapManager.Instance.stage.NodeArray[posX, posY].unitOn = unit.GetComponent<Unit>();
+                    MapManager.Instance.stage.NodeArray[posX, posY].unitOn = unitScript;
                     unit.GetComponent<BoxCollider2D>().enabled = true;
-                    player.RegisterUnit(unit.GetComponent<Unit>());
+                    player.RegisterUnit(unitScript);
+                    unitScript.ScanMovableNode();
                     if (currentPhase == Phase.UnitSelect)
                     {
                         DeployPanel.SetActive(true);
                     }
+                    
                 }
                 else
                 {

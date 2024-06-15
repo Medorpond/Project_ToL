@@ -93,6 +93,11 @@ public abstract class Unit : MonoBehaviour
 
         ScanMovableNode();
     }
+    
+    protected virtual void FixedUpdate()
+    {
+        ScanMovableNode();
+    }
 
     protected void OnDestroy()
     {
@@ -281,7 +286,7 @@ public abstract class Unit : MonoBehaviour
         AnalizeAction();
     }
 
-    protected void ScanMovableNode()
+    public void ScanMovableNode()
     {
         movableNode.Clear();
         Vector3Int currentPos = Vector3Int.RoundToInt(transform.position);
