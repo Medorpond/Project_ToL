@@ -86,19 +86,11 @@ public abstract class Unit : MonoBehaviour
     }
     protected virtual void Start()
     {
-        if (this.GetComponentInParent<CommonManager>().CompareTag("AI"))
-        {
-            player = GetComponentInParent<CommonManager>();
-            opponent = GameObject.Find(this.GetComponentInParent<Transform>().name == "Player" ? "Opponent" : "Player").GetComponent<CommonManager>();
-
-        }
-        else
-        {
-            player = GetComponentInParent<CommonManager>() == PlayerManager.Instance
+        player = GetComponentInParent<CommonManager>() == PlayerManager.Instance
             ? PlayerManager.Instance : OpponentManager.Instance;
-            opponent = PlayerManager.Instance == player
-                ? OpponentManager.Instance : PlayerManager.Instance;
-        }
+        opponent = PlayerManager.Instance == player
+            ? OpponentManager.Instance : PlayerManager.Instance;
+
         ScanMovableNode();
     }
 
