@@ -13,7 +13,7 @@ public class Captain : Unit
         maxHealth = 9;
         attackDamage = 1;
         attackRange = 1;
-        moveRange = 30;
+        moveRange = 2;
         type = "Captain";
 
         maxMoveCount = 99;

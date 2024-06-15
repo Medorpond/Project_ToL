@@ -127,6 +127,7 @@ public class PlayerManager : CommonManager
     IEnumerator ReadyMove()
     {
         yield return new WaitUntil(() => clicked != null);
+        currentUnit.HideMovableTiles();
         if (clicked.CompareTag("Tile"))
         {
             if (currentUnit != null)
@@ -156,7 +157,6 @@ public class PlayerManager : CommonManager
         {
             Debug.Log("Click On Tile to move");
         }
-
         clicked = null;
         inAction = null;
     }
@@ -166,7 +166,7 @@ public class PlayerManager : CommonManager
     {
         if (isMyTurn)
         {
-            if (currentUnit != null) { HighlightMovableTiles(currentUnit);  }
+            if (currentUnit != null) { currentUnit.ShowMovableTiles(); }
 
             if (inAction == null) { inAction = StartCoroutine(ReadyMove()) ; }
         }
@@ -176,23 +176,21 @@ public class PlayerManager : CommonManager
     {
         yield return new WaitUntil(() => clicked != null);
         Unit target = clicked.GetComponent<Unit>();
-        if (!UnitList.Contains(target) && clicked.CompareTag("Unit"))// OpponentManager.EnemyList.Contains(clicked)
+
+        if (currentUnit != null)
         {
-            if(currentUnit != null)
+            // Determine the direction to face
+            Vector3 direction = clicked.transform.position - currentUnit.transform.position;
+            bool isFacingRight = direction.x >= 0;
+
+            // Update the facing direction of the unit
+            UpdateFacingDirection(currentUnit, isFacingRight);
+
+            if (currentUnit.Attack(target))
             {
-                // Determine the direction to face
-                Vector3 direction = clicked.transform.position - currentUnit.transform.position;
-                bool isFacingRight = direction.x >= 0;
-
-                // Update the facing direction of the unit
-                UpdateFacingDirection(currentUnit, isFacingRight);
-
-                if (currentUnit.Attack(target))
-                {
-                    string command = $"@Attack/({(int)currentUnit.transform.position.x},{(int)currentUnit.transform.position.y})/({(int)target.transform.position.x},{(int)target.transform.position.y})";
-                    GameManager.Instance.OnPlayerCommand(command);
-                }
-            }   
+                string command = $"@Attack/({(int)currentUnit.transform.position.x},{(int)currentUnit.transform.position.y})/({(int)target.transform.position.x},{(int)target.transform.position.y})";
+                GameManager.Instance.OnPlayerCommand(command);
+            }
         }
         else
         {

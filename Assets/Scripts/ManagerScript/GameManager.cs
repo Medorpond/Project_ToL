@@ -145,7 +145,7 @@ public class GameManager : MonoBehaviour
     private void GamePlayed(GamePlayedEventArgs GamePlayedEventArgs)
     {
         Debug.Log($"Unit played: {GamePlayedEventArgs.Command}");
-        OpponentManager.Instance.OnMessageRecieved(GamePlayedEventArgs.Command);
+        //OpponentManager.Instance.OnMessageRecieved(GamePlayedEventArgs.Command);
         //if (GamePlayedEventArgs.PlayerId == _playerId)
         //{
         //    Debug.Log("local Unit played");

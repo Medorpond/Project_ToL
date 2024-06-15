@@ -118,7 +118,6 @@ public abstract class Unit : MonoBehaviour
     {
         if (moveLeft <= 0 || inAction == true)
         {
-            Debug.Log($"inAction: {inAction}, moveLeft: {moveLeft}");
             return false;
         }// Make sure one can't move while moving
         Vector2Int startPos = new Vector2Int((int)transform.position.x, (int)transform.position.y);
@@ -164,6 +163,7 @@ public abstract class Unit : MonoBehaviour
     public virtual bool Attack(Unit _opponent)
     {
         if (attackLeft <= 0) return false;
+        if (!opponent.UnitList.Contains(_opponent)) return false;
 
         if (Vector2.Distance(transform.position, _opponent.transform.position) > attackRange)
         {

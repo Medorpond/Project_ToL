@@ -77,34 +77,34 @@ public class OpponentManager : CommonManager
 
     #endregion
 
-    //public override void OnTurnStart()
-    //{
-    //    if(isMyTurn)
-    //    {
-    //        (int weight, string command) action = (-1, "");
-    //        foreach (Unit unit in UnitList)
-    //        {
-    //            unit.OnTurnStart();
-    //            if (action.weight <= unit.mostValuedAction.weight)
-    //            {
-    //                action = unit.mostValuedAction;
-    //            }
-    //        }
-    //        if (action.command != "")
-    //        {
-    //            StartCoroutine(DepackCommand(action.command));
-    //        }
-    //    }
-    //}
-
-    public void OnMessageRecieved(string command)
+    public override void OnTurnStart()
     {
-        Debug.Log("Command IN RECV");
-        if (command != "")
+        if (isMyTurn)
         {
-            StartCoroutine(DepackCommand(command));
+            (int weight, string command) action = (-1, "");
+            foreach (Unit unit in UnitList)
+            {
+                unit.OnTurnStart();
+                if (action.weight <= unit.mostValuedAction.weight)
+                {
+                    action = unit.mostValuedAction;
+                }
+            }
+            if (action.command != "")
+            {
+                StartCoroutine(DepackCommand(action.command));
+            }
         }
     }
+
+    //public void OnMessageRecieved(string command)
+    //{
+    //    Debug.Log("Command IN RECV");
+    //    if (command != "")
+    //    {
+    //        StartCoroutine(DepackCommand(command));
+    //    }
+    //}
 
 
     #region Command Handler
@@ -239,8 +239,10 @@ public class OpponentManager : CommonManager
     {
         // Captain on (24, 5)
         Deploy("Priest", new Vector3(24, 3));
-        Deploy("Knight", new Vector3(12, 5));
+        Deploy("Knight", new Vector3(20, 5));
         Deploy("Archer", new Vector3(24, 7));
+        Deploy("Archer", new Vector3(22, 6));
+        Deploy("Archer", new Vector3(22, 4));
     }
     void Deploy(string unitType, Vector3 Location)
     {

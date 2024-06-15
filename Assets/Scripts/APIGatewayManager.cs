@@ -89,13 +89,13 @@ public class ApiGatewayManager : MonoBehaviour
 
     // for debug
     
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            StopMatch();
-        }
-    }
+    //private void Update()
+    //{
+    //    if (Input.GetKeyDown(KeyCode.Space))
+    //    {
+    //        //StopMatch();
+    //    }
+    //}
     
     
     
@@ -476,7 +476,7 @@ public class ApiGatewayManager : MonoBehaviour
         return null;
     }
 
-    public async Task<string> StopMatch()
+    public async Task StopMatch()
     {
         try
         {
@@ -496,7 +496,8 @@ public class ApiGatewayManager : MonoBehaviour
                 if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
                 {
                     Login();
-                    return await StartMatch();
+                    await StartMatch();
+                    return;
                 }
 
                 if (response.IsSuccessStatusCode)
@@ -513,7 +514,6 @@ public class ApiGatewayManager : MonoBehaviour
         {
             Debug.LogError("Stop Matchmaking error: " + e.Message);
         }
-        return null;
     }
 
     public async Task<string> PollMatch()

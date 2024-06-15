@@ -208,10 +208,7 @@ MonoBehaviour:
   attackRange: 0
   moveRange: 0
   isPlayer: 0
-  skill_1_currentCool: 0
-  skill_2_currentCool: 0
-  defense_currentCool: 0
-  hp_bar: {fileID: 0}
+  hp_bar: {fileID: 3349835219753969329}
   animator: {fileID: 0}
 --- !u!50 &3550275203204803996
 Rigidbody2D:
