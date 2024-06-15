@@ -565,8 +565,7 @@ public class ApiGatewayManager : MonoBehaviour
             //
             var requestData = new Dictionary<string, string>
             {
-                { "username", _username },
-                { "password", _password}
+                { "AccessToken", _AccToken }
             };
             var json = JsonConvert.SerializeObject(requestData);
 
