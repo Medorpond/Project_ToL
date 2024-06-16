@@ -10,6 +10,7 @@ using TMPro;
 using UnityEngine.Events;
 using System.Runtime.CompilerServices;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 
 public class ApiGatewayManager : MonoBehaviour
@@ -629,6 +630,7 @@ public class ApiGatewayManager : MonoBehaviour
                 if (response.IsSuccessStatusCode)
                 {
                     Debug.Log("Log Out Successfully");
+                    SceneManager.LoadScene("FirstScene");
                 }
                 else
                 {
