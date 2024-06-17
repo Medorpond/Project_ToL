@@ -6,7 +6,7 @@ using UnityEngine.UI;
 using TMPro;
 using System;
 using UnityEngine.SceneManagement;
-using UnityEditor.PackageManager;
+//using UnityEditor.PackageManager;
 
 public class LoginClickHandler : MonoBehaviour
 {
